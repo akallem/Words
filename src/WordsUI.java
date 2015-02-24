@@ -11,11 +11,13 @@ public class WordsUI {
 	int windowWidth, windowHeight;		// Dimensions of the window in pixels
 	int boardSize; 						// Dimensions (square) of the board in pixels
 	int numCells;						// Number of rows (columns) in the board (must be odd)
-	static final int minCells = 11;
-	static final int maxCells = 31;
-	static final int zoomStep = 2;		// Must be even
+	static final int minCells = 11;		// Must be odd so that there is a cell in the center
+	static final int maxCells = 31;		// Must be odd so that there is a cell in the center
+	static final int zoomStep = 2;		// Must be even so that there is a cell in the center
+	static final int moveStep = 2;		
 	int xCenterCell, yCenterCell;		// The board coordinates of the cell depicted in the center
-	static final int moveStep = 2;
+	
+	static final int topPadding = 20;	// Padding at the top of the window before the board in pixels
 	
 	private class Grid extends JPanel {
 		int cellSize;					// Dimensions of a cell in pixels
@@ -40,7 +42,7 @@ public class WordsUI {
 			int cx,cy;					// Center of the board
 			
 			x1 = (windowWidth - boardSize)/2;
-			y1 = 20;
+			y1 = topPadding;
 			x2 = x1 + boardSize;
 			y2 = y1 + boardSize;
 			cx = (x1 + x2)/2;
@@ -118,10 +120,10 @@ public class WordsUI {
 		grid = new Grid();
 		buttons = new Buttons();
 		
-		windowWidth = 750;
-		windowHeight = 750;
-		boardSize = 650;
-		numCells = 20;
+		windowWidth = 750;		// Default windowWidth
+		windowHeight = 750;		// Default windowHeight
+		boardSize = 650;		// Default boardSize
+		numCells = 20;			// Default numCells
 		xCenterCell = 0;
 		yCenterCell = 0;
 		
