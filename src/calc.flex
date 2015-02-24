@@ -13,9 +13,9 @@
 %byaccj
 
 %{
-  private Parser yyparser;
+  private Words yyparser;
 
-  public Yylex(java.io.Reader r, Parser yyparser) {
+  public Yylex(java.io.Reader r, Words yyparser) {
     this(r);
     this.yyparser = yyparser;
   }
@@ -36,11 +36,11 @@ NL  = \n | \r | \r\n
 ")"    { return (int) yycharat(0); }
 
 /* newline */
-{NL}   { return Parser.NL; }
+{NL}   { return Words.NL; }
 
 /* float */
-{NUM}  { yyparser.yylval = new ParserVal(Double.parseDouble(yytext()));
-         return Parser.NUM; }
+{NUM}  { yyparser.yylval = new WordsVal(Double.parseDouble(yytext()));
+         return Words.NUM; }
 
 /* whitespace */
 [ \t]+ { }

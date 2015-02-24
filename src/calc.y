@@ -54,7 +54,7 @@ exp:     NUM                { $$ = $1; }
   private int yylex () {
     int yyl_return = -1;
     try {
-      yylval = new ParserVal(0);
+      yylval = new WordsVal(0);
       yyl_return = lexer.yylex();
     }
     catch (IOException e) {
@@ -69,7 +69,7 @@ exp:     NUM                { $$ = $1; }
   }
 
 
-  public Parser(Reader r) {
+  public Words(Reader r) {
     lexer = new Yylex(r, this);
   }
 
@@ -78,18 +78,20 @@ exp:     NUM                { $$ = $1; }
 
   public static void main(String args[]) throws IOException {
     System.out.println("BYACC/Java with JFlex Calculator Demo");
+    
+    WordsUI ui = new WordsUI();
 
-    Parser yyparser;
+    Words yyparser;
     if ( args.length > 0 ) {
       // parse a file
-      yyparser = new Parser(new FileReader(args[0]));
+      yyparser = new Words(new FileReader(args[0]));
     }
     else {
       // interactive mode
       System.out.println("[Quit with CTRL-D]");
       System.out.print("Expression: ");
       interactive = true;
-	    yyparser = new Parser(new InputStreamReader(System.in));
+	    yyparser = new Words(new InputStreamReader(System.in));
     }
 
     yyparser.yyparse();

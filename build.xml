@@ -1,0 +1,43 @@
+<project name="Words" default="run">
+	<target name="grammar">
+		<exec executable="yacc" dir="src">
+			<arg value="-J"/>
+			<arg value="-Jclass=Words"/>
+			<arg value="calc.y"/>
+		</exec>
+		<exec executable="cmd" dir="src">
+			<arg value="/c"/>
+			<arg value="jflex.bat"/>
+			<arg value="calc.flex"/>
+		</exec>
+	</target>
+
+    <target name="classes" depends="grammar">
+        <mkdir dir="bin" />
+        <javac srcdir="src" destdir="bin" 
+            classpath="lib/slick.jar;lib/lwjgl.jar"
+            includeantruntime="false"/>
+    </target>
+
+    <target name="jar" depends="classes">
+        <mkdir dir="jar"/>
+        <jar destfile="jar/Words.jar" basedir="bin">
+            <manifest>
+                <attribute name="Main-Class" value="Words"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="run" depends="jar">
+        <java jar="jar/Words.jar" fork="true"/>
+    </target>
+
+    <target name="clean">
+        <delete dir="bin"/>
+        <delete dir="jar"/>
+        <delete file="src/Words.java"/>
+        <delete file="src/WordsVal.java"/>
+        <delete file="src/Yylex.java"/>
+        <delete file="src/Yylex.java~"/>
+    </target>
+</project>
