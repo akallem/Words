@@ -1,5 +1,14 @@
 <project name="Words" default="run">
-	<target name="grammar">
+
+    <condition property="isWindows">
+        <os family="windows" />
+    </condition>
+
+    <target name="grammar"
+        depends="grammar-windows, grammar-other">
+    </target>
+
+	<target name="grammar-windows" if="isWindows">
 		<exec executable="yacc" dir="src">
 			<arg value="-J"/>
 			<arg value="-Jclass=Words"/>
@@ -11,6 +20,17 @@
 			<arg value="calc.flex"/>
 		</exec>
 	</target>
+
+    <target name="grammar-other" unless="isWindows">
+        <exec executable="yacc" dir="src">
+            <arg value="-J"/>
+            <arg value="-Jclass=Words"/>
+            <arg value="calc.y"/>
+        </exec>
+        <exec executable="jflex" dir="src">
+            <arg value="calc.flex"/>
+        </exec>
+    </target>
 
     <target name="classes" depends="grammar">
         <mkdir dir="bin" />
