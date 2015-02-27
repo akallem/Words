@@ -35,11 +35,11 @@ input:   /* empty string */
        | input line
        ;
       
-line:    NL      { System.out.print("Expression: "); }
-       | command PERIOD NL  { game.addCommandToQueue($1); }
+line:  command PERIOD NL  { game.addCommandToQueue($1); }
        ;
        
-command: { $$ = new Command(null, null);}
+command: 	VARIABLE DEFINITION VARIABLE CELL NUM "," NUM { $$ = new Command(null, null); }
+		|	FUNCTION VARIABLE VARIABLE { $$ = new Command(null, null); }
 
 %%
 
@@ -72,16 +72,17 @@ command: { $$ = new Command(null, null);}
   static Game game;
 
   public static void main(String args[]) throws IOException {
-    System.out.println("BYACC/Java with JFlex Calculator Demo");
+    System.out.println("Welcome to Words!");
     
-    WordsUI ui = new WordsUI();
-    game = new Game(ui);
+    //WordsUI ui = new WordsUI();
+    game = new Game(null);
 
     Words yyparser;
     // interactive mode
 	System.out.println("[Quit with CTRL-D]");
-	System.out.print("Expression: ");
 	yyparser = new Words(new InputStreamReader(System.in));
 
     yyparser.yyparse();
+    System.out.println();
+    System.out.println("Have a nice day");
   }
