@@ -21,10 +21,9 @@
 %token PERIOD
 %token FUNCTION
 %token CELL
-%token <val> VARIABLE
+%token <sval> VARIABLE
 
-%type <dval> exp
-
+%type <obj> command
 %left '-' '+'
 %left '*' '/'
 %left NEG          /* negation--unary minus */
@@ -37,20 +36,10 @@ input:   /* empty string */
        ;
       
 line:    NL      { System.out.print("Expression: "); }
-       | command PERIOD NL  { game.addCommandToQueue($1)); }
+       | command PERIOD NL  { game.addCommandToQueue($1); }
        ;
        
-command: { $$ = null;}
-       
-exp:     NUM                { $$ = $1; }
-       | exp '+' exp        { $$ = $1 + $3; }
-       | exp '-' exp        { $$ = $1 - $3; }
-       | exp '*' exp        { $$ = $1 * $3; }
-       | exp '/' exp        { $$ = $1 / $3; }
-       | '-' exp  %prec NEG { $$ = -$2; }
-       | exp '^' exp        { $$ = Math.pow($1, $3); }
-       | '(' exp ')'        { $$ = $2; }
-       ;
+command: { $$ = new Command(null, null);}
 
 %%
 
@@ -83,7 +72,7 @@ exp:     NUM                { $$ = $1; }
   static boolean interactive;
 
   public static void main(String args[]) throws IOException {
-    System.out.println("Welcome to Words!");
+    System.out.println("BYACC/Java with JFlex Calculator Demo");
     
     WordsUI ui = new WordsUI();
     Game game = new Game();
