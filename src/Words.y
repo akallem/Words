@@ -69,13 +69,13 @@ command: { $$ = new Command(null, null);}
   }
 
 
-  static boolean interactive;
+  static Game game;
 
   public static void main(String args[]) throws IOException {
     System.out.println("BYACC/Java with JFlex Calculator Demo");
     
     WordsUI ui = new WordsUI();
-    Game game = new Game();
+    game = new Game(ui);
 
     Words yyparser;
     // interactive mode
@@ -84,9 +84,4 @@ command: { $$ = new Command(null, null);}
 	yyparser = new Words(new InputStreamReader(System.in));
 
     yyparser.yyparse();
-    
-    if (interactive) {
-      System.out.println();
-      System.out.println("Have a nice day");
-    }
   }
