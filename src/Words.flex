@@ -21,8 +21,17 @@
   }
 %}
 
+%{
+	
+%}
+
 NUM = [0-9]+ ("." [0-9]+)?
 NL  = \n | \r | \r\n
+PERIOD = [0-9]+ ("." [0-9]+)?
+DEFINITION = 'is'
+FUNCTION = "Make"
+CELL = "at cell"
+
 
 %%
 
@@ -37,6 +46,10 @@ NL  = \n | \r | \r\n
 
 /* newline */
 {NL}   { return Words.NL; }
+{DEFINITION} { return Words.DEFINITION; }
+{PERIOD} { return Words.PERIOD; }
+{FUNCTION} { return Words.FUNCTION; }
+{CELL} { return Words.CELL; }
 
 /* float */
 {NUM}  { yyparser.yylval = new WordsVal(Double.parseDouble(yytext()));

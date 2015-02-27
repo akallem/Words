@@ -17,6 +17,11 @@
       
 %token NL          /* newline  */
 %token <dval> NUM  /* a number */
+%token DEFINITION
+%token PERIOD
+%token FUNCTION
+%token CELL
+%token <val> VARIABLE
 
 %type <dval> exp
 
@@ -31,11 +36,12 @@ input:   /* empty string */
        | input line
        ;
       
-line:    NL      { if (interactive) System.out.print("Expression: "); }
-       | exp NL  { System.out.println(" = " + $1); 
-                   if (interactive) System.out.print("Expression: "); }
+line:    NL      { System.out.print("Expression: "); }
+       | command PERIOD NL  { game.addCommandToQueue($1)); }
        ;
-      
+       
+command: { $$ = null;}
+       
 exp:     NUM                { $$ = $1; }
        | exp '+' exp        { $$ = $1 + $3; }
        | exp '-' exp        { $$ = $1 - $3; }
@@ -77,22 +83,16 @@ exp:     NUM                { $$ = $1; }
   static boolean interactive;
 
   public static void main(String args[]) throws IOException {
-    System.out.println("BYACC/Java with JFlex Calculator Demo");
+    System.out.println("Welcome to Words!");
     
     WordsUI ui = new WordsUI();
+    Game game = new Game();
 
     Words yyparser;
-    if ( args.length > 0 ) {
-      // parse a file
-      yyparser = new Words(new FileReader(args[0]));
-    }
-    else {
-      // interactive mode
-      System.out.println("[Quit with CTRL-D]");
-      System.out.print("Expression: ");
-      interactive = true;
-	    yyparser = new Words(new InputStreamReader(System.in));
-    }
+    // interactive mode
+	System.out.println("[Quit with CTRL-D]");
+	System.out.print("Expression: ");
+	yyparser = new Words(new InputStreamReader(System.in));
 
     yyparser.yyparse();
     
