@@ -1,0 +1,62 @@
+<project name="Words" default="run">
+    <condition property="isWindows">
+        <os family="windows" />
+    </condition>
+
+    <target name="grammar"
+        depends="grammar-windows, grammar-other">
+    </target>
+
+	<target name="grammar-windows" if="isWindows">
+		<exec executable="yacc" dir="src">
+			<arg value="-J"/>
+			<arg value="-Jclass=Words"/>
+			<arg value="Words.y"/>
+		</exec>
+		<exec executable="cmd" dir="src">
+			<arg value="/c"/>
+			<arg value="jflex.bat"/>
+			<arg value="Words.flex"/>
+		</exec>
+	</target>
+
+    <target name="grammar-other" unless="isWindows">
+        <exec executable="yacc" dir="src">
+            <arg value="-J"/>
+            <arg value="-Jclass=Words"/>
+            <arg value="Words.y"/>
+        </exec>
+        <exec executable="jflex" dir="src">
+            <arg value="Words.flex"/>
+        </exec>
+    </target>
+
+    <target name="classes" depends="grammar">
+        <mkdir dir="bin" />
+        <javac srcdir="src" destdir="bin" 
+            classpath="lib/slick.jar;lib/lwjgl.jar"
+            includeantruntime="false"/>
+    </target>
+
+    <target name="jar" depends="classes">
+        <mkdir dir="jar"/>
+        <jar destfile="jar/Words.jar" basedir="bin">
+            <manifest>
+                <attribute name="Main-Class" value="Words"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="run" depends="jar">
+        <java jar="jar/Words.jar" fork="true"/>
+    </target>
+
+    <target name="clean">
+        <delete dir="bin"/>
+        <delete dir="jar"/>
+        <delete file="src/Words.java"/>
+        <delete file="src/WordsVal.java"/>
+        <delete file="src/Yylex.java"/>
+        <delete file="src/Yylex.java~"/>
+    </target>
+</project>
