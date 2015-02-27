@@ -1,5 +1,4 @@
 <project name="Words" default="run">
-
     <condition property="isWindows">
         <os family="windows" />
     </condition>
@@ -12,12 +11,12 @@
 		<exec executable="yacc" dir="src">
 			<arg value="-J"/>
 			<arg value="-Jclass=Words"/>
-			<arg value="calc.y"/>
+			<arg value="Words.y"/>
 		</exec>
 		<exec executable="cmd" dir="src">
 			<arg value="/c"/>
 			<arg value="jflex.bat"/>
-			<arg value="calc.flex"/>
+			<arg value="Words.flex"/>
 		</exec>
 	</target>
 
@@ -25,10 +24,10 @@
         <exec executable="yacc" dir="src">
             <arg value="-J"/>
             <arg value="-Jclass=Words"/>
-            <arg value="calc.y"/>
+            <arg value="Words.y"/>
         </exec>
         <exec executable="jflex" dir="src">
-            <arg value="calc.flex"/>
+            <arg value="Words.flex"/>
         </exec>
     </target>
 
