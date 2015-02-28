@@ -24,10 +24,12 @@
 NUM = [0-9]+ ("." [0-9]+)?
 NL  = \n | \r | \r\n
 PERIOD = "."
-DEFINITION = 'is'
+DEFINITION = "is a "
 FUNCTION = "Make"
 CELL = "at cell"
+STR_LIT = \"*?\"
 VARIABLE = [a-zA-z]+
+COMMA = ","
 
 
 %%
@@ -47,8 +49,11 @@ VARIABLE = [a-zA-z]+
 {PERIOD} { return Words.PERIOD; }
 {FUNCTION} { return Words.FUNCTION; }
 {CELL} { return Words.CELL; }
-{VARIABLE} { yytext();
+{STR_LIT} { yyparser.yylval = new WordsVal(yytext());
+				return Words.STR_LIT; }
+{VARIABLE} { yyparser.yylval = new WordsVal(yytext());
 				return Words.VARIABLE; }
+{COMMA} {	return Words.COMMA;}
 
 /* float */
 {NUM}  { yyparser.yylval = new WordsVal(Double.parseDouble(yytext()));

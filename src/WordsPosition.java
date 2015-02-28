@@ -7,4 +7,9 @@ public class WordsPosition {
 		this.x = x;
 		this.y = y;
 	}
+	
+	public WordsPosition(double x, double y) {
+		this.x = (int) x;
+		this.y = (int) y;
+	}
 }

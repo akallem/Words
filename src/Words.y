@@ -13,6 +13,7 @@
 
 %{
   import java.io.*;
+  import java.util.HashMap;
 %}
       
 %token NL          /* newline  */
@@ -21,9 +22,13 @@
 %token PERIOD
 %token FUNCTION
 %token CELL
+%token COMMA
+%token <sval> STR_LIT
 %token <sval> VARIABLE
 
 %type <obj> command
+%type <sval> arguments
+%type <sval> argument
 %left '-' '+'
 %left '*' '/'
 %left NEG          /* negation--unary minus */
@@ -38,8 +43,31 @@ input:   /* empty string */
 line:  command PERIOD NL  { game.addCommandToQueue($1); }
        ;
        
-command: 	VARIABLE DEFINITION VARIABLE CELL NUM "," NUM { $$ = new Command(null, null); }
-		|	FUNCTION VARIABLE VARIABLE { $$ = new Command(null, null); }
+command: 	VARIABLE DEFINITION VARIABLE CELL NUM COMMA NUM { 
+				HashMap properties = new HashMap<String, Object>();
+				properties.put("name", $1);
+				properties.put("class", $3);
+				WordsPosition pos = new WordsPosition($5, $7);
+				properties.put("cell", pos);
+				$$ = new Command(CommandType.CREATE, properties); 
+				}
+		|	FUNCTION VARIABLE VARIABLE arguments {
+				HashMap properties = new HashMap<String, Object>();
+				properties.put("objectName", $2);
+				properties.put("functionName", $3);
+				properties.put("arguments", $4);
+				$$ = new Command(CommandType.MAKE, properties); 
+				}
+		;
+
+argument	:	STR_LIT { $$ = $1;}
+			|	NUM	{$$ = Double.toString($1);}
+			|	VARIABLE {$$ = $1;}
+			;
+		
+arguments	: 	argument	{$$ = $1;}
+			|	arguments argument {$$ = $1 + " " + $2;}
+			;
 
 %%
 
