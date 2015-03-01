@@ -51,12 +51,12 @@ public class WordsUI {
 	}
 	
 	/**
-	 * Convert an xy coordinate into a string suitable to serve as a hash key.
+	 * Convert a position into a string suitable to serve as a hash key.
 	 * 
 	 * @return a string representing the coordinate
 	 */
-	private String xyToKey(int x, int y) {
-		return Integer.toString(x) + "_" + Integer.toString(y);
+	private String positionToKey(WordsPosition p) {
+		return Integer.toString(p.x) + "_" + Integer.toString(p.y);
 	}
 	
 	private class Grid extends JPanel {
@@ -89,16 +89,15 @@ public class WordsUI {
 		 * @param g2 The Graphics2D context in which to draw
 		 * @param xCenter The x pixel position where the cell should be centered
 		 * @param yCenter The y pixel position where the cell should be centered
-		 * @param xCell The x coordinate of the cell (i.e., column) in the grid
-		 * @param yCell The y coordinate of the cell (i.e., row) in the grid
+		 * @param p The position in the grid that should be rendered
 		 */
-		private void renderCell(Graphics2D g2, int xCenter, int yCenter, int xCell, int yCell) {
+		private void renderCell(Graphics2D g2, int xCenter, int yCenter, WordsPosition p) {
 			g2.setPaint(new Color(128, 128, 128));
 			g2.setStroke(new BasicStroke());
 			
 			g2.drawRect(xCenter - cellSize/2, yCenter - cellSize/2, cellSize, cellSize);
 			
-			LinkedList<RenderData> list = content.get(xyToKey(xCell, yCell));
+			LinkedList<RenderData> list = content.get(positionToKey(p));
 			if (list != null) {
 				// Simple rendering of an object
 				// TODO: More gracefully render situations where multiple objects are on the same cell
@@ -139,7 +138,7 @@ public class WordsUI {
 			// Draw each cell
 			for (int i = -(numCells-1)/2; i <= (numCells-1)/2; i++)
 				for (int j = -(numCells-1)/2; j <= (numCells-1)/2; j++)
-					renderCell(g2, cx + i*cellSize, cy + j*cellSize, xCenterCell + i, yCenterCell + j);
+					renderCell(g2, cx + i*cellSize, cy + j*cellSize, new WordsPosition(xCenterCell + i, yCenterCell + j));
 		}
 	}
 	
@@ -236,14 +235,13 @@ public class WordsUI {
 	/**
 	 * Adds an object to the UI at a given position.
 	 * 
-	 * @param x The x coordinate of the cell to place the object
-	 * @param y The y coordinate of the cell to place the object
+	 * @param p The position of the object
 	 * @param className The name of the class of this object
 	 * @param objName The name of the object
 	 * @param message The message that the object should say.  May be null.
 	 */	
-	public void add(int x, int y, String className, String objName, String message) {
-		String key = xyToKey(x, y);
+	public void add(WordsPosition p, String className, String objName, String message) {
+		String key = positionToKey(p);
 		LinkedList<RenderData> list = content.get(key);
 		
 		if (list == null) {
@@ -262,20 +260,11 @@ public class WordsUI {
 	}
 	
 	/**
-	 * Retrieves the x coordinate of the cell where the grid is currently centered.
+	 * Retrieves the position of the cell where the grid is currently centered.
 	 * 
-	 * @return the x coordinate of the cell currently at the center of the grid
-	 */		
-	public int getX() {
-		return xCenterCell;
-	}
-	
-	/**
-	 * Retrieves the y coordinate of the cell where the grid is currently centered.
-	 * 
-	 * @return the y coordinate of the cell currently at the center of the grid
-	 */		
-	public int getY() {
-		return yCenterCell;
+	 * @return the position of the cell currently at the center of the grid
+	 */
+	public WordsPosition getCenter() {
+		return new WordsPosition(xCenterCell, yCenterCell);
 	}
 }
