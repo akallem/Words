@@ -1,4 +1,20 @@
+import java.util.HashMap;
+
 
 public class Command {
-	//Oh Fuck
+	private CommandType type;
+	private HashMap<String, Object> parameters;
+	
+	public Command(CommandType type, HashMap<String, Object> parameters) {
+		this.parameters = parameters;
+		this.type = type;
+	}
+	
+	public CommandType getType() {
+		return type;
+	}
+	
+	public String toString() {
+		return type.toString() + parameters.toString();
+	}
 }

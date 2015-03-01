@@ -13,13 +13,22 @@
 
 %{
   import java.io.*;
+  import java.util.HashMap;
 %}
       
 %token NL          /* newline  */
 %token <dval> NUM  /* a number */
+%token DEFINITION
+%token PERIOD
+%token FUNCTION
+%token CELL
+%token COMMA
+%token <sval> STR_LIT
+%token <sval> VARIABLE
 
-%type <dval> exp
-
+%type <obj> command
+%type <sval> arguments
+%type <sval> argument
 %left '-' '+'
 %left '*' '/'
 %left NEG          /* negation--unary minus */
@@ -31,20 +40,34 @@ input:   /* empty string */
        | input line
        ;
       
-line:    NL      { if (interactive) System.out.print("Expression: "); }
-       | exp NL  { System.out.println(" = " + $1); 
-                   if (interactive) System.out.print("Expression: "); }
+line:  command PERIOD NL  { game.addCommandToQueue($1); }
        ;
-      
-exp:     NUM                { $$ = $1; }
-       | exp '+' exp        { $$ = $1 + $3; }
-       | exp '-' exp        { $$ = $1 - $3; }
-       | exp '*' exp        { $$ = $1 * $3; }
-       | exp '/' exp        { $$ = $1 / $3; }
-       | '-' exp  %prec NEG { $$ = -$2; }
-       | exp '^' exp        { $$ = Math.pow($1, $3); }
-       | '(' exp ')'        { $$ = $2; }
-       ;
+       
+command: 	VARIABLE DEFINITION VARIABLE CELL NUM COMMA NUM { 
+				HashMap properties = new HashMap<String, Object>();
+				properties.put("name", $1);
+				properties.put("class", $3);
+				WordsPosition pos = new WordsPosition($5, $7);
+				properties.put("cell", pos);
+				$$ = new Command(CommandType.CREATE, properties); 
+				}
+		|	FUNCTION VARIABLE VARIABLE arguments {
+				HashMap properties = new HashMap<String, Object>();
+				properties.put("objectName", $2);
+				properties.put("functionName", $3);
+				properties.put("arguments", $4);
+				$$ = new Command(CommandType.MAKE, properties); 
+				}
+		;
+
+argument	:	STR_LIT { $$ = $1;}
+			|	NUM	{$$ = Double.toString($1);}
+			|	VARIABLE {$$ = $1;}
+			;
+		
+arguments	: 	argument	{$$ = $1;}
+			|	arguments argument {$$ = $1 + " " + $2;}
+			;
 
 %%
 
@@ -74,30 +97,20 @@ exp:     NUM                { $$ = $1; }
   }
 
 
-  static boolean interactive;
+  static Game game;
 
   public static void main(String args[]) throws IOException {
-    System.out.println("BYACC/Java with JFlex Calculator Demo");
+    System.out.println("Welcome to Words!");
     
-    WordsUI ui = new WordsUI();
+    //WordsUI ui = new WordsUI();
+    game = new Game(null);
 
     Words yyparser;
-    if ( args.length > 0 ) {
-      // parse a file
-      yyparser = new Words(new FileReader(args[0]));
-    }
-    else {
-      // interactive mode
-      System.out.println("[Quit with CTRL-D]");
-      System.out.print("Expression: ");
-      interactive = true;
-	    yyparser = new Words(new InputStreamReader(System.in));
-    }
+    // interactive mode
+	System.out.println("[Quit with CTRL-D]");
+	yyparser = new Words(new InputStreamReader(System.in));
 
     yyparser.yyparse();
-    
-    if (interactive) {
-      System.out.println();
-      System.out.println("Have a nice day");
-    }
+    System.out.println();
+    System.out.println("Have a nice day");
   }
