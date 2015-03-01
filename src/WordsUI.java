@@ -16,8 +16,8 @@ public class WordsUI {
 	int windowWidth, windowHeight;		// Dimensions of the window in pixels
 	int boardSize; 						// Dimensions (square) of the board in pixels
 	int numCells;						// Number of rows (columns) in the board (must be odd)
-	static final int minCells = 11;		// Must be odd so that there is a cell in the center
-	static final int maxCells = 31;		// Must be odd so that there is a cell in the center
+	static final int minCells = 5;		// Must be odd so that there is a cell in the center
+	static final int maxCells = 25;		// Must be odd so that there is a cell in the center
 	static final int zoomStep = 2;		// Must be even so that there is a cell in the center
 	static final int moveStep = 2;		
 	int xCenterCell, yCenterCell;		// The board coordinates of the cell depicted in the center
@@ -34,16 +34,15 @@ public class WordsUI {
 		public String objName;
 		public String message;
 		
-		public RenderData(String className, String objName) {
-			this.className = className;
-			this.objName = objName;
-			this.message = null;
-		}
-		
 		public RenderData(String className, String objName, String message) {
 			this.className = className;
 			this.objName = objName;
 			this.message = message;
+		}
+		
+		@Override
+		public String toString() {
+			return className + " " + objName + (message != null ? " " + message : "");
 		}
 	}
 	
@@ -74,10 +73,18 @@ public class WordsUI {
 			
 			g2.drawRect(xCenter - cellSize/2, yCenter - cellSize/2, cellSize, cellSize);
 			
-			// TODO: Look up the information for this cell to render its contents
-			// For now, just render one cell differently so we can see it
-			if (xCell == 0 && yCell == 0)
-				g2.fillRect(xCenter - cellSize/2, yCenter - cellSize/2, cellSize, cellSize);
+			LinkedList<RenderData> list = content.get(xyToKey(xCell, yCell));
+			if (list != null) {
+				// Simple rendering of an object
+				// TODO: More gracefully render situations where multiple objects are on the same cell
+				int fillSize = cellSize - 4;
+				for (RenderData r : list) {
+					g2.setPaint(new Color(64, 64, 64));
+					g2.fillRect(xCenter - fillSize/2, yCenter - fillSize/2, fillSize, fillSize);
+					g2.setPaint(new Color(255, 255, 255));
+					g2.drawString(r.className, xCenter, yCenter);
+				}
+			}
 		}
 		
 		public void paintComponent(Graphics g) {
@@ -171,7 +178,7 @@ public class WordsUI {
 		windowWidth = 750;		// Default windowWidth
 		windowHeight = 750;		// Default windowHeight
 		boardSize = 650;		// Default boardSize
-		numCells = 20;			// Default numCells
+		numCells = 9;			// Default numCells
 		xCenterCell = 0;
 		yCenterCell = 0;
 		
@@ -210,8 +217,10 @@ public class WordsUI {
 		String key = xyToKey(x, y);
 		LinkedList<RenderData> list = content.get(key);
 		
-		if (list == null)
+		if (list == null) {
 			list = new LinkedList<RenderData>();
+			content.put(key, list);
+		}
 		
 		list.add(new RenderData(className, objName, message));
 	}
