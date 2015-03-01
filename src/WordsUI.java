@@ -2,11 +2,16 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import java.util.*;
+
+/**
+ * A display to present a running Words program, along with UI elements to allow the user to customize the display (e.g., pan, zoom). 
+ */
 public class WordsUI {
-	JFrame window;
-	JPanel panel;
-	JPanel grid;
-	JPanel buttons;
+	JFrame window;						// The entire window containing the UI
+	JPanel panel;						// The entire content of the window
+	JPanel grid;						// The portion of the content showing the grid of cells
+	JPanel buttons;						// The portion of the content showing the buttons
 	
 	int windowWidth, windowHeight;		// Dimensions of the window in pixels
 	int boardSize; 						// Dimensions (square) of the board in pixels
@@ -22,12 +27,23 @@ public class WordsUI {
 	private class Grid extends JPanel {
 		int cellSize;					// Dimensions of a cell in pixels
 		
-		private void DrawCell(Graphics2D g2, int xCenter, int yCenter, int xCell, int yCell) {
+		/**
+		 * Draws a given cell from the grid at given pixel coordinates.
+		 * 
+		 * @param g2 The Graphics2D context in which to draw
+		 * @param xCenter The x pixel position where the cell should be centered
+		 * @param yCenter The y pixel position where the cell should be centered
+		 * @param xCell The x coordinate of the cell (i.e., column) in the grid
+		 * @param yCell The y coordinate of the cell (i.e., row) in the grid
+		 */
+		private void drawCell(Graphics2D g2, int xCenter, int yCenter, int xCell, int yCell) {
 			g2.setPaint(new Color(128, 128, 128));
 			g2.setStroke(new BasicStroke());
 			
 			g2.drawRect(xCenter - cellSize/2, yCenter - cellSize/2, cellSize, cellSize);
 			
+			// TODO: Look up the information for this cell to render its contents
+			// For now, just render one cell differently so we can see it
 			if (xCell == 0 && yCell == 0)
 				g2.fillRect(xCenter - cellSize/2, yCenter - cellSize/2, cellSize, cellSize);
 		}
@@ -38,8 +54,8 @@ public class WordsUI {
 			Graphics2D g2 = (Graphics2D) g;
 			
 			// Background region
-			int x1,y1,x2,y2;			// Boundaries of the board
-			int cx,cy;					// Center of the board
+			int x1, y1, x2, y2;			// Boundaries of the board in pixels
+			int cx, cy;					// Center of the board in pixel
 			
 			x1 = (windowWidth - boardSize)/2;
 			y1 = topPadding;
@@ -55,7 +71,7 @@ public class WordsUI {
 			// Draw each cell
 			for (int i = -(numCells-1)/2; i <= (numCells-1)/2; i++)
 				for (int j = -(numCells-1)/2; j <= (numCells-1)/2; j++)
-					DrawCell(g2, cx + i*cellSize, cy + j*cellSize, xCenterCell + i, yCenterCell + j);
+					drawCell(g2, cx + i*cellSize, cy + j*cellSize, xCenterCell + i, yCenterCell + j);
 		}
 	}
 	
