@@ -24,6 +24,10 @@ public class WordsUI {
 	
 	static final int topPadding = 20;	// Padding at the top of the window before the board in pixels
 	
+	static final Font fObj = new Font("SansSerif", Font.BOLD, 12);
+	static final Font fClass = new Font("SansSerif", Font.PLAIN, 9);
+	static final Font fMsg = new Font("SansSerif", Font.PLAIN, 8);
+	
 	HashMap<String, LinkedList<RenderData>> content;
 	
 	/**
@@ -59,6 +63,27 @@ public class WordsUI {
 		int cellSize;					// Dimensions of a cell in pixels
 		
 		/**
+		 * Draws a string centered at given coordinates.
+		 * Adapted from http://www.java2s.com/Tutorial/Java/0261__2D-Graphics/Centertext.htm
+		 * 
+		 * @param g2 The Graphics2D context in which to draw
+		 * @param string The text that should be drawn
+		 * @param xCenter The x pixel position where the string should be centered
+		 * @param yCenter The y pixel position where the string should be centered
+		 * @param font The font the string should be drawn in
+		 * @param color The color the string should be drawn in
+		 */
+		private void drawCenteredString(Graphics2D g2, String string, int x, int y, Font font, Color color) {
+			g2.setFont(font);
+			g2.setPaint(color);
+			
+			FontMetrics fm = g2.getFontMetrics();
+			int w = fm.stringWidth(string);
+			int h = fm.getAscent() + fm.getDescent();
+			g2.drawString(string, x - w/2, y - h/2 + fm.getAscent());
+		}
+		
+		/**
 		 * Renders a given cell from the grid at given pixel coordinates.
 		 * 
 		 * @param g2 The Graphics2D context in which to draw
@@ -81,8 +106,12 @@ public class WordsUI {
 				for (RenderData r : list) {
 					g2.setPaint(new Color(64, 64, 64));
 					g2.fillRect(xCenter - fillSize/2, yCenter - fillSize/2, fillSize, fillSize);
-					g2.setPaint(new Color(255, 255, 255));
-					g2.drawString(r.className, xCenter, yCenter);
+					
+					drawCenteredString(g2, r.objName, xCenter, yCenter - fillSize/3, fObj, Color.WHITE);
+					drawCenteredString(g2, r.className, xCenter, yCenter, fClass, Color.GRAY);
+					
+					if (r.message != null)
+						drawCenteredString(g2, r.message, xCenter, yCenter + fillSize/4, fMsg, Color.GRAY);
 				}
 			}
 		}
