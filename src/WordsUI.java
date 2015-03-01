@@ -24,11 +24,43 @@ public class WordsUI {
 	
 	static final int topPadding = 20;	// Padding at the top of the window before the board in pixels
 	
+	HashMap<String, LinkedList<RenderData>> content;
+	
+	/**
+	 * A structure to hold rendering information about a single Words object.
+	 */
+	private class RenderData {
+		public String className;
+		public String objName;
+		public String message;
+		
+		public RenderData(String className, String objName) {
+			this.className = className;
+			this.objName = objName;
+			this.message = null;
+		}
+		
+		public RenderData(String className, String objName, String message) {
+			this.className = className;
+			this.objName = objName;
+			this.message = message;
+		}
+	}
+	
+	/**
+	 * Convert an xy coordinate into a string suitable to serve as a hash key.
+	 * 
+	 * @return a string representing the coordinate
+	 */
+	private String xyToKey(int x, int y) {
+		return Integer.toString(x) + "_" + Integer.toString(y);
+	}
+	
 	private class Grid extends JPanel {
 		int cellSize;					// Dimensions of a cell in pixels
 		
 		/**
-		 * Draws a given cell from the grid at given pixel coordinates.
+		 * Renders a given cell from the grid at given pixel coordinates.
 		 * 
 		 * @param g2 The Graphics2D context in which to draw
 		 * @param xCenter The x pixel position where the cell should be centered
@@ -36,7 +68,7 @@ public class WordsUI {
 		 * @param xCell The x coordinate of the cell (i.e., column) in the grid
 		 * @param yCell The y coordinate of the cell (i.e., row) in the grid
 		 */
-		private void drawCell(Graphics2D g2, int xCenter, int yCenter, int xCell, int yCell) {
+		private void renderCell(Graphics2D g2, int xCenter, int yCenter, int xCell, int yCell) {
 			g2.setPaint(new Color(128, 128, 128));
 			g2.setStroke(new BasicStroke());
 			
@@ -71,7 +103,7 @@ public class WordsUI {
 			// Draw each cell
 			for (int i = -(numCells-1)/2; i <= (numCells-1)/2; i++)
 				for (int j = -(numCells-1)/2; j <= (numCells-1)/2; j++)
-					drawCell(g2, cx + i*cellSize, cy + j*cellSize, xCenterCell + i, yCenterCell + j);
+					renderCell(g2, cx + i*cellSize, cy + j*cellSize, xCenterCell + i, yCenterCell + j);
 		}
 	}
 	
@@ -101,7 +133,7 @@ public class WordsUI {
 		   }
 		}
 		
-		Buttons() {
+		public Buttons() {
 			handler = new Handler();
 			
 			up = new Button("Up");
@@ -130,7 +162,7 @@ public class WordsUI {
 		}
 	}
 	
-	WordsUI() {
+	public WordsUI() {
 		window = new JFrame();
 		panel = new JPanel();
 		grid = new Grid();
@@ -143,6 +175,8 @@ public class WordsUI {
 		xCenterCell = 0;
 		yCenterCell = 0;
 		
+		content = new HashMap<String, LinkedList<RenderData>>();
+		
 		panel.setLayout(new BorderLayout());
 		panel.add(grid, BorderLayout.CENTER);
 		panel.add(buttons, BorderLayout.SOUTH);
@@ -152,5 +186,58 @@ public class WordsUI {
 		window.setLocation(500,100);
 		window.setVisible(true);
 		window.setResizable(false);
+	}
+	
+	/**
+	 * Clears all objects from the UI.  After calling this method, the user will see only an empty grid.
+	 * Typically, the caller will want to immediately repopulate the grid with new objects.
+	 */
+	public void clear() {
+		content.clear();
+		grid.repaint();
+	}
+	
+	/**
+	 * Adds an object to the UI at a given position.
+	 * 
+	 * @param x The x coordinate of the cell to place the object
+	 * @param y The y coordinate of the cell to place the object
+	 * @param className The name of the class of this object
+	 * @param objName The name of the object
+	 * @param message The message that the object should say.  May be null.
+	 */	
+	public void add(int x, int y, String className, String objName, String message) {
+		String key = xyToKey(x, y);
+		LinkedList<RenderData> list = content.get(key);
+		
+		if (list == null)
+			list = new LinkedList<RenderData>();
+		
+		list.add(new RenderData(className, objName, message));
+	}
+	
+	/**
+	 * Immediately updates the UI to show the objects that have been added.
+	 */		
+	public void render() {
+		grid.repaint();
+	}
+	
+	/**
+	 * Retrieves the x coordinate of the cell where the grid is currently centered.
+	 * 
+	 * @return the x coordinate of the cell currently at the center of the grid
+	 */		
+	public int getX() {
+		return xCenterCell;
+	}
+	
+	/**
+	 * Retrieves the y coordinate of the cell where the grid is currently centered.
+	 * 
+	 * @return the y coordinate of the cell currently at the center of the grid
+	 */		
+	public int getY() {
+		return yCenterCell;
 	}
 }
