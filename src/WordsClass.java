@@ -19,4 +19,8 @@ public class WordsClass {
 		//TODO
 		return null;
 	}
+	
+	public String getClassName() {
+		return className;
+	}
 }

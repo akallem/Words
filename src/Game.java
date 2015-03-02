@@ -3,7 +3,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 
-public class Game implements Runnable {
+public class Game extends Thread {
 	
 	private HashMap<String, WordsClass> classes;
 	private HashMap<String, WordsObject> objects;
@@ -23,27 +23,45 @@ public class Game implements Runnable {
 	
 	public void addCommandToQueue(Object command) {
 		commandQueue.add((Command) command);
-		System.out.println(command.toString()); // temporary debug. 
 	}
 
 	
 	public void run() {
-		try {
-			wait(TIME_TO_WAIT);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		int counter = 0;
+		while(true) {
+			long timeToSleep = 1000;
+		    long start, end, slept;
+		    boolean interrupted;
+			while(timeToSleep > 0){
+		        start=System.currentTimeMillis();
+		        try{
+		            Thread.sleep(timeToSleep);
+		            break;
+		        }
+		        catch(InterruptedException e){
+
+		            //work out how much more time to sleep for
+		            end=System.currentTimeMillis();
+		            slept=end-start;
+		            timeToSleep-=slept;
+		            interrupted=true;
+		        }
+		    }
+			while (!commandQueue.isEmpty()) {
+				Command command = commandQueue.pop();
+				processCommand(command);
+			}
+			for (WordsObject object : objects.values()) {
+				object.doActions();
+			}
+			GUI.clear();
+			for (WordsObject object : objects.values()) {
+				GUI.add(object.getCurrentCell(), object.getClassName(), object.getObjectName(), object.getCurrentMessage());
+			}
+			GUI.render();
+			executeEventListeners();
+			counter++;
 		}
-		while (!commandQueue.isEmpty()) {
-			Command command = commandQueue.pop();
-			processCommand(command);
-		}
-		for (WordsObject object : objects.values()) {
-			object.doActions();
-		}
-		for (WordsObject object : objects.values()) {
-			GUI.add(object);
-		}
-		executeEventListeners();
 	}
 	
 	private void processCommand(Command command) {

@@ -102,15 +102,17 @@ arguments	: 	argument	{$$ = $1;}
   public static void main(String args[]) throws IOException {
     System.out.println("Welcome to Words!");
     
-    //WordsUI ui = new WordsUI();
-    game = new Game(null);
+    WordsUI ui = new WordsUI();
+    game = new Game(ui);
+    game.start();
 
     Words yyparser;
     // interactive mode
-	System.out.println("[Quit with CTRL-D]");
+	System.out.println("Input your block of commands with CTRL-D");
 	yyparser = new Words(new InputStreamReader(System.in));
 
-    yyparser.yyparse();
-    System.out.println();
-    System.out.println("Have a nice day");
+	while (true) {
+    	yyparser.yyparse();
+    	System.out.println("Your commands have been enqueued");
+    }
   }

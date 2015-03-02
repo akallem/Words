@@ -1,4 +1,4 @@
-<project name="Words" default="run">
+<project name="Words" default="jar">
     <condition property="isWindows">
         <os family="windows" />
     </condition>
