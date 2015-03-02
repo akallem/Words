@@ -43,7 +43,7 @@ public class Game implements Runnable {
 		for (WordsObject object : objects.values()) {
 			GUI.add(object);
 		}
-		
+		executeEventListeners();
 	}
 	
 	private void processCommand(Command command) {
