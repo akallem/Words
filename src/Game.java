@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.concurrent.LinkedBlockingDeque;
 
 
 public class Game extends Thread {
@@ -8,8 +8,7 @@ public class Game extends Thread {
 	private HashMap<String, WordsClass> classes;
 	private HashMap<String, WordsObject> objects;
 	private ArrayList<WordsEventListener> eventListeners;
-	//TODO: make commandQueue threadsafe
-	private LinkedList<Command> commandQueue;
+	private LinkedBlockingDeque<Command> commandQueue;
 	private WordsUI GUI;
 	private static int TIME_TO_WAIT = 1000;
 	
@@ -17,7 +16,7 @@ public class Game extends Thread {
 		classes = new HashMap<String, WordsClass>();
 		objects = new HashMap<String, WordsObject>();
 		eventListeners = new ArrayList<WordsEventListener>();
-		commandQueue = new LinkedList<Command>();
+		commandQueue = new LinkedBlockingDeque<Command>();
 		this.GUI = GUI;
 	}
 	
@@ -54,6 +53,7 @@ public class Game extends Thread {
 			for (WordsObject object : objects.values()) {
 				object.doActions();
 			}
+			
 			GUI.clear();
 			for (WordsObject object : objects.values()) {
 				GUI.add(object.getCurrentCell(), object.getClassName(), object.getObjectName(), object.getCurrentMessage());
