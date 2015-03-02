@@ -9,4 +9,8 @@ public class WordsObject {
 	private HashMap<String, WordsProperty> properties;
 	private LinkedList<ArrayList<WordsAction>> actionQueue;
 	private WordsPosition cell;
+	
+	public void doActions() {
+		
+	}
 }
