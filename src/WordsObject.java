@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -23,11 +22,11 @@ public class WordsObject {
 	}
 	
 	public void moveUp() {
-		this.cell.y++;
+		this.cell.y--;
 	}
 	
 	public void moveDown() {
-		this.cell.y--;
+		this.cell.y++;
 	}
 	
 	public void moveLeft() {

@@ -23,7 +23,6 @@ public class Game extends Thread {
 	
 	public void addCommandToQueue(Object command) {
 		commandQueue.add((Command) command);
-		System.out.println(command.toString());
 	}
 
 	
@@ -89,7 +88,6 @@ public class Game extends Thread {
 				String[] argv = arguments.split(" ");
 				WordsMove.MoveDirection direction = WordsMove.getMoveDirection(argv[0]);
 				int numberOfSpaces = (int) Double.parseDouble(argv[1]);
-				System.out.println(numberOfSpaces);
 				for (int i = 0; i < numberOfSpaces; i++) {
 					objectToModify.enqueueAction(new WordsMove(objectToModify, direction));
 				}
