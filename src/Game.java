@@ -17,6 +17,7 @@ public class Game extends Thread {
 		objects = new HashMap<String, WordsObject>();
 		eventListeners = new ArrayList<WordsEventListener>();
 		commandQueue = new LinkedBlockingDeque<Command>();
+		setupWorld();
 		this.GUI = GUI;
 	}
 	
@@ -62,6 +63,11 @@ public class Game extends Thread {
 			executeEventListeners();
 			counter++;
 		}
+	}
+	
+	private void setupWorld() {
+		WordsClass thing = new WordsClass("thing", null);
+		classes.put("thing", thing);
 	}
 	
 	private void processCommand(Command command) {

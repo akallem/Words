@@ -109,9 +109,9 @@ arguments	: 	argument	{$$ = $1;}
     Words yyparser;
     // interactive mode
 	System.out.println("Input your block of commands with CTRL-D");
-	yyparser = new Words(new InputStreamReader(System.in));
 
 	while (true) {
+		yyparser = new Words(new InputStreamReader(System.in));
     	yyparser.yyparse();
     	System.out.println("Your commands have been enqueued");
     }
