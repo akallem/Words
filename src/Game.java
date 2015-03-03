@@ -23,11 +23,13 @@ public class Game extends Thread {
 	
 	public void addCommandToQueue(Object command) {
 		commandQueue.add((Command) command);
+		System.out.print("enqueued ");
+		System.out.println(command.toString());
 	}
 
 	
 	public void run() {
-		int counter = 0;
+		int counter = 1;
 		while(true) {
 			long timeToSleep = 1000;
 		    long start, end, slept;
@@ -50,6 +52,9 @@ public class Game extends Thread {
 			while (!commandQueue.isEmpty()) {
 				Command command = commandQueue.pop();
 				processCommand(command);
+				System.out.print("dequed ");
+				System.out.print(command.toString());
+				System.out.println("at second " + counter);
 			}
 			for (WordsObject object : objects.values()) {
 				object.doActions();

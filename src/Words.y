@@ -104,15 +104,14 @@ arguments	: 	argument	{$$ = $1;}
     
     WordsUI ui = new WordsUI();
     game = new Game(ui);
-    game.start();
-
+	game.start();
+	
     Words yyparser;
     // interactive mode
-	System.out.println("Input your block of commands with CTRL-D");
+	System.out.println("[Quit with CTRL-D]");
+	yyparser = new Words(new InputStreamReader(System.in));
 
-	while (true) {
-		yyparser = new Words(new InputStreamReader(System.in));
-    	yyparser.yyparse();
-    	System.out.println("Your commands have been enqueued");
-    }
+    yyparser.yyparse();
+    System.out.println();
+    System.out.println("Have a nice day");
   }
