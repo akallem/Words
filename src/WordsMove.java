@@ -27,8 +27,7 @@ public class WordsMove extends WordsAction {
 		}
 	}
 	
-	public static MoveDirection getMoveDirection(String direction) {
-		direction = direction.toLowerCase();
+	public static MoveDirection getMoveDirection(String direction) throws WordsFunctionArgException {
 		if (direction.equals("left")) {
 			return MoveDirection.LEFT;
 		}
@@ -41,6 +40,6 @@ public class WordsMove extends WordsAction {
 		else if (direction.equals("down")) {
 			return MoveDirection.DOWN;
 		}
-		else return null;
+		else throw new WordsFunctionArgException("move", direction, "one of [\"left\", \"right\", \"up\" \"down\"]");
 	}
 }

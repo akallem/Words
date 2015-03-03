@@ -29,9 +29,8 @@ public class Game extends Thread {
 	public void run() {
 		int counter = 1;
 		while(true) {
-			long timeToSleep = 1000;
+			long timeToSleep = TIME_TO_WAIT;
 		    long start, end, slept;
-		    boolean interrupted;
 			while(timeToSleep > 0){
 		        start=System.currentTimeMillis();
 		        try{
@@ -44,7 +43,6 @@ public class Game extends Thread {
 		            end=System.currentTimeMillis();
 		            slept=end-start;
 		            timeToSleep-=slept;
-		            interrupted=true;
 		        }
 		    }
 			while (!commandQueue.isEmpty()) {
@@ -57,6 +55,8 @@ public class Game extends Thread {
 					System.out.printf("Error: class %s is not defined.\n", e.getClassName());
 				} catch (WordsFunctionNotFoundException e) {
 					System.out.printf("Error: function %s is not defined for class %s.\n", e.getFunctionName(), e.getClassName());
+				} catch (WordsFunctionArgException e) {
+					System.out.printf("Error: function %s expected argument %s, received \"%s\"\n", e.getFunctionName(), e.getExpectedArg(), e.getReceivedArg());
 				}
 			}
 			for (WordsObject object : objects.values()) {
@@ -79,7 +79,7 @@ public class Game extends Thread {
 	}
 	
 	private void processCommand(Command command) throws WordsObjectNotFoundException, 
-			WordsClassNotFoundException, WordsFunctionNotFoundException {
+			WordsClassNotFoundException, WordsFunctionNotFoundException, WordsFunctionArgException {
 		if (command.getType() == CommandType.CREATE) {
 			String className = (String) command.parameters.get("class");
 			String objectName = (String) command.parameters.get("name");
