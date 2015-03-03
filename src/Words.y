@@ -102,9 +102,10 @@ arguments	: 	argument	{$$ = $1;}
   public static void main(String args[]) throws IOException {
     System.out.println("Welcome to Words!");
     
-    //WordsUI ui = new WordsUI();
-    game = new Game(null);
-
+    WordsUI ui = new WordsUI();
+    game = new Game(ui);
+	game.start();
+	
     Words yyparser;
     // interactive mode
 	System.out.println("[Quit with CTRL-D]");
