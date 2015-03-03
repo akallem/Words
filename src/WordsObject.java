@@ -41,7 +41,6 @@ public class WordsObject {
 	public void doAction() {
 		if (!actionQueue.isEmpty()) {
 			WordsAction action = actionQueue.pop();
-			System.out.println("popped action");
 			action.execute();
 		}
 	}
