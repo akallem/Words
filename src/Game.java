@@ -57,7 +57,7 @@ public class Game extends Thread {
 				System.out.println("at second " + counter);
 			}
 			for (WordsObject object : objects.values()) {
-				object.doActions();
+				object.doAction();
 			}
 			
 			GUI.clear();
@@ -76,7 +76,30 @@ public class Game extends Thread {
 	}
 	
 	private void processCommand(Command command) {
-		//TODO
+		if (command.getType() == CommandType.CREATE) {
+			String className = (String) command.parameters.get("class");
+			String objectName = (String) command.parameters.get("name");
+			WordsClass objectClass = classes.get(className);
+			WordsPosition cell = (WordsPosition) command.parameters.get("cell");
+			WordsObject newObject = new WordsObject(objectClass, objectName, cell);
+			objects.put(objectName, newObject);
+		}
+		if (command.getType() == CommandType.MAKE) {
+			String objectName = (String) command.parameters.get("objectName");
+			WordsObject objectToModify = objects.get(objectName);
+			String functionName = (String) command.parameters.get("functionName");
+			String arguments = (String) command.parameters.get("arguments");
+			if (functionName.equals("move")) {
+				String[] argv = arguments.split(" ");
+				WordsMove.MoveDirection direction = WordsMove.getMoveDirection(argv[0]);
+				int numberOfSpaces = (int) Double.parseDouble(argv[1]);
+				System.out.println(numberOfSpaces);
+				for (int i = 0; i < numberOfSpaces; i++) {
+					objectToModify.enqueueAction(new WordsMove(objectToModify, direction));
+					System.out.println("enqueued action");
+				}
+			}
+		}
 	}
 	
 	private void executeEventListeners() {

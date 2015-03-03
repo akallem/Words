@@ -1,7 +1,7 @@
 
 public abstract class WordsAction {
 
-	private WordsObject owner;
+	protected WordsObject owner;
 	
 	public void execute() {
 		//To be overridden. 
