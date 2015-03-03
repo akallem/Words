@@ -92,6 +92,9 @@ public class Game extends Thread {
 					objectToModify.enqueueAction(new WordsMove(objectToModify, direction));
 				}
 			}
+			if (functionName.equals("say")) {
+				objectToModify.enqueueAction(new WordsSay(objectToModify, arguments));
+			}
 		}
 	}
 	

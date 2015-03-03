@@ -59,5 +59,9 @@ public class WordsObject {
 	public String getObjectName() {
 		return objectName;
 	}
+
+	public void setMessage(String message) {
+		currentMessage = message;
+	}
 	
 }
