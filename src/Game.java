@@ -49,7 +49,15 @@ public class Game extends Thread {
 		    }
 			while (!commandQueue.isEmpty()) {
 				Command command = commandQueue.pop();
-				processCommand(command);
+				try {
+					processCommand(command);
+				} catch (WordsObjectNotFoundException e) {
+					System.out.printf("Error: object %s is not defined.\n", e.getObjectName());
+				} catch (WordsClassNotFoundException e) {
+					System.out.printf("Error: class %s is not defined.\n", e.getClassName());
+				} catch (WordsFunctionNotFoundException e) {
+					System.out.printf("Error: function %s is not defined for class %s.\n", e.getFunctionName(), e.getClassName());
+				}
 			}
 			for (WordsObject object : objects.values()) {
 				object.doAction();
@@ -70,10 +78,13 @@ public class Game extends Thread {
 		classes.put("thing", thing);
 	}
 	
-	private void processCommand(Command command) {
+	private void processCommand(Command command) throws WordsObjectNotFoundException, 
+			WordsClassNotFoundException, WordsFunctionNotFoundException {
 		if (command.getType() == CommandType.CREATE) {
 			String className = (String) command.parameters.get("class");
 			String objectName = (String) command.parameters.get("name");
+			if (!classes.containsKey(className))
+				throw new WordsClassNotFoundException(className);
 			WordsClass objectClass = classes.get(className);
 			WordsPosition cell = (WordsPosition) command.parameters.get("cell");
 			WordsObject newObject = new WordsObject(objectClass, objectName, cell);
@@ -81,6 +92,8 @@ public class Game extends Thread {
 		}
 		if (command.getType() == CommandType.MAKE) {
 			String objectName = (String) command.parameters.get("objectName");
+			if (!objects.containsKey(objectName))
+				throw new WordsObjectNotFoundException(objectName);
 			WordsObject objectToModify = objects.get(objectName);
 			String functionName = (String) command.parameters.get("functionName");
 			String arguments = (String) command.parameters.get("arguments");
@@ -92,9 +105,11 @@ public class Game extends Thread {
 					objectToModify.enqueueAction(new WordsMove(objectToModify, direction));
 				}
 			}
-			if (functionName.equals("say")) {
+			else if (functionName.equals("say")) {
 				objectToModify.enqueueAction(new WordsSay(objectToModify, arguments));
 			}
+			else 
+				throw new WordsFunctionNotFoundException(functionName, objectToModify.getClassName());
 		}
 	}
 	
