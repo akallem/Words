@@ -57,6 +57,8 @@ public class Game extends Thread {
 					System.out.printf("Error: function %s is not defined for class %s.\n", e.getFunctionName(), e.getClassName());
 				} catch (WordsFunctionArgException e) {
 					System.out.printf("Error: function %s expected argument %s, received \"%s\"\n", e.getFunctionName(), e.getExpectedArg(), e.getReceivedArg());
+				} catch (WordsObjectAlreadyExistsException e) {
+					System.out.printf("Error: object %s already exists, please choose another name.", e.getObjectName());
 				}
 			}
 			for (WordsObject object : objects.values()) {
@@ -79,12 +81,16 @@ public class Game extends Thread {
 	}
 	
 	private void processCommand(Command command) throws WordsObjectNotFoundException, 
-			WordsClassNotFoundException, WordsFunctionNotFoundException, WordsFunctionArgException {
+			WordsClassNotFoundException, WordsFunctionNotFoundException, WordsFunctionArgException, 
+			WordsObjectAlreadyExistsException {
 		if (command.getType() == CommandType.CREATE) {
 			String className = (String) command.parameters.get("class");
 			String objectName = (String) command.parameters.get("name");
 			if (!classes.containsKey(className))
 				throw new WordsClassNotFoundException(className);
+			if (objects.containsKey(objectName)) {
+				throw new WordsObjectAlreadyExistsException(objectName);
+			}
 			WordsClass objectClass = classes.get(className);
 			WordsPosition cell = (WordsPosition) command.parameters.get("cell");
 			WordsObject newObject = new WordsObject(objectClass, objectName, cell);

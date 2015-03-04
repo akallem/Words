@@ -29,6 +29,7 @@
 %type <obj> command
 %type <sval> arguments
 %type <sval> argument
+%type <dval> exp
 %left '-' '+'
 %left '*' '/'
 %left NEG          /* negation--unary minus */
@@ -43,7 +44,7 @@ input:   /* empty string */
 line:  command PERIOD NL  { game.addCommandToQueue($1); }
        ;
        
-command: 	VARIABLE DEFINITION VARIABLE CELL NUM COMMA NUM { 
+command: 	VARIABLE DEFINITION VARIABLE CELL exp COMMA exp { 
 				HashMap properties = new HashMap<String, Object>();
 				properties.put("name", $1);
 				properties.put("class", $3);
@@ -68,6 +69,16 @@ argument	:	STR_LIT { $$ = $1;}
 arguments	: 	argument	{$$ = $1;}
 			|	arguments argument {$$ = $1 + " " + $2;}
 			;
+			
+ exp:     NUM                { $$ = $1; }
+        | exp '+' exp        { $$ = $1 + $3; }
+        | exp '-' exp        { $$ = $1 - $3; }
+        | exp '*' exp        { $$ = $1 * $3; }
+        | exp '/' exp        { $$ = $1 / $3; }
+        | '-' exp  %prec NEG { $$ = -$2; }
+        | exp '^' exp        { $$ = Math.pow($1, $3); }
+        | '(' exp ')'        { $$ = $2; }
+        ;
 
 %%
 
