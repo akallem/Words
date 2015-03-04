@@ -56,9 +56,9 @@ public class Game extends Thread {
 				} catch (WordsFunctionNotFoundException e) {
 					System.out.printf("Error: function %s is not defined for class %s.\n", e.getFunctionName(), e.getClassName());
 				} catch (WordsFunctionArgException e) {
-					System.out.printf("Error: function %s expected argument %s, received \"%s\"\n", e.getFunctionName(), e.getExpectedArg(), e.getReceivedArg());
+					System.out.printf("Error: function %s expected argument %s, received \"%s\".\n", e.getFunctionName(), e.getExpectedArg(), e.getReceivedArg());
 				} catch (WordsObjectAlreadyExistsException e) {
-					System.out.printf("Error: object %s already exists, please choose another name.", e.getObjectName());
+					System.out.printf("Error: object %s already exists, please choose another name.\n", e.getObjectName());
 				}
 			}
 			for (WordsObject object : objects.values()) {
