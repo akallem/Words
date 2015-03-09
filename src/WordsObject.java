@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -7,12 +6,42 @@ public class WordsObject {
 	private String objectName;
 	private WordsClass wordsClass;
 	private HashMap<String, WordsProperty> properties;
-	private LinkedList<ArrayList<WordsAction>> actionQueue;
+	private LinkedList<WordsAction> actionQueue;
 	private WordsPosition cell;
 	private String currentMessage;
 	
-	public void doActions() {
-		//TODO
+	public WordsObject(WordsClass wordsClass, String objectName, WordsPosition cell) {
+		this.wordsClass = wordsClass;
+		this.objectName = objectName;
+		this.cell = cell;
+		this.actionQueue = new LinkedList<WordsAction>();
+	}
+	
+	public void enqueueAction(WordsAction action) {
+		actionQueue.add(action);
+	}
+	
+	public void moveUp() {
+		this.cell.y--;
+	}
+	
+	public void moveDown() {
+		this.cell.y++;
+	}
+	
+	public void moveLeft() {
+		this.cell.x--;
+	}
+	
+	public void moveRight() {
+		this.cell.x++;
+	}
+	
+	public void doAction() {
+		if (!actionQueue.isEmpty()) {
+			WordsAction action = actionQueue.pop();
+			action.execute();
+		}
 	}
 	
 	public WordsPosition getCurrentCell() {
@@ -29,6 +58,10 @@ public class WordsObject {
 
 	public String getObjectName() {
 		return objectName;
+	}
+
+	public void setMessage(String message) {
+		currentMessage = message;
 	}
 	
 }

@@ -76,7 +76,7 @@
     </target>
 
     <!-- run program -->
-    <target name="run" depends="jar">
+    <target name="run">
         <java jar="${jar.dir}/Words.jar" fork="true" />
     </target>
 

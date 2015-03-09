@@ -3,7 +3,7 @@ import java.util.HashMap;
 
 public class Command {
 	private CommandType type;
-	private HashMap<String, Object> parameters;
+	public HashMap<String, Object> parameters;
 	
 	public Command(CommandType type, HashMap<String, Object> parameters) {
 		this.parameters = parameters;
