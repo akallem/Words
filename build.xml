@@ -46,24 +46,27 @@
         </exec>
     </target>
 
-    <!-- compile java code -->
-    <target name="classes" depends="grammar">
+    <!-- compile program java code -->
+    <target name="compile" depends="grammar">
         <mkdir dir="${bin.dir}" />
-        <mkdir dir="${bin.test.dir}" />
         <javac srcdir="${src.dir}" destdir="${bin.dir}" includeantruntime="false">
-            <classpath refid="junit.classpath" />
             <classpath>
                 <pathelement location="${lib.src}/slick.jar" />
                 <pathelement location="${lib.src}/lwjgl.jar" />
             </classpath>
         </javac>
+    </target>
+
+    <!-- compile junit testing code -->
+    <target name="test-compile" depends="grammar, compile">
+        <mkdir dir="${bin.test.dir}" />
         <javac srcdir="${test.dir}" destdir="${bin.test.dir}" includeantruntime="false">
             <classpath refid="junit.classpath" />
         </javac>
     </target>
 
     <!-- build jar -->
-    <target name="jar" depends="classes">
+    <target name="jar" depends="compile">
         <mkdir dir="${jar.dir}" />
         <jar destfile="${jar.dir}/Words.jar" basedir="${bin.dir}">
             <manifest>
@@ -79,7 +82,7 @@
 
     <!-- run tests -->
     <!-- report is plain, could also be xml -->
-    <target name="test" depends="classes">
+    <target name="test" depends="test-compile">
         <mkdir dir="${test.report.dir}" />
         <junit printsummary="on" fork="true" haltonfailure="yes">
             <classpath refid="junit.classpath" />
