@@ -12,4 +12,9 @@ public class WordsPosition {
 		this.x = (int) x;
 		this.y = (int) y;
 	}
+	
+	@Override 
+	public String toString() {
+		return Integer.toString(x) + " , " + Integer.toString(y);
+	}
 }
