@@ -1,62 +1,109 @@
 <project name="Words" default="jar">
+    <!-- variables, access via ${} -->
+    <property name="src.dir" location="src" />
+    <property name="bin.dir" location="bin" />
+    <property name="jar.dir" location="jar" />
+    <property name="lib.dir" location="lib" />
+    <property name="test.dir" location="test" />
+    <property name="bin.test.dir" location="bin/test" />
+    <property name="test.report.dir" location="report" />
+
+    <!-- classpath for junit -->
+    <path id="junit.classpath">
+        <pathelement location="${lib.dir}/junit-4.12.jar" />
+        <pathelement location="${lib.dir}/hamcrest-core-1.3.jar" />
+        <pathelement location="${bin.dir}" />
+        <pathelement location="${bin.test.dir}" />
+    </path>
+
+    <!-- os condition -->
     <condition property="isWindows">
         <os family="windows" />
     </condition>
 
-    <target name="grammar"
-        depends="grammar-windows, grammar-other">
+    <!-- lex and yacc -->
+    <target name="grammar" depends="grammar-windows, grammar-other" />
+    <target name="grammar-windows" if="isWindows">
+        <exec executable="yacc" dir="${src.dir}">
+            <arg value="-J" />
+            <arg value="-Jclass=Words" />
+            <arg value="Words.y" />
+        </exec>
+        <exec executable="cmd" dir="${src.dir}">
+            <arg value="/c" />
+            <arg value="jflex.bat" />
+            <arg value="Words.flex" />
+        </exec>
     </target>
-
-	<target name="grammar-windows" if="isWindows">
-		<exec executable="yacc" dir="src">
-			<arg value="-J"/>
-			<arg value="-Jclass=Words"/>
-			<arg value="Words.y"/>
-		</exec>
-		<exec executable="cmd" dir="src">
-			<arg value="/c"/>
-			<arg value="jflex.bat"/>
-			<arg value="Words.flex"/>
-		</exec>
-	</target>
-
     <target name="grammar-other" unless="isWindows">
-        <exec executable="yacc" dir="src">
-            <arg value="-J"/>
-            <arg value="-Jclass=Words"/>
-            <arg value="Words.y"/>
+        <exec executable="yacc" dir="${src.dir}">
+            <arg value="-J" />
+            <arg value="-Jclass=Words" />
+            <arg value="Words.y" />
         </exec>
-        <exec executable="jflex" dir="src">
-            <arg value="Words.flex"/>
+        <exec executable="jflex" dir="${src.dir}">
+            <arg value="Words.flex" />
         </exec>
     </target>
 
-    <target name="classes" depends="grammar">
-        <mkdir dir="bin" />
-        <javac srcdir="src" destdir="bin" 
-            classpath="lib/slick.jar;lib/lwjgl.jar"
-            includeantruntime="false"/>
+    <!-- compile program java code -->
+    <target name="compile" depends="grammar">
+        <mkdir dir="${bin.dir}" />
+        <javac srcdir="${src.dir}" destdir="${bin.dir}" includeantruntime="false">
+            <classpath>
+                <pathelement location="${lib.src}/slick.jar" />
+                <pathelement location="${lib.src}/lwjgl.jar" />
+            </classpath>
+        </javac>
     </target>
 
-    <target name="jar" depends="classes">
-        <mkdir dir="jar"/>
-        <jar destfile="jar/Words.jar" basedir="bin">
+    <!-- compile junit testing code -->
+    <target name="test-compile" depends="grammar, compile">
+        <mkdir dir="${bin.test.dir}" />
+        <javac srcdir="${test.dir}" destdir="${bin.test.dir}" includeantruntime="false">
+            <classpath refid="junit.classpath" />
+        </javac>
+    </target>
+
+    <!-- build jar -->
+    <target name="jar" depends="compile">
+        <mkdir dir="${jar.dir}" />
+        <jar destfile="${jar.dir}/Words.jar" basedir="${bin.dir}">
             <manifest>
-                <attribute name="Main-Class" value="Words"/>
+                <attribute name="Main-Class" value="Words" />
             </manifest>
         </jar>
     </target>
 
+    <!-- run program -->
     <target name="run">
-        <java jar="jar/Words.jar" fork="true"/>
+        <java jar="${jar.dir}/Words.jar" fork="true" />
     </target>
 
+    <!-- run tests -->
+    <!-- report is plain, could also be xml -->
+    <target name="test" depends="test-compile">
+        <mkdir dir="${test.report.dir}" />
+        <junit printsummary="on" fork="true" haltonfailure="yes">
+            <classpath refid="junit.classpath" />
+            <formatter type="plain" />
+            <batchtest todir="${test.report.dir}">
+                <fileset dir="${test.dir}">
+                    <include name="**/*Test*.java" />
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+    <!-- delete existing build -->
     <target name="clean">
-        <delete dir="bin"/>
-        <delete dir="jar"/>
-        <delete file="src/Words.java"/>
-        <delete file="src/WordsVal.java"/>
-        <delete file="src/Yylex.java"/>
-        <delete file="src/Yylex.java~"/>
+        <delete dir="${bin.dir}" />
+        <delete dir="${jar.dir}" />
+        <delete dir="${bin.test.dir}" />
+        <delete dir="${test.report.dir}" />
+        <delete file="${src.dir}/Words.java" />
+        <delete file="${src.dir}/WordsVal.java" />
+        <delete file="${src.dir}/Yylex.java" />
+        <delete file="${src.dir}/Yylex.java~" />
     </target>
 </project>
