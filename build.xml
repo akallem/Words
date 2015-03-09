@@ -1,11 +1,11 @@
 <project name="Words" default="jar">
     <!-- variables, access via ${} -->
     <property name="src.dir" location="src" />
-    <property name="test.dir" location="test" />
-    <property name="lib.dir" location="lib" />
     <property name="bin.dir" location="bin" />
-    <property name="bin.test.dir" location="bin/test" />
     <property name="jar.dir" location="jar" />
+    <property name="lib.dir" location="lib" />
+    <property name="test.dir" location="test" />
+    <property name="bin.test.dir" location="bin/test" />
     <property name="test.report.dir" location="report" />
 
     <!-- classpath for junit -->
@@ -96,6 +96,7 @@
     <target name="clean">
         <delete dir="${bin.dir}" />
         <delete dir="${jar.dir}" />
+        <delete dir="${bin.test.dir}" />
         <delete dir="${test.report.dir}" />
         <delete file="${src.dir}/Words.java" />
         <delete file="${src.dir}/WordsVal.java" />
