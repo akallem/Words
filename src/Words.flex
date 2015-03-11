@@ -10,6 +10,7 @@
 
 %%
 
+
 %byaccj
 
 %{
@@ -21,48 +22,8 @@
   }
 %}
 
-	/* Keywords */
-A = "A|a|An|an"
-AND = "and"
-ANYWHERE = "anywhere"
-AS = "as"
-AT = "at"
-BE = "be"
-CAN = "can"
-DOWN = "down"
-HAS = "has"
-IF = "If"
-IS = "is"
-LEFT = "left"
-LONG = "long"
-MAKE = "Make"
-MOVE = "move"
-MOVES = "moves"
-MEANS = "means"
-NOT = "not"
-NOTHING = "nothing"
-NOW = "now"
-OF = "of"
-OR = "or"
-REMOVE = "Remove"
-REPEAT = "Repeat"
-RIGHT = "right"
-SAY = "say"
-SAYS = "says"
-STOP = "Stop"
-THEN = "then"
-TIMES = "times"
-TURNS = "turns"
-UP = "up"
-WAIT = "wait"
-WAITS = "waits"
-WHENEVER = "Whenever"
-WHICH = "which|that"
-WHILE = "While"
-WITH = "with"
-
-	/* Other lexemes */
-IDENTIFIER = [a-zA-z_][a-zA-z0-9_]*
+	/* Lexemes */
+IDENTIFIER = [a-zA-Z_][a-zA-Z0-9_]*
 NUM = [0-9]+ ("." [0-9]+)?
 STRING = \"[^\"\n]*\"
 
@@ -70,6 +31,7 @@ STRING = \"[^\"\n]*\"
 DEREF = "'s"
 GEQ = ">="
 LEQ = "<="
+
 
 %%
 
@@ -79,7 +41,10 @@ LEQ = "<="
 "-" | 
 "*" | 
 "/" | 
-"^" | 
+"^" |
+"=" |
+"<" |
+">" | 
 "(" | 
 ")" |
 "{" |
@@ -88,45 +53,44 @@ LEQ = "<="
 "."		{ return (int) yycharat(0); }
 
 	/* Keywords */
-{A}				{ return Words.A; }
-{AND}			{ return Words.AND; }
-{ANYWHERE}		{ return Words.ANYWHERE; }
-{AS}			{ return Words.AS; }
-{AT}			{ return Words.AT; }
-{BE}			{ return Words.BE; }
-{CAN}			{ return Words.CAN; }
-{DOWN}			{ return Words.DOWN; }
-{HAS}			{ return Words.HAS; }
-{IF}			{ return Words.IF; }
-{IS}			{ return Words.IS; }
-{LEFT}			{ return Words.LEFT; }
-{LONG}			{ return Words.LONG; }
-{MAKE}			{ return Words.MAKE; }
-{MOVE}			{ return Words.MOVE; }
-{MOVES}			{ return Words.MOVES; }
-{MEANS}			{ return Words.MEANS; }
-{NOT}			{ return Words.NOT; }
-{NOTHING}		{ return Words.NOTHING; }
-{NOW}			{ return Words.NOW; }
-{OF}			{ return Words.OF; }
-{OR}			{ return Words.OR; }
-{REMOVE}		{ return Words.REMOVE; }
-{REPEAT}		{ return Words.REPEAT; }
-{RIGHT}			{ return Words.RIGHT; }
-{SAY}			{ return Words.SAY; }
-{SAYS}			{ return Words.SAYS; }
-{STOP}			{ return Words.STOP; }
-{THEN}			{ return Words.THEN; }
-{TIMES}			{ return Words.TIMES; }
-{TURNS}			{ return Words.TURNS; }
-{UP}			{ return Words.UP; }
-{WAIT}			{ return Words.WAIT; }
-{WAITS}			{ return Words.WAITS; }
-{WHENEVER}		{ return Words.WHENEVER; }
-{WHICH}			{ return Words.WHICH; }
-{WHILE}			{ return Words.WHILE; }
-{WITH}			{ return Words.WITH; }
-
+"A" | "a"			{ return Words.A; }
+"and"				{ return Words.AND; }
+"anywhere"			{ return Words.ANYWHERE; }
+"as"				{ return Words.AS; }
+"at"				{ return Words.AT; }
+"be"				{ return Words.BE; }
+"can"				{ return Words.CAN; }
+"down"				{ return Words.DOWN; }
+"has"				{ return Words.HAS; }
+"If"				{ return Words.IF; }
+"is"				{ return Words.IS; }
+"left"				{ return Words.LEFT; }
+"long"				{ return Words.LONG; }
+"Make"				{ return Words.MAKE; }
+"move"				{ return Words.MOVE; }
+"moves"				{ return Words.MOVES; }
+"means"				{ return Words.MEANS; }
+"not"				{ return Words.NOT; }
+"nothing"			{ return Words.NOTHING; }
+"now"				{ return Words.NOW; }
+"of"				{ return Words.OF; }
+"or"				{ return Words.OR; }
+"Remove"			{ return Words.REMOVE; }
+"Repeat"			{ return Words.REPEAT; }
+"right"				{ return Words.RIGHT; }
+"say"				{ return Words.SAY; }
+"says"				{ return Words.SAYS; }
+"Stop"				{ return Words.STOP; }
+"then"				{ return Words.THEN; }
+"times"				{ return Words.TIMES; }
+"turns"				{ return Words.TURNS; }
+"up"				{ return Words.UP; }
+"wait"				{ return Words.WAIT; }
+"waits"				{ return Words.WAITS; }
+"Whenever"			{ return Words.WHENEVER; }
+"which" | "that"	{ return Words.WHICH; }
+"While"				{ return Words.WHILE; }
+"with"				{ return Words.WITH; }
 
 	/* Other lexemes */
 {IDENTIFIER} 	{ yyparser.yylval = new WordsVal(yytext()); return Words.IDENTIFIER; }
@@ -139,10 +103,10 @@ LEQ = "<="
 {LEQ}			{ return Words.LEQ; }
 
 	/* Whitespace (no action) */
-[ \t\n]+ 		{ }
+[ \t\r\n]+ 		{ }
 
 	/* Backspace (error) */
 \b				{ System.err.println("Sorry, backspace doesn't work"); }
 
 	/* Error fallback */
-[^]				{ System.err.println("Error: unexpected character '"+yytext()+"'"); return -1; }
+[^]				{ System.err.println("Error: unexpected character '" + yytext() + "'"); return -1; }
