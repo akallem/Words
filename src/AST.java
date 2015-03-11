@@ -7,13 +7,7 @@ public class AST {
 		STRING,
 		
 		// Internal node types
-		GETOBJ,
-		GETPROP,
-		MOVESPEC,
-		CMD_MOVE,
-		CMD_SAY,
-		CMD_FUNC,
-		CMD_CREATE_OBJ
+		// TBD
 	};
 	
 	public Type type;
