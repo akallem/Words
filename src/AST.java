@@ -1,7 +1,7 @@
 public class AST {
 	public enum Type { 
 		// Leaf node types
-		NUMBER,
+		NUM,
 		IDENTIFIER,
 		OBJ,
 		STRING,

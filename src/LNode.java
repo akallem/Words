@@ -22,7 +22,7 @@ public class LNode extends AST {
 		String s;
 		String c = "";
 		
-		if (type == Type.NUMBER)
+		if (type == Type.NUM)
 			c = Double.toString(num);
 		else if (type == Type.STRING)
 			c = string;
