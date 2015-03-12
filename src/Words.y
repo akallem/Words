@@ -89,11 +89,11 @@
 %type <obj> reference_list
 %type <obj> identifier_list
 %type <obj> parameter_list
-%type <obj> assignment_list
+%type <obj> queue_assign_property_list
 %type <obj> reference
 %type <obj> identifier
 %type <obj> parameter
-%type <obj> assignment
+%type <obj> queue_assign_property
 %type <obj> direction
 %type <obj> now
 %type <obj> position
@@ -179,8 +179,8 @@ listener_statement:
 	;
 
 queueing_statement:
-		MAKE reference_list assignment_list '.'										{ $$ = new INode(AST.Type.QUEUE_ASSIGN, $2, $3, null); }
-	|	MAKE reference_list assignment_list now '.'									{ $$ = new INode(AST.Type.QUEUE_ASSIGN, $2, $3, $4); }
+		MAKE reference_list queue_assign_property_list '.'							{ $$ = new INode(AST.Type.QUEUE_ASSIGN, $2, $3, null); }
+	|	MAKE reference_list queue_assign_property_list now '.'						{ $$ = new INode(AST.Type.QUEUE_ASSIGN, $2, $3, $4); }
 	|	MAKE reference_list identifier MOVE direction '.'							{ $$ = new INode(AST.Type.QUEUE_MOVE, $2, $3, $5, null, null); }
 	|	MAKE reference_list identifier MOVE direction now '.'						{ $$ = new INode(AST.Type.QUEUE_MOVE, $2, $3, $5, null, $6); }
 	|	MAKE reference_list identifier MOVE direction value_expression '.'			{ $$ = new INode(AST.Type.QUEUE_MOVE, $2, $3, $5, $6, null); }
@@ -256,9 +256,9 @@ parameter_list:
 	|	parameter ',' parameter_list				{ $$ = new INode(AST.Type.PARAMETER_LIST, $1); ((INode) $$).add(((INode) $3).children); }
 	;
 
-assignment_list:
-		assignment									{ $$ = new INode(AST.Type.QUEUE_ASSIGNMENT_LIST, $1); }
-	|	assignment ',' assignment_list				{ $$ = new INode(AST.Type.QUEUE_ASSIGNMENT_LIST, $1); ((INode) $$).add(((INode) $3).children); }
+queue_assign_property_list:
+		queue_assign_property										{ $$ = new INode(AST.Type.QUEUE_ASSIGN_PROPERTY_LIST, $1); }
+	|	queue_assign_property ',' queue_assign_property_list		{ $$ = new INode(AST.Type.QUEUE_ASSIGN_PROPERTY_LIST, $1); ((INode) $$).add(((INode) $3).children); }
 	;
 
 
@@ -274,8 +274,8 @@ parameter:
 		identifier value_expression					{ $$ = new INode(AST.Type.PARAMETER, $1, $2); }
 	;
 
-assignment:
-		identifier BE value_expression				{ $$ = new INode(AST.Type.QUEUE_ASSIGNMENT, $1, $3); }
+queue_assign_property:
+		identifier BE value_expression				{ $$ = new INode(AST.Type.QUEUE_ASSIGN_PROPERTY, $1, $3); }
 	;
 
 direction:
