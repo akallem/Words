@@ -120,6 +120,7 @@ statement_list:
 statement:
 		immediate_statement			{ $$ = $1; }
 	|	queueing_statement			{ $$ = $1; }
+	|	error { System.err.println("Syntax error on line " + lexer.lineNumber + " near '" + lexer.yytext() + "'"); } '.' { yyerrflag = 0; }
 
 immediate_statement:
 		class_create_statement		{ $$ = $1; }
@@ -328,10 +329,8 @@ public static void main(String args[]) throws IOException {
 	// interactive mode
 	System.out.println("[Quit with CTRL_D]");
 	yyparser = new Words(new InputStreamReader(System.in));
-	yyparser.yydebug = true;
+	//yyparser.yydebug = true;
 	yyparser.yyparse();
-	System.out.println();
-	System.out.println("Have a nice day");
 
 	System.out.println();
 	System.out.println();

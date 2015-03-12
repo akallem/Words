@@ -15,6 +15,7 @@
 
 %{
   private Words yyparser;
+  public int lineNumber = 1;
 
   public Yylex(java.io.Reader r, Words yyparser) {
     this(r);
@@ -102,8 +103,9 @@ LEQ = "<="
 {GEQ}			{ return Words.GEQ; }
 {LEQ}			{ return Words.LEQ; }
 
-	/* Whitespace (no action) */
-[ \t\r\n]+ 		{ }
+	/* Whitespace (no action except counting line numbers) */
+[ \t\r]+ 		{ }
+\n				{ lineNumber++; }
 
 	/* Backspace (error) */
 \b				{ System.err.println("Sorry, backspace doesn't work"); }
