@@ -15,9 +15,11 @@ public class INode extends AST {
 				this.children.add((AST) children[i]);
 	}
 	
-	public void add(ArrayList<AST> nodes) {
+	public INode add(ArrayList<AST> nodes) {
 		for (AST node : nodes)
 			this.children.add(node);
+		
+		return this;
 	}
 	
 	private void indent(int level) {

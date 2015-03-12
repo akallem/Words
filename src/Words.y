@@ -89,7 +89,6 @@
 %type <obj> relational_expression
 %type <obj> value_expression
 %type <obj> reference_list
-%type <obj> reference_list_r
 %type <obj> direction
 %type <obj> position
 %type <obj> identifier_list
@@ -168,8 +167,8 @@ object_destroy_statement:
 	;
 
 property_assign_statement:
-		identifier IS value_expression '.'						{ $$ = new INode(AST.Type.ASSIGN, new INode(AST.Type.REFERENCE_LIST), $1, $3); }
-	|	reference_list_r identifier IS value_expression '.'		{ $$ = new INode(AST.Type.ASSIGN, $1, $2, $4); }
+		identifier IS value_expression '.'								{ $$ = new INode(AST.Type.ASSIGN, new INode(AST.Type.REFERENCE_LIST), $1, $3); }
+	|	reference reference_list identifier IS value_expression '.'		{ $$ = new INode(AST.Type.ASSIGN, (new INode(AST.Type.REFERENCE_LIST, $1)).add(((INode) $2).children), $3, $5); }
 	;
 
 iteration_statement:
@@ -247,10 +246,6 @@ value_expression:
 	|	value_expression '*' value_expression		{ $$ = new INode(AST.Type.MULTIPLY, $1, $3); }
 	|	value_expression '/' value_expression		{ $$ = new INode(AST.Type.DIVIDE, $1, $3); }
 	|	value_expression '^' value_expression		{ $$ = new INode(AST.Type.EXPONENTIATE, $1, $3); }
-	;
-
-reference_list_r:
-		reference reference_list			{ $$ = new INode(AST.Type.REFERENCE_LIST, $1); ((INode) $$).add(((INode) $2).children); }
 	;
 
 reference_list:
