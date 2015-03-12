@@ -88,6 +88,7 @@
 %type <obj> boolean_predicate
 %type <obj> relational_expression
 %type <obj> value_expression
+%type <obj> assignment_list
 %type <obj> reference_list
 %type <obj> direction
 %type <obj> position
@@ -96,6 +97,7 @@
 %type <obj> parameter
 %type <obj> identifier
 %type <obj> reference
+%type <obj> assignment
 %type <obj> literal
 
 	/* Operators precedence and associativity */
@@ -186,8 +188,8 @@ listener_statement:
 	;
 
 queueing_statement:
-		MAKE reference_list identifier BE value_expression '.'						{ $$ = new INode(AST.Type.QUEUE_ASSIGN, $2, $3, $5); }
-	|	MAKE reference_list identifier BE value_expression NOW '.'					{ $$ = new INode(AST.Type.QUEUE_ASSIGN_NOW, $2, $3, $5); }
+		MAKE reference_list assignment_list '.'										{ $$ = new INode(AST.Type.QUEUE_ASSIGN, $2, $3); }
+	|	MAKE reference_list assignment_list NOW '.'									{ $$ = new INode(AST.Type.QUEUE_ASSIGN_NOW, $2, $3); }
 	|	MAKE reference_list identifier MOVE direction '.'							{ $$ = new INode(AST.Type.QUEUE_MOVE, $2, $3, $5); }
 	|	MAKE reference_list identifier MOVE direction NOW '.'						{ $$ = new INode(AST.Type.QUEUE_MOVE_NOW, $2, $3, $5); }
 	|	MAKE reference_list identifier MOVE direction value_expression '.'			{ $$ = new INode(AST.Type.QUEUE_ASSIGN, $2, $3, $5, $6); }
@@ -253,18 +255,6 @@ reference_list:
 	|	reference reference_list			{ $$ = new INode(AST.Type.REFERENCE_LIST, $1); ((INode) $$).add(((INode) $2).children); }
 	;
 
-direction:
-		ANYWHERE		{ $$ = new LNode(AST.Type.DIRECTION, Direction.Type.ANYWHERE); }
-	|	DOWN			{ $$ = new LNode(AST.Type.DIRECTION, Direction.Type.DOWN); }
-	|	LEFT			{ $$ = new LNode(AST.Type.DIRECTION, Direction.Type.LEFT); }
-	|	RIGHT			{ $$ = new LNode(AST.Type.DIRECTION, Direction.Type.RIGHT); }
-	|	UP				{ $$ = new LNode(AST.Type.DIRECTION, Direction.Type.UP); }
-	;
-
-position:
-		value_expression ',' value_expression	{ $$ = new INode(AST.Type.POSITION, $1, $3); }
-	;
-
 identifier_list:
 		identifier								{ $$ = new INode(AST.Type.IDENTIFIER_LIST, $1); }
 	|	identifier ',' identifier_list			{ $$ = new INode(AST.Type.IDENTIFIER_LIST, $1); ((INode) $$).add(((INode) $3).children); }
@@ -275,16 +265,38 @@ parameter_list:
 	|	parameter ',' parameter_list			{ $$ = new INode(AST.Type.PARAMETER_LIST, $1); ((INode) $$).add(((INode) $3).children); }
 	;
 
-parameter:
-		identifier value_expression				{ $$ = new INode(AST.Type.PARAMETER, $1, $2); }
+assignment_list:
+		assignment								{ $$ = new INode(AST.Type.QUEUE_ASSIGNMENT_LIST, $1); }
+	|	assignment ',' assignment_list			{ $$ = new INode(AST.Type.QUEUE_ASSIGNMENT_LIST, $1); ((INode) $$).add(((INode) $3).children); }
+	;
+
+
+reference:
+		REFERENCE	{ $$ = new LNode(AST.Type.REFERENCE, $1); }
 	;
 
 identifier:
 		IDENTIFIER	{ $$ = new LNode(AST.Type.IDENTIFIER, $1); }
 	;
 
-reference:
-		REFERENCE	{ $$ = new LNode(AST.Type.REFERENCE, $1); }
+parameter:
+		identifier value_expression				{ $$ = new INode(AST.Type.PARAMETER, $1, $2); }
+	;
+
+assignment:
+		identifier BE value_expression			{ $$ = new INode(AST.Type.QUEUE_ASSIGNMENT, $1, $3); }
+	;
+
+direction:
+		ANYWHERE		{ $$ = new LNode(AST.Type.DIRECTION, Direction.Type.ANYWHERE); }
+	|	DOWN			{ $$ = new LNode(AST.Type.DIRECTION, Direction.Type.DOWN); }
+	|	LEFT			{ $$ = new LNode(AST.Type.DIRECTION, Direction.Type.LEFT); }
+	|	RIGHT			{ $$ = new LNode(AST.Type.DIRECTION, Direction.Type.RIGHT); }
+	|	UP				{ $$ = new LNode(AST.Type.DIRECTION, Direction.Type.UP); }
+	;
+
+position:
+		value_expression ',' value_expression	{ $$ = new INode(AST.Type.POSITION, $1, $3); }
 	;
 
 literal:
