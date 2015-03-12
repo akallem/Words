@@ -73,8 +73,6 @@
 %type <obj> class_create_statement
 %type <obj> class_definition_statement_list
 %type <obj> class_definition_statement
-%type <obj> class_property_definition_statement
-%type <obj> class_custom_action_definition_statement
 %type <obj> object_create_statement
 %type <obj> object_destroy_statement
 %type <obj> property_assign_statement
@@ -88,17 +86,17 @@
 %type <obj> boolean_predicate
 %type <obj> relational_expression
 %type <obj> value_expression
-%type <obj> assignment_list
 %type <obj> reference_list
+%type <obj> identifier_list
+%type <obj> parameter_list
+%type <obj> assignment_list
+%type <obj> reference
+%type <obj> identifier
+%type <obj> parameter
+%type <obj> assignment
 %type <obj> direction
 %type <obj> now
 %type <obj> position
-%type <obj> identifier_list
-%type <obj> parameter_list
-%type <obj> parameter
-%type <obj> identifier
-%type <obj> reference
-%type <obj> assignment
 %type <obj> literal
 
 	/* Operators precedence and associativity */
@@ -146,18 +144,10 @@ class_definition_statement_list:
 	;
 
 class_definition_statement:
-		class_property_definition_statement											{ $$ = $1; }
-	|	class_custom_action_definition_statement									{ $$ = $1; }
-	;
-
-class_property_definition_statement:
 		HAS A identifier '.'														{ $$ = new INode(AST.Type.DEFINE_PROPERTY, $3, null); }
 	|	HAS A identifier OF literal '.'												{ $$ = new INode(AST.Type.DEFINE_PROPERTY, $3, $5); }
-	;
-
-class_custom_action_definition_statement:
-		CAN identifier WHICH MEANS '{' statement_list '}'							{ $$ = new INode(AST.Type.DEFINE_ACTION, $2, null, $6); }
-	|	CAN identifier WITH identifier_list WHICH MEANS '{' statement_list '}'		{ $$ = new INode(AST.Type.DEFINE_ACTION, $2, $4, $8); }
+	|	CAN identifier WHICH MEANS '{' statement_list '}'							{ $$ = new INode(AST.Type.DEFINE_ACTION, $2, null, $6); }
+	|	CAN identifier WITH identifier_list WHICH MEANS '{' statement_list '}'		{ $$ = new INode(AST.Type.DEFINE_ACTION, $2, $4, $8); }	
 	;
 
 object_create_statement:
@@ -170,7 +160,7 @@ object_destroy_statement:
 	;
 
 property_assign_statement:
-		identifier IS value_expression '.'											{ $$ = new INode(AST.Type.ASSIGN, new INode(AST.Type.REFERENCE_LIST), $1, $3); }
+		identifier IS value_expression '.'											{ $$ = new INode(AST.Type.ASSIGN, new INode(AST.Type.REFERENCE_LIST), null, $1, $3); }
 	|	reference reference_list identifier IS value_expression '.'					{ $$ = new INode(AST.Type.ASSIGN, (new INode(AST.Type.REFERENCE_LIST, $1)).add(((INode) $2).children), $3, $5); }
 	;
 
@@ -189,24 +179,24 @@ listener_statement:
 	;
 
 queueing_statement:
-		MAKE reference_list assignment_list '.'										{ $$ = new INode(AST.Type.QUEUE_ASSIGN, $2, $3); }
+		MAKE reference_list assignment_list '.'										{ $$ = new INode(AST.Type.QUEUE_ASSIGN, $2, $3, null); }
 	|	MAKE reference_list assignment_list now '.'									{ $$ = new INode(AST.Type.QUEUE_ASSIGN, $2, $3, $4); }
-	|	MAKE reference_list identifier MOVE direction '.'							{ $$ = new INode(AST.Type.QUEUE_MOVE, $2, $3, $5); }
-	|	MAKE reference_list identifier MOVE direction now '.'						{ $$ = new INode(AST.Type.QUEUE_MOVE, $2, $3, $5, $6); }
-	|	MAKE reference_list identifier MOVE direction value_expression '.'			{ $$ = new INode(AST.Type.QUEUE_MOVE, $2, $3, $5, $6); }
+	|	MAKE reference_list identifier MOVE direction '.'							{ $$ = new INode(AST.Type.QUEUE_MOVE, $2, $3, $5, null, null); }
+	|	MAKE reference_list identifier MOVE direction now '.'						{ $$ = new INode(AST.Type.QUEUE_MOVE, $2, $3, $5, null, $6); }
+	|	MAKE reference_list identifier MOVE direction value_expression '.'			{ $$ = new INode(AST.Type.QUEUE_MOVE, $2, $3, $5, $6, null); }
 	|	MAKE reference_list identifier MOVE direction value_expression now '.'		{ $$ = new INode(AST.Type.QUEUE_MOVE, $2, $3, $5, $6, $7); }
-	|	MAKE reference_list identifier SAY value_expression '.'						{ $$ = new INode(AST.Type.QUEUE_SAY, $2, $3, $5); }
+	|	MAKE reference_list identifier SAY value_expression '.'						{ $$ = new INode(AST.Type.QUEUE_SAY, $2, $3, $5, null); }
 	|	MAKE reference_list identifier SAY value_expression now '.'					{ $$ = new INode(AST.Type.QUEUE_SAY, $2, $3, $5, $6); }
-	|	MAKE reference_list identifier WAIT value_expression TURNS '.'				{ $$ = new INode(AST.Type.QUEUE_WAIT, $2, $3, $5); }
+	|	MAKE reference_list identifier WAIT value_expression TURNS '.'				{ $$ = new INode(AST.Type.QUEUE_WAIT, $2, $3, $5, null); }
 	|	MAKE reference_list identifier WAIT value_expression TURNS now '.'			{ $$ = new INode(AST.Type.QUEUE_WAIT, $2, $3, $5, $7); }
 	|	STOP reference_list identifier '.'											{ $$ = new INode(AST.Type.QUEUE_STOP, $2, $3); }
 	|	queueing_custom_action_statement											{ $$ = $1; }
 	;
 
 queueing_custom_action_statement:
-		MAKE reference_list identifier identifier '.'								{ $$ = new INode(AST.Type.QUEUE_ACTION, $2, $3, $4); }
-	|	MAKE reference_list identifier identifier now '.'							{ $$ = new INode(AST.Type.QUEUE_ACTION, $2, $3, $4, $5); }
-	|	MAKE reference_list identifier identifier WITH parameter_list '.'			{ $$ = new INode(AST.Type.QUEUE_ACTION, $2, $3, $4, $6); }
+		MAKE reference_list identifier identifier '.'								{ $$ = new INode(AST.Type.QUEUE_ACTION, $2, $3, $4, null, null); }
+	|	MAKE reference_list identifier identifier now '.'							{ $$ = new INode(AST.Type.QUEUE_ACTION, $2, $3, $4, null, $5); }
+	|	MAKE reference_list identifier identifier WITH parameter_list '.'			{ $$ = new INode(AST.Type.QUEUE_ACTION, $2, $3, $4, $6, null); }
 	|	MAKE reference_list identifier identifier WITH parameter_list now '.'		{ $$ = new INode(AST.Type.QUEUE_ACTION, $2, $3, $4, $6, $7); }
 	;
 
@@ -216,7 +206,7 @@ predicate:
 	;
 
 basic_action_predicate:
-		reference_list identifier MOVES												{ $$ = new INode(AST.Type.MOVES_PREDICATE, $1, $2); }
+		reference_list identifier MOVES												{ $$ = new INode(AST.Type.MOVES_PREDICATE, $1, $2, null); }
 	|	reference_list identifier MOVES direction									{ $$ = new INode(AST.Type.MOVES_PREDICATE, $1, $2, $4); }
 	|	reference_list identifier SAYS value_expression								{ $$ = new INode(AST.Type.SAYS_PREDICATE, $1, $2, $4); }
 	|	reference_list identifier WAITS												{ $$ = new INode(AST.Type.WAITS_PREDICATE, $1, $2); }
@@ -239,7 +229,7 @@ relational_expression:
 	;
 
 value_expression:
-		reference_list identifier					{ $$ = new INode(AST.Type.PROPERTY, $1, $2); }
+		reference_list identifier					{ $$ = new INode(AST.Type.RETRIEVE_PROPERTY, $1, $2); }
 	|	literal										{ $$ = $1; }
 	|	NOTHING										{ $$ = new LNode(AST.Type.NOTHING); }
 	|	'(' value_expression ')'					{ $$ = $2; }
