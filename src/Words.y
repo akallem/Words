@@ -141,18 +141,18 @@ class_create_statement:
 	;
 
 class_definition_statement_list:
-		class_definition_statement										{ $$ = new INode(AST.Type.CLASS_STATEMENT_LIST, $1); }
-	|	class_definition_statement class_definition_statement_list		{ $$ = new INode(AST.Type.CLASS_STATEMENT_LIST, $1); ((INode) $$).add(((INode) $2).children); }
+		class_definition_statement													{ $$ = new INode(AST.Type.CLASS_STATEMENT_LIST, $1); }
+	|	class_definition_statement class_definition_statement_list					{ $$ = new INode(AST.Type.CLASS_STATEMENT_LIST, $1); ((INode) $$).add(((INode) $2).children); }
 	;
 
 class_definition_statement:
-		class_property_definition_statement			{ $$ = $1; }
-	|	class_custom_action_definition_statement	{ $$ = $1; }
+		class_property_definition_statement											{ $$ = $1; }
+	|	class_custom_action_definition_statement									{ $$ = $1; }
 	;
 
 class_property_definition_statement:
-		HAS A identifier '.'				{ $$ = new INode(AST.Type.DEFINE_PROPERTY, $3, null); }
-	|	HAS A identifier OF literal '.'		{ $$ = new INode(AST.Type.DEFINE_PROPERTY, $3, $5); }
+		HAS A identifier '.'														{ $$ = new INode(AST.Type.DEFINE_PROPERTY, $3, null); }
+	|	HAS A identifier OF literal '.'												{ $$ = new INode(AST.Type.DEFINE_PROPERTY, $3, $5); }
 	;
 
 class_custom_action_definition_statement:
@@ -161,31 +161,31 @@ class_custom_action_definition_statement:
 	;
 
 object_create_statement:
-		identifier IS A identifier AT position '.'							{ $$ = new INode(AST.Type.CREATE_OBJ, $1, $4, null, $6); }
-	|	identifier IS A identifier WITH parameter_list AT position '.'		{ $$ = new INode(AST.Type.CREATE_OBJ, $1, $4, $6, $8); }
+		identifier IS A identifier AT position '.'									{ $$ = new INode(AST.Type.CREATE_OBJ, $1, $4, null, $6); }
+	|	identifier IS A identifier WITH parameter_list AT position '.'				{ $$ = new INode(AST.Type.CREATE_OBJ, $1, $4, $6, $8); }
 	;
 
 object_destroy_statement:
-		REMOVE reference_list identifier '.'		{ $$ = new INode(AST.Type.REMOVE, $2, $3); }
+		REMOVE reference_list identifier '.'										{ $$ = new INode(AST.Type.REMOVE, $2, $3); }
 	;
 
 property_assign_statement:
-		identifier IS value_expression '.'								{ $$ = new INode(AST.Type.ASSIGN, new INode(AST.Type.REFERENCE_LIST), $1, $3); }
-	|	reference reference_list identifier IS value_expression '.'		{ $$ = new INode(AST.Type.ASSIGN, (new INode(AST.Type.REFERENCE_LIST, $1)).add(((INode) $2).children), $3, $5); }
+		identifier IS value_expression '.'											{ $$ = new INode(AST.Type.ASSIGN, new INode(AST.Type.REFERENCE_LIST), $1, $3); }
+	|	reference reference_list identifier IS value_expression '.'					{ $$ = new INode(AST.Type.ASSIGN, (new INode(AST.Type.REFERENCE_LIST, $1)).add(((INode) $2).children), $3, $5); }
 	;
 
 iteration_statement:
-		REPEAT value_expression TIMES '{' statement_list '}'	{ $$ = new INode(AST.Type.REPEAT, $2, $5); }
-	|	WHILE boolean_predicate '{' statement_list '}'			{ $$ = new INode(AST.Type.WHILE, $2, $4); }
+		REPEAT value_expression TIMES '{' statement_list '}'						{ $$ = new INode(AST.Type.REPEAT, $2, $5); }
+	|	WHILE boolean_predicate '{' statement_list '}'								{ $$ = new INode(AST.Type.WHILE, $2, $4); }
 	;
 
 conditional_statement:
-		IF boolean_predicate THEN '{' statement_list '}'		{ $$ = new INode(AST.Type.IF, $2, $5); }
+		IF boolean_predicate THEN '{' statement_list '}'							{ $$ = new INode(AST.Type.IF, $2, $5); }
 	;
 
 listener_statement:
-		WHENEVER predicate '{' statement_list '}'					{ $$ = new INode(AST.Type.LISTENER_PERM, $2, $4); }
-	|	AS LONG AS predicate '{' statement_list '}'					{ $$ = new INode(AST.Type.LISTENER_TEMP, $4, $6); }
+		WHENEVER predicate '{' statement_list '}'									{ $$ = new INode(AST.Type.LISTENER_PERM, $2, $4); }
+	|	AS LONG AS predicate '{' statement_list '}'									{ $$ = new INode(AST.Type.LISTENER_TEMP, $4, $6); }
 	;
 
 queueing_statement:
@@ -211,15 +211,15 @@ queueing_custom_action_statement:
 	;
 
 predicate:
-		basic_action_predicate		{ $$ = $1; }
-	|	boolean_predicate			{ $$ = $1; }
+		basic_action_predicate														{ $$ = $1; }
+	|	boolean_predicate															{ $$ = $1; }
 	;
 
 basic_action_predicate:
-		reference_list identifier MOVES						{ $$ = new INode(AST.Type.MOVES_PREDICATE, $1, $2); }
-	|	reference_list identifier MOVES direction			{ $$ = new INode(AST.Type.MOVES_PREDICATE, $1, $2, $4); }
-	|	reference_list identifier SAYS value_expression		{ $$ = new INode(AST.Type.SAYS_PREDICATE, $1, $2, $4); }
-	|	reference_list identifier WAITS						{ $$ = new INode(AST.Type.WAITS_PREDICATE, $1, $2); }
+		reference_list identifier MOVES												{ $$ = new INode(AST.Type.MOVES_PREDICATE, $1, $2); }
+	|	reference_list identifier MOVES direction									{ $$ = new INode(AST.Type.MOVES_PREDICATE, $1, $2, $4); }
+	|	reference_list identifier SAYS value_expression								{ $$ = new INode(AST.Type.SAYS_PREDICATE, $1, $2, $4); }
+	|	reference_list identifier WAITS												{ $$ = new INode(AST.Type.WAITS_PREDICATE, $1, $2); }
 	;
 
 boolean_predicate:
@@ -252,61 +252,61 @@ value_expression:
 	;
 
 reference_list:
-											{ $$ = new INode(AST.Type.REFERENCE_LIST); }
-	|	reference reference_list			{ $$ = new INode(AST.Type.REFERENCE_LIST, $1); ((INode) $$).add(((INode) $2).children); }
+													{ $$ = new INode(AST.Type.REFERENCE_LIST); }
+	|	reference reference_list					{ $$ = new INode(AST.Type.REFERENCE_LIST, $1); ((INode) $$).add(((INode) $2).children); }
 	;
 
 identifier_list:
-		identifier								{ $$ = new INode(AST.Type.IDENTIFIER_LIST, $1); }
-	|	identifier ',' identifier_list			{ $$ = new INode(AST.Type.IDENTIFIER_LIST, $1); ((INode) $$).add(((INode) $3).children); }
+		identifier									{ $$ = new INode(AST.Type.IDENTIFIER_LIST, $1); }
+	|	identifier ',' identifier_list				{ $$ = new INode(AST.Type.IDENTIFIER_LIST, $1); ((INode) $$).add(((INode) $3).children); }
 	;
 
 parameter_list:
-		parameter								{ $$ = new INode(AST.Type.PARAMETER_LIST, $1); }
-	|	parameter ',' parameter_list			{ $$ = new INode(AST.Type.PARAMETER_LIST, $1); ((INode) $$).add(((INode) $3).children); }
+		parameter									{ $$ = new INode(AST.Type.PARAMETER_LIST, $1); }
+	|	parameter ',' parameter_list				{ $$ = new INode(AST.Type.PARAMETER_LIST, $1); ((INode) $$).add(((INode) $3).children); }
 	;
 
 assignment_list:
-		assignment								{ $$ = new INode(AST.Type.QUEUE_ASSIGNMENT_LIST, $1); }
-	|	assignment ',' assignment_list			{ $$ = new INode(AST.Type.QUEUE_ASSIGNMENT_LIST, $1); ((INode) $$).add(((INode) $3).children); }
+		assignment									{ $$ = new INode(AST.Type.QUEUE_ASSIGNMENT_LIST, $1); }
+	|	assignment ',' assignment_list				{ $$ = new INode(AST.Type.QUEUE_ASSIGNMENT_LIST, $1); ((INode) $$).add(((INode) $3).children); }
 	;
 
 
 reference:
-		REFERENCE	{ $$ = new LNode(AST.Type.REFERENCE, $1); }
+		REFERENCE									{ $$ = new LNode(AST.Type.REFERENCE, $1); }
 	;
 
 identifier:
-		IDENTIFIER	{ $$ = new LNode(AST.Type.IDENTIFIER, $1); }
+		IDENTIFIER									{ $$ = new LNode(AST.Type.IDENTIFIER, $1); }
 	;
 
 parameter:
-		identifier value_expression				{ $$ = new INode(AST.Type.PARAMETER, $1, $2); }
+		identifier value_expression					{ $$ = new INode(AST.Type.PARAMETER, $1, $2); }
 	;
 
 assignment:
-		identifier BE value_expression			{ $$ = new INode(AST.Type.QUEUE_ASSIGNMENT, $1, $3); }
+		identifier BE value_expression				{ $$ = new INode(AST.Type.QUEUE_ASSIGNMENT, $1, $3); }
 	;
 
 direction:
-		ANYWHERE		{ $$ = new LNode(AST.Type.DIRECTION, Direction.Type.ANYWHERE); }
-	|	DOWN			{ $$ = new LNode(AST.Type.DIRECTION, Direction.Type.DOWN); }
-	|	LEFT			{ $$ = new LNode(AST.Type.DIRECTION, Direction.Type.LEFT); }
-	|	RIGHT			{ $$ = new LNode(AST.Type.DIRECTION, Direction.Type.RIGHT); }
-	|	UP				{ $$ = new LNode(AST.Type.DIRECTION, Direction.Type.UP); }
+		ANYWHERE									{ $$ = new LNode(AST.Type.DIRECTION, Direction.Type.ANYWHERE); }
+	|	DOWN										{ $$ = new LNode(AST.Type.DIRECTION, Direction.Type.DOWN); }
+	|	LEFT										{ $$ = new LNode(AST.Type.DIRECTION, Direction.Type.LEFT); }
+	|	RIGHT										{ $$ = new LNode(AST.Type.DIRECTION, Direction.Type.RIGHT); }
+	|	UP											{ $$ = new LNode(AST.Type.DIRECTION, Direction.Type.UP); }
 	;
 
 now:
-		NOW				{ $$ = new LNode(AST.Type.NOW); }
+		NOW											{ $$ = new LNode(AST.Type.NOW); }
 	;
 
 position:
-		value_expression ',' value_expression	{ $$ = new INode(AST.Type.POSITION, $1, $3); }
+		value_expression ',' value_expression		{ $$ = new INode(AST.Type.POSITION, $1, $3); }
 	;
 
 literal:
-		NUM			{ $$ = new LNode(AST.Type.NUM, $1); }
-	|	STRING		{ $$ = new LNode(AST.Type.STRING, $1); }
+		NUM											{ $$ = new LNode(AST.Type.NUM, $1); }
+	|	STRING										{ $$ = new LNode(AST.Type.STRING, $1); }
 	;
 
 
