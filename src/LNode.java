@@ -24,7 +24,7 @@ public class LNode extends AST {
 		super(type);
 		
 		if (type == Type.STRING)
-			this.string = s;
+			this.string = s.replace("\"", "");
 		else if (type == Type.IDENTIFIER)
 			this.identifier = s;
 	}
