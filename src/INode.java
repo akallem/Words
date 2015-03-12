@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 
+/**
+ * An abstract syntax tree internal node.
+ */
 public class INode extends AST {
 	public ArrayList<AST> children;
 	
@@ -15,6 +18,12 @@ public class INode extends AST {
 				this.children.add((AST) children[i]);
 	}
 	
+	/**
+	 * Appends a given list of nodes to this node's list of children. 
+	 * 
+	 * @param nodes the list of nodes to be added
+	 * @return this node
+	 */
 	public INode add(ArrayList<AST> nodes) {
 		for (AST node : nodes)
 			this.children.add(node);
@@ -24,12 +33,12 @@ public class INode extends AST {
 	
 	private void indent(int level) {
 		for (int i = 0; i < level; i++)
-			System.out.printf("  ");		
+			System.err.printf("  ");		
 	}
 	
 	public void dump(int level) {
 		indent(level);
-		System.out.println(this.type.toString());
+		System.err.println(this.type.toString());
 		
 		if (children.size() > 0) {
 			for (AST child : children) {
@@ -39,7 +48,7 @@ public class INode extends AST {
 			}
 		} else {
 			indent(level + 1);
-			System.out.println("  empty");
+			System.err.println("  empty");
 		}		
 	}
 	

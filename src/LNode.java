@@ -1,3 +1,6 @@
+/**
+ * An abstract syntax tree leaf node.
+ */
 public class LNode extends AST {
 	public boolean b;
 	public Direction d;
@@ -45,9 +48,9 @@ public class LNode extends AST {
 	
 	public void dump(int level) {
 		for (int i = 0; i < level; i++)
-			System.out.printf("  ");
+			System.err.printf("  ");
 		
-		System.out.println(this.type.toString() + ": " + valueAsString());
+		System.err.println(this.type.toString() + ": " + valueAsString());
 	}
 	
 	@Override

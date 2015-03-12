@@ -1,4 +1,10 @@
+/**
+ * An abstract syntax tree node, which may be either an internal node or leaf node.
+ */
 public abstract class AST {
+	/**
+	 * The type of the node, which determines how the node is evaluated.
+	 */
 	public enum Type { 
 		// Leaf node types
 		DIRECTION,
@@ -73,5 +79,10 @@ public abstract class AST {
 		this.type = nodeType;
 	}
 	
+	/**
+	 * Debugging method to dump this node and all its children, if any, to standard error for inspection.
+	 * 
+	 * @param level the indentation level
+	 */
 	abstract public void dump(int level);
 }

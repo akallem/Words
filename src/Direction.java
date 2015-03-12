@@ -1,5 +1,10 @@
-
+/**
+ * An orthogonal direction, possibly random.
+ */
 public class Direction {
+	/**
+	 * One of the four orthogonal directions or an indication that any direction is permitted.
+	 */
 	public enum Type {
 		ANYWHERE,
 		DOWN,
