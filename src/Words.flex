@@ -54,44 +54,44 @@ LEQ = "<="
 "."		{ return (int) yycharat(0); }
 
 	/* Keywords */
-"A" | "a"			{ return Words.A; }
-"and"				{ return Words.AND; }
-"anywhere"			{ return Words.ANYWHERE; }
-"as"				{ return Words.AS; }
-"at"				{ return Words.AT; }
-"be"				{ return Words.BE; }
-"can"				{ return Words.CAN; }
-"down"				{ return Words.DOWN; }
-"has"				{ return Words.HAS; }
-"If"				{ return Words.IF; }
-"is"				{ return Words.IS; }
-"left"				{ return Words.LEFT; }
-"long"				{ return Words.LONG; }
-"Make"				{ return Words.MAKE; }
-"move"				{ return Words.MOVE; }
-"moves"				{ return Words.MOVES; }
-"means"				{ return Words.MEANS; }
-"not"				{ return Words.NOT; }
-"nothing"			{ return Words.NOTHING; }
-"now"				{ return Words.NOW; }
-"of"				{ return Words.OF; }
-"or"				{ return Words.OR; }
-"Remove"			{ return Words.REMOVE; }
-"Repeat"			{ return Words.REPEAT; }
-"right"				{ return Words.RIGHT; }
-"say"				{ return Words.SAY; }
-"says"				{ return Words.SAYS; }
-"Stop"				{ return Words.STOP; }
-"then"				{ return Words.THEN; }
-"times"				{ return Words.TIMES; }
-"turns"				{ return Words.TURNS; }
-"up"				{ return Words.UP; }
-"wait"				{ return Words.WAIT; }
-"waits"				{ return Words.WAITS; }
-"Whenever"			{ return Words.WHENEVER; }
-"which" | "that"	{ return Words.WHICH; }
-"While"				{ return Words.WHILE; }
-"with"				{ return Words.WITH; }
+"A" | "a" | "An" | "an"			{ return Words.A; }
+"and"							{ return Words.AND; }
+"anywhere"						{ return Words.ANYWHERE; }
+"As" | "as"						{ return Words.AS; }
+"at"							{ return Words.AT; }
+"be"							{ return Words.BE; }
+"can"							{ return Words.CAN; }
+"down"							{ return Words.DOWN; }
+"has"							{ return Words.HAS; }
+"If"							{ return Words.IF; }
+"is"							{ return Words.IS; }
+"left"							{ return Words.LEFT; }
+"long"							{ return Words.LONG; }
+"Make"							{ return Words.MAKE; }
+"move"							{ return Words.MOVE; }
+"moves"							{ return Words.MOVES; }
+"means"							{ return Words.MEANS; }
+"not"							{ return Words.NOT; }
+"nothing"						{ return Words.NOTHING; }
+"now"							{ return Words.NOW; }
+"of"							{ return Words.OF; }
+"or"							{ return Words.OR; }
+"Remove"						{ return Words.REMOVE; }
+"Repeat"						{ return Words.REPEAT; }
+"right"							{ return Words.RIGHT; }
+"say"							{ return Words.SAY; }
+"says"							{ return Words.SAYS; }
+"Stop"							{ return Words.STOP; }
+"then"							{ return Words.THEN; }
+"times"							{ return Words.TIMES; }
+"turns"							{ return Words.TURNS; }
+"up"							{ return Words.UP; }
+"wait"							{ return Words.WAIT; }
+"waits"							{ return Words.WAITS; }
+"Whenever"						{ return Words.WHENEVER; }
+"which" | "that"				{ return Words.WHICH; }
+"While"							{ return Words.WHILE; }
+"with"							{ return Words.WITH; }
 
 	/* Other lexemes */
 {IDENTIFIER} 	{ yyparser.yylval = new WordsVal(yytext()); return Words.IDENTIFIER; }
