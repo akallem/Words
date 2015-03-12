@@ -1,17 +1,17 @@
 public class LNode extends AST {
-	public boolean isNothing;
-	public Direction direction;
+	public boolean b;
+	public Direction d;
 	public double n;
 	public String s;
 	
-	public LNode(Type type, Direction.Type direction) {
+	public LNode(Type type, Direction.Type d) {
 		super(type);
-		this.direction = new Direction(direction);
+		this.d = new Direction(d);
 	}
 	
 	public LNode(Type type) {
 		super(type);
-		this.isNothing = true;
+		this.b = true;
 	}
 	
 	public LNode(Type type, double n) {
@@ -32,14 +32,12 @@ public class LNode extends AST {
 	
 	private String valueAsString() {
 		if (type == Type.DIRECTION)
-			return direction.toString();
+			return d.toString();
+		else if (type == Type.NOTHING || type == Type.NOW)
+			return "true";
 		else if (type == Type.NUM)
 			return Double.toString(n);
-		else if (type == Type.STRING)
-			return s;
-		else if (type == Type.IDENTIFIER)
-			return s;
-		else if (type == Type.REFERENCE)
+		else if (type == Type.STRING || type == Type.IDENTIFIER || type == Type.REFERENCE)
 			return s;
 		
 		return "";
