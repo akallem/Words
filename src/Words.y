@@ -91,6 +91,7 @@
 %type <obj> assignment_list
 %type <obj> reference_list
 %type <obj> direction
+%type <obj> now
 %type <obj> position
 %type <obj> identifier_list
 %type <obj> parameter_list
@@ -189,24 +190,24 @@ listener_statement:
 
 queueing_statement:
 		MAKE reference_list assignment_list '.'										{ $$ = new INode(AST.Type.QUEUE_ASSIGN, $2, $3); }
-	|	MAKE reference_list assignment_list NOW '.'									{ $$ = new INode(AST.Type.QUEUE_ASSIGN_NOW, $2, $3); }
+	|	MAKE reference_list assignment_list now '.'									{ $$ = new INode(AST.Type.QUEUE_ASSIGN, $2, $3, $4); }
 	|	MAKE reference_list identifier MOVE direction '.'							{ $$ = new INode(AST.Type.QUEUE_MOVE, $2, $3, $5); }
-	|	MAKE reference_list identifier MOVE direction NOW '.'						{ $$ = new INode(AST.Type.QUEUE_MOVE_NOW, $2, $3, $5); }
-	|	MAKE reference_list identifier MOVE direction value_expression '.'			{ $$ = new INode(AST.Type.QUEUE_ASSIGN, $2, $3, $5, $6); }
-	|	MAKE reference_list identifier MOVE direction value_expression NOW '.'		{ $$ = new INode(AST.Type.QUEUE_MOVE_NOW, $2, $3, $5, $6); }
+	|	MAKE reference_list identifier MOVE direction now '.'						{ $$ = new INode(AST.Type.QUEUE_MOVE, $2, $3, $5, $6); }
+	|	MAKE reference_list identifier MOVE direction value_expression '.'			{ $$ = new INode(AST.Type.QUEUE_MOVE, $2, $3, $5, $6); }
+	|	MAKE reference_list identifier MOVE direction value_expression now '.'		{ $$ = new INode(AST.Type.QUEUE_MOVE, $2, $3, $5, $6, $7); }
 	|	MAKE reference_list identifier SAY value_expression '.'						{ $$ = new INode(AST.Type.QUEUE_SAY, $2, $3, $5); }
-	|	MAKE reference_list identifier SAY value_expression NOW '.'					{ $$ = new INode(AST.Type.QUEUE_SAY_NOW, $2, $3, $5); }
+	|	MAKE reference_list identifier SAY value_expression now '.'					{ $$ = new INode(AST.Type.QUEUE_SAY, $2, $3, $5, $6); }
 	|	MAKE reference_list identifier WAIT value_expression TURNS '.'				{ $$ = new INode(AST.Type.QUEUE_WAIT, $2, $3, $5); }
-	|	MAKE reference_list identifier WAIT value_expression TURNS NOW '.'			{ $$ = new INode(AST.Type.QUEUE_WAIT_NOW, $2, $3, $5); }
+	|	MAKE reference_list identifier WAIT value_expression TURNS now '.'			{ $$ = new INode(AST.Type.QUEUE_WAIT, $2, $3, $5, $7); }
 	|	STOP reference_list identifier '.'											{ $$ = new INode(AST.Type.QUEUE_STOP, $2, $3); }
 	|	queueing_custom_action_statement											{ $$ = $1; }
 	;
 
 queueing_custom_action_statement:
 		MAKE reference_list identifier identifier '.'								{ $$ = new INode(AST.Type.QUEUE_ACTION, $2, $3, $4); }
-	|	MAKE reference_list identifier identifier NOW '.'							{ $$ = new INode(AST.Type.QUEUE_ACTION_NOW, $2, $3, $4); }
+	|	MAKE reference_list identifier identifier now '.'							{ $$ = new INode(AST.Type.QUEUE_ACTION, $2, $3, $4, $5); }
 	|	MAKE reference_list identifier identifier WITH parameter_list '.'			{ $$ = new INode(AST.Type.QUEUE_ACTION, $2, $3, $4, $6); }
-	|	MAKE reference_list identifier identifier WITH parameter_list NOW '.'		{ $$ = new INode(AST.Type.QUEUE_ACTION_NOW, $2, $3, $4, $6); }
+	|	MAKE reference_list identifier identifier WITH parameter_list now '.'		{ $$ = new INode(AST.Type.QUEUE_ACTION, $2, $3, $4, $6, $7); }
 	;
 
 predicate:
@@ -293,6 +294,10 @@ direction:
 	|	LEFT			{ $$ = new LNode(AST.Type.DIRECTION, Direction.Type.LEFT); }
 	|	RIGHT			{ $$ = new LNode(AST.Type.DIRECTION, Direction.Type.RIGHT); }
 	|	UP				{ $$ = new LNode(AST.Type.DIRECTION, Direction.Type.UP); }
+	;
+
+now:
+		NOW				{ $$ = new LNode(AST.Type.NOW); }
 	;
 
 position:

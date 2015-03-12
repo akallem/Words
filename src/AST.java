@@ -3,6 +3,7 @@ public abstract class AST {
 		// Leaf node types
 		DIRECTION,
 		NOTHING,
+		NOW,
 		NUM,
 		IDENTIFIER,
 		REFERENCE,
@@ -27,16 +28,11 @@ public abstract class AST {
 		LISTENER_TEMP,
 		
 		QUEUE_MOVE,
-		QUEUE_MOVE_NOW,
 		QUEUE_SAY,
-		QUEUE_SAY_NOW,
 		QUEUE_WAIT,
-		QUEUE_WAIT_NOW,
 		QUEUE_STOP,
 		QUEUE_ASSIGN,
-		QUEUE_ASSIGN_NOW,
 		QUEUE_ACTION,
-		QUEUE_ACTION_NOW,
 		
 		MOVES_PREDICATE,
 		SAYS_PREDICATE,
