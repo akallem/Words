@@ -5,6 +5,7 @@ public abstract class AST {
 		NOTHING,
 		NUM,
 		IDENTIFIER,
+		REFERENCE,
 		STRING,
 		
 		// Internal node types
@@ -58,9 +59,10 @@ public abstract class AST {
 		DIVIDE,
 		EXPONENTIATE,
 		
+		REFERENCE_LIST,
 		IDENTIFIER_LIST,
 		POSITION,
-		REFERENCE,
+		PROPERTY,
 		PARAMETER,
 		PARAMETER_LIST
 	};

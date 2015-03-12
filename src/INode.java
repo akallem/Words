@@ -15,20 +15,32 @@ public class INode extends AST {
 				this.children.add((AST) children[i]);
 	}
 	
-	public void add(ArrayList<AST> nodes) {
+	public INode add(ArrayList<AST> nodes) {
 		for (AST node : nodes)
 			this.children.add(node);
+		
+		return this;
+	}
+	
+	private void indent(int level) {
+		for (int i = 0; i < level; i++)
+			System.out.printf("  ");		
 	}
 	
 	public void dump(int level) {
-		for (int i = 0; i < level; i++)
-			System.out.printf("  ");
-		
+		indent(level);
 		System.out.println(this.type.toString());
 		
-		for (AST child : children)
-			if (child != null)
-				child.dump(level + 1);
+		if (children.size() > 0) {
+			for (AST child : children) {
+				if (child != null) {
+					child.dump(level + 1);
+				}
+			}
+		} else {
+			indent(level + 1);
+			System.out.println("  empty");
+		}		
 	}
 	
 	@Override

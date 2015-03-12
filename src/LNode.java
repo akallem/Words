@@ -1,9 +1,8 @@
 public class LNode extends AST {
 	public boolean isNothing;
 	public Direction direction;
-	public double num;
-	public String string;
-	public String identifier;
+	public double n;
+	public String s;
 	
 	public LNode(Type type, Direction.Type direction) {
 		super(type);
@@ -15,29 +14,33 @@ public class LNode extends AST {
 		this.isNothing = true;
 	}
 	
-	public LNode(Type type, double num) {
+	public LNode(Type type, double n) {
 		super(type);
-		this.num = num;
+		this.n = n;
 	}
 	
 	public LNode(Type type, String s) {
 		super(type);
 		
 		if (type == Type.STRING)
-			this.string = s.replace("\"", "");
+			this.s = s.replace("\"", "");
 		else if (type == Type.IDENTIFIER)
-			this.identifier = s;
+			this.s = s;
+		else if (type == Type.REFERENCE)
+			this.s = s.replace("'s", "");
 	}
 	
 	private String valueAsString() {
 		if (type == Type.DIRECTION)
 			return direction.toString();
 		else if (type == Type.NUM)
-			return Double.toString(num);
+			return Double.toString(n);
 		else if (type == Type.STRING)
-			return string;
+			return s;
 		else if (type == Type.IDENTIFIER)
-			return identifier;
+			return s;
+		else if (type == Type.REFERENCE)
+			return s;
 		
 		return "";
 	}

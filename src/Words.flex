@@ -25,11 +25,11 @@
 
 	/* Lexemes */
 IDENTIFIER = [a-zA-Z_][a-zA-Z0-9_]*
+REFERENCE = [a-zA-Z_][a-zA-Z0-9_]*'s
 NUM = [0-9]+ ("." [0-9]+)?
 STRING = \"[^\"\n]*\"
 
 	/* Multi-character Operators */
-DEREF = "'s"
 GEQ = ">="
 LEQ = "<="
 
@@ -95,11 +95,11 @@ LEQ = "<="
 
 	/* Other lexemes */
 {IDENTIFIER} 	{ yyparser.yylval = new WordsVal(yytext()); return Words.IDENTIFIER; }
+{REFERENCE} 	{ yyparser.yylval = new WordsVal(yytext()); return Words.REFERENCE; }
 {NUM}			{ yyparser.yylval = new WordsVal(Double.parseDouble(yytext())); return Words.NUM; }
 {STRING}		{ yyparser.yylval = new WordsVal(yytext());	return Words.STRING; }
 
 	/* Multi-character operators */
-{DEREF}			{ return Words.DEREF; }
 {GEQ}			{ return Words.GEQ; }
 {LEQ}			{ return Words.LEQ; }
 
