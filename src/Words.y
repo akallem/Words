@@ -160,8 +160,7 @@ object_destroy_statement:
 	;
 
 property_assign_statement:
-		identifier IS value_expression '.'											{ $$ = new INode(AST.Type.ASSIGN, new INode(AST.Type.REFERENCE_LIST), null, $1, $3); }
-	|	reference reference_list identifier IS value_expression '.'					{ $$ = new INode(AST.Type.ASSIGN, (new INode(AST.Type.REFERENCE_LIST, $1)).add(((INode) $2).children), $3, $5); }
+		reference reference_list identifier IS value_expression '.'					{ $$ = new INode(AST.Type.ASSIGN, (new INode(AST.Type.REFERENCE_LIST, $1)).add(((INode) $2).children), $3, $5); }
 	;
 
 iteration_statement:
