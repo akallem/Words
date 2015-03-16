@@ -95,6 +95,10 @@ LEQ = "<="
 
 	/* Other lexemes */
 {IDENTIFIER} 	{ yyparser.yylval = new WordsVal(yytext()); return Words.IDENTIFIER; }
+"her" 			{ yyparser.yylval = new WordsVal(yytext()); return Words.REFERENCE; }
+"his" 			{ yyparser.yylval = new WordsVal(yytext()); return Words.REFERENCE; }
+"its" 			{ yyparser.yylval = new WordsVal(yytext()); return Words.REFERENCE; }
+"their" 		{ yyparser.yylval = new WordsVal(yytext()); return Words.REFERENCE; }
 {REFERENCE} 	{ yyparser.yylval = new WordsVal(yytext()); return Words.REFERENCE; }
 {NUM}			{ yyparser.yylval = new WordsVal(Double.parseDouble(yytext())); return Words.NUM; }
 {STRING}		{ yyparser.yylval = new WordsVal(yytext());	return Words.STRING; }
