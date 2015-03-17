@@ -346,5 +346,8 @@ public static void main(String args[]) throws IOException {
 
 	System.out.println();
 	System.out.println();
-	root.dump(0);
+	if (root != null)
+		root.dump(0);
+	else
+		System.out.println("Failed to generate AST");
 }
