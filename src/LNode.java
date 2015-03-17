@@ -25,12 +25,26 @@ public class LNode extends AST {
 	public LNode(Type type, String s) {
 		super(type);
 		
-		if (type == Type.STRING)
-			this.s = s.replace("\"", "");
-		else if (type == Type.IDENTIFIER)
+		if (type == Type.STRING) {
+			// Remove leading and trailing " characters
+			// Do not do a full string replace, since some " characters may be escaped
+			if (s.startsWith("\""))
+					s = s.substring(1, s.length());
+			
+			if (s.endsWith("\""))
+				s = s.substring(0, s.length() - 1);
+			
+			// Replace supported escape sequences
+			s = s.replace("\\\n", "\n");
+			s = s.replace("\\\\", "\\");
+			s = s.replace("\\\"", "\"");
+			
 			this.s = s;
-		else if (type == Type.REFERENCE)
+		} else if (type == Type.IDENTIFIER) {
+			this.s = s;
+		} else if (type == Type.REFERENCE) {
 			this.s = s.replace("'s", "");
+		}
 	}
 	
 	private String valueAsString() {
