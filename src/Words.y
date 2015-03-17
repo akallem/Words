@@ -122,7 +122,7 @@ statement_list:
 statement:
 		immediate_statement			{ $$ = $1; }
 	|	queueing_statement			{ $$ = $1; }
-	|	error { System.err.println("Syntax error on line " + lexer.lineNumber + " near '" + lexer.yytext() + "'"); } '.' { yyerrflag = 0; }
+	|	error { hasError = true; yyerror("Line " + lexer.lineNumber + " near '" + lexer.yytext() + "'"); } '.' { yyerrflag = 0; }
 
 immediate_statement:
 		class_create_statement		{ $$ = $1; }
@@ -318,7 +318,12 @@ private int yylex() {
 
 
 public void yyerror(String error) {
-	System.err.println("Error: " + error);
+	if (!hideErrors)
+		System.err.println("Error: " + error);
+}
+
+public int getDepth() {
+	return lexer.depth;
 }
 
 public Words(Reader r) {
@@ -326,8 +331,10 @@ public Words(Reader r) {
 }
 
 
-static Game game;
-static AST root;
+public static Game game;
+public AST root;
+public boolean hideErrors = false;
+public boolean hasError = false;
 
 public static void main(String args[]) throws IOException {
 	System.out.println("Welcome to Words!");
@@ -336,15 +343,45 @@ public static void main(String args[]) throws IOException {
 	game = new Game(ui);
 	game.start();
 
-	Words yyparser;
+	// Read and run program argument, if any
 
-	// interactive mode
-	System.out.println("[Quit with CTRL_D]");
-	yyparser = new Words(new InputStreamReader(System.in));
-	//yyparser.yydebug = true;
-	yyparser.yyparse();
 
-	System.out.println();
-	System.out.println();
-	root.dump(0);
+	// Simple REPL interface
+	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	while (true) {
+		String fragment = "";
+		int depth = 0;
+
+		// Keep reading lines until either the depth is 0 or we have a valid fragment
+		while (true) {
+			// Prompt user
+			if (depth > 0)
+				System.out.printf("... ");
+			else
+				System.out.printf("> ");
+
+			// Read next line
+			fragment = fragment + br.readLine();
+
+			// Attempt to parse the fragment
+			Words tester = new Words(new StringReader(fragment));
+			tester.hideErrors = true;
+			tester.yyparse();
+
+			depth = tester.getDepth();
+
+			// If the depth is greater than 0, we have to keep reading lines to get a fragment that is at least potentially complete
+			if (depth == 0)
+				break;
+		}
+
+		Words parser = new Words(new StringReader(fragment));
+		parser.yyparse();
+
+		// Temporary: dump AST to console.  (TODO: Enqueue AST for evaluation by game thread.)
+		// In REPL interface, we might want to evaluate only ASTs that had no syntax errors
+		System.out.println();
+		parser.root.dump(0);
+		System.out.println();
+	}
 }
