@@ -381,7 +381,10 @@ public static void main(String args[]) throws IOException {
 		// Temporary: dump AST to console.  (TODO: Enqueue AST for evaluation by game thread.)
 		// In REPL interface, we might want to evaluate only ASTs that had no syntax errors
 		System.out.println();
-		parser.root.dump(0);
 		System.out.println();
+		if (parser.root != null)
+			parser.root.dump(0);
+		else
+			System.out.println("Failed to generate AST");
 	}
 }
