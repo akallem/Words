@@ -37,6 +37,9 @@ LEQ = "<="
 %%
 
 
+	/* Comments (no action) */
+"//".*			{ }
+
 	/* Single-character Operators and Separators */
 "+" | 
 "-" | 
