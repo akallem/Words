@@ -371,7 +371,6 @@ public static void main(String args[]) throws IOException {
 		String fragment = "";
 		int depth = 0;
 
-		// Keep reading lines until either the depth is 0 or we have a valid fragment
 		while (true) {
 			// Prompt user
 			if (depth > 0)
@@ -379,8 +378,13 @@ public static void main(String args[]) throws IOException {
 			else
 				System.out.printf("> ");
 
-			// Read next line
-			fragment = fragment + br.readLine();
+			// Read next line and exit on EOF
+			String line = br.readLine();
+			
+			if (line == null)
+				System.exit(0);
+
+			fragment = fragment + line;
 
 			// Attempt to parse the fragment
 			Words tester = new Words(new StringReader(fragment));
