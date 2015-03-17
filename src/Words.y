@@ -343,8 +343,27 @@ public static void main(String args[]) throws IOException {
 	game = new Game(ui);
 	game.start();
 
-	// Read and run program argument, if any
+	// Read and parse program argument, if any
+	if (args.length > 0) {
+		String filename = args[0];
 
+		try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+			Words parser = new Words(br);
+			parser.yyparse();
+
+			// Temporary: dump AST to console.  (TODO: Enqueue AST for evaluation by frame loop thread.)
+			System.err.println();
+			System.err.println();
+			if (parser.root != null)
+				parser.root.dump(0);
+			else
+				System.err.println("Failed to generate AST");
+
+			br.close();
+		} catch (IOException e) {
+			System.err.println("Unable to read file " + filename);
+		}
+	}
 
 	// Simple REPL interface
 	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -378,13 +397,13 @@ public static void main(String args[]) throws IOException {
 		Words parser = new Words(new StringReader(fragment));
 		parser.yyparse();
 
-		// Temporary: dump AST to console.  (TODO: Enqueue AST for evaluation by game thread.)
+		// Temporary: dump AST to console.  (TODO: Enqueue AST for evaluation by frame loop thread.)
 		// In REPL interface, we might want to evaluate only ASTs that had no syntax errors
-		System.out.println();
-		System.out.println();
+		System.err.println();
+		System.err.println();
 		if (parser.root != null)
 			parser.root.dump(0);
 		else
-			System.out.println("Failed to generate AST");
+			System.err.println("Failed to generate AST");
 	}
 }
