@@ -16,6 +16,7 @@
 %{
   private Words yyparser;
   public int lineNumber = 1;
+  public int depth = 0;
 
   public Yylex(java.io.Reader r, Words yyparser) {
     this(r);
@@ -51,10 +52,11 @@ LEQ = "<="
 ">" | 
 "(" | 
 ")" |
-"{" |
-"}"	|
 ","	|
 "."		{ return (int) yycharat(0); }
+
+"{"		{ depth++; return (int) yycharat(0); }
+"}"		{ depth--; return (int) yycharat(0); }
 
 	/* Keywords */
 "A" | "a" | "An" | "an"			{ return Words.A; }

@@ -122,7 +122,7 @@ statement_list:
 statement:
 		immediate_statement			{ $$ = $1; }
 	|	queueing_statement			{ $$ = $1; }
-	|	error { System.err.println("Syntax error on line " + lexer.lineNumber + " near '" + lexer.yytext() + "'"); } '.' { yyerrflag = 0; }
+	|	error { hasError = true; yyerror("Line " + lexer.lineNumber + " near '" + lexer.yytext() + "'"); } '.' { yyerrflag = 0; }
 
 immediate_statement:
 		class_create_statement		{ $$ = $1; }
@@ -318,7 +318,12 @@ private int yylex() {
 
 
 public void yyerror(String error) {
-	System.err.println("Error: " + error);
+	if (!hideErrors)
+		System.err.println("Error: " + error);
+}
+
+public int getDepth() {
+	return lexer.depth;
 }
 
 public Words(Reader r) {
@@ -326,8 +331,10 @@ public Words(Reader r) {
 }
 
 
-static Game game;
-static AST root;
+public static Game game;
+public AST root;
+public boolean hideErrors = false;
+public boolean hasError = false;
 
 public static void main(String args[]) throws IOException {
 	System.out.println("Welcome to Words!");
@@ -336,18 +343,71 @@ public static void main(String args[]) throws IOException {
 	game = new Game(ui);
 	game.start();
 
-	Words yyparser;
+	// Read and parse program argument, if any
+	if (args.length > 0) {
+		String filename = args[0];
 
-	// interactive mode
-	System.out.println("[Quit with CTRL_D]");
-	yyparser = new Words(new InputStreamReader(System.in));
-	//yyparser.yydebug = true;
-	yyparser.yyparse();
+		try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+			Words parser = new Words(br);
+			parser.yyparse();
 
-	System.out.println();
-	System.out.println();
-	if (root != null)
-		root.dump(0);
-	else
-		System.out.println("Failed to generate AST");
+			// Temporary: dump AST to console.  (TODO: Enqueue AST for evaluation by frame loop thread.)
+			System.err.println();
+			System.err.println();
+			if (parser.root != null)
+				parser.root.dump(0);
+			else
+				System.err.println("Failed to generate AST");
+
+			br.close();
+		} catch (IOException e) {
+			System.err.println("Unable to read file " + filename);
+		}
+	}
+
+	// Simple REPL interface
+	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	while (true) {
+		String fragment = "";
+		int depth = 0;
+
+		while (true) {
+			// Prompt user
+			if (depth > 0)
+				System.out.printf("... ");
+			else
+				System.out.printf("> ");
+
+			// Read next line and exit on EOF
+			String line = br.readLine();
+			
+			if (line == null)
+				System.exit(0);
+
+			fragment = fragment + line;
+
+			// Attempt to parse the fragment
+			Words tester = new Words(new StringReader(fragment));
+			tester.hideErrors = true;
+			tester.yyparse();
+
+			depth = tester.getDepth();
+
+			// If the depth is greater than 0, we have to keep reading lines to get a fragment that is at least potentially complete
+			if (depth == 0)
+				break;
+		}
+
+		Words parser = new Words(new StringReader(fragment));
+		parser.yyparse();
+
+		// Temporary: dump AST to console.  (TODO: Enqueue AST for evaluation by frame loop thread.)
+		// In REPL interface, we might want to evaluate only ASTs that had no syntax errors
+		System.err.println();
+		System.err.println();
+		if (parser.root != null)
+			parser.root.dump(0);
+		else
+			System.err.println("Failed to generate AST");
+	}
 }
