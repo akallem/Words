@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.lang.StringBuilder;
 
 /**
  * An abstract syntax tree internal node.
@@ -54,15 +55,16 @@ public class INode extends AST {
 	
 	@Override
 	public String toString() {
-		String s;
-		String c = "";
-			
+		StringBuilder s = new StringBuilder();
+		
+		s.append("[" + type.toString() + ": ");
+		
 		for (AST child : children)
 			if (child != null)
-				c = c +  child.toString();
+				s.append(child.toString());
 		
-		s = "[" + type.toString() + ": " + c + "]";
-		
-		return s;
+		s.append("]");
+
+		return s.toString();
 	}
 }
