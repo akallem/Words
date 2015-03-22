@@ -1,13 +1,3 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Copyright (C) 2000 Gerwin Klein <lsf@jflex.de>                          *
- * All rights reserved.                                                    *
- *                                                                         *
- * Thanks to Larry Bell and Bob Jamison for suggestions and comments.      *
- *                                                                         *
- * License: BSD                                                            *
- *                                                                         *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 %%
 
 
