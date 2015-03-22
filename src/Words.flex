@@ -1,19 +1,12 @@
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Copyright (C) 2000 Gerwin Klein <lsf@jflex.de>                          *
- * All rights reserved.                                                    *
- *                                                                         *
- * Thanks to Larry Bell and Bob Jamison for suggestions and comments.      *
- *                                                                         *
- * License: BSD                                                            *
- *                                                                         *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 %%
+
 
 %byaccj
 
 %{
   private Words yyparser;
+  public int lineNumber = 1;
+  public int depth = 0;
 
   public Yylex(java.io.Reader r, Words yyparser) {
     this(r);
@@ -21,48 +14,100 @@
   }
 %}
 
+	/* Lexemes */
+IDENTIFIER = [a-zA-Z_][a-zA-Z0-9_]*
+REFERENCE = [a-zA-Z_][a-zA-Z0-9_]*'s
 NUM = [0-9]+ ("." [0-9]+)?
-NL  = \n | \r | \r\n
-PERIOD = "."
-DEFINITION = "is a "
-FUNCTION = "Make"
-CELL = "at cell"
-STR_LIT = \"*?\"
-VARIABLE = [a-zA-z]+
-COMMA = ","
+STRING = \"(\\.|[^\"\n])*\"
+
+	/* Multi-character Operators */
+GEQ = ">="
+LEQ = "<="
 
 
 %%
 
-/* operators */
+
+	/* Comments (no action) */
+"//".*			{ }
+
+	/* Single-character Operators and Separators */
 "+" | 
 "-" | 
 "*" | 
 "/" | 
-"^" | 
+"^" |
+"=" |
+"<" |
+">" | 
 "(" | 
-")"    { return (int) yycharat(0); }
+")" |
+","	|
+"."		{ return (int) yycharat(0); }
 
-/* newline */
-{NL}   { return Words.NL; }
-{DEFINITION} { return Words.DEFINITION; }
-{PERIOD} { return Words.PERIOD; }
-{FUNCTION} { return Words.FUNCTION; }
-{CELL} { return Words.CELL; }
-{STR_LIT} { yyparser.yylval = new WordsVal(yytext());
-				return Words.STR_LIT; }
-{VARIABLE} { yyparser.yylval = new WordsVal(yytext());
-				return Words.VARIABLE; }
-{COMMA} {	return Words.COMMA;}
+"{"		{ depth++; return (int) yycharat(0); }
+"}"		{ depth--; return (int) yycharat(0); }
 
-/* float */
-{NUM}  { yyparser.yylval = new WordsVal(Double.parseDouble(yytext()));
-         return Words.NUM; }
+	/* Keywords */
+"A" | "a" | "An" | "an"			{ return Words.A; }
+"and"							{ return Words.AND; }
+"anywhere"						{ return Words.ANYWHERE; }
+"As" | "as"						{ return Words.AS; }
+"at"							{ return Words.AT; }
+"be"							{ return Words.BE; }
+"can"							{ return Words.CAN; }
+"down"							{ return Words.DOWN; }
+"has"							{ return Words.HAS; }
+"If"							{ return Words.IF; }
+"is"							{ return Words.IS; }
+"left"							{ return Words.LEFT; }
+"long"							{ return Words.LONG; }
+"Make"							{ return Words.MAKE; }
+"move"							{ return Words.MOVE; }
+"moves"							{ return Words.MOVES; }
+"means"							{ return Words.MEANS; }
+"not"							{ return Words.NOT; }
+"nothing"						{ return Words.NOTHING; }
+"now"							{ return Words.NOW; }
+"of"							{ return Words.OF; }
+"or"							{ return Words.OR; }
+"Remove"						{ return Words.REMOVE; }
+"Repeat"						{ return Words.REPEAT; }
+"right"							{ return Words.RIGHT; }
+"say"							{ return Words.SAY; }
+"says"							{ return Words.SAYS; }
+"Stop"							{ return Words.STOP; }
+"then"							{ return Words.THEN; }
+"times"							{ return Words.TIMES; }
+"turns"							{ return Words.TURNS; }
+"up"							{ return Words.UP; }
+"wait"							{ return Words.WAIT; }
+"waits"							{ return Words.WAITS; }
+"Whenever"						{ return Words.WHENEVER; }
+"which" | "that"				{ return Words.WHICH; }
+"While"							{ return Words.WHILE; }
+"with"							{ return Words.WITH; }
 
-/* whitespace */
-[ \t]+ { }
+	/* Other lexemes */
+{IDENTIFIER} 	{ yyparser.yylval = new WordsVal(yytext()); return Words.IDENTIFIER; }
+"her" 			{ yyparser.yylval = new WordsVal(yytext()); return Words.REFERENCE; }
+"his" 			{ yyparser.yylval = new WordsVal(yytext()); return Words.REFERENCE; }
+"its" 			{ yyparser.yylval = new WordsVal(yytext()); return Words.REFERENCE; }
+"their" 		{ yyparser.yylval = new WordsVal(yytext()); return Words.REFERENCE; }
+{REFERENCE} 	{ yyparser.yylval = new WordsVal(yytext()); return Words.REFERENCE; }
+{NUM}			{ yyparser.yylval = new WordsVal(Double.parseDouble(yytext())); return Words.NUM; }
+{STRING}		{ yyparser.yylval = new WordsVal(yytext());	return Words.STRING; }
 
-\b     { System.err.println("Sorry, backspace doesn't work"); }
+	/* Multi-character operators */
+{GEQ}			{ return Words.GEQ; }
+{LEQ}			{ return Words.LEQ; }
 
-/* error fallback */
-[^]    { System.err.println("Error: unexpected character '"+yytext()+"'"); return -1; }
+	/* Whitespace (no action except counting line numbers) */
+[ \t\r]+ 		{ }
+\n				{ lineNumber++; }
+
+	/* Backspace (error) */
+\b				{ System.err.println("Sorry, backspace doesn't work"); }
+
+	/* Error fallback */
+[^]				{ System.err.println("Error: unexpected character '" + yytext() + "'"); return -1; }
