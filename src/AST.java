@@ -74,6 +74,8 @@ public abstract class AST {
 		QUEUE_ASSIGN_PROPERTY_LIST,
 		
 		PARAMETER,
+		SUBJECT,
+		ALIAS,
 		QUEUE_ASSIGN_PROPERTY,
 	};
 	

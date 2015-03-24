@@ -84,6 +84,8 @@
 %type <obj> reference
 %type <obj> identifier
 %type <obj> parameter
+%type <obj> subject
+%type <obj> alias
 %type <obj> queue_assign_property
 %type <obj> direction
 %type <obj> now
@@ -202,11 +204,11 @@ predicate:
 	;
 
 basic_action_predicate:
-		reference_list identifier MOVES												{ $$ = new INode(AST.Type.MOVES_PREDICATE, $1, $2, null); }
-	|	reference_list identifier MOVES direction									{ $$ = new INode(AST.Type.MOVES_PREDICATE, $1, $2, $4); }
-	|	reference_list identifier SAYS value_expression								{ $$ = new INode(AST.Type.SAYS_PREDICATE, $1, $2, $4); }
-	|	reference_list identifier WAITS												{ $$ = new INode(AST.Type.WAITS_PREDICATE, $1, $2); }
-	|	reference_list identifier TOUCHES reference_list identifier					{ $$ = new INode(AST.Type.TOUCHES_PREDICATE, $1, $2, $4, $5); }
+		subject alias MOVES															{ $$ = new INode(AST.Type.MOVES_PREDICATE, $1, $2, null); }
+	|	subject alias MOVES direction												{ $$ = new INode(AST.Type.MOVES_PREDICATE, $1, $2, $4); }
+	|	subject alias SAYS value_expression											{ $$ = new INode(AST.Type.SAYS_PREDICATE, $1, $2, $4); }
+	|	subject alias WAITS															{ $$ = new INode(AST.Type.WAITS_PREDICATE, $1, $2); }
+	|	subject alias TOUCHES subject alias											{ $$ = new INode(AST.Type.TOUCHES_PREDICATE, $1, $2, $4, $5); }
 	;
 
 boolean_predicate:
@@ -269,6 +271,16 @@ identifier:
 
 parameter:
 		identifier value_expression					{ $$ = new INode(AST.Type.PARAMETER, $1, $2); }
+	;
+
+subject:
+		reference_list identifier					{ $$ = new INode(AST.Type.SUBJECT, null, $1, $2); }
+	|	A identifier								{ $$ = new INode(AST.Type.SUBJECT, $2, null, null); }
+	;
+
+alias:
+													{ $$ = new INode(AST.Type.ALIAS); }
+	|	'[' identifier ']'							{ $$ = new INode(AST.Type.ALIAS, $2); }
 	;
 
 queue_assign_property:

@@ -112,5 +112,17 @@ Whenever Mary's dog touches dog {
 	Stop Mary's dog. 
 }
 
+Whenever a person [p] moves {
+	Make p say "hello".
+}
+
+Whenever a person [p] touches an obstacle {
+	Make p say "ouch".
+}
+
+Whenever a person [p] touches an obstacle [obst] {
+	Make p say "ouch".
+}
+
 Reset.
 Exit.
