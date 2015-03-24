@@ -206,6 +206,7 @@ basic_action_predicate:
 	|	reference_list identifier MOVES direction									{ $$ = new INode(AST.Type.MOVES_PREDICATE, $1, $2, $4); }
 	|	reference_list identifier SAYS value_expression								{ $$ = new INode(AST.Type.SAYS_PREDICATE, $1, $2, $4); }
 	|	reference_list identifier WAITS												{ $$ = new INode(AST.Type.WAITS_PREDICATE, $1, $2); }
+	|	reference_list identifier TOUCHES reference_list identifier					{ $$ = new INode(AST.Type.TOUCHES_PREDICATE, $1, $2, $4, $5); }
 	;
 
 boolean_predicate:

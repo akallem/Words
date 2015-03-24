@@ -108,5 +108,9 @@ Whenever Fred waits {
 	Make John say "hurry up" now. 
 }
 
+Whenever Mary's dog touches dog {
+	Stop Mary's dog. 
+}
+
 Reset.
 Exit.

@@ -46,6 +46,7 @@ public abstract class AST {
 		MOVES_PREDICATE,
 		SAYS_PREDICATE,
 		WAITS_PREDICATE,
+		TOUCHES_PREDICATE,
 		
 		NOT,
 		AND,
