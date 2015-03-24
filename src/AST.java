@@ -18,6 +18,9 @@ public abstract class AST {
 		// Internal node types
 		STATEMENT_LIST,
 		
+		RESET,
+		EXIT,
+		
 		CREATE_CLASS,
 		CLASS_STATEMENT_LIST,
 		DEFINE_PROPERTY,

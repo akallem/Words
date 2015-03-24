@@ -11,6 +11,7 @@
 %token BE
 %token CAN
 %token DOWN
+%token EXIT
 %token HAS
 %token IF
 %token IS
@@ -27,6 +28,7 @@
 %token OR
 %token REMOVE
 %token REPEAT
+%token RESET
 %token RIGHT
 %token SAY
 %token SAYS
@@ -66,6 +68,7 @@
 %type <obj> iteration_statement
 %type <obj> conditional_statement
 %type <obj> listener_statement
+%type <obj> runtime_control_statement
 %type <obj> queueing_statement
 %type <obj> queueing_custom_action_statement
 %type <obj> predicate
@@ -119,6 +122,7 @@ immediate_statement:
 	|	iteration_statement			{ $$ = $1; }
 	|	conditional_statement		{ $$ = $1; }
 	|	listener_statement			{ $$ = $1; }
+	|	runtime_control_statement	{ $$ = $1; }
 
 class_create_statement:
 		A identifier IS A identifier '.'											{ $$ = new INode(AST.Type.CREATE_CLASS, $2, $5, null); }
@@ -162,6 +166,11 @@ conditional_statement:
 listener_statement:
 		WHENEVER predicate '{' statement_list '}'									{ $$ = new INode(AST.Type.LISTENER_PERM, $2, $4); }
 	|	AS LONG AS predicate '{' statement_list '}'									{ $$ = new INode(AST.Type.LISTENER_TEMP, $4, $6); }
+	;
+
+runtime_control_statement:
+		RESET '.'																	{ $$ = new INode(AST.Type.RESET); }
+	|	EXIT '.'																	{ $$ = new INode(AST.Type.EXIT); }
 	;
 
 queueing_statement:

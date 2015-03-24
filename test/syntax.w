@@ -107,3 +107,6 @@ Whenever Fred moves left {
 Whenever Fred waits {
 	Make John say "hurry up" now. 
 }
+
+Reset.
+Exit.
