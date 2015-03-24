@@ -108,7 +108,7 @@ Whenever Fred waits {
 	Make John say "hurry up" now. 
 }
 
-Whenever Mary's dog touches dog {
+Whenever Mary's dog touches Mary {
 	Stop Mary's dog. 
 }
 
