@@ -81,6 +81,7 @@ LEQ = "<="
 "Stop"							{ return Words.STOP; }
 "then"							{ return Words.THEN; }
 "times"							{ return Words.TIMES; }
+"touches"						{ return Words.TOUCHES; }
 "turns"							{ return Words.TURNS; }
 "up"							{ return Words.UP; }
 "wait"							{ return Words.WAIT; }

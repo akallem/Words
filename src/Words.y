@@ -35,6 +35,7 @@
 %token STOP
 %token THEN
 %token TIMES
+%token TOUCHES
 %token TURNS
 %token UP
 %token WAIT
