@@ -11,6 +11,7 @@
 %token BE
 %token CAN
 %token DOWN
+%token EXIT
 %token HAS
 %token IF
 %token IS
@@ -27,12 +28,14 @@
 %token OR
 %token REMOVE
 %token REPEAT
+%token RESET
 %token RIGHT
 %token SAY
 %token SAYS
 %token STOP
 %token THEN
 %token TIMES
+%token TOUCHES
 %token TURNS
 %token UP
 %token WAIT
@@ -66,6 +69,7 @@
 %type <obj> iteration_statement
 %type <obj> conditional_statement
 %type <obj> listener_statement
+%type <obj> runtime_control_statement
 %type <obj> queueing_statement
 %type <obj> queueing_custom_action_statement
 %type <obj> predicate
@@ -80,6 +84,8 @@
 %type <obj> reference
 %type <obj> identifier
 %type <obj> parameter
+%type <obj> subject
+%type <obj> alias
 %type <obj> queue_assign_property
 %type <obj> direction
 %type <obj> now
@@ -119,6 +125,7 @@ immediate_statement:
 	|	iteration_statement			{ $$ = $1; }
 	|	conditional_statement		{ $$ = $1; }
 	|	listener_statement			{ $$ = $1; }
+	|	runtime_control_statement	{ $$ = $1; }
 
 class_create_statement:
 		A identifier IS A identifier '.'											{ $$ = new INode(AST.Type.CREATE_CLASS, $2, $5, null); }
@@ -164,6 +171,11 @@ listener_statement:
 	|	AS LONG AS predicate '{' statement_list '}'									{ $$ = new INode(AST.Type.LISTENER_TEMP, $4, $6); }
 	;
 
+runtime_control_statement:
+		RESET '.'																	{ $$ = new INode(AST.Type.RESET); }
+	|	EXIT '.'																	{ $$ = new INode(AST.Type.EXIT); }
+	;
+
 queueing_statement:
 		MAKE reference_list queue_assign_property_list '.'							{ $$ = new INode(AST.Type.QUEUE_ASSIGN, $2, $3, null); }
 	|	MAKE reference_list queue_assign_property_list now '.'						{ $$ = new INode(AST.Type.QUEUE_ASSIGN, $2, $3, $4); }
@@ -192,10 +204,11 @@ predicate:
 	;
 
 basic_action_predicate:
-		reference_list identifier MOVES												{ $$ = new INode(AST.Type.MOVES_PREDICATE, $1, $2, null); }
-	|	reference_list identifier MOVES direction									{ $$ = new INode(AST.Type.MOVES_PREDICATE, $1, $2, $4); }
-	|	reference_list identifier SAYS value_expression								{ $$ = new INode(AST.Type.SAYS_PREDICATE, $1, $2, $4); }
-	|	reference_list identifier WAITS												{ $$ = new INode(AST.Type.WAITS_PREDICATE, $1, $2); }
+		subject alias MOVES															{ $$ = new INode(AST.Type.MOVES_PREDICATE, $1, $2, null); }
+	|	subject alias MOVES direction												{ $$ = new INode(AST.Type.MOVES_PREDICATE, $1, $2, $4); }
+	|	subject alias SAYS value_expression											{ $$ = new INode(AST.Type.SAYS_PREDICATE, $1, $2, $4); }
+	|	subject alias WAITS															{ $$ = new INode(AST.Type.WAITS_PREDICATE, $1, $2); }
+	|	subject alias TOUCHES subject alias											{ $$ = new INode(AST.Type.TOUCHES_PREDICATE, $1, $2, $4, $5); }
 	;
 
 boolean_predicate:
@@ -258,6 +271,16 @@ identifier:
 
 parameter:
 		identifier value_expression					{ $$ = new INode(AST.Type.PARAMETER, $1, $2); }
+	;
+
+subject:
+		reference_list identifier					{ $$ = new INode(AST.Type.SUBJECT, null, $1, $2); }
+	|	A identifier								{ $$ = new INode(AST.Type.SUBJECT, $2, null, null); }
+	;
+
+alias:
+													{ $$ = new INode(AST.Type.ALIAS); }
+	|	'[' identifier ']'							{ $$ = new INode(AST.Type.ALIAS, $2); }
 	;
 
 queue_assign_property:

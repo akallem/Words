@@ -42,6 +42,8 @@ LEQ = "<="
 ">" | 
 "(" | 
 ")" |
+"[" | 
+"]" |
 ","	|
 "."		{ return (int) yycharat(0); }
 
@@ -57,6 +59,7 @@ LEQ = "<="
 "be"							{ return Words.BE; }
 "can"							{ return Words.CAN; }
 "down"							{ return Words.DOWN; }
+"Exit"							{ return Words.EXIT; }
 "has"							{ return Words.HAS; }
 "If"							{ return Words.IF; }
 "is"							{ return Words.IS; }
@@ -73,12 +76,14 @@ LEQ = "<="
 "or"							{ return Words.OR; }
 "Remove"						{ return Words.REMOVE; }
 "Repeat"						{ return Words.REPEAT; }
+"Reset"							{ return Words.RESET; }
 "right"							{ return Words.RIGHT; }
 "say"							{ return Words.SAY; }
 "says"							{ return Words.SAYS; }
 "Stop"							{ return Words.STOP; }
 "then"							{ return Words.THEN; }
 "times"							{ return Words.TIMES; }
+"touches"						{ return Words.TOUCHES; }
 "turns"							{ return Words.TURNS; }
 "up"							{ return Words.UP; }
 "wait"							{ return Words.WAIT; }

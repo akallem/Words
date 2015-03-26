@@ -18,6 +18,9 @@ public abstract class AST {
 		// Internal node types
 		STATEMENT_LIST,
 		
+		RESET,
+		EXIT,
+		
 		CREATE_CLASS,
 		CLASS_STATEMENT_LIST,
 		DEFINE_PROPERTY,
@@ -43,6 +46,7 @@ public abstract class AST {
 		MOVES_PREDICATE,
 		SAYS_PREDICATE,
 		WAITS_PREDICATE,
+		TOUCHES_PREDICATE,
 		
 		NOT,
 		AND,
@@ -70,6 +74,8 @@ public abstract class AST {
 		QUEUE_ASSIGN_PROPERTY_LIST,
 		
 		PARAMETER,
+		SUBJECT,
+		ALIAS,
 		QUEUE_ASSIGN_PROPERTY,
 	};
 	

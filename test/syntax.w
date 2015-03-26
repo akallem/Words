@@ -107,3 +107,22 @@ Whenever Fred moves left {
 Whenever Fred waits {
 	Make John say "hurry up" now. 
 }
+
+Whenever Mary's dog touches Mary {
+	Stop Mary's dog. 
+}
+
+Whenever a person [p] moves {
+	Make p say "hello".
+}
+
+Whenever a person [p] touches an obstacle {
+	Make p say "ouch".
+}
+
+Whenever a person [p] touches an obstacle [obst] {
+	Make p say "ouch".
+}
+
+Reset.
+Exit.
