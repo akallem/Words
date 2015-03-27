@@ -21,6 +21,18 @@ public class WordsObject {
 		actionQueue.add(action);
 	}
 	
+	public void enqueueActionAtFront(WordsAction action) {
+		actionQueue.addFirst(action);
+	}
+	
+	public WordsProperty getProperty(String propName) {
+		if (properties.containsKey(propName)) {
+			return properties.get(propName);
+		} else {
+			return new WordsProperty(WordsProperty.PropertyType.NOTHING);
+		}
+	}
+	
 	public void moveUp() {
 		this.cell.y--;
 	}
@@ -52,6 +64,10 @@ public class WordsObject {
 		return wordsClass.getClassName();
 	}
 	
+	public WordsClass getWordsClass() {
+		return wordsClass;
+	}
+	
 	public String getCurrentMessage() {
 		return currentMessage;
 	}
@@ -63,5 +79,4 @@ public class WordsObject {
 	public void setMessage(String message) {
 		currentMessage = message;
 	}
-	
 }

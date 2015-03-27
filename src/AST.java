@@ -1,11 +1,57 @@
+import java.util.HashMap;
+
 /**
  * An abstract syntax tree node, which may be either an internal node or leaf node.
  */
 public abstract class AST {
+	
+	protected class Value {
+
+		public double n;
+		public String s;
+		public WordsObject obj;
+		public ValueType type;
+		public Direction d;
+
+		public Value(double num) {
+			this.type = ValueType.NUM;
+			this.n = num;
+		}	
+
+		public Value(String s) {
+			this.type = ValueType.STRING;
+			this.s = s;
+		}
+		
+		public Value(WordsObject obj) {
+			this.type = ValueType.OBJ;
+			this.obj = obj;
+		}
+		
+		public Value(Direction d) {
+			this.type = ValueType.DIRECTION;
+			this.d = d;
+		}
+		
+		public Value(ValueType type) {
+			this.type = type;
+		}
+		
+	}
+
+	protected enum ValueType {
+		NUM,
+		STRING,
+		OBJ,
+		NOTHING,
+		DIRECTION,
+		NOW
+	}
+	
 	/**
 	 * The type of the node, which determines how the node is evaluated.
 	 */
-	public enum Type { 
+	public enum ASTType { 
 		// Leaf node types
 		DIRECTION,
 		NOTHING,
@@ -79,9 +125,9 @@ public abstract class AST {
 		QUEUE_ASSIGN_PROPERTY,
 	};
 	
-	public Type type;
+	public ASTType type;
 	
-	public AST(Type nodeType) {
+	public AST(ASTType nodeType) {
 		this.type = nodeType;
 	}
 	
@@ -91,4 +137,10 @@ public abstract class AST {
 	 * @param level the indentation level
 	 */
 	abstract public void dump(int level);
+	
+	public Value eval(WordsEnvironment currentEnvironment,
+			HashMap<String, Value> params) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

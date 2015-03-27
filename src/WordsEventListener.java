@@ -1,8 +1,12 @@
-import java.util.ArrayList;
-
 
 public class WordsEventListener {
-	private WordsExpression condition;
-	private ArrayList<Command> commandsToExecute;
+	
+	private AST predicate;
+	private AST statementList;
+	
+	public void execute() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

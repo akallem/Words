@@ -1,31 +1,33 @@
+import java.util.HashMap;
+
 /**
  * An abstract syntax tree leaf node.
  */
 public class LNode extends AST {
-	public boolean b;
+	public boolean hasNoVal;
 	public Direction d;
 	public double n;
 	public String s;
 	
-	public LNode(Type type, Direction.Type d) {
+	public LNode(ASTType type, Direction.Type d) {
 		super(type);
 		this.d = new Direction(d);
 	}
 	
-	public LNode(Type type) {
+	public LNode(ASTType type) {
 		super(type);
-		this.b = true;
+		this.hasNoVal = true;
 	}
 	
-	public LNode(Type type, double n) {
+	public LNode(ASTType type, double n) {
 		super(type);
 		this.n = n;
 	}
 	
-	public LNode(Type type, String s) {
+	public LNode(ASTType type, String s) {
 		super(type);
 		
-		if (type == Type.STRING) {
+		if (type == ASTType.STRING) {
 			// Remove leading and trailing " characters
 			// Do not do a full string replace, since some " characters may be escaped
 			if (s.startsWith("\""))
@@ -40,21 +42,21 @@ public class LNode extends AST {
 			s = s.replace("\\\"", "\"");
 			
 			this.s = s;
-		} else if (type == Type.IDENTIFIER) {
+		} else if (type == ASTType.IDENTIFIER) {
 			this.s = s;
-		} else if (type == Type.REFERENCE) {
+		} else if (type == ASTType.REFERENCE) {
 			this.s = s.replace("'s", "");
 		}
 	}
 	
 	private String valueAsString() {
-		if (type == Type.DIRECTION)
+		if (type == ASTType.DIRECTION)
 			return d.toString();
-		else if (type == Type.NOTHING || type == Type.NOW)
+		else if (type == ASTType.NOTHING || type == ASTType.NOW)
 			return "true";
-		else if (type == Type.NUM)
+		else if (type == ASTType.NUM)
 			return Double.toString(n);
-		else if (type == Type.STRING || type == Type.IDENTIFIER || type == Type.REFERENCE)
+		else if (type == ASTType.STRING || type == ASTType.IDENTIFIER || type == ASTType.REFERENCE)
 			return s;
 		
 		return "";
@@ -70,5 +72,25 @@ public class LNode extends AST {
 	@Override
 	public String toString() {
 		return "[" + type.toString() + ": " + valueAsString() + "]";
+	}
+
+	@SuppressWarnings("incomplete-switch")
+	@Override
+	public Value eval(WordsEnvironment currentEnvironment, HashMap<String, Value> params) {
+		switch (this.type) {
+			case STRING:
+			case REFERENCE:
+			case IDENTIFIER:
+				return new Value(this.s);
+			case NUM:
+				return new Value(this.n);
+			case DIRECTION:
+				return new Value(this.d);
+			case NOTHING:
+				return new Value(ValueType.NOTHING);
+			case NOW:
+				return new Value(ValueType.NOW);
+		}
+		return null;
 	}
 }

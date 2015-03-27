@@ -1,6 +1,8 @@
 
 public class WordsProperty {
-	String type;
-	Object property;
+
+	public enum PropertyType {
+		NOTHING, NUM, STRING, OBJECT
+	}
 
 }

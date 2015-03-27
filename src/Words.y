@@ -341,7 +341,7 @@ public Words(Reader r) {
 }
 
 
-public static Game game;
+public static FrameLoop frameLoop;
 public AST root;
 public boolean hideErrors = false;
 public boolean hasError = false;
@@ -350,8 +350,8 @@ public static void main(String args[]) throws IOException {
 	System.out.println("Welcome to Words!");
 
 	WordsUI ui = new WordsUI();
-	game = new Game(ui);
-	game.start();
+	frameLoop = new FrameLoop(ui);
+	frameLoop.start();
 
 	// Read and parse program argument, if any
 	if (args.length > 0) {
@@ -365,7 +365,7 @@ public static void main(String args[]) throws IOException {
 			System.err.println();
 			System.err.println();
 			if (parser.root != null)
-				parser.root.dump(0);
+				frameLoop.enqueueAST(parser.root);
 			else
 				System.err.println("Failed to generate AST");
 
@@ -416,7 +416,7 @@ public static void main(String args[]) throws IOException {
 		System.err.println();
 		System.err.println();
 		if (parser.root != null)
-			parser.root.dump(0);
+			frameLoop.enqueueAST(parser.root);
 		else
 			System.err.println("Failed to generate AST");
 	}

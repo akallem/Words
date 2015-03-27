@@ -4,13 +4,13 @@ import java.util.HashMap;
 public class WordsClass {
 
 	private HashMap<String, WordsProperty> properties;
-	private HashMap<String, WordsFunction> functions;
+	private HashMap<String, WordsCustomAction> functions;
 	private WordsClass parent;
 	private String className;
 	
 	public WordsClass(String className, WordsClass parent) {
 		properties = new HashMap<String, WordsProperty>();
-		functions = new HashMap<String, WordsFunction>();
+		functions = new HashMap<String, WordsCustomAction>();
 		this.parent = parent;
 		this.className = className;
 	}
