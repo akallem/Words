@@ -71,7 +71,7 @@ public class INode extends AST {
 	}
 
 	@Override
-	public Value eval(WordsEnvironment environment) {
+	public ASTValue eval(WordsEnvironment environment) {
 		switch (this.type) {
 			case STATEMENT_LIST:
 				return evalStatementList(environment);
@@ -87,13 +87,13 @@ public class INode extends AST {
 		return null;
 	}
 
-	private Value evalQueueCustomAction(WordsEnvironment environment) {
+	private ASTValue evalQueueCustomAction(WordsEnvironment environment) {
 		//MAKE reference_list identifier identifier WITH parameter_list
-		Value referenceObject = children.get(1).eval(environment);
-		Value identifier = children.get(2).eval(environment);
-		Value actionName = children.get(3).eval(environment);
+		ASTValue referenceObject = children.get(1).eval(environment);
+		ASTValue identifier = children.get(2).eval(environment);
+		ASTValue actionName = children.get(3).eval(environment);
 		// Assumes that params returns a hashmap of strings to Values
-		Value newParams = children.get(4).eval(environment);
+		ASTValue newParams = children.get(4).eval(environment);
 		
 		WordsClass objectClass = identifier.objValue.getWordsClass();
 		//WordsCustomAction customAction = objectClass.getCustomAction(actionName);
@@ -101,9 +101,9 @@ public class INode extends AST {
 		return null;
 	}
 	
-	private Value evalRetrieveProp(WordsEnvironment environment) {
-		Value referenceObject = children.get(1).eval(environment);
-		Value identifier = children.get(2).eval(environment);
+	private ASTValue evalRetrieveProp(WordsEnvironment environment) {
+		ASTValue referenceObject = children.get(1).eval(environment);
+		ASTValue identifier = children.get(2).eval(environment);
 		
 		if (referenceObject.equals(ValueType.NOTHING)) {
 			//if (params.containsKey(identifier.s)) {
@@ -115,19 +115,19 @@ public class INode extends AST {
 		//return referenceObject.obj.getProperty(identifier.s);
 	}
 
-	private Value evalStatementList(WordsEnvironment environment) {
+	private ASTValue evalStatementList(WordsEnvironment environment) {
 		for (int i = 0; i < children.size(); i++) {
 			children.get(i).eval(environment);
 		}
 		return null;
 	}
 
-	private Value evalQueueMove(WordsEnvironment environment) {
+	private ASTValue evalQueueMove(WordsEnvironment environment) {
 		//MAKE reference_list identifier MOVE direction value_expression now
-		Value referenceObject = children.get(1).eval(environment);
-		Value identifier = children.get(2).eval(environment);
-		Value direction = children.get(3).eval(environment);
-		Value distance = children.get(4).eval(environment);
+		ASTValue referenceObject = children.get(1).eval(environment);
+		ASTValue identifier = children.get(2).eval(environment);
+		ASTValue direction = children.get(3).eval(environment);
+		ASTValue distance = children.get(4).eval(environment);
 		AST doNow = children.get(5);
 		
 		WordsObject objectToMove;
@@ -147,12 +147,12 @@ public class INode extends AST {
 		return null;
 	}
 
-	private Value evalEquals(WordsEnvironment environment) {
+	private ASTValue evalEquals(WordsEnvironment environment) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	private Value evalExit(WordsEnvironment environment) {
+	private ASTValue evalExit(WordsEnvironment environment) {
 		// TODO Auto-generated method stub
 		return null;
 	}

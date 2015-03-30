@@ -2,7 +2,7 @@
  * An abstract syntax tree node, which may be either an internal node or leaf node.
  */
 public abstract class AST {
-	protected class Value {
+	protected class ASTValue {
 		public ValueType type;
 		
 		public double numValue;
@@ -10,27 +10,27 @@ public abstract class AST {
 		public WordsObject objValue;
 		public Direction directionValue;
 
-		public Value(double num) {
+		public ASTValue(double num) {
 			this.type = ValueType.NUM;
 			this.numValue = num;
 		}	
 
-		public Value(String s) {
+		public ASTValue(String s) {
 			this.type = ValueType.STRING;
 			this.stringValue = s;
 		}
 		
-		public Value(WordsObject obj) {
+		public ASTValue(WordsObject obj) {
 			this.type = ValueType.OBJ;
 			this.objValue = obj;
 		}
 		
-		public Value(Direction d) {
+		public ASTValue(Direction d) {
 			this.type = ValueType.DIRECTION;
 			this.directionValue = d;
 		}
 		
-		public Value(ValueType type) {
+		public ASTValue(ValueType type) {
 			this.type = type;
 		}
 	}
@@ -137,5 +137,5 @@ public abstract class AST {
 	/**
 	 * Evaluate an AST node, possibly by having side effects on the passed environment.
 	 */
-	public abstract Value eval(WordsEnvironment environment);
+	public abstract ASTValue eval(WordsEnvironment environment);
 }

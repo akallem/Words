@@ -74,20 +74,20 @@ public class LNode extends AST {
 
 	@SuppressWarnings("incomplete-switch")
 	@Override
-	public Value eval(WordsEnvironment environment) {
+	public ASTValue eval(WordsEnvironment environment) {
 		switch (this.type) {
 			case STRING:
 			case REFERENCE:
 			case IDENTIFIER:
-				return new Value(this.string);
+				return new ASTValue(this.string);
 			case NUM:
-				return new Value(this.num);
+				return new ASTValue(this.num);
 			case DIRECTION:
-				return new Value(this.direction);
+				return new ASTValue(this.direction);
 			case NOTHING:
-				return new Value(ValueType.NOTHING);
+				return new ASTValue(ValueType.NOTHING);
 			case NOW:
-				return new Value(ValueType.NOW);
+				return new ASTValue(ValueType.NOW);
 		}
 		return null;
 	}
