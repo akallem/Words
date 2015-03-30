@@ -74,7 +74,7 @@ public class LNode extends AST {
 
 	@SuppressWarnings("incomplete-switch")
 	@Override
-	public Value eval(WordsEnvironment currentEnvironment) {
+	public Value eval(WordsEnvironment environment) {
 		switch (this.type) {
 			case STRING:
 			case REFERENCE:

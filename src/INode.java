@@ -71,29 +71,29 @@ public class INode extends AST {
 	}
 
 	@Override
-	public Value eval(WordsEnvironment currentEnvironment) {
+	public Value eval(WordsEnvironment environment) {
 		switch (this.type) {
 			case STATEMENT_LIST:
-				return evalStatementList(currentEnvironment);
+				return evalStatementList(environment);
 			case QUEUE_MOVE:
-				return evalQueueMove(currentEnvironment);
+				return evalQueueMove(environment);
 			case QUEUE_ACTION:
-				return evalQueueCustomAction(currentEnvironment);
+				return evalQueueCustomAction(environment);
 			case EQUALS:
-				return evalEquals(currentEnvironment);
+				return evalEquals(environment);
 			case EXIT:
-				return evalExit(currentEnvironment);
+				return evalExit(environment);
 		}
 		return null;
 	}
 
-	private Value evalQueueCustomAction(WordsEnvironment currentEnvironment) {
+	private Value evalQueueCustomAction(WordsEnvironment environment) {
 		//MAKE reference_list identifier identifier WITH parameter_list
-		Value referenceObject = children.get(1).eval(currentEnvironment);
-		Value identifier = children.get(2).eval(currentEnvironment);
-		Value actionName = children.get(3).eval(currentEnvironment);
+		Value referenceObject = children.get(1).eval(environment);
+		Value identifier = children.get(2).eval(environment);
+		Value actionName = children.get(3).eval(environment);
 		// Assumes that params returns a hashmap of strings to Values
-		Value newParams = children.get(4).eval(currentEnvironment);
+		Value newParams = children.get(4).eval(environment);
 		
 		WordsClass objectClass = identifier.obj.getWordsClass();
 		//WordsCustomAction customAction = objectClass.getCustomAction(actionName);
@@ -101,9 +101,9 @@ public class INode extends AST {
 		return null;
 	}
 	
-	private Value evalRetrieveProp(WordsEnvironment currentEnvironment) {
-		Value referenceObject = children.get(1).eval(currentEnvironment);
-		Value identifier = children.get(2).eval(currentEnvironment);
+	private Value evalRetrieveProp(WordsEnvironment environment) {
+		Value referenceObject = children.get(1).eval(environment);
+		Value identifier = children.get(2).eval(environment);
 		
 		if (referenceObject.equals(ValueType.NOTHING)) {
 			//if (params.containsKey(identifier.s)) {
@@ -115,26 +115,26 @@ public class INode extends AST {
 		//return referenceObject.obj.getProperty(identifier.s);
 	}
 
-	private Value evalStatementList(WordsEnvironment currentEnvironment) {
+	private Value evalStatementList(WordsEnvironment environment) {
 		for (int i = 0; i < children.size(); i++) {
-			children.get(i).eval(currentEnvironment);
+			children.get(i).eval(environment);
 		}
 		return null;
 	}
 
-	private Value evalQueueMove(WordsEnvironment currentEnvironment) {
+	private Value evalQueueMove(WordsEnvironment environment) {
 		//MAKE reference_list identifier MOVE direction value_expression now
-		Value referenceObject = children.get(1).eval(currentEnvironment);
-		Value identifier = children.get(2).eval(currentEnvironment);
-		Value direction = children.get(3).eval(currentEnvironment);
-		Value distance = children.get(4).eval(currentEnvironment);
+		Value referenceObject = children.get(1).eval(environment);
+		Value identifier = children.get(2).eval(environment);
+		Value direction = children.get(3).eval(environment);
+		Value distance = children.get(4).eval(environment);
 		AST doNow = children.get(5);
 		
 		WordsObject objectToMove;
 		if (referenceObject.type.equals(ValueType.OBJ)){
 			//objectToMove = referenceObject.obj.getProperty(identifier.s);
 		} else {
-			//objectToMove = currentEnvironment.getObject(identifier);
+			//objectToMove = environment.getObject(identifier);
 		}
 		
 		//TODO: Distance = 0 should create a wait method
@@ -147,12 +147,12 @@ public class INode extends AST {
 		return null;
 	}
 
-	private Value evalEquals(WordsEnvironment currentEnvironment) {
+	private Value evalEquals(WordsEnvironment environment) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	private Value evalExit(WordsEnvironment currentEnvironment) {
+	private Value evalExit(WordsEnvironment environment) {
 		// TODO Auto-generated method stub
 		return null;
 	}

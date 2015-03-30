@@ -123,8 +123,8 @@ public abstract class AST {
 	
 	public ASTType type;
 	
-	public AST(ASTType nodeType) {
-		this.type = nodeType;
+	public AST(ASTType type) {
+		this.type = type;
 	}
 	
 	/**
@@ -134,8 +134,8 @@ public abstract class AST {
 	 */
 	abstract public void dump(int level);
 	
-	public Value eval(WordsEnvironment currentEnvironment) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	/**
+	 * Evaluate an AST node, possibly by having side effects on the passed environment.
+	 */
+	public abstract Value eval(WordsEnvironment environment);
 }

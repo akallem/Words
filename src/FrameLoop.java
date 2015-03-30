@@ -6,12 +6,12 @@ import java.util.concurrent.LinkedBlockingDeque;
 public class FrameLoop extends Thread {
 	
 	private LinkedBlockingDeque<AST> ASTQueue;
-	private WordsEnvironment currentEnvironment;
+	private WordsEnvironment environment;
 	private WordsUI GUI;
 	private static int TIME_TO_WAIT = 1000;
 	
 	public FrameLoop(WordsUI GUI) {
-		currentEnvironment = new WordsEnvironment();
+		environment = new WordsEnvironment();
 		ASTQueue = new LinkedBlockingDeque<AST>();
 		this.GUI = GUI;
 	}
@@ -42,7 +42,7 @@ public class FrameLoop extends Thread {
 		    }
 			while (!ASTQueue.isEmpty()) {
 				AST ast = ASTQueue.pop();
-				ast.eval(currentEnvironment);
+				ast.eval(environment);
 				/*try {
 					ast.eval(currentEnvironment);
 				} catch (WordsObjectNotFoundException e) {
@@ -57,16 +57,16 @@ public class FrameLoop extends Thread {
 					System.out.printf("Error: object %s already exists, please choose another name.\n", e.getObjectName());
 				}*/
 			}
-			for (WordsObject object : currentEnvironment.getObjects()) {
+			for (WordsObject object : environment.getObjects()) {
 				object.doAction();
 			}
 			
-			for (WordsEventListener eventListener : currentEnvironment.getEventListeners()) {
+			for (WordsEventListener eventListener : environment.getEventListeners()) {
 				eventListener.execute();
 			}
 			
 			GUI.clear();
-			for (WordsObject object : currentEnvironment.getObjects()) {
+			for (WordsObject object : environment.getObjects()) {
 				GUI.add(object.getCurrentCell(), object.getClassName(), object.getObjectName(), object.getCurrentMessage());
 			}
 			GUI.render();
