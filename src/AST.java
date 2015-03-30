@@ -1,12 +1,8 @@
-import java.util.HashMap;
-
 /**
  * An abstract syntax tree node, which may be either an internal node or leaf node.
  */
 public abstract class AST {
-	
 	protected class Value {
-
 		public double n;
 		public String s;
 		public WordsObject obj;
@@ -138,8 +134,7 @@ public abstract class AST {
 	 */
 	abstract public void dump(int level);
 	
-	public Value eval(WordsEnvironment currentEnvironment,
-			HashMap<String, Value> params) {
+	public Value eval(WordsEnvironment currentEnvironment) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -1,5 +1,3 @@
-import java.util.HashMap;
-
 /**
  * An abstract syntax tree leaf node.
  */
@@ -76,7 +74,7 @@ public class LNode extends AST {
 
 	@SuppressWarnings("incomplete-switch")
 	@Override
-	public Value eval(WordsEnvironment currentEnvironment, HashMap<String, Value> params) {
+	public Value eval(WordsEnvironment currentEnvironment) {
 		switch (this.type) {
 			case STRING:
 			case REFERENCE:

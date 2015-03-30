@@ -5,4 +5,7 @@ public class WordsProperty {
 		NOTHING, NUM, STRING, OBJECT
 	}
 
+	public WordsProperty(PropertyType type) {
+		
+	}
 }

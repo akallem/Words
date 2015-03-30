@@ -16,9 +16,9 @@ public class WordsCustomAction extends WordsAction {
 		this.environment = environment;
 	}
 	
-	public void expandIntoBasicActions(HashMap<String, AST.Value> params) {
+	public void expandIntoBasicActions() {
 		//TODO: check that parameters match
-		statementList.eval(environment, params);
+		statementList.eval(environment);
 	}
 
 }

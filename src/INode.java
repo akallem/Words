@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.lang.StringBuilder;
 
 
@@ -72,14 +71,14 @@ public class INode extends AST {
 	}
 
 	@Override
-	public Value eval(WordsEnvironment currentEnvironment, HashMap<String, Value> params) {
+	public Value eval(WordsEnvironment currentEnvironment) {
 		switch (this.type) {
 			case STATEMENT_LIST:
-				return evalStatementList(currentEnvironment, null);
+				return evalStatementList(currentEnvironment);
 			case QUEUE_MOVE:
-				return evalQueueMove(currentEnvironment, null);
+				return evalQueueMove(currentEnvironment);
 			case QUEUE_ACTION:
-				return evalQueueCustomAction(currentEnvironment, null);
+				return evalQueueCustomAction(currentEnvironment);
 			case EQUALS:
 				return evalEquals(currentEnvironment);
 			case EXIT:
@@ -88,60 +87,63 @@ public class INode extends AST {
 		return null;
 	}
 
-	private Value evalQueueCustomAction(WordsEnvironment currentEnvironment, HashMap<String, Value> params) {
+	private Value evalQueueCustomAction(WordsEnvironment currentEnvironment) {
 		//MAKE reference_list identifier identifier WITH parameter_list
-		Value referenceObject = children.get(1).eval(currentEnvironment, params);
-		Value identifier = children.get(2).eval(currentEnvironment, params);
-		Value actionName = children.get(3).eval(currentEnvironment, params);
+		Value referenceObject = children.get(1).eval(currentEnvironment);
+		Value identifier = children.get(2).eval(currentEnvironment);
+		Value actionName = children.get(3).eval(currentEnvironment);
 		// Assumes that params returns a hashmap of strings to Values
-		Value newParams = children.get(4).eval(currentEnvironment, params);
+		Value newParams = children.get(4).eval(currentEnvironment);
 		
 		WordsClass objectClass = identifier.obj.getWordsClass();
-		WordsCustomAction customAction = objectClass.getCustomAction(actionName);
-		customAction.expandIntoBasicActions(params);
+		//WordsCustomAction customAction = objectClass.getCustomAction(actionName);
+		//customAction.expandIntoBasicActions(params);
+		return null;
 	}
 	
-	private Value evalRetrieveProp(WordsEnvironment currentEnvironment, HashMap<String, Value> params) {
-		Value referenceObject = children.get(1).eval(currentEnvironment, params);
-		Value identifier = children.get(2).eval(currentEnvironment, params);
+	private Value evalRetrieveProp(WordsEnvironment currentEnvironment) {
+		Value referenceObject = children.get(1).eval(currentEnvironment);
+		Value identifier = children.get(2).eval(currentEnvironment);
 		
 		if (referenceObject.equals(ValueType.NOTHING)) {
-			if (params.containsKey(identifier.s)) {
-				return params.get(identifier);
-			}
+			//if (params.containsKey(identifier.s)) {
+				//return params.get(identifier);
+			//}
 		}
-		return referenceObject.obj.getProperty(identifier.s);
+		
+		return null;
+		//return referenceObject.obj.getProperty(identifier.s);
 	}
 
-	private Value evalStatementList(WordsEnvironment currentEnvironment, HashMap<String, Value> params) {
+	private Value evalStatementList(WordsEnvironment currentEnvironment) {
 		for (int i = 0; i < children.size(); i++) {
-			children.get(i).eval(currentEnvironment, params);
+			children.get(i).eval(currentEnvironment);
 		}
 		return null;
 	}
 
-	private Value evalQueueMove(WordsEnvironment currentEnvironment, HashMap<String, Value> params) {
+	private Value evalQueueMove(WordsEnvironment currentEnvironment) {
 		//MAKE reference_list identifier MOVE direction value_expression now
-		Value referenceObject = children.get(1).eval(currentEnvironment, params);
-		Value identifier = children.get(2).eval(currentEnvironment, params);
-		Value direction = children.get(3).eval(currentEnvironment, params);
-		Value distance = children.get(4).eval(currentEnvironment, params);
+		Value referenceObject = children.get(1).eval(currentEnvironment);
+		Value identifier = children.get(2).eval(currentEnvironment);
+		Value direction = children.get(3).eval(currentEnvironment);
+		Value distance = children.get(4).eval(currentEnvironment);
 		AST doNow = children.get(5);
 		
 		WordsObject objectToMove;
 		if (referenceObject.type.equals(ValueType.OBJ)){
-			objectToMove = referenceObject.obj.getProperty(identifier.s);
+			//objectToMove = referenceObject.obj.getProperty(identifier.s);
 		} else {
-			objectToMove = currentEnvironment.getObject(identifier);
+			//objectToMove = currentEnvironment.getObject(identifier);
 		}
 		
 		//TODO: Distance = 0 should create a wait method
-		WordsMove move = new WordsMove(direction.d, distance.n);
+		/*WordsMove move = new WordsMove(direction.d, distance.n);
 		if (doNow.equals(null)) {
 			objectToMove.enqueueAction(move);
 		} else {
 			objectToMove.enqueueActionAtFront(move);
-		}
+		}*/
 		return null;
 	}
 
