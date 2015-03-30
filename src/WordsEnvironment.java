@@ -56,6 +56,9 @@ public class WordsEnvironment {
 		WordsObject newObject = new WordsObject(objectName, wordsClass, position);
 		objects.put(objectName, newObject);
 		
+		// TODO: decide if this is appropriate (given that it could figure listeners)
+		newObject.enqueueAction(new WordsWait(1));
+		
 		return newObject;
 	}
 	
