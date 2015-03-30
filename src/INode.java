@@ -426,8 +426,20 @@ public class INode extends AST {
 	}
 
 	private ASTValue evalRepeat(WordsEnvironment environment) {
-		// TODO
-		throw new AssertionError("Not yet implemented");
+		ASTValue times = children.get(0).eval(environment);
+		AST statementList = children.get(1);
+		
+		if (times.type != ValueType.NUM) {
+			// TODO
+			// throw exception
+			return null;
+		}
+		
+		for (int i = 0; i < times.numValue; i++) {
+			statementList.eval(environment);
+		}
+		
+		return null;
 	}
 
 	private ASTValue evalReset(WordsEnvironment environment) {
