@@ -25,12 +25,28 @@ public class WordsObject {
 		actionQueue.addFirst(action);
 	}
 	
-	public WordsProperty getProperty(String propName) {
-		if (properties.containsKey(propName)) {
-			return properties.get(propName);
-		} else {
-			return new WordsProperty(WordsProperty.PropertyType.NOTHING);
-		}
+	/**
+	 * Retrieves a property of an object by looking only at the object itself, ignoring its class chain.
+	 * A missing property returns null.
+	 */
+	private WordsProperty getOwnProperty(String propertyName) {
+		if (properties.containsKey(propertyName))
+			return properties.get(propertyName);
+		else
+			return null;
+	}
+	
+	/**
+	 * Retrieves a property on an object by looking at the object itself and its class chain.
+	 * A missing property returns a WordsProperty of type NOTHING
+	 */
+	public WordsProperty getProperty(String propertyName) {
+		WordsProperty property = getOwnProperty(propertyName);
+		
+		if (property != null)
+			return property;
+		else
+			return wordsClass.getProperty(propertyName);
 	}
 	
 	public void moveUp() {
