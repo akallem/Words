@@ -41,14 +41,41 @@ public class WordsObject {
 	 * A missing property returns a WordsProperty of type NOTHING.
 	 */
 	public WordsProperty getProperty(String propertyName) {
-		WordsProperty property = getOwnProperty(propertyName);
+		// Special handling of "row" and "column" properties
+		if (propertyName.equals("row"))
+			return new WordsProperty(cell.y);
+		else if (propertyName.equals("column"))
+			return new WordsProperty(cell.x);
 		
-		// TODO: row and column are special properties
+		WordsProperty property = getOwnProperty(propertyName);
 		
 		if (property != null)
 			return property;
 		else
 			return wordsClass.getProperty(propertyName);
+	}
+	
+	/**
+	 * Assigns a property to an object.  Assigning NOTHING removes the property, if it exists.
+	 */
+	public void setProperty(String propertyName, WordsProperty property) {
+		// Special handling of "row" and "column" properties
+		if (propertyName.equals("row") || propertyName.equals("column")) {
+			if (property.type != WordsProperty.PropertyType.NUM) {
+				// throw an exception?
+				return;
+			}
+			
+			if (propertyName.equals("row"))
+				cell.y = (int) Math.round(property.numProperty);
+			else
+				cell.x = (int) Math.round(property.numProperty);
+		}
+		
+		if (properties.containsKey(propertyName) && property.type == WordsProperty.PropertyType.NOTHING)
+			properties.remove(propertyName);
+		else
+			properties.put(propertyName, property);
 	}
 	
 	public void moveUp() {
