@@ -177,222 +177,223 @@ public class INode extends AST {
 	}
 
 	private ASTValue evalAdd(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");
 	}
 
 	private ASTValue evalAlias(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");
 	}
 
 	private ASTValue evalAnd(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");
 	}
 
 	private ASTValue evalAssign(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");	
 	}
 
 	private ASTValue evalClassStatementList(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");
 	}
 
 	private ASTValue evalCreateClass(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");	
 	}
 
 	private ASTValue evalCreateObj(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");	
 	}
 
 	private ASTValue evalDefineAction(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");	
 	}
 
 	private ASTValue evalDefineProperty(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");	
 	}
 
 	private ASTValue evalDirection(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");	
 	}
 
 	private ASTValue evalEquals(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");	
 	}
 
 	private ASTValue evalExit(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");	
 	}
 
 	private ASTValue evalExponentiate(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");	
 	}
 
 	private ASTValue evalGEQ(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");	
 	}
 
 	private ASTValue evalGreater(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");	
 	}
 
 	private ASTValue evalIdentifierList(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");	
 	}
 
 	private ASTValue evalIf(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");	
 	}
 
 	private ASTValue evalLEQ(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");	
 	}
 
 	private ASTValue evalLess(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");	
 	}
 
 	private ASTValue evalListenerPerm(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");	
 	}
 
 	private ASTValue evalListenerTemp(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");	
 	}
 
 	private ASTValue evalMovesPredicate(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");	
 	}
 
 	private ASTValue evalMultiply(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");	
 	}
 
 	private ASTValue evalNegate(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");	
 	}
 
 	private ASTValue evalNot(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");	
 	}
 
 	private ASTValue evalOr(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");	
 	}
 
 	private ASTValue evalParameter(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");	
 	}
 
 	private ASTValue evalParameterList(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");
 	}
 
 	private ASTValue evalPosition(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");
 	}
 
 	private ASTValue evalQueueAction(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");
 	}
 
 	private ASTValue evalQueueAssign(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");
 	}
 
 	private ASTValue evalQueueAssignProperty(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");
 	}
 
 	private ASTValue evalQueueAssignPropertyList(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");
 	}
 
 	private ASTValue evalQueueMove(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");
 	}
 
 	private ASTValue evalQueueSay(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");
 	}
 
 	private ASTValue evalQueueStop(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");
 	}
 
 	private ASTValue evalQueueWait(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");
 	}
 
 	private ASTValue evalQueueReferenceList(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");
 	}
 
 	private ASTValue evalQueueRemove(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");
 	}
 
 	private ASTValue evalQueueRepeat(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");
 	}
 
 	private ASTValue evalReset(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");
 	}
 
 	private ASTValue evalRetrieveProperty(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");
 	}
 
 	private ASTValue evalSaysPredicate(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");
 	}
 
 	private ASTValue evalStatementList(WordsEnvironment environment) {
 		for (int i = 0; i < children.size(); i++) {
+			System.out.println("Here!");
 			children.get(i).eval(environment);
 		}
 		
@@ -400,28 +401,28 @@ public class INode extends AST {
 	}
 
 	private ASTValue evalSubject(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");
 	}
 
 	private ASTValue evalSubtract(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");
 	}
 
 	private ASTValue evalTouchesPredicate(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");
 	}
 
 	private ASTValue evalWaitsPredicate(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");
 	}
 
 	private ASTValue evalWhile(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		throw new AssertionError("Not yet implemented");
 	}
 
 
