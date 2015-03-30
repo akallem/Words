@@ -2,30 +2,30 @@
  * An abstract syntax tree leaf node.
  */
 public class LNode extends AST {
-	public boolean b;
-	public Direction d;
-	public double n;
-	public String s;
+	public boolean hasNoVal;
+	public Direction direction;
+	public double num;
+	public String string;
 	
-	public LNode(Type type, Direction.Type d) {
+	public LNode(ASTType type, Direction.Type d) {
 		super(type);
-		this.d = new Direction(d);
+		this.direction = new Direction(d);
 	}
 	
-	public LNode(Type type) {
+	public LNode(ASTType type) {
 		super(type);
-		this.b = true;
+		this.hasNoVal = true;
 	}
 	
-	public LNode(Type type, double n) {
+	public LNode(ASTType type, double n) {
 		super(type);
-		this.n = n;
+		this.num = n;
 	}
 	
-	public LNode(Type type, String s) {
+	public LNode(ASTType type, String s) {
 		super(type);
 		
-		if (type == Type.STRING) {
+		if (type == ASTType.STRING) {
 			// Remove leading and trailing " characters
 			// Do not do a full string replace, since some " characters may be escaped
 			if (s.startsWith("\""))
@@ -39,23 +39,23 @@ public class LNode extends AST {
 			s = s.replace("\\\\", "\\");
 			s = s.replace("\\\"", "\"");
 			
-			this.s = s;
-		} else if (type == Type.IDENTIFIER) {
-			this.s = s;
-		} else if (type == Type.REFERENCE) {
-			this.s = s.replace("'s", "");
+			this.string = s;
+		} else if (type == ASTType.IDENTIFIER) {
+			this.string = s;
+		} else if (type == ASTType.REFERENCE) {
+			this.string = s.replace("'s", "");
 		}
 	}
 	
 	private String valueAsString() {
-		if (type == Type.DIRECTION)
-			return d.toString();
-		else if (type == Type.NOTHING || type == Type.NOW)
+		if (type == ASTType.DIRECTION)
+			return direction.toString();
+		else if (type == ASTType.NOTHING || type == ASTType.NOW)
 			return "true";
-		else if (type == Type.NUM)
-			return Double.toString(n);
-		else if (type == Type.STRING || type == Type.IDENTIFIER || type == Type.REFERENCE)
-			return s;
+		else if (type == ASTType.NUM)
+			return Double.toString(num);
+		else if (type == ASTType.STRING || type == ASTType.IDENTIFIER || type == ASTType.REFERENCE)
+			return string;
 		
 		return "";
 	}
@@ -70,5 +70,25 @@ public class LNode extends AST {
 	@Override
 	public String toString() {
 		return "[" + type.toString() + ": " + valueAsString() + "]";
+	}
+
+	@Override
+	public ASTValue eval(WordsEnvironment environment) {
+		switch (this.type) {
+			case STRING:
+			case REFERENCE:
+			case IDENTIFIER:
+				return new ASTValue(this.string);
+			case NUM:
+				return new ASTValue(this.num);
+			case DIRECTION:
+				return new ASTValue(this.direction);
+			case NOTHING:
+				return new ASTValue(ValueType.NOTHING);
+			case NOW:
+				return new ASTValue(ValueType.NOW);
+			default:
+				throw new AssertionError("LNode evaluated with unexpected AST node type " + this.type.toString());
+		}
 	}
 }

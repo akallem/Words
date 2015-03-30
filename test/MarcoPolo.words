@@ -1,0 +1,71 @@
+A person is a thing which {
+	has a height of 5.9.
+	has a weight of 150.
+	can jump which means {
+		Make them move up 2.
+		Make them move down 2.
+	}
+}
+
+Bob is a person at 0,0.
+Alice is a person at 2,0.
+Make Bob jump.
+Make Bob say "My height is " + Bob's height. 
+Make Bob's height be 6.2.
+Make Bob say "Wow, I just grew to " + Bob's height. 
+Make Alice say "My height is " + Alice's height.
+
+Whenever Bob says "Marco" {
+	Stop Alice.
+	Make Alice say "Polo".
+	Repeat 10 times {
+		Make Alice move anywhere.
+	}
+}
+
+	Whenever Alice says "Polo" {
+		Stop Bob.
+		Make Bob move left Alice's column - Bob's column.
+		Make Bob move up Alice's row - Bob's row.
+		Make Bob say "Marco".
+}
+
+Alice's role is "seeker".
+Bob's role is "hider".
+
+Whenever Alice says "Marco" {
+	Stop Bob.
+	Make Bob say "Polo".
+	Repeat 10 times {
+		Make Bob move anywhere.
+	}
+}
+	Whenever Bob says "Polo" {
+		Stop Alice.
+		Make Alice move left Bob's column - Alice's column.
+		Make Alice move up Bob's row - Alice's row.
+		Make Alice say "Marco".
+}
+
+Whenever Alice's row = Bob's row and Alice's column = Bob's column {
+	Stop Alice.
+	Stop Bob.
+	If Alice's role = "seeker" then {
+		Alice's role is "hider".
+		Repeat 10 times {
+			Make Alice move anywhere.
+		}
+		Bob's role is "seeker".
+		Make Bob wait 5 turns.
+		Make Bob say "Marco".
+	}
+If Bob's role = "seeker" then {
+		Bob's role is "hider".
+		Repeat 10 times {
+			Make Bob move anywhere.
+		}
+		Alice's role is "seeker".
+		Make Alice wait 5 turns.
+		Make Alice say "Marco".
+	}
+}

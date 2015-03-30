@@ -10,7 +10,7 @@ public class WordsObject {
 	private WordsPosition cell;
 	private String currentMessage;
 	
-	public WordsObject(WordsClass wordsClass, String objectName, WordsPosition cell) {
+	public WordsObject(String objectName, WordsClass wordsClass, WordsPosition cell) {
 		this.wordsClass = wordsClass;
 		this.objectName = objectName;
 		this.cell = cell;
@@ -19,6 +19,63 @@ public class WordsObject {
 	
 	public void enqueueAction(WordsAction action) {
 		actionQueue.add(action);
+	}
+	
+	public void enqueueActionAtFront(WordsAction action) {
+		actionQueue.addFirst(action);
+	}
+	
+	/**
+	 * Retrieves a property of an object by looking only at the object itself, ignoring its class chain.
+	 * A missing property returns null.
+	 */
+	private WordsProperty getOwnProperty(String propertyName) {
+		if (properties.containsKey(propertyName))
+			return properties.get(propertyName);
+		else
+			return null;
+	}
+	
+	/**
+	 * Retrieves a property on an object by looking at the object itself and its class chain.
+	 * A missing property returns a WordsProperty of type NOTHING.
+	 */
+	public WordsProperty getProperty(String propertyName) {
+		// Special handling of "row" and "column" properties
+		if (propertyName.equals("row"))
+			return new WordsProperty(cell.y);
+		else if (propertyName.equals("column"))
+			return new WordsProperty(cell.x);
+		
+		WordsProperty property = getOwnProperty(propertyName);
+		
+		if (property != null)
+			return property;
+		else
+			return wordsClass.getProperty(propertyName);
+	}
+	
+	/**
+	 * Assigns a property to an object.  Assigning NOTHING removes the property, if it exists.
+	 */
+	public void setProperty(String propertyName, WordsProperty property) {
+		// Special handling of "row" and "column" properties
+		if (propertyName.equals("row") || propertyName.equals("column")) {
+			if (property.type != WordsProperty.PropertyType.NUM) {
+				// throw an exception?
+				return;
+			}
+			
+			if (propertyName.equals("row"))
+				cell.y = (int) Math.round(property.numProperty);
+			else
+				cell.x = (int) Math.round(property.numProperty);
+		}
+		
+		if (properties.containsKey(propertyName) && property.type == WordsProperty.PropertyType.NOTHING)
+			properties.remove(propertyName);
+		else
+			properties.put(propertyName, property);
 	}
 	
 	public void moveUp() {
@@ -37,10 +94,15 @@ public class WordsObject {
 		this.cell.x++;
 	}
 	
-	public void doAction() {
+	public void executeNextAction(WordsEnvironment environment) {
 		if (!actionQueue.isEmpty()) {
+			while (actionQueue.peek().isExpandable()) {
+				WordsAction action = actionQueue.pop();
+				actionQueue.addAll(0, action.expand(this));
+			}
+			
 			WordsAction action = actionQueue.pop();
-			action.execute();
+			action.execute(this, environment);
 		}
 	}
 	
@@ -50,6 +112,10 @@ public class WordsObject {
 	
 	public String getClassName() {
 		return wordsClass.getClassName();
+	}
+	
+	public WordsClass getWordsClass() {
+		return wordsClass;
 	}
 	
 	public String getCurrentMessage() {
@@ -63,5 +129,4 @@ public class WordsObject {
 	public void setMessage(String message) {
 		currentMessage = message;
 	}
-	
 }

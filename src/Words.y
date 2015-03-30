@@ -109,8 +109,8 @@ program:
 	;
 
 statement_list:
-		statement					{ $$ = new INode(AST.Type.STATEMENT_LIST, $1); }
-	|	statement statement_list	{ $$ = new INode(AST.Type.STATEMENT_LIST, $1); ((INode) $$).add(((INode) $2).children); }
+		statement					{ $$ = new INode(AST.ASTType.STATEMENT_LIST, $1); }
+	|	statement statement_list	{ $$ = new INode(AST.ASTType.STATEMENT_LIST, $1); ((INode) $$).add(((INode) $2).children); }
 
 statement:
 		immediate_statement			{ $$ = $1; }
@@ -128,74 +128,74 @@ immediate_statement:
 	|	runtime_control_statement	{ $$ = $1; }
 
 class_create_statement:
-		A identifier IS A identifier '.'											{ $$ = new INode(AST.Type.CREATE_CLASS, $2, $5, null); }
-	|	A identifier IS A identifier WHICH '{' class_definition_statement_list '}'	{ $$ = new INode(AST.Type.CREATE_CLASS, $2, $5, $8); }
+		A identifier IS A identifier '.'											{ $$ = new INode(AST.ASTType.CREATE_CLASS, $2, $5, null); }
+	|	A identifier IS A identifier WHICH '{' class_definition_statement_list '}'	{ $$ = new INode(AST.ASTType.CREATE_CLASS, $2, $5, $8); }
 	;
 
 class_definition_statement_list:
-		class_definition_statement													{ $$ = new INode(AST.Type.CLASS_STATEMENT_LIST, $1); }
-	|	class_definition_statement class_definition_statement_list					{ $$ = new INode(AST.Type.CLASS_STATEMENT_LIST, $1); ((INode) $$).add(((INode) $2).children); }
+		class_definition_statement													{ $$ = new INode(AST.ASTType.CLASS_STATEMENT_LIST, $1); }
+	|	class_definition_statement class_definition_statement_list					{ $$ = new INode(AST.ASTType.CLASS_STATEMENT_LIST, $1); ((INode) $$).add(((INode) $2).children); }
 	;
 
 class_definition_statement:
-		HAS A identifier '.'														{ $$ = new INode(AST.Type.DEFINE_PROPERTY, $3, null); }
-	|	HAS A identifier OF literal '.'												{ $$ = new INode(AST.Type.DEFINE_PROPERTY, $3, $5); }
-	|	CAN identifier WHICH MEANS '{' statement_list '}'							{ $$ = new INode(AST.Type.DEFINE_ACTION, $2, null, $6); }
-	|	CAN identifier WITH identifier_list WHICH MEANS '{' statement_list '}'		{ $$ = new INode(AST.Type.DEFINE_ACTION, $2, $4, $8); }	
+		HAS A identifier '.'														{ $$ = new INode(AST.ASTType.DEFINE_PROPERTY, $3, null); }
+	|	HAS A identifier OF literal '.'												{ $$ = new INode(AST.ASTType.DEFINE_PROPERTY, $3, $5); }
+	|	CAN identifier WHICH MEANS '{' statement_list '}'							{ $$ = new INode(AST.ASTType.DEFINE_ACTION, $2, null, $6); }
+	|	CAN identifier WITH identifier_list WHICH MEANS '{' statement_list '}'		{ $$ = new INode(AST.ASTType.DEFINE_ACTION, $2, $4, $8); }	
 	;
 
 object_create_statement:
-		identifier IS A identifier AT position '.'									{ $$ = new INode(AST.Type.CREATE_OBJ, $1, $4, null, $6); }
-	|	identifier IS A identifier WITH parameter_list AT position '.'				{ $$ = new INode(AST.Type.CREATE_OBJ, $1, $4, $6, $8); }
+		identifier IS A identifier AT position '.'									{ $$ = new INode(AST.ASTType.CREATE_OBJ, $1, $4, null, $6); }
+	|	identifier IS A identifier WITH parameter_list AT position '.'				{ $$ = new INode(AST.ASTType.CREATE_OBJ, $1, $4, $6, $8); }
 	;
 
 object_destroy_statement:
-		REMOVE reference_list identifier '.'										{ $$ = new INode(AST.Type.REMOVE, $2, $3); }
+		REMOVE reference_list identifier '.'										{ $$ = new INode(AST.ASTType.REMOVE, $2, $3); }
 	;
 
 property_assign_statement:
-		reference reference_list identifier IS value_expression '.'					{ $$ = new INode(AST.Type.ASSIGN, (new INode(AST.Type.REFERENCE_LIST, $1)).add(((INode) $2).children), $3, $5); }
+		reference reference_list identifier IS value_expression '.'					{ $$ = new INode(AST.ASTType.ASSIGN, (new INode(AST.ASTType.REFERENCE_LIST, $1)).add(((INode) $2).children), $3, $5); }
 	;
 
 iteration_statement:
-		REPEAT value_expression TIMES '{' statement_list '}'						{ $$ = new INode(AST.Type.REPEAT, $2, $5); }
-	|	WHILE boolean_predicate '{' statement_list '}'								{ $$ = new INode(AST.Type.WHILE, $2, $4); }
+		REPEAT value_expression TIMES '{' statement_list '}'						{ $$ = new INode(AST.ASTType.REPEAT, $2, $5); }
+	|	WHILE boolean_predicate '{' statement_list '}'								{ $$ = new INode(AST.ASTType.WHILE, $2, $4); }
 	;
 
 conditional_statement:
-		IF boolean_predicate THEN '{' statement_list '}'							{ $$ = new INode(AST.Type.IF, $2, $5); }
+		IF boolean_predicate THEN '{' statement_list '}'							{ $$ = new INode(AST.ASTType.IF, $2, $5); }
 	;
 
 listener_statement:
-		WHENEVER predicate '{' statement_list '}'									{ $$ = new INode(AST.Type.LISTENER_PERM, $2, $4); }
-	|	AS LONG AS predicate '{' statement_list '}'									{ $$ = new INode(AST.Type.LISTENER_TEMP, $4, $6); }
+		WHENEVER predicate '{' statement_list '}'									{ $$ = new INode(AST.ASTType.LISTENER_PERM, $2, $4); }
+	|	AS LONG AS predicate '{' statement_list '}'									{ $$ = new INode(AST.ASTType.LISTENER_TEMP, $4, $6); }
 	;
 
 runtime_control_statement:
-		RESET '.'																	{ $$ = new INode(AST.Type.RESET); }
-	|	EXIT '.'																	{ $$ = new INode(AST.Type.EXIT); }
+		RESET '.'																	{ $$ = new INode(AST.ASTType.RESET); }
+	|	EXIT '.'																	{ $$ = new INode(AST.ASTType.EXIT); }
 	;
 
 queueing_statement:
-		MAKE reference_list queue_assign_property_list '.'							{ $$ = new INode(AST.Type.QUEUE_ASSIGN, $2, $3, null); }
-	|	MAKE reference_list queue_assign_property_list now '.'						{ $$ = new INode(AST.Type.QUEUE_ASSIGN, $2, $3, $4); }
-	|	MAKE reference_list identifier MOVE direction '.'							{ $$ = new INode(AST.Type.QUEUE_MOVE, $2, $3, $5, null, null); }
-	|	MAKE reference_list identifier MOVE direction now '.'						{ $$ = new INode(AST.Type.QUEUE_MOVE, $2, $3, $5, null, $6); }
-	|	MAKE reference_list identifier MOVE direction value_expression '.'			{ $$ = new INode(AST.Type.QUEUE_MOVE, $2, $3, $5, $6, null); }
-	|	MAKE reference_list identifier MOVE direction value_expression now '.'		{ $$ = new INode(AST.Type.QUEUE_MOVE, $2, $3, $5, $6, $7); }
-	|	MAKE reference_list identifier SAY value_expression '.'						{ $$ = new INode(AST.Type.QUEUE_SAY, $2, $3, $5, null); }
-	|	MAKE reference_list identifier SAY value_expression now '.'					{ $$ = new INode(AST.Type.QUEUE_SAY, $2, $3, $5, $6); }
-	|	MAKE reference_list identifier WAIT value_expression TURNS '.'				{ $$ = new INode(AST.Type.QUEUE_WAIT, $2, $3, $5, null); }
-	|	MAKE reference_list identifier WAIT value_expression TURNS now '.'			{ $$ = new INode(AST.Type.QUEUE_WAIT, $2, $3, $5, $7); }
-	|	STOP reference_list identifier '.'											{ $$ = new INode(AST.Type.QUEUE_STOP, $2, $3); }
+		MAKE reference_list queue_assign_property_list '.'							{ $$ = new INode(AST.ASTType.QUEUE_ASSIGN, $2, $3, null); }
+	|	MAKE reference_list queue_assign_property_list now '.'						{ $$ = new INode(AST.ASTType.QUEUE_ASSIGN, $2, $3, $4); }
+	|	MAKE reference_list identifier MOVE direction '.'							{ $$ = new INode(AST.ASTType.QUEUE_MOVE, $2, $3, $5, null, null); }
+	|	MAKE reference_list identifier MOVE direction now '.'						{ $$ = new INode(AST.ASTType.QUEUE_MOVE, $2, $3, $5, null, $6); }
+	|	MAKE reference_list identifier MOVE direction value_expression '.'			{ $$ = new INode(AST.ASTType.QUEUE_MOVE, $2, $3, $5, $6, null); }
+	|	MAKE reference_list identifier MOVE direction value_expression now '.'		{ $$ = new INode(AST.ASTType.QUEUE_MOVE, $2, $3, $5, $6, $7); }
+	|	MAKE reference_list identifier SAY value_expression '.'						{ $$ = new INode(AST.ASTType.QUEUE_SAY, $2, $3, $5, null); }
+	|	MAKE reference_list identifier SAY value_expression now '.'					{ $$ = new INode(AST.ASTType.QUEUE_SAY, $2, $3, $5, $6); }
+	|	MAKE reference_list identifier WAIT value_expression TURNS '.'				{ $$ = new INode(AST.ASTType.QUEUE_WAIT, $2, $3, $5, null); }
+	|	MAKE reference_list identifier WAIT value_expression TURNS now '.'			{ $$ = new INode(AST.ASTType.QUEUE_WAIT, $2, $3, $5, $7); }
+	|	STOP reference_list identifier '.'											{ $$ = new INode(AST.ASTType.QUEUE_STOP, $2, $3); }
 	|	queueing_custom_action_statement											{ $$ = $1; }
 	;
 
 queueing_custom_action_statement:
-		MAKE reference_list identifier identifier '.'								{ $$ = new INode(AST.Type.QUEUE_ACTION, $2, $3, $4, null, null); }
-	|	MAKE reference_list identifier identifier now '.'							{ $$ = new INode(AST.Type.QUEUE_ACTION, $2, $3, $4, null, $5); }
-	|	MAKE reference_list identifier identifier WITH parameter_list '.'			{ $$ = new INode(AST.Type.QUEUE_ACTION, $2, $3, $4, $6, null); }
-	|	MAKE reference_list identifier identifier WITH parameter_list now '.'		{ $$ = new INode(AST.Type.QUEUE_ACTION, $2, $3, $4, $6, $7); }
+		MAKE reference_list identifier identifier '.'								{ $$ = new INode(AST.ASTType.QUEUE_ACTION, $2, $3, $4, null, null); }
+	|	MAKE reference_list identifier identifier now '.'							{ $$ = new INode(AST.ASTType.QUEUE_ACTION, $2, $3, $4, null, $5); }
+	|	MAKE reference_list identifier identifier WITH parameter_list '.'			{ $$ = new INode(AST.ASTType.QUEUE_ACTION, $2, $3, $4, $6, null); }
+	|	MAKE reference_list identifier identifier WITH parameter_list now '.'		{ $$ = new INode(AST.ASTType.QUEUE_ACTION, $2, $3, $4, $6, $7); }
 	;
 
 predicate:
@@ -204,108 +204,108 @@ predicate:
 	;
 
 basic_action_predicate:
-		subject alias MOVES															{ $$ = new INode(AST.Type.MOVES_PREDICATE, $1, $2, null); }
-	|	subject alias MOVES direction												{ $$ = new INode(AST.Type.MOVES_PREDICATE, $1, $2, $4); }
-	|	subject alias SAYS value_expression											{ $$ = new INode(AST.Type.SAYS_PREDICATE, $1, $2, $4); }
-	|	subject alias WAITS															{ $$ = new INode(AST.Type.WAITS_PREDICATE, $1, $2); }
-	|	subject alias TOUCHES subject alias											{ $$ = new INode(AST.Type.TOUCHES_PREDICATE, $1, $2, $4, $5); }
+		subject alias MOVES															{ $$ = new INode(AST.ASTType.MOVES_PREDICATE, $1, $2, null); }
+	|	subject alias MOVES direction												{ $$ = new INode(AST.ASTType.MOVES_PREDICATE, $1, $2, $4); }
+	|	subject alias SAYS value_expression											{ $$ = new INode(AST.ASTType.SAYS_PREDICATE, $1, $2, $4); }
+	|	subject alias WAITS															{ $$ = new INode(AST.ASTType.WAITS_PREDICATE, $1, $2); }
+	|	subject alias TOUCHES subject alias											{ $$ = new INode(AST.ASTType.TOUCHES_PREDICATE, $1, $2, $4, $5); }
 	;
 
 boolean_predicate:
 		relational_expression						{ $$ = $1; }
 	|	'(' boolean_predicate ')'					{ $$ = $2; }
-	|	NOT '(' boolean_predicate ')'				{ $$ = new INode(AST.Type.NOT, $3); }
-	|	boolean_predicate AND boolean_predicate		{ $$ = new INode(AST.Type.AND, $1, $3); }
-	|	boolean_predicate OR boolean_predicate		{ $$ = new INode(AST.Type.OR, $1, $3); }
+	|	NOT '(' boolean_predicate ')'				{ $$ = new INode(AST.ASTType.NOT, $3); }
+	|	boolean_predicate AND boolean_predicate		{ $$ = new INode(AST.ASTType.AND, $1, $3); }
+	|	boolean_predicate OR boolean_predicate		{ $$ = new INode(AST.ASTType.OR, $1, $3); }
 	;
 
 relational_expression:
-		value_expression '=' value_expression		{ $$ = new INode(AST.Type.EQUALS, $1, $3); }
-	|	value_expression '<' value_expression		{ $$ = new INode(AST.Type.LESS, $1, $3); }
-	|	value_expression '>' value_expression		{ $$ = new INode(AST.Type.GREATER, $1, $3); }
-	|	value_expression LEQ value_expression		{ $$ = new INode(AST.Type.LEQ, $1, $3); }
-	|	value_expression GEQ value_expression		{ $$ = new INode(AST.Type.GEQ, $1, $3); }
+		value_expression '=' value_expression		{ $$ = new INode(AST.ASTType.EQUALS, $1, $3); }
+	|	value_expression '<' value_expression		{ $$ = new INode(AST.ASTType.LESS, $1, $3); }
+	|	value_expression '>' value_expression		{ $$ = new INode(AST.ASTType.GREATER, $1, $3); }
+	|	value_expression LEQ value_expression		{ $$ = new INode(AST.ASTType.LEQ, $1, $3); }
+	|	value_expression GEQ value_expression		{ $$ = new INode(AST.ASTType.GEQ, $1, $3); }
 	;
 
 value_expression:
-		reference_list identifier					{ $$ = new INode(AST.Type.RETRIEVE_PROPERTY, $1, $2); }
+		reference_list identifier					{ $$ = new INode(AST.ASTType.RETRIEVE_PROPERTY, $1, $2); }
 	|	literal										{ $$ = $1; }
-	|	NOTHING										{ $$ = new LNode(AST.Type.NOTHING); }
+	|	NOTHING										{ $$ = new LNode(AST.ASTType.NOTHING); }
 	|	'(' value_expression ')'					{ $$ = $2; }
-	|	'-' value_expression %prec UMINUS			{ $$ = new INode(AST.Type.NEGATE, $2); }
-	|	value_expression '+' value_expression		{ $$ = new INode(AST.Type.ADD, $1, $3); }
-	|	value_expression '-' value_expression		{ $$ = new INode(AST.Type.SUBTRACT, $1, $3); }
-	|	value_expression '*' value_expression		{ $$ = new INode(AST.Type.MULTIPLY, $1, $3); }
-	|	value_expression '/' value_expression		{ $$ = new INode(AST.Type.DIVIDE, $1, $3); }
-	|	value_expression '^' value_expression		{ $$ = new INode(AST.Type.EXPONENTIATE, $1, $3); }
+	|	'-' value_expression %prec UMINUS			{ $$ = new INode(AST.ASTType.NEGATE, $2); }
+	|	value_expression '+' value_expression		{ $$ = new INode(AST.ASTType.ADD, $1, $3); }
+	|	value_expression '-' value_expression		{ $$ = new INode(AST.ASTType.SUBTRACT, $1, $3); }
+	|	value_expression '*' value_expression		{ $$ = new INode(AST.ASTType.MULTIPLY, $1, $3); }
+	|	value_expression '/' value_expression		{ $$ = new INode(AST.ASTType.DIVIDE, $1, $3); }
+	|	value_expression '^' value_expression		{ $$ = new INode(AST.ASTType.EXPONENTIATE, $1, $3); }
 	;
 
 reference_list:
-													{ $$ = new INode(AST.Type.REFERENCE_LIST); }
-	|	reference reference_list					{ $$ = new INode(AST.Type.REFERENCE_LIST, $1); ((INode) $$).add(((INode) $2).children); }
+													{ $$ = new INode(AST.ASTType.REFERENCE_LIST); }
+	|	reference reference_list					{ $$ = new INode(AST.ASTType.REFERENCE_LIST, $1); ((INode) $$).add(((INode) $2).children); }
 	;
 
 identifier_list:
-		identifier									{ $$ = new INode(AST.Type.IDENTIFIER_LIST, $1); }
-	|	identifier ',' identifier_list				{ $$ = new INode(AST.Type.IDENTIFIER_LIST, $1); ((INode) $$).add(((INode) $3).children); }
+		identifier									{ $$ = new INode(AST.ASTType.IDENTIFIER_LIST, $1); }
+	|	identifier ',' identifier_list				{ $$ = new INode(AST.ASTType.IDENTIFIER_LIST, $1); ((INode) $$).add(((INode) $3).children); }
 	;
 
 parameter_list:
-		parameter									{ $$ = new INode(AST.Type.PARAMETER_LIST, $1); }
-	|	parameter ',' parameter_list				{ $$ = new INode(AST.Type.PARAMETER_LIST, $1); ((INode) $$).add(((INode) $3).children); }
+		parameter									{ $$ = new INode(AST.ASTType.PARAMETER_LIST, $1); }
+	|	parameter ',' parameter_list				{ $$ = new INode(AST.ASTType.PARAMETER_LIST, $1); ((INode) $$).add(((INode) $3).children); }
 	;
 
 queue_assign_property_list:
-		queue_assign_property										{ $$ = new INode(AST.Type.QUEUE_ASSIGN_PROPERTY_LIST, $1); }
-	|	queue_assign_property ',' queue_assign_property_list		{ $$ = new INode(AST.Type.QUEUE_ASSIGN_PROPERTY_LIST, $1); ((INode) $$).add(((INode) $3).children); }
+		queue_assign_property										{ $$ = new INode(AST.ASTType.QUEUE_ASSIGN_PROPERTY_LIST, $1); }
+	|	queue_assign_property ',' queue_assign_property_list		{ $$ = new INode(AST.ASTType.QUEUE_ASSIGN_PROPERTY_LIST, $1); ((INode) $$).add(((INode) $3).children); }
 	;
 
 
 reference:
-		REFERENCE									{ $$ = new LNode(AST.Type.REFERENCE, $1); }
+		REFERENCE									{ $$ = new LNode(AST.ASTType.REFERENCE, $1); }
 	;
 
 identifier:
-		IDENTIFIER									{ $$ = new LNode(AST.Type.IDENTIFIER, $1); }
+		IDENTIFIER									{ $$ = new LNode(AST.ASTType.IDENTIFIER, $1); }
 	;
 
 parameter:
-		identifier value_expression					{ $$ = new INode(AST.Type.PARAMETER, $1, $2); }
+		identifier value_expression					{ $$ = new INode(AST.ASTType.PARAMETER, $1, $2); }
 	;
 
 subject:
-		reference_list identifier					{ $$ = new INode(AST.Type.SUBJECT, null, $1, $2); }
-	|	A identifier								{ $$ = new INode(AST.Type.SUBJECT, $2, null, null); }
+		reference_list identifier					{ $$ = new INode(AST.ASTType.SUBJECT, null, $1, $2); }
+	|	A identifier								{ $$ = new INode(AST.ASTType.SUBJECT, $2, null, null); }
 	;
 
 alias:
-													{ $$ = new INode(AST.Type.ALIAS); }
-	|	'[' identifier ']'							{ $$ = new INode(AST.Type.ALIAS, $2); }
+													{ $$ = new INode(AST.ASTType.ALIAS); }
+	|	'[' identifier ']'							{ $$ = new INode(AST.ASTType.ALIAS, $2); }
 	;
 
 queue_assign_property:
-		identifier BE value_expression				{ $$ = new INode(AST.Type.QUEUE_ASSIGN_PROPERTY, $1, $3); }
+		identifier BE value_expression				{ $$ = new INode(AST.ASTType.QUEUE_ASSIGN_PROPERTY, $1, $3); }
 	;
 
 direction:
-		ANYWHERE									{ $$ = new LNode(AST.Type.DIRECTION, Direction.Type.ANYWHERE); }
-	|	DOWN										{ $$ = new LNode(AST.Type.DIRECTION, Direction.Type.DOWN); }
-	|	LEFT										{ $$ = new LNode(AST.Type.DIRECTION, Direction.Type.LEFT); }
-	|	RIGHT										{ $$ = new LNode(AST.Type.DIRECTION, Direction.Type.RIGHT); }
-	|	UP											{ $$ = new LNode(AST.Type.DIRECTION, Direction.Type.UP); }
+		ANYWHERE									{ $$ = new LNode(AST.ASTType.DIRECTION, Direction.Type.ANYWHERE); }
+	|	DOWN										{ $$ = new LNode(AST.ASTType.DIRECTION, Direction.Type.DOWN); }
+	|	LEFT										{ $$ = new LNode(AST.ASTType.DIRECTION, Direction.Type.LEFT); }
+	|	RIGHT										{ $$ = new LNode(AST.ASTType.DIRECTION, Direction.Type.RIGHT); }
+	|	UP											{ $$ = new LNode(AST.ASTType.DIRECTION, Direction.Type.UP); }
 	;
 
 now:
-		NOW											{ $$ = new LNode(AST.Type.NOW); }
+		NOW											{ $$ = new LNode(AST.ASTType.NOW); }
 	;
 
 position:
-		value_expression ',' value_expression		{ $$ = new INode(AST.Type.POSITION, $1, $3); }
+		value_expression ',' value_expression		{ $$ = new INode(AST.ASTType.POSITION, $1, $3); }
 	;
 
 literal:
-		NUM											{ $$ = new LNode(AST.Type.NUM, $1); }
-	|	STRING										{ $$ = new LNode(AST.Type.STRING, $1); }
+		NUM											{ $$ = new LNode(AST.ASTType.NUM, $1); }
+	|	STRING										{ $$ = new LNode(AST.ASTType.STRING, $1); }
 	;
 
 
@@ -341,7 +341,7 @@ public Words(Reader r) {
 }
 
 
-public static Game game;
+public static FrameLoop frameLoop;
 public AST root;
 public boolean hideErrors = false;
 public boolean hasError = false;
@@ -350,8 +350,8 @@ public static void main(String args[]) throws IOException {
 	System.out.println("Welcome to Words!");
 
 	WordsUI ui = new WordsUI();
-	game = new Game(ui);
-	game.start();
+	frameLoop = new FrameLoop(ui);
+	frameLoop.start();
 
 	// Read and parse program argument, if any
 	if (args.length > 0) {
@@ -365,7 +365,7 @@ public static void main(String args[]) throws IOException {
 			System.err.println();
 			System.err.println();
 			if (parser.root != null)
-				parser.root.dump(0);
+				frameLoop.enqueueAST(parser.root);
 			else
 				System.err.println("Failed to generate AST");
 
@@ -416,7 +416,7 @@ public static void main(String args[]) throws IOException {
 		System.err.println();
 		System.err.println();
 		if (parser.root != null)
-			parser.root.dump(0);
+			frameLoop.enqueueAST(parser.root);
 		else
 			System.err.println("Failed to generate AST");
 	}
