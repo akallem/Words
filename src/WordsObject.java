@@ -49,10 +49,15 @@ public class WordsObject {
 		this.cell.x++;
 	}
 	
-	public void doAction() {
+	public void executeNextAction(WordsEnvironment environment) {
 		if (!actionQueue.isEmpty()) {
+			while (actionQueue.peek().isExpandable()) {
+				WordsAction action = actionQueue.pop();
+				actionQueue.addAll(0, action.expand(this));
+			}
+			
 			WordsAction action = actionQueue.pop();
-			action.execute();
+			action.execute(this, environment);
 		}
 	}
 	

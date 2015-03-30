@@ -58,7 +58,7 @@ public class FrameLoop extends Thread {
 				}*/
 			}
 			for (WordsObject object : environment.getObjects()) {
-				object.doAction();
+				object.executeNextAction(environment);
 			}
 			
 			for (WordsEventListener eventListener : environment.getEventListeners()) {

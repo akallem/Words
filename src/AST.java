@@ -2,7 +2,7 @@
  * An abstract syntax tree node, which may be either an internal node or leaf node.
  */
 public abstract class AST {
-	protected class ASTValue {
+	public class ASTValue {
 		public ValueType type;
 		
 		public double numValue;
