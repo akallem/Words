@@ -392,7 +392,10 @@ public class INode extends AST {
 	}
 
 	private ASTValue evalStatementList(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
+		for (int i = 0; i < children.size(); i++) {
+			children.get(i).eval(environment);
+		}
+		
 		return null;
 	}
 
@@ -448,13 +451,6 @@ public class INode extends AST {
 		
 		return null;
 		//return referenceObject.obj.getProperty(identifier.s);
-	}
-
-	private ASTValue evalStatementList(WordsEnvironment environment) {
-		for (int i = 0; i < children.size(); i++) {
-			children.get(i).eval(environment);
-		}
-		return null;
 	}
 
 	private ASTValue evalQueueMove(WordsEnvironment environment) {
