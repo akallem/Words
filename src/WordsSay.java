@@ -2,6 +2,7 @@ import java.util.LinkedList;
 
 public class WordsSay extends WordsAction {
 	private String message;
+	// TODO: Should also allow expression
 	
 	public WordsSay(String message) {
 		this.message = message;

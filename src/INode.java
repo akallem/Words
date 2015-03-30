@@ -355,6 +355,8 @@ public class INode extends AST {
 		ASTValue distance = children.get(3) != null ? children.get(3).eval(environment) : new ASTValue(1);		// Default distance is 1
 		ASTValue doNow = children.get(4) != null ? children.get(4).eval(environment) : null;
 		
+		// TODO: Should not evaluate distance here but instead put it on the WordsMove object
+		
 		WordsObject object;
 		if (referenceObject.type.equals(ValueType.OBJ)){
 			WordsProperty property = referenceObject.objValue.getProperty(identifier.stringValue);
