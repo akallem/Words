@@ -3,13 +3,13 @@
  */
 public class LNode extends AST {
 	public boolean hasNoVal;
-	public Direction d;
-	public double n;
-	public String s;
+	public Direction direction;
+	public double num;
+	public String string;
 	
 	public LNode(ASTType type, Direction.Type d) {
 		super(type);
-		this.d = new Direction(d);
+		this.direction = new Direction(d);
 	}
 	
 	public LNode(ASTType type) {
@@ -19,7 +19,7 @@ public class LNode extends AST {
 	
 	public LNode(ASTType type, double n) {
 		super(type);
-		this.n = n;
+		this.num = n;
 	}
 	
 	public LNode(ASTType type, String s) {
@@ -39,23 +39,23 @@ public class LNode extends AST {
 			s = s.replace("\\\\", "\\");
 			s = s.replace("\\\"", "\"");
 			
-			this.s = s;
+			this.string = s;
 		} else if (type == ASTType.IDENTIFIER) {
-			this.s = s;
+			this.string = s;
 		} else if (type == ASTType.REFERENCE) {
-			this.s = s.replace("'s", "");
+			this.string = s.replace("'s", "");
 		}
 	}
 	
 	private String valueAsString() {
 		if (type == ASTType.DIRECTION)
-			return d.toString();
+			return direction.toString();
 		else if (type == ASTType.NOTHING || type == ASTType.NOW)
 			return "true";
 		else if (type == ASTType.NUM)
-			return Double.toString(n);
+			return Double.toString(num);
 		else if (type == ASTType.STRING || type == ASTType.IDENTIFIER || type == ASTType.REFERENCE)
-			return s;
+			return string;
 		
 		return "";
 	}
@@ -79,11 +79,11 @@ public class LNode extends AST {
 			case STRING:
 			case REFERENCE:
 			case IDENTIFIER:
-				return new Value(this.s);
+				return new Value(this.string);
 			case NUM:
-				return new Value(this.n);
+				return new Value(this.num);
 			case DIRECTION:
-				return new Value(this.d);
+				return new Value(this.direction);
 			case NOTHING:
 				return new Value(ValueType.NOTHING);
 			case NOW:

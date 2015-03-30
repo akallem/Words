@@ -95,7 +95,7 @@ public class INode extends AST {
 		// Assumes that params returns a hashmap of strings to Values
 		Value newParams = children.get(4).eval(environment);
 		
-		WordsClass objectClass = identifier.obj.getWordsClass();
+		WordsClass objectClass = identifier.objValue.getWordsClass();
 		//WordsCustomAction customAction = objectClass.getCustomAction(actionName);
 		//customAction.expandIntoBasicActions(params);
 		return null;

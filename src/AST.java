@@ -3,45 +3,45 @@
  */
 public abstract class AST {
 	protected class Value {
-		public double n;
-		public String s;
-		public WordsObject obj;
 		public ValueType type;
-		public Direction d;
+		
+		public double numValue;
+		public String stringValue;
+		public WordsObject objValue;
+		public Direction directionValue;
 
 		public Value(double num) {
 			this.type = ValueType.NUM;
-			this.n = num;
+			this.numValue = num;
 		}	
 
 		public Value(String s) {
 			this.type = ValueType.STRING;
-			this.s = s;
+			this.stringValue = s;
 		}
 		
 		public Value(WordsObject obj) {
 			this.type = ValueType.OBJ;
-			this.obj = obj;
+			this.objValue = obj;
 		}
 		
 		public Value(Direction d) {
 			this.type = ValueType.DIRECTION;
-			this.d = d;
+			this.directionValue = d;
 		}
 		
 		public Value(ValueType type) {
 			this.type = type;
 		}
-		
 	}
 
 	protected enum ValueType {
 		NUM,
 		STRING,
 		OBJ,
-		NOTHING,
 		DIRECTION,
-		NOW
+		NOW,
+		NOTHING
 	}
 	
 	/**
