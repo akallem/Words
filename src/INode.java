@@ -91,8 +91,6 @@ public class INode extends AST {
 				return evalDefineAction(environment);
 			case DEFINE_PROPERTY:
 				return evalDefineProperty(environment);
-			case DIRECTION:
-				return evalDirection(environment);
 			case EQUALS:
 				return evalEquals(environment);
 			case EXIT:
@@ -148,11 +146,11 @@ public class INode extends AST {
 			case QUEUE_WAIT:
 				return evalQueueWait(environment);
 			case REFERENCE_LIST:
-				return evalQueueReferenceList(environment);
+				return evalReferenceList(environment);
 			case REMOVE:
-				return evalQueueRemove(environment);
+				return evalRemove(environment);
 			case REPEAT:
-				return evalQueueRepeat(environment);
+				return evalRepeat(environment);
 			case RESET:
 				return evalReset(environment);
 			case RETRIEVE_PROPERTY:
@@ -207,8 +205,19 @@ public class INode extends AST {
 	}
 
 	private ASTValue evalCreateObj(WordsEnvironment environment) {
+		ASTValue objName = children.get(0).eval(environment);
+		ASTValue className = children.get(1).eval(environment);
+		ASTValue properties = children.get(2) != null ? children.get(2).eval(environment) : null;
+		ASTValue position = children.get(3).eval(environment);
+
+		WordsObject newObject = environment.createObject(objName.stringValue, className.stringValue, position.positionValue);
+		
 		// TODO
-		throw new AssertionError("Not yet implemented");	
+		if (properties != null) {
+			// For each element of properties, add property to newObject
+		}
+		
+		return null;
 	}
 
 	private ASTValue evalDefineAction(WordsEnvironment environment) {
@@ -217,11 +226,6 @@ public class INode extends AST {
 	}
 
 	private ASTValue evalDefineProperty(WordsEnvironment environment) {
-		// TODO
-		throw new AssertionError("Not yet implemented");	
-	}
-
-	private ASTValue evalDirection(WordsEnvironment environment) {
 		// TODO
 		throw new AssertionError("Not yet implemented");	
 	}
@@ -317,11 +321,14 @@ public class INode extends AST {
 	}
 
 	private ASTValue evalPosition(WordsEnvironment environment) {
-		// TODO
-		throw new AssertionError("Not yet implemented");
+		ASTValue row = children.get(0).eval(environment);
+		ASTValue col = children.get(1).eval(environment);
+		
+		return new ASTValue(new WordsPosition(row.numValue, col.numValue));
 	}
 
 	private ASTValue evalQueueAction(WordsEnvironment environment) {
+		
 		// TODO
 		throw new AssertionError("Not yet implemented");
 	}
@@ -342,13 +349,59 @@ public class INode extends AST {
 	}
 
 	private ASTValue evalQueueMove(WordsEnvironment environment) {
-		// TODO
-		throw new AssertionError("Not yet implemented");
+		ASTValue referenceObject = children.get(0).eval(environment);
+		ASTValue identifier = children.get(1).eval(environment);
+		ASTValue direction = children.get(2).eval(environment);
+		ASTValue distance = children.get(3) != null ? children.get(3).eval(environment) : new ASTValue(1);		// Default distance is 1
+		ASTValue doNow = children.get(4) != null ? children.get(4).eval(environment) : null;
+		
+		WordsObject object;
+		if (referenceObject.type.equals(ValueType.OBJ)){
+			WordsProperty property = referenceObject.objValue.getProperty(identifier.stringValue);
+			// TODO: Check that property is in fact an object, or throw an exception
+			object = property.objProperty;
+		} else {
+			object = environment.getObject(identifier.stringValue);
+		}
+		
+		//TODO: If distance is not a num, throw an exception
+		//TODO: Distance = 0 should create a wait method
+		WordsMove action = new WordsMove(direction.directionValue, distance.numValue);
+		
+		if (doNow == null) {
+			object.enqueueAction(action);
+		} else {
+			object.enqueueActionAtFront(action);
+		}
+		
+		return null;
 	}
 
 	private ASTValue evalQueueSay(WordsEnvironment environment) {
-		// TODO
-		throw new AssertionError("Not yet implemented");
+		ASTValue referenceObject = children.get(0).eval(environment);
+		ASTValue identifier = children.get(1).eval(environment);
+		ASTValue message = children.get(2).eval(environment);
+		ASTValue doNow = children.get(3) != null ? children.get(3).eval(environment) : null;
+		
+		WordsObject object;
+		if (referenceObject.type.equals(ValueType.OBJ)){
+			WordsProperty property = referenceObject.objValue.getProperty(identifier.stringValue);
+			// TODO: Check that property is in fact an object, or throw an exception
+			object = property.objProperty;
+		} else {
+			object = environment.getObject(identifier.stringValue);
+		}
+		
+		//TODO: If message is not a string, throw an exception
+		WordsSay action = new WordsSay(message.stringValue);
+		
+		if (doNow == null) {
+			object.enqueueAction(action);
+		} else {
+			object.enqueueActionAtFront(action);
+		}
+		
+		return null;
 	}
 
 	private ASTValue evalQueueStop(WordsEnvironment environment) {
@@ -361,17 +414,18 @@ public class INode extends AST {
 		throw new AssertionError("Not yet implemented");
 	}
 
-	private ASTValue evalQueueReferenceList(WordsEnvironment environment) {
+	private ASTValue evalReferenceList(WordsEnvironment environment) {
+		// TODO
+		//throw new AssertionError("Not yet implemented");
+		return new ASTValue(ValueType.NOTHING);
+	}
+
+	private ASTValue evalRemove(WordsEnvironment environment) {
 		// TODO
 		throw new AssertionError("Not yet implemented");
 	}
 
-	private ASTValue evalQueueRemove(WordsEnvironment environment) {
-		// TODO
-		throw new AssertionError("Not yet implemented");
-	}
-
-	private ASTValue evalQueueRepeat(WordsEnvironment environment) {
+	private ASTValue evalRepeat(WordsEnvironment environment) {
 		// TODO
 		throw new AssertionError("Not yet implemented");
 	}
@@ -393,7 +447,6 @@ public class INode extends AST {
 
 	private ASTValue evalStatementList(WordsEnvironment environment) {
 		for (int i = 0; i < children.size(); i++) {
-			System.out.println("Here!");
 			children.get(i).eval(environment);
 		}
 		

@@ -21,10 +21,15 @@ public class WordsEnvironment {
 	}
 
 	/**
-	 * Creates a new class in the environment.  Throws an exception if the class could not be created.
+	 * Creates a new class in the environment and returns it.  Throws an exception if the class could not be created.
 	 */
-	public void createClass(String className, String parent) {
+	public WordsClass createClass(String className, String parent) {
 		// TODO
+		return null;
+	}
+	
+	public WordsClass getClass(String className) {
+		return classes.get(className);
 	}
 	
 	public Collection<WordsClass> getClasses() {
@@ -33,15 +38,29 @@ public class WordsEnvironment {
 	}
 	
 	/**
-	 * Creates a new object in the environment.  Throws an exception if the object could not be created.
+	 * Creates a new object in the environment and returns it.  Throws an exception if the object could not be created.
 	 */
-	public void createObject(String objectName, String className, WordsPosition position) {
-		// TODO
+	public WordsObject createObject(String objectName, String className, WordsPosition position) {
+		if (getObject(objectName) != null) {
+			// TODO
+			// Throw exception
+		}
+		
+		WordsClass wordsClass = getClass(className);
+		
+		if (wordsClass == null) {
+			// TODO
+			// Throw exception
+		}
+		
+		WordsObject newObject = new WordsObject(objectName, wordsClass, position);
+		objects.put(objectName, newObject);
+		
+		return newObject;
 	}
 	
 	public WordsObject getObject(String objectName) {
-		// TODO
-		return null;
+		return objects.get(objectName);
 	}
 	
 	public Collection<WordsObject> getObjects() {

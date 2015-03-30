@@ -41,12 +41,16 @@ public class WordsMove extends WordsAction {
 		switch(direction.type) {
 			case DOWN:
 				object.moveDown();
+				break;
 			case LEFT:
 				object.moveLeft();
+				break;
 			case RIGHT:
 				object.moveRight();
+				break;
 			case UP:
 				object.moveUp();
+				break;
 			default:
 				throw new AssertionError("Attempted to execute direction type " + direction.type.toString());
 		}		

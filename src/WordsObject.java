@@ -10,7 +10,7 @@ public class WordsObject {
 	private WordsPosition cell;
 	private String currentMessage;
 	
-	public WordsObject(WordsClass wordsClass, String objectName, WordsPosition cell) {
+	public WordsObject(String objectName, WordsClass wordsClass, WordsPosition cell) {
 		this.wordsClass = wordsClass;
 		this.objectName = objectName;
 		this.cell = cell;

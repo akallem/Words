@@ -9,7 +9,8 @@ public abstract class AST {
 		public String stringValue;
 		public WordsObject objValue;
 		public Direction directionValue;
-
+		public WordsPosition positionValue;
+		
 		public ASTValue(double num) {
 			this.type = ValueType.NUM;
 			this.numValue = num;
@@ -29,6 +30,11 @@ public abstract class AST {
 			this.type = ValueType.DIRECTION;
 			this.directionValue = d;
 		}
+
+		public ASTValue(WordsPosition p) {
+			this.type = ValueType.POSITION;
+			this.positionValue = p;
+		}
 		
 		public ASTValue(ValueType type) {
 			this.type = type;
@@ -40,6 +46,7 @@ public abstract class AST {
 		STRING,
 		OBJ,
 		DIRECTION,
+		POSITION,
 		NOW,
 		NOTHING
 	}
