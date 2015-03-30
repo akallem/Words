@@ -72,7 +72,6 @@ public class LNode extends AST {
 		return "[" + type.toString() + ": " + valueAsString() + "]";
 	}
 
-	@SuppressWarnings("incomplete-switch")
 	@Override
 	public ASTValue eval(WordsEnvironment environment) {
 		switch (this.type) {
@@ -88,7 +87,8 @@ public class LNode extends AST {
 				return new ASTValue(ValueType.NOTHING);
 			case NOW:
 				return new ASTValue(ValueType.NOW);
+			default:
+				throw new AssertionError("LNode evaluated with unexpected AST node type " + this.type.toString());
 		}
-		return null;
 	}
 }
