@@ -49,6 +49,7 @@ public class WordsClass {
 	
 	public void setProperty(String propertyName, WordsProperty property) {
 		// TODO
+		// Handle case where property is nothing, in which case we should actually remove the key if it exists, not store it
 	}
 	
 	public WordsCustomActionDefinition getCustomActionDefinition(String customActionName) {

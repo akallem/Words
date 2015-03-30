@@ -38,10 +38,12 @@ public class WordsObject {
 	
 	/**
 	 * Retrieves a property on an object by looking at the object itself and its class chain.
-	 * A missing property returns a WordsProperty of type NOTHING
+	 * A missing property returns a WordsProperty of type NOTHING.
 	 */
 	public WordsProperty getProperty(String propertyName) {
 		WordsProperty property = getOwnProperty(propertyName);
+		
+		// TODO: row and column are special properties
 		
 		if (property != null)
 			return property;

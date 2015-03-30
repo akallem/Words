@@ -15,6 +15,9 @@ public class WordsEnvironment {
 		setupEnvironment();
 	}
 	
+	/**
+	 * Creates the base class thing.
+	 */
 	private void setupEnvironment() {
 		WordsClass thing = new WordsClass("thing", null);
 		classes.put("thing", thing);
@@ -28,10 +31,16 @@ public class WordsEnvironment {
 		return null;
 	}
 	
+	/**
+	 * Retrieves a class by name.  Returns null if no such class exists.
+	 */
 	public WordsClass getClass(String className) {
 		return classes.get(className);
 	}
-	
+
+	/**
+	 * Returns a collection of all classes.
+	 */
 	public Collection<WordsClass> getClasses() {
 		// TODO
 		return null;
@@ -62,14 +71,24 @@ public class WordsEnvironment {
 		return newObject;
 	}
 	
+	/**
+	 * Retrieves an object by name.  Returns null if no such object exists.
+	 * TODO: Should it return NOTHING instead of null?
+	 */
 	public WordsObject getObject(String objectName) {
 		return objects.get(objectName);
 	}
 	
+	/**
+	 * Returns a collection of all objects.
+	 */
 	public Collection<WordsObject> getObjects() {
 		return objects.values();
 	}
 	
+	/**
+	 * Returns a collection of all event listeners.
+	 */
 	public Collection<WordsEventListener> getEventListeners() {
 		return eventListeners;
 	}
