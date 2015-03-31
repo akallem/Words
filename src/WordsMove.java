@@ -57,11 +57,11 @@ public class WordsMove extends WordsAction {
 	}
 
 	@Override
-	public LinkedList<WordsAction> doExpand(WordsObject object) {
+	public LinkedList<WordsAction> doExpand(WordsObject object, WordsEnvironment environment) {
 		if (distanceExpression != null) {
 			AST.ASTValue value;
 			try {
-				value = distanceExpression.eval(null);
+				value = distanceExpression.eval(environment).getNumCoercedVal();
 			} catch (WordsException e) {
 				System.err.println(e.toString());
 				return null;

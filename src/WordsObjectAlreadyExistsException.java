@@ -8,6 +8,7 @@ public class WordsObjectAlreadyExistsException extends WordsException {
 		this.objectName = objectName;
 	}
 	
+	@Override
 	public String toString() {
 		return String.format("Error: At line %d, object %s already existed. Cannot be created again.", lineNo, objectName);
 	}

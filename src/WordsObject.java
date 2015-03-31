@@ -98,7 +98,7 @@ public class WordsObject {
 		if (!actionQueue.isEmpty()) {
 			while (actionQueue.peek().isExpandable()) {
 				WordsAction action = actionQueue.pop();
-				actionQueue.addAll(0, action.expand(this));
+				actionQueue.addAll(0, action.expand(this, environment));
 			}
 			
 			WordsAction action = actionQueue.pop();

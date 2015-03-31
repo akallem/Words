@@ -9,6 +9,7 @@ public class WordsClassAlreadyExistsException extends WordsException {
 		this.className = className;
 	}
 	
+	@Override
 	public String toString() {
 		return String.format("Error: At line %d, class %s already existed. Cannot be created again.", lineNo, className);
 	}

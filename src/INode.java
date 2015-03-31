@@ -329,8 +329,8 @@ public class INode extends AST {
 	}
 
 	private ASTValue evalPosition(WordsEnvironment environment) throws WordsException {
-		ASTValue row = children.get(0).eval(environment);
-		ASTValue col = children.get(1).eval(environment);
+		ASTValue row = children.get(0).eval(environment).getNumCoercedVal();
+		ASTValue col = children.get(1).eval(environment).getNumCoercedVal();
 		
 		if (row.type != ValueType.NUM) {
 			throw new InvalidTypeException(this.lineNo, ValueType.NUM.toString(), row.type.toString());
@@ -380,11 +380,12 @@ public class INode extends AST {
 			object = property.objProperty;
 		} else {
 			object = environment.getObject(identifier.stringValue);
+			if (object == null) {
+				throw new WordsObjectNotFoundException(this.lineNo, identifier.stringValue);
+			}
 		}
 		
-		if (direction.type != ValueType.DIRECTION) {
-			throw new InvalidTypeException(this.lineNo, ValueType.DIRECTION.toString(), direction.type.toString());
-		}
+		assert(direction.type == ValueType.DIRECTION) : "Expected direction";
 		
 		//TODO: Distance = 0 should create a wait method
 		WordsMove action = new WordsMove(direction.directionValue, distance);
@@ -451,7 +452,7 @@ public class INode extends AST {
 	}
 
 	private ASTValue evalRepeat(WordsEnvironment environment) throws WordsException {
-		ASTValue times = children.get(0).eval(environment);
+		ASTValue times = children.get(0).eval(environment).getNumCoercedVal();
 		AST statementList = children.get(1);
 		
 		if (times.type != ValueType.NUM) {
@@ -485,8 +486,9 @@ public class INode extends AST {
 			try {
 				children.get(i).eval(environment);
 			} catch (WordsException e) {
-				System.err.println(e.toString());
-				System.err.print("> ");
+				System.err.println();
+				System.err.println(e);
+				System.out.print("> ");
 			}
 		}
 		

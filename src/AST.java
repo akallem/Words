@@ -11,7 +11,6 @@ public abstract class AST {
 		public Direction directionValue;
 		public WordsPosition positionValue;
 		
-		
 		public ASTValue(double num) {
 			this.type = ValueType.NUM;
 			this.numValue = num;
@@ -39,6 +38,27 @@ public abstract class AST {
 		
 		public ASTValue(ValueType type) {
 			this.type = type;
+		}
+		
+		/*
+		 * Returns either an ASTValue of type NUM, or null.
+		 */
+		public ASTValue getNumCoercedVal() {
+			if (type == ValueType.NUM){
+				return this;
+			}
+			if (type == ValueType.STRING) {
+				  try  
+				  {  
+				    double val = Double.parseDouble(stringValue); 
+				    return new ASTValue(val);
+				  }  
+				  catch(NumberFormatException nfe)  
+				  {  
+				    return null;
+				  }  
+			}
+			return null;
 		}
 	}
 

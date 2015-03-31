@@ -21,7 +21,7 @@ public class WordsCustomAction extends WordsAction {
 	protected void doExecute(WordsObject object, WordsEnvironment environment) {}
 
 	@Override
-	protected LinkedList<WordsAction> doExpand(WordsObject object) {
+	protected LinkedList<WordsAction> doExpand(WordsObject object, WordsEnvironment environment) {
 		// TODO
 		
 		/**

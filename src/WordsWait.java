@@ -32,11 +32,11 @@ public class WordsWait extends WordsAction {
 	}
 
 	@Override
-	public LinkedList<WordsAction> doExpand(WordsObject object) {
+	public LinkedList<WordsAction> doExpand(WordsObject object, WordsEnvironment environment) {
 		if (lengthExpression != null) {
 			AST.ASTValue value;
 			try {
-				value = lengthExpression.eval(null);
+				value = lengthExpression.eval(environment).getNumCoercedVal();
 			} catch (WordsException e) {
 				System.err.println(e.toString());
 				return null;

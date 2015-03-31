@@ -10,6 +10,7 @@ public class InvalidTypeException extends WordsException {
 		this.receivedType = received;
 	}
 
+	@Override
 	public String toString() {
 		return String.format("Error: At line %d, expected %s, received %s.", lineNo, expectedType, receivedType);
 	}
