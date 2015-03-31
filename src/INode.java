@@ -366,8 +366,16 @@ public class INode extends AST {
 	}
 
 	private ASTValue evalIf(WordsEnvironment environment) {
-		// TODO
-		throw new AssertionError("Not yet implemented");	
+		ASTValue predicate = children.get(0).eval(environment);
+		AST statementList = children.get(1);
+		
+		assert predicate.type == ValueType.BOOLEAN : "Predicate has type " + predicate.type.toString();
+		
+		if (predicate.booleanValue == true) {
+			statementList.eval(environment);
+		}
+		
+		return null;
 	}
 
 	private ASTValue evalLEQ(WordsEnvironment environment) {
