@@ -94,11 +94,16 @@ public class WordsObject {
 		this.cell.x++;
 	}
 	
-	public void executeNextAction(WordsEnvironment environment) {
+	public void executeNextAction(WordsEnvironment environment) throws WordsEnvironmentException {
 		if (!actionQueue.isEmpty()) {
 			while (actionQueue.peek().isExpandable()) {
 				WordsAction action = actionQueue.pop();
-				actionQueue.addAll(0, action.expand(this, environment));
+				try {
+					actionQueue.addAll(0, action.expand(this, environment));
+				} catch (WordsEnvironmentException e) {
+					actionQueue.pop();
+					throw e;
+				}
 			}
 			
 			WordsAction action = actionQueue.pop();

@@ -49,17 +49,15 @@ public class WordsEnvironment {
 	/**
 	 * Creates a new object in the environment and returns it.  Throws an exception if the object could not be created.
 	 */
-	public WordsObject createObject(String objectName, String className, WordsPosition position) {
+	public WordsObject createObject(String objectName, String className, WordsPosition position) throws WordsEnvironmentException {
 		if (getObject(objectName) != null) {
-			// TODO
-			// Throw exception
+			throw new WordsObjectAlreadyExistsException(objectName);
 		}
 		
 		WordsClass wordsClass = getClass(className);
 		
 		if (wordsClass == null) {
-			// TODO
-			// Throw exception
+			throw new WordsClassNotFoundException(className);
 		}
 		
 		WordsObject newObject = new WordsObject(objectName, wordsClass, position);

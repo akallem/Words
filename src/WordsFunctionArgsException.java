@@ -1,20 +1,19 @@
 
 @SuppressWarnings("serial")
-public class WordsFunctionArgsException extends WordsException {
+public class WordsFunctionArgsException extends WordsEnvironmentException {
 	
 	private String expectedArgs;
 	private String receivedArgs;
 	private String functionName;
 
-	public WordsFunctionArgsException(int lineNo, String functionName, String receivedArgs, String expectedArgs) {
-		super(lineNo);
+	public WordsFunctionArgsException(String functionName, String receivedArgs, String expectedArgs) {
 		this.functionName = functionName;
 		this.receivedArgs = receivedArgs;
 		this.expectedArgs = expectedArgs;
 	}
 	
 	public String getString() {
-		return String.format("Error: At line %d, function %s expected %s, received \"%s\".", 
-				lineNo, functionName, expectedArgs, receivedArgs);
+		return String.format("function %s expected %s, received \"%s\".", 
+				functionName, expectedArgs, receivedArgs);
 	}
 }

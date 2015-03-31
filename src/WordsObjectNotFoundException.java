@@ -1,10 +1,9 @@
 @SuppressWarnings("serial")
-public class WordsObjectNotFoundException extends WordsException {
+public class WordsObjectNotFoundException extends WordsEnvironmentException {
 	
 	private String objectName;
 	
-	public WordsObjectNotFoundException(int lineNo, String objectName) {
-		super(lineNo);
+	public WordsObjectNotFoundException(String objectName) {
 		this.objectName = objectName;
 	}
 	
@@ -14,6 +13,6 @@ public class WordsObjectNotFoundException extends WordsException {
 	
 	@Override
 	public String toString() {
-		return String.format("Error: At line %d, object %s did not exist.", lineNo, objectName);
+		return String.format("Error: At line %d, object %s did not exist.", objectName);
 	}
 }

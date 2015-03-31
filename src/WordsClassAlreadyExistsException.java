@@ -1,16 +1,15 @@
 
 @SuppressWarnings("serial")
-public class WordsClassAlreadyExistsException extends WordsException {
+public class WordsClassAlreadyExistsException extends WordsEnvironmentException {
 	
 	private String className;
 	
-	public WordsClassAlreadyExistsException(int lineNo, String className) {
-		super(lineNo);
+	public WordsClassAlreadyExistsException(String className) {
 		this.className = className;
 	}
 	
 	@Override
 	public String toString() {
-		return String.format("Error: At line %d, class %s already existed. Cannot be created again.", lineNo, className);
+		return String.format("class %s already existed. Cannot be created again.", className);
 	}
 }

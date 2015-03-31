@@ -1,17 +1,16 @@
 @SuppressWarnings("serial")
-public class InvalidTypeException extends WordsException {
+public class InvalidTypeException extends WordsEnvironmentException {
 	
 	private String expectedType;
 	private String receivedType;
 	
-	public InvalidTypeException(int lineNo, String expected, String received) {
-		super(lineNo);
+	public InvalidTypeException(String expected, String received) {
 		this.expectedType = expected;
 		this.receivedType = received;
 	}
 
 	@Override
 	public String toString() {
-		return String.format("Error: At line %d, expected %s, received %s.", lineNo, expectedType, receivedType);
+		return String.format("expected %s, received %s.", expectedType, receivedType);
 	}
 }

@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.concurrent.LinkedBlockingDeque;
 
 
@@ -44,13 +42,20 @@ public class FrameLoop extends Thread {
 				AST ast = ASTQueue.pop();
 				try {
 					ast.eval(environment);
-				} catch (WordsException e) {
+				} catch (WordsProgramException e) {
 					// Note: this should never actually be caught here; it should be caught earlier at the statement level. 
+					System.err.println();
 					System.err.println(e.toString());
+					System.out.println("> ");
 				}
 			}
 			for (WordsObject object : environment.getObjects()) {
-				object.executeNextAction(environment);
+				try {
+					object.executeNextAction(environment);
+				} catch (WordsEnvironmentException e) {
+					System.err.println("Error executing action on object " + object.getObjectName() + ": " + e.toString());
+					System.err.println("Action will not be performed");
+				}
 			}
 			
 			for (WordsEventListener eventListener : environment.getEventListeners()) {

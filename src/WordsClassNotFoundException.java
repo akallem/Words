@@ -1,15 +1,14 @@
 @SuppressWarnings("serial")
-public class WordsClassNotFoundException extends WordsException {
+public class WordsClassNotFoundException extends WordsEnvironmentException {
 
 	private String className;
 	
-	public WordsClassNotFoundException(int lineNo, String className) {
-		super(lineNo);
+	public WordsClassNotFoundException(String className) {
 		this.className = className;
 	}
 	
 	@Override
 	public String toString() {
-		return String.format("Error: At line %d, class %s did not exist.", lineNo, className);
+		return String.format("class %s did not exist.", className);
 	}
 }
