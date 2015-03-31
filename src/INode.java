@@ -174,6 +174,22 @@ public class INode extends AST {
 		}
 	}
 
+	/**
+	 * Checks that the arguments to a relational operator <, <=, >, >= are appropriate and throws and exception
+	 * if not.
+	 */
+	private void checkRelationalOperatorArguments(ASTValue lhs, ASTValue rhs) {
+		if (lhs.type != ValueType.NUM && lhs.type != ValueType.STRING) {
+			// TODO: throw exception
+		} else if (rhs.type != ValueType.NUM && rhs.type != ValueType.STRING) {
+			// TODO: throw exception
+		} else if (lhs.type == ValueType.NUM && rhs.type != ValueType.NUM) {
+			// TODO: throw exception
+		} else if (lhs.type == ValueType.STRING && rhs.type != ValueType.STRING) {
+			// TODO: throw exception
+		}
+	}
+	
 	private ASTValue evalAdd(WordsEnvironment environment) {
 		// TODO
 		throw new AssertionError("Not yet implemented");
@@ -246,13 +262,37 @@ public class INode extends AST {
 	}
 
 	private ASTValue evalGEQ(WordsEnvironment environment) {
-		// TODO
-		throw new AssertionError("Not yet implemented");	
+		ASTValue lhs = children.get(0).eval(environment);
+		ASTValue rhs = children.get(1).eval(environment);
+		
+		checkRelationalOperatorArguments(lhs, rhs);
+		
+		// lhs and rhs are now the same type
+		switch (lhs.type) {
+			case NUM:
+				return new ASTValue(lhs.numValue >= rhs.numValue);
+			case STRING:
+				return new ASTValue(lhs.stringValue.compareTo(rhs.stringValue) >= 0);
+			default:
+				throw new AssertionError("Attempted to evaluate relational operator on ValueType " + lhs.type);			
+		}
 	}
 
 	private ASTValue evalGreater(WordsEnvironment environment) {
-		// TODO
-		throw new AssertionError("Not yet implemented");	
+		ASTValue lhs = children.get(0).eval(environment);
+		ASTValue rhs = children.get(1).eval(environment);
+		
+		checkRelationalOperatorArguments(lhs, rhs);
+		
+		// lhs and rhs are now the same type
+		switch (lhs.type) {
+			case NUM:
+				return new ASTValue(lhs.numValue > rhs.numValue);
+			case STRING:
+				return new ASTValue(lhs.stringValue.compareTo(rhs.stringValue) > 0);
+			default:
+				throw new AssertionError("Attempted to evaluate relational operator on ValueType " + lhs.type);			
+		}
 	}
 
 	private ASTValue evalIdentifierList(WordsEnvironment environment) {
@@ -266,13 +306,37 @@ public class INode extends AST {
 	}
 
 	private ASTValue evalLEQ(WordsEnvironment environment) {
-		// TODO
-		throw new AssertionError("Not yet implemented");	
+		ASTValue lhs = children.get(0).eval(environment);
+		ASTValue rhs = children.get(1).eval(environment);
+		
+		checkRelationalOperatorArguments(lhs, rhs);
+		
+		// lhs and rhs are now the same type
+		switch (lhs.type) {
+			case NUM:
+				return new ASTValue(lhs.numValue <= rhs.numValue);
+			case STRING:
+				return new ASTValue(lhs.stringValue.compareTo(rhs.stringValue) <= 0);
+			default:
+				throw new AssertionError("Attempted to evaluate relational operator on ValueType " + lhs.type);			
+		}
 	}
 
 	private ASTValue evalLess(WordsEnvironment environment) {
-		// TODO
-		throw new AssertionError("Not yet implemented");	
+		ASTValue lhs = children.get(0).eval(environment);
+		ASTValue rhs = children.get(1).eval(environment);
+		
+		checkRelationalOperatorArguments(lhs, rhs);
+		
+		// lhs and rhs are now the same type
+		switch (lhs.type) {
+			case NUM:
+				return new ASTValue(lhs.numValue < rhs.numValue);
+			case STRING:
+				return new ASTValue(lhs.stringValue.compareTo(rhs.stringValue) < 0);
+			default:
+				throw new AssertionError("Attempted to evaluate relational operator on ValueType " + lhs.type);			
+		}
 	}
 
 	private ASTValue evalListenerPerm(WordsEnvironment environment) {
