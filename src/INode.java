@@ -201,8 +201,13 @@ public class INode extends AST {
 	}
 
 	private ASTValue evalAnd(WordsEnvironment environment) {
-		// TODO
-		throw new AssertionError("Not yet implemented");
+		ASTValue lPredicate = children.get(0).eval(environment);
+		ASTValue rPredicate = children.get(1).eval(environment);
+		
+		assert lPredicate.type == ValueType.BOOLEAN : "Left predicate has type " + lPredicate.type.toString();
+		assert rPredicate.type == ValueType.BOOLEAN : "Right predicate has type " + rPredicate.type.toString();
+		
+		return new ASTValue(lPredicate.booleanValue && rPredicate.booleanValue);
 	}
 
 	private ASTValue evalAssign(WordsEnvironment environment) {
@@ -438,13 +443,21 @@ public class INode extends AST {
 	}
 
 	private ASTValue evalNot(WordsEnvironment environment) {
-		// TODO
-		throw new AssertionError("Not yet implemented");	
+		ASTValue predicate = children.get(0).eval(environment);
+		
+		assert predicate.type == ValueType.BOOLEAN : "Predicate has type " + predicate.type.toString();
+		
+		return new ASTValue(!predicate.booleanValue);
 	}
 
 	private ASTValue evalOr(WordsEnvironment environment) {
-		// TODO
-		throw new AssertionError("Not yet implemented");	
+		ASTValue lPredicate = children.get(0).eval(environment);
+		ASTValue rPredicate = children.get(1).eval(environment);
+		
+		assert lPredicate.type == ValueType.BOOLEAN : "Left predicate has type " + lPredicate.type.toString();
+		assert rPredicate.type == ValueType.BOOLEAN : "Right predicate has type " + rPredicate.type.toString();
+		
+		return new ASTValue(lPredicate.booleanValue || rPredicate.booleanValue);
 	}
 
 	private ASTValue evalParameter(WordsEnvironment environment) {
