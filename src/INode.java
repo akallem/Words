@@ -247,8 +247,73 @@ public class INode extends AST {
 	}
 
 	private ASTValue evalEquals(WordsEnvironment environment) {
-		// TODO
-		throw new AssertionError("Not yet implemented");	
+		ASTValue lhs = children.get(0).eval(environment);
+		ASTValue rhs = children.get(1).eval(environment);
+		
+		// Nothing equality
+		if ((lhs.type == ValueType.NOTHING && rhs.type != ValueType.NOTHING) || 
+			(lhs.type != ValueType.NOTHING && rhs.type == ValueType.NOTHING)) {
+			return new ASTValue(false);
+		}
+		
+		if (lhs.type == ValueType.NOTHING && rhs.type == ValueType.NOTHING) {
+			return new ASTValue(true);
+		}
+		
+		// Object equality
+		if ((lhs.type == ValueType.OBJ && rhs.type != ValueType.OBJ) || 
+			(lhs.type != ValueType.OBJ && rhs.type == ValueType.OBJ)) {
+			return new ASTValue(false);
+		}
+		
+		if ((lhs.type == ValueType.OBJ && rhs.type == ValueType.OBJ) &&
+			(lhs.objValue == rhs.objValue)) {
+			return new ASTValue(true);
+		}
+		
+		// Remaining types must be a number or string
+		if (lhs.type != ValueType.NUM && lhs.type != ValueType.STRING) {
+			// TODO: throw exception
+		} else if (rhs.type != ValueType.NUM && rhs.type != ValueType.STRING) {
+			// TODO: throw exception
+		}
+		
+		// Number/string type coercion
+		ValueType comparisonType;
+		
+		if (lhs.type == ValueType.STRING && rhs.type == ValueType.NUM) {
+			try {
+				double num = Double.parseDouble(lhs.stringValue);
+				lhs = new ASTValue(num);
+				comparisonType = ValueType.NUM;
+			} catch (NumberFormatException e) {
+				rhs = new ASTValue((new Double(rhs.numValue)).toString());
+				comparisonType = ValueType.STRING;
+			}
+		} else if (lhs.type == ValueType.NUM && rhs.type == ValueType.STRING) {
+			try {
+				double num = Double.parseDouble(rhs.stringValue);
+				rhs = new ASTValue(num);
+				comparisonType = ValueType.NUM;
+			} catch (NumberFormatException e) {
+				lhs = new ASTValue((new Double(lhs.numValue)).toString());
+				comparisonType = ValueType.STRING;
+			}
+		} else {
+			// Types are the same
+			comparisonType = lhs.type;
+		}
+		
+		// lhs and rhs are now the same type equal to comparisonType
+		assert lhs.type == rhs.type && lhs.type == comparisonType : "lhs has type " + lhs.type.toString() + " and rhs has type " + rhs.type.toString();
+		switch (comparisonType) {
+			case NUM:
+				return new ASTValue(lhs.numValue == rhs.numValue);
+			case STRING:
+				return new ASTValue(lhs.stringValue.equals(rhs.stringValue));
+			default:
+				throw new AssertionError("Attempted to evaluate relational operator on ValueType " + lhs.type);			
+		}
 	}
 
 	private ASTValue evalExit(WordsEnvironment environment) {
