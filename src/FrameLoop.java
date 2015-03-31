@@ -26,7 +26,7 @@ public class FrameLoop extends Thread {
 		    long start, end, slept;
 			while(timeToSleep > 0){
 		        start=System.currentTimeMillis();
-		        try{
+		        try {
 		            Thread.sleep(timeToSleep);
 		            break;
 		        }

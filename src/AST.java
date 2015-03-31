@@ -49,15 +49,12 @@ public abstract class AST {
 			if (type == ValueType.NUM) {
 				return this;
 			} else if (type == ValueType.STRING) {
-				  try  
-				  {  
+				  try {  
 				    double val = Double.parseDouble(stringValue); 
 				    this.type = ValueType.NUM;
 				    this.numValue = val;
-				  }  
-				  catch(NumberFormatException nfe)  
-				  {  
-				    return this;
+				  } catch (NumberFormatException nfe) {  
+					  return this;
 				  }  
 			}
 			return this;
