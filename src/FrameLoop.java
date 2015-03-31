@@ -42,7 +42,12 @@ public class FrameLoop extends Thread {
 		    }
 			while (!ASTQueue.isEmpty()) {
 				AST ast = ASTQueue.pop();
-				ast.eval(environment);
+				try {
+					ast.eval(environment);
+				} catch (WordsException e) {
+					// Note: this should never actually be caught here; it should be caught earlier at the statement level. 
+					System.err.println(e.toString());
+				}
 			}
 			for (WordsObject object : environment.getObjects()) {
 				object.executeNextAction(environment);

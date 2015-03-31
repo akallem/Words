@@ -59,7 +59,13 @@ public class WordsMove extends WordsAction {
 	@Override
 	public LinkedList<WordsAction> doExpand(WordsObject object) {
 		if (distanceExpression != null) {
-			AST.ASTValue value = distanceExpression.eval(null);
+			AST.ASTValue value;
+			try {
+				value = distanceExpression.eval(null);
+			} catch (WordsException e) {
+				System.err.println(e.toString());
+				return null;
+			}
 			
 			if (value.type != AST.ValueType.NUM) {
 				// TODO

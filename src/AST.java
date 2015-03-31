@@ -147,5 +147,5 @@ public abstract class AST {
 	/**
 	 * Evaluate an AST node, possibly by having side effects on the passed environment.
 	 */
-	public abstract ASTValue eval(WordsEnvironment environment);
+	public abstract ASTValue eval(WordsEnvironment environment) throws WordsException;
 }

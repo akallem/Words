@@ -71,7 +71,7 @@ public class INode extends AST {
 	}
 
 	@Override
-	public ASTValue eval(WordsEnvironment environment) {
+	public ASTValue eval(WordsEnvironment environment) throws WordsException {
 		switch(this.type) {
 			case ADD:
 				return evalAdd(environment);
@@ -204,12 +204,20 @@ public class INode extends AST {
 		throw new AssertionError("Not yet implemented");	
 	}
 
-	private ASTValue evalCreateObj(WordsEnvironment environment) {
+	private ASTValue evalCreateObj(WordsEnvironment environment) throws WordsException {
 		ASTValue objName = children.get(0).eval(environment);
 		ASTValue className = children.get(1).eval(environment);
 		ASTValue properties = children.get(2) != null ? children.get(2).eval(environment) : null;
 		ASTValue position = children.get(3).eval(environment);
 
+		if (environment.getObject(objName.stringValue) != null) {
+			throw new WordsObjectAlreadyExistsException(this.lineNo, objName.stringValue);
+		}
+		
+		if (environment.getClass(className.stringValue) == null) {
+			throw new WordsClassNotFoundException(this.lineNo, className.stringValue);
+		}
+		
 		WordsObject newObject = environment.createObject(objName.stringValue, className.stringValue, position.positionValue);
 		
 		// TODO
@@ -320,9 +328,17 @@ public class INode extends AST {
 		throw new AssertionError("Not yet implemented");
 	}
 
-	private ASTValue evalPosition(WordsEnvironment environment) {
+	private ASTValue evalPosition(WordsEnvironment environment) throws WordsException {
 		ASTValue row = children.get(0).eval(environment);
 		ASTValue col = children.get(1).eval(environment);
+		
+		if (row.type != ValueType.NUM) {
+			throw new InvalidTypeException(this.lineNo, ValueType.NUM.toString(), row.type.toString());
+		}
+		
+		if (col.type != ValueType.NUM) {
+			throw new InvalidTypeException(this.lineNo, ValueType.NUM.toString(), col.type.toString());
+		}
 		
 		return new ASTValue(new WordsPosition(row.numValue, col.numValue));
 	}
@@ -348,27 +364,30 @@ public class INode extends AST {
 		throw new AssertionError("Not yet implemented");
 	}
 
-	private ASTValue evalQueueMove(WordsEnvironment environment) {
+	private ASTValue evalQueueMove(WordsEnvironment environment) throws WordsException {
 		ASTValue referenceObject = children.get(0).eval(environment);
 		ASTValue identifier = children.get(1).eval(environment);
 		ASTValue direction = children.get(2).eval(environment);
-		ASTValue distance = children.get(3) != null ? children.get(3).eval(environment) : new ASTValue(1);		// Default distance is 1
+		AST distance = children.get(3);
 		ASTValue doNow = children.get(4) != null ? children.get(4).eval(environment) : null;
-		
-		// TODO: Should not evaluate distance here but instead put it on the WordsMove object
 		
 		WordsObject object;
 		if (referenceObject.type.equals(ValueType.OBJ)){
 			WordsProperty property = referenceObject.objValue.getProperty(identifier.stringValue);
-			// TODO: Check that property is in fact an object, or throw an exception
+			if (property.type != WordsProperty.PropertyType.OBJECT) {
+				throw new InvalidTypeException(this.lineNo, ValueType.OBJ.toString(), property.type.toString());
+			}
 			object = property.objProperty;
 		} else {
 			object = environment.getObject(identifier.stringValue);
 		}
 		
-		//TODO: If distance is not a num, throw an exception
+		if (direction.type != ValueType.DIRECTION) {
+			throw new InvalidTypeException(this.lineNo, ValueType.DIRECTION.toString(), direction.type.toString());
+		}
+		
 		//TODO: Distance = 0 should create a wait method
-		WordsMove action = new WordsMove(direction.directionValue, distance.numValue);
+		WordsMove action = new WordsMove(direction.directionValue, distance);
 		
 		if (doNow == null) {
 			object.enqueueAction(action);
@@ -379,7 +398,7 @@ public class INode extends AST {
 		return null;
 	}
 
-	private ASTValue evalQueueSay(WordsEnvironment environment) {
+	private ASTValue evalQueueSay(WordsEnvironment environment) throws WordsException {
 		ASTValue referenceObject = children.get(0).eval(environment);
 		ASTValue identifier = children.get(1).eval(environment);
 		ASTValue message = children.get(2).eval(environment);
@@ -388,13 +407,17 @@ public class INode extends AST {
 		WordsObject object;
 		if (referenceObject.type.equals(ValueType.OBJ)){
 			WordsProperty property = referenceObject.objValue.getProperty(identifier.stringValue);
-			// TODO: Check that property is in fact an object, or throw an exception
+			if (property.type != WordsProperty.PropertyType.OBJECT) {
+				throw new InvalidTypeException(this.lineNo, ValueType.OBJ.toString(), property.type.toString());
+			}
 			object = property.objProperty;
 		} else {
 			object = environment.getObject(identifier.stringValue);
 		}
 		
-		//TODO: If message is not a string, throw an exception
+		if (message.type != ValueType.STRING) {
+			throw new InvalidTypeException(this.lineNo, ValueType.STRING.toString(), message.type.toString());
+		}
 		WordsSay action = new WordsSay(message.stringValue);
 		
 		if (doNow == null) {
@@ -427,14 +450,12 @@ public class INode extends AST {
 		throw new AssertionError("Not yet implemented");
 	}
 
-	private ASTValue evalRepeat(WordsEnvironment environment) {
+	private ASTValue evalRepeat(WordsEnvironment environment) throws WordsException {
 		ASTValue times = children.get(0).eval(environment);
 		AST statementList = children.get(1);
 		
 		if (times.type != ValueType.NUM) {
-			// TODO
-			// throw exception
-			return null;
+			throw new InvalidTypeException(this.lineNo, ValueType.NUM.toString(), times.type.toString());
 		}
 		
 		for (int i = 0; i < times.numValue; i++) {
@@ -461,7 +482,12 @@ public class INode extends AST {
 
 	private ASTValue evalStatementList(WordsEnvironment environment) {
 		for (int i = 0; i < children.size(); i++) {
-			children.get(i).eval(environment);
+			try {
+				children.get(i).eval(environment);
+			} catch (WordsException e) {
+				System.err.println(e.toString());
+				System.err.print("> ");
+			}
 		}
 		
 		return null;
@@ -491,68 +517,4 @@ public class INode extends AST {
 		// TODO
 		throw new AssertionError("Not yet implemented");
 	}
-
-
-	/*private ASTValue evalQueueCustomAction(WordsEnvironment environment) {
-		//MAKE reference_list identifier identifier WITH parameter_list
-		ASTValue referenceObject = children.get(1).eval(environment);
-		ASTValue identifier = children.get(2).eval(environment);
-		ASTValue actionName = children.get(3).eval(environment);
-		// Assumes that params returns a hashmap of strings to Values
-		ASTValue newParams = children.get(4).eval(environment);
-		
-		WordsClass objectClass = identifier.objValue.getWordsClass();
-		//WordsCustomAction customAction = objectClass.getCustomAction(actionName);
-		//customAction.expandIntoBasicActions(params);
-		return null;
-	}
-	
-	private ASTValue evalRetrieveProp(WordsEnvironment environment) {
-		ASTValue referenceObject = children.get(1).eval(environment);
-		ASTValue identifier = children.get(2).eval(environment);
-		
-		if (referenceObject.equals(ValueType.NOTHING)) {
-			//if (params.containsKey(identifier.s)) {
-				//return params.get(identifier);
-			//}
-		}
-		
-		return null;
-		//return referenceObject.obj.getProperty(identifier.s);
-	}
-
-	private ASTValue evalQueueMove(WordsEnvironment environment) {
-		//MAKE reference_list identifier MOVE direction value_expression now
-		ASTValue referenceObject = children.get(1).eval(environment);
-		ASTValue identifier = children.get(2).eval(environment);
-		ASTValue direction = children.get(3).eval(environment);
-		ASTValue distance = children.get(4).eval(environment);
-		AST doNow = children.get(5);
-		
-		WordsObject objectToMove;
-		if (referenceObject.type.equals(ValueType.OBJ)){
-			//objectToMove = referenceObject.obj.getProperty(identifier.s);
-		} else {
-			//objectToMove = environment.getObject(identifier);
-		}
-		
-		//TODO: Distance = 0 should create a wait method
-		WordsMove move = new WordsMove(direction.d, distance.n);
-		if (doNow.equals(null)) {
-			objectToMove.enqueueAction(move);
-		} else {
-			objectToMove.enqueueActionAtFront(move);
-		}
-		return null;
-	}
-
-	private ASTValue evalEquals(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private ASTValue evalExit(WordsEnvironment environment) {
-		// TODO Auto-generated method stub
-		return null;
-	}*/
 }

@@ -34,7 +34,13 @@ public class WordsWait extends WordsAction {
 	@Override
 	public LinkedList<WordsAction> doExpand(WordsObject object) {
 		if (lengthExpression != null) {
-			AST.ASTValue value = lengthExpression.eval(null);
+			AST.ASTValue value;
+			try {
+				value = lengthExpression.eval(null);
+			} catch (WordsException e) {
+				System.err.println(e.toString());
+				return null;
+			}
 			
 			if (value.type != AST.ValueType.NUM) {
 				// TODO
