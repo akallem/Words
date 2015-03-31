@@ -40,25 +40,43 @@ public abstract class AST {
 			this.type = type;
 		}
 		
-		/*
-		 * Returns either an ASTValue of type NUM, or null.
-		 */
+		/**
+		 * Coerces the ASTValue into a num if it can be coerced.
+		 * 
+		 * @return self
+		 **/
 		public ASTValue getNumCoercedVal() {
-			if (type == ValueType.NUM){
+			if (type == ValueType.NUM) {
 				return this;
-			}
-			if (type == ValueType.STRING) {
+			} else if (type == ValueType.STRING) {
 				  try  
 				  {  
 				    double val = Double.parseDouble(stringValue); 
-				    return new ASTValue(val);
+				    this.type = ValueType.NUM;
+				    this.numValue = val;
 				  }  
 				  catch(NumberFormatException nfe)  
 				  {  
-				    return null;
+				    return this;
 				  }  
 			}
-			return null;
+			return this;
+		}
+		
+		/**
+		 * Coerces the ASTValue into a String if it can be coerced.
+		 * 
+		 * @return ASTValue this
+		 **/
+		public ASTValue getStringCoercedVal() {
+			if (type == ValueType.STRING) {
+				return this;
+			} else if (type == ValueType.NUM) {
+				this.stringValue = String.format("%f", numValue);
+				this.type = ValueType.STRING;
+				return this;
+			}
+			return this;
 		}
 	}
 

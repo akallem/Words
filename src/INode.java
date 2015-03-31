@@ -402,7 +402,7 @@ public class INode extends AST {
 	private ASTValue evalQueueSay(WordsEnvironment environment) throws WordsException {
 		ASTValue referenceObject = children.get(0).eval(environment);
 		ASTValue identifier = children.get(1).eval(environment);
-		ASTValue message = children.get(2).eval(environment);
+		ASTValue message = children.get(2).eval(environment).getStringCoercedVal();
 		ASTValue doNow = children.get(3) != null ? children.get(3).eval(environment) : null;
 		
 		WordsObject object;
