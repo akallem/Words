@@ -1,26 +1,20 @@
 
-public class WordsFunctionArgException extends Exception {
+@SuppressWarnings("serial")
+public class WordsFunctionArgException extends WordsException {
 	
-	private static final long serialVersionUID = -441818511887327230L;
 	private String expectedArg;
 	private String receivedArg;
 	private String functionName;
 
-	public WordsFunctionArgException(String functionName, String receivedArg, String expectedArg) {
+	public WordsFunctionArgException(int lineNo, String functionName, String receivedArg, String expectedArg) {
+		super(lineNo);
 		this.functionName = functionName;
 		this.receivedArg = receivedArg;
 		this.expectedArg = expectedArg;
 	}
 	
-	public String getExpectedArg() {
-		return expectedArg;
-	}
-	
-	public String getReceivedArg() {
-		return receivedArg;
-	}
-	
-	public String getFunctionName() {
-		return functionName;
+	public String getString() {
+		return String.format("Error: At line %d, function %s expected %s, received \"%s\".", 
+				lineNo, functionName, expectedArg, receivedArg);
 	}
 }

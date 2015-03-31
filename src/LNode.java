@@ -7,23 +7,23 @@ public class LNode extends AST {
 	public double num;
 	public String string;
 	
-	public LNode(ASTType type, Direction.Type d) {
-		super(type);
+	public LNode(ASTType type, int lineNo, Direction.Type d) {
+		super(type, lineNo);
 		this.direction = new Direction(d);
 	}
 	
-	public LNode(ASTType type) {
-		super(type);
+	public LNode(ASTType type, int lineNo) {
+		super(type, lineNo);
 		this.hasNoVal = true;
 	}
 	
-	public LNode(ASTType type, double n) {
-		super(type);
+	public LNode(ASTType type, int lineNo, double n) {
+		super(type, lineNo);
 		this.num = n;
 	}
 	
-	public LNode(ASTType type, String s) {
-		super(type);
+	public LNode(ASTType type, int lineNo, String s) {
+		super(type, lineNo);
 		
 		if (type == ASTType.STRING) {
 			// Remove leading and trailing " characters
@@ -64,7 +64,7 @@ public class LNode extends AST {
 		for (int i = 0; i < level; i++)
 			System.err.printf("  ");
 		
-		System.err.println(this.type.toString() + ": " + valueAsString());
+		System.err.println(this.lineNo + ": " + this.type.toString() + ": " + valueAsString());
 	}
 	
 	@Override

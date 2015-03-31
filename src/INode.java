@@ -8,8 +8,8 @@ import java.lang.StringBuilder;
 public class INode extends AST {
 	public ArrayList<AST> children;
 	
-	public INode(ASTType type, Object... children) {
-		super(type);
+	public INode(ASTType type, int lineNo, Object... children) {
+		super(type, lineNo);
 		
 		this.children = new ArrayList<AST>(children.length);
 		
@@ -59,7 +59,7 @@ public class INode extends AST {
 	public String toString() {
 		StringBuilder s = new StringBuilder();
 		
-		s.append("[" + type.toString() + ": ");
+		s.append("[" + this.lineNo + ": " + type.toString() + ": ");
 		
 		for (AST child : children)
 			if (child != null)

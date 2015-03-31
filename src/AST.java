@@ -11,6 +11,7 @@ public abstract class AST {
 		public Direction directionValue;
 		public WordsPosition positionValue;
 		
+		
 		public ASTValue(double num) {
 			this.type = ValueType.NUM;
 			this.numValue = num;
@@ -41,7 +42,7 @@ public abstract class AST {
 		}
 	}
 
-	protected enum ValueType {
+	public enum ValueType {
 		NUM,
 		STRING,
 		OBJ,
@@ -129,9 +130,11 @@ public abstract class AST {
 	};
 	
 	public ASTType type;
+	public int lineNo;
 	
-	public AST(ASTType type) {
+	public AST(ASTType type, int lineNo) {
 		this.type = type;
+		this.lineNo = lineNo;
 	}
 	
 	/**

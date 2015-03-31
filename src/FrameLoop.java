@@ -43,19 +43,6 @@ public class FrameLoop extends Thread {
 			while (!ASTQueue.isEmpty()) {
 				AST ast = ASTQueue.pop();
 				ast.eval(environment);
-				/*try {
-					ast.eval(currentEnvironment);
-				} catch (WordsObjectNotFoundException e) {
-					System.out.printf("Error: object %s is not defined.\n", e.getObjectName());
-				} catch (WordsClassNotFoundException e) {
-					System.out.printf("Error: class %s is not defined.\n", e.getClassName());
-				} catch (WordsFunctionNotFoundException e) {
-					System.out.printf("Error: function %s is not defined for class %s.\n", e.getFunctionName(), e.getClassName());
-				} catch (WordsFunctionArgException e) {
-					System.out.printf("Error: function %s expected argument %s, received \"%s\".\n", e.getFunctionName(), e.getExpectedArg(), e.getReceivedArg());
-				} catch (WordsObjectAlreadyExistsException e) {
-					System.out.printf("Error: object %s already exists, please choose another name.\n", e.getObjectName());
-				}*/
 			}
 			for (WordsObject object : environment.getObjects()) {
 				object.executeNextAction(environment);

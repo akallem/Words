@@ -1,14 +1,14 @@
+@SuppressWarnings("serial")
+public class WordsClassNotFoundException extends WordsException {
 
-public class WordsClassNotFoundException extends Exception {
-
-	private static final long serialVersionUID = 7435641006130413183L;
 	private String className;
 	
-	public WordsClassNotFoundException(String className) {
+	public WordsClassNotFoundException(int lineNo, String className) {
+		super(lineNo);
 		this.className = className;
 	}
 	
-	public String getClassName() {
-		return className;
+	public String toString() {
+		return String.format("Error: At line %d, class %s did not exist.", lineNo, className);
 	}
 }
