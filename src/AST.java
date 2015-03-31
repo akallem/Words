@@ -5,11 +5,17 @@ public abstract class AST {
 	public class ASTValue {
 		public ValueType type;
 		
+		public boolean booleanValue;
 		public double numValue;
 		public String stringValue;
 		public WordsObject objValue;
 		public Direction directionValue;
 		public WordsPosition positionValue;
+		
+		public ASTValue (boolean b) {
+			this.type = ValueType.BOOLEAN;
+			this.booleanValue = b;
+		}
 		
 		public ASTValue(double num) {
 			this.type = ValueType.NUM;
@@ -42,6 +48,7 @@ public abstract class AST {
 	}
 
 	protected enum ValueType {
+		BOOLEAN,
 		NUM,
 		STRING,
 		OBJ,
