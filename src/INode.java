@@ -280,34 +280,26 @@ public class INode extends AST {
 		assert rhs.type == ValueType.NUM || rhs.type == ValueType.STRING : "Right side has type " + rhs.type.toString();
 		
 		// Number/string type coercion
-		ValueType comparisonType;
-		
-		if (lhs.type == ValueType.STRING && rhs.type == ValueType.NUM) {
-			try {
-				double num = Double.parseDouble(lhs.stringValue);
-				lhs = new ASTValue(num);
-				comparisonType = ValueType.NUM;
-			} catch (NumberFormatException e) {
-				rhs = new ASTValue((new Double(rhs.numValue)).toString());
-				comparisonType = ValueType.STRING;
+		if (lhs.type != rhs.type) {
+			if (lhs.type == ValueType.STRING) {
+				lhs = lhs.getNumCoercedVal();
+				
+				// If string to number coercion failed on lhs, do number to string coercion on rhs
+				if (lhs.type == ValueType.STRING)
+					rhs = rhs.getStringCoercedVal();
+			} else {
+				// lhs must be a number
+				rhs = rhs.getNumCoercedVal();
+				
+				// If string to number coercion failed on rhs, do number to string coercion on lhs
+				if (rhs.type == ValueType.STRING)
+					lhs = lhs.getStringCoercedVal();
 			}
-		} else if (lhs.type == ValueType.NUM && rhs.type == ValueType.STRING) {
-			try {
-				double num = Double.parseDouble(rhs.stringValue);
-				rhs = new ASTValue(num);
-				comparisonType = ValueType.NUM;
-			} catch (NumberFormatException e) {
-				lhs = new ASTValue((new Double(lhs.numValue)).toString());
-				comparisonType = ValueType.STRING;
-			}
-		} else {
-			// Types are the same
-			comparisonType = lhs.type;
 		}
 		
-		// lhs and rhs are now the same type equal to comparisonType
-		assert lhs.type == rhs.type && lhs.type == comparisonType : "lhs has type " + lhs.type.toString() + " and rhs has type " + rhs.type.toString();
-		switch (comparisonType) {
+		// lhs and rhs are now the same type
+		assert lhs.type == rhs.type : "lhs has type " + lhs.type.toString() + " and rhs has type " + rhs.type.toString();
+		switch (lhs.type) {
 			case NUM:
 				return new ASTValue(lhs.numValue == rhs.numValue);
 			case STRING:
