@@ -32,13 +32,17 @@ public class WordsWait extends WordsAction {
 	}
 
 	@Override
-	public LinkedList<WordsAction> doExpand(WordsObject object) {
+	public LinkedList<WordsAction> doExpand(WordsObject object, WordsEnvironment environment) throws WordsEnvironmentException {
 		if (lengthExpression != null) {
-			AST.ASTValue value = lengthExpression.eval(null);
+			AST.ASTValue value;
+			try {
+				value = lengthExpression.eval(environment).getNumCoercedVal();
+			} catch (WordsProgramException e) {
+				throw e.getInnerException();
+			}
 			
 			if (value.type != AST.ValueType.NUM) {
-				// TODO
-				// Throw an appropriate WordsException
+				throw new InvalidTypeException(value.type.toString(), AST.ValueType.NUM.toString());
 			}
 			
 			lengthValue = Math.round(value.numValue);
@@ -46,6 +50,9 @@ public class WordsWait extends WordsAction {
 		}
 
 		// Throw an appropriate WordsException if lengthValue is zero or negative
+		if (lengthValue < 1) {
+			throw new WordsFunctionArgsException("wait", "a positive number", String.format("%d", lengthValue));
+		}
 		
 		LinkedList<WordsAction> list = new LinkedList<WordsAction>();
 

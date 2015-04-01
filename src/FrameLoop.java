@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.concurrent.LinkedBlockingDeque;
 
 
@@ -28,7 +26,7 @@ public class FrameLoop extends Thread {
 		    long start, end, slept;
 			while(timeToSleep > 0){
 		        start=System.currentTimeMillis();
-		        try{
+		        try {
 		            Thread.sleep(timeToSleep);
 		            break;
 		        }
@@ -42,23 +40,22 @@ public class FrameLoop extends Thread {
 		    }
 			while (!ASTQueue.isEmpty()) {
 				AST ast = ASTQueue.pop();
-				ast.eval(environment);
-				/*try {
-					ast.eval(currentEnvironment);
-				} catch (WordsObjectNotFoundException e) {
-					System.out.printf("Error: object %s is not defined.\n", e.getObjectName());
-				} catch (WordsClassNotFoundException e) {
-					System.out.printf("Error: class %s is not defined.\n", e.getClassName());
-				} catch (WordsFunctionNotFoundException e) {
-					System.out.printf("Error: function %s is not defined for class %s.\n", e.getFunctionName(), e.getClassName());
-				} catch (WordsFunctionArgException e) {
-					System.out.printf("Error: function %s expected argument %s, received \"%s\".\n", e.getFunctionName(), e.getExpectedArg(), e.getReceivedArg());
-				} catch (WordsObjectAlreadyExistsException e) {
-					System.out.printf("Error: object %s already exists, please choose another name.\n", e.getObjectName());
-				}*/
+				try {
+					ast.eval(environment);
+				} catch (WordsProgramException e) {
+					// Note: this should never actually be caught here; it should be caught earlier at the statement level. 
+					System.err.println();
+					System.err.println(e.toString());
+					System.out.println("> ");
+				}
 			}
 			for (WordsObject object : environment.getObjects()) {
-				object.executeNextAction(environment);
+				try {
+					object.executeNextAction(environment);
+				} catch (WordsEnvironmentException e) {
+					System.err.println("Error executing action on object " + object.getObjectName() + ": " + e.toString());
+					System.err.println("Action will not be performed");
+				}
 			}
 			
 			for (WordsEventListener eventListener : environment.getEventListeners()) {

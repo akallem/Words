@@ -57,13 +57,17 @@ public class WordsMove extends WordsAction {
 	}
 
 	@Override
-	public LinkedList<WordsAction> doExpand(WordsObject object) {
+	public LinkedList<WordsAction> doExpand(WordsObject object, WordsEnvironment environment) throws WordsEnvironmentException {
 		if (distanceExpression != null) {
-			AST.ASTValue value = distanceExpression.eval(null);
+			AST.ASTValue value;
+			try {
+				value = distanceExpression.eval(environment).getNumCoercedVal();
+			} catch (WordsProgramException e) {
+				throw e.getInnerException();
+			}
 			
 			if (value.type != AST.ValueType.NUM) {
-				// TODO
-				// Throw an appropriate WordsException
+				throw new InvalidTypeException(value.type.toString(), AST.ValueType.NUM.toString());
 			}
 			
 			distanceValue = (int) Math.round(value.numValue);

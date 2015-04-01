@@ -45,9 +45,45 @@ public abstract class AST {
 		public ASTValue(ValueType type) {
 			this.type = type;
 		}
+		
+		/**
+		 * Coerces the ASTValue into a num if it can be coerced.
+		 * 
+		 * @return self
+		 **/
+		public ASTValue getNumCoercedVal() {
+			if (type == ValueType.NUM) {
+				return this;
+			} else if (type == ValueType.STRING) {
+				  try {  
+				    double val = Double.parseDouble(stringValue); 
+				    this.type = ValueType.NUM;
+				    this.numValue = val;
+				  } catch (NumberFormatException nfe) {  
+					  return this;
+				  }  
+			}
+			return this;
+		}
+		
+		/**
+		 * Coerces the ASTValue into a String if it can be coerced.
+		 * 
+		 * @return ASTValue this
+		 **/
+		public ASTValue getStringCoercedVal() {
+			if (type == ValueType.STRING) {
+				return this;
+			} else if (type == ValueType.NUM) {
+				this.stringValue = String.format("%f", numValue);
+				this.type = ValueType.STRING;
+				return this;
+			}
+			return this;
+		}
 	}
 
-	protected enum ValueType {
+	public enum ValueType {
 		BOOLEAN,
 		NUM,
 		STRING,
@@ -136,9 +172,11 @@ public abstract class AST {
 	};
 	
 	public ASTType type;
+	public int lineNo;
 	
-	public AST(ASTType type) {
+	public AST(ASTType type, int lineNo) {
 		this.type = type;
+		this.lineNo = lineNo;
 	}
 	
 	/**
@@ -151,5 +189,5 @@ public abstract class AST {
 	/**
 	 * Evaluate an AST node, possibly by having side effects on the passed environment.
 	 */
-	public abstract ASTValue eval(WordsEnvironment environment);
+	public abstract ASTValue eval(WordsEnvironment environment) throws WordsProgramException;
 }
