@@ -200,8 +200,8 @@ public class INode extends AST {
 		ASTValue lhs = children.get(0).eval(environment);
 		ASTValue rhs = children.get(1).eval(environment);
 		
-		assert lhs.type == ValueType.BOOLEAN : "Left predicate has type " + lhs.type.toString();
-		assert rhs.type == ValueType.BOOLEAN : "Right predicate has type " + rhs.type.toString();
+		assert lhs.type == ValueType.BOOLEAN : "Left side has type " + lhs.type.toString();
+		assert rhs.type == ValueType.BOOLEAN : "Right side has type " + rhs.type.toString();
 		
 		return new ASTValue(lhs.booleanValue && rhs.booleanValue);
 	}
@@ -450,8 +450,8 @@ public class INode extends AST {
 		ASTValue lhs = children.get(0).eval(environment);
 		ASTValue rhs = children.get(1).eval(environment);
 		
-		assert lhs.type == ValueType.BOOLEAN : "Left predicate has type " + lhs.type.toString();
-		assert rhs.type == ValueType.BOOLEAN : "Right predicate has type " + rhs.type.toString();
+		assert lhs.type == ValueType.BOOLEAN : "Left side has type " + lhs.type.toString();
+		assert rhs.type == ValueType.BOOLEAN : "Right side has type " + rhs.type.toString();
 		
 		return new ASTValue(lhs.booleanValue || rhs.booleanValue);
 	}
