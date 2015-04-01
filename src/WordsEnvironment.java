@@ -49,7 +49,7 @@ public class WordsEnvironment {
 	/**
 	 * Creates a new object in the environment and returns it.  Throws an exception if the object could not be created.
 	 */
-	public WordsObject createObject(String objectName, String className, WordsPosition position) throws WordsEnvironmentException {
+	public WordsObject createObject(String objectName, String className, WordsPosition position) throws WordsRuntimeException {
 		if (getObject(objectName) != null) {
 			throw new WordsObjectAlreadyExistsException(objectName);
 		}

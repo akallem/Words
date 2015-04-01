@@ -1,6 +1,6 @@
 
 @SuppressWarnings("serial")
-public class WordsClassAlreadyExistsException extends WordsEnvironmentException {
+public class WordsClassAlreadyExistsException extends WordsRuntimeException {
 	
 	private String className;
 	

@@ -1,25 +1,21 @@
 /**
- * This exception stores an exception that was thrown by the environment and the AST where the exception occurred.
+ * This exception decorates an existing WordsRuntimeException by including the AST that caused it.
  * The WordsEnvironmentException contains what went wrong, while the AST contains where it went wrong.
  *
  */
 @SuppressWarnings("serial")
 public class WordsProgramException extends Exception {
 	
-	private WordsEnvironmentException exception;
+	private WordsRuntimeException exception;
 	private AST offendingAST;
 	
-	public WordsProgramException(AST offendingAST, WordsEnvironmentException exception) {
+	public WordsProgramException(AST offendingAST, WordsRuntimeException exception) {
 		this.offendingAST = offendingAST;
 		this.exception = exception;
 	}
 	
-	public WordsEnvironmentException getEnvironmentException() {
+	public WordsRuntimeException getEnvironmentException() {
 		return exception;
-	}
-	
-	public void replaceAST(AST newAST) {
-		this.offendingAST = newAST;
 	}
 	
 	@Override

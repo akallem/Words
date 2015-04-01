@@ -42,7 +42,7 @@ public class FrameLoop extends Thread {
 				AST ast = ASTQueue.pop();
 				try {
 					ast.eval(environment);
-				} catch (WordsProgramException e) {
+				} catch (WordsRuntimeException e) {
 					// Note: this should never actually be caught here; it should be caught earlier at the statement level. 
 					System.err.println();
 					System.err.println(e.toString());
@@ -55,6 +55,7 @@ public class FrameLoop extends Thread {
 				} catch (WordsProgramException e) {
 					System.err.println("Error executing action on object " + object.getObjectName() + ": \n" + e.toString());
 					System.err.println("Action will not be performed");
+					System.out.println("> ");
 				}
 			}
 			
@@ -70,5 +71,4 @@ public class FrameLoop extends Thread {
 			counter++;
 		}
 	}
-
 }

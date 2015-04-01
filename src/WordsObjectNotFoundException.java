@@ -1,5 +1,5 @@
 @SuppressWarnings("serial")
-public class WordsObjectNotFoundException extends WordsEnvironmentException {
+public class WordsObjectNotFoundException extends WordsRuntimeException {
 	
 	private String objectName;
 	

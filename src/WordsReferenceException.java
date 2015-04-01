@@ -1,5 +1,5 @@
 @SuppressWarnings("serial")
-public class WordsReferenceException extends WordsEnvironmentException {
+public class WordsReferenceException extends WordsRuntimeException {
 	
 	public WordsReferenceException() {
 	}
