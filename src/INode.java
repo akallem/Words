@@ -180,9 +180,7 @@ public class INode extends AST {
 	 */
 	private void checkRelOpArgTypes(ASTValue lhs, ASTValue rhs) throws WordsProgramException {
 		if ((lhs.type != ValueType.NUM && lhs.type != ValueType.STRING) ||
-			(rhs.type != ValueType.NUM && rhs.type != ValueType.STRING) ||
-			(lhs.type == ValueType.NUM && rhs.type != ValueType.NUM)	||
-			(lhs.type == ValueType.STRING && rhs.type != ValueType.STRING)) {
+			(lhs.type != rhs.type)) {
 			// TODO: Probably need a new OperatorTypeMismatch exception, since InvalidTypeException isn't quite right
 			throw new WordsProgramException(lineNo, new InvalidTypeException("", ""));
 		}
