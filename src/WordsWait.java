@@ -36,7 +36,7 @@ public class WordsWait extends WordsAction {
 		if (lengthExpression != null) {
 			AST.ASTValue value;
 			try {
-				value = lengthExpression.eval(environment).getNumCoercedVal();
+				value = lengthExpression.eval(environment).tryCoerceTo(AST.ValueType.NUM);
 			} catch (WordsProgramException e) {
 				throw e.getInnerException();
 			}

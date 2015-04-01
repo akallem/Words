@@ -61,7 +61,7 @@ public class WordsMove extends WordsAction {
 		if (distanceExpression != null) {
 			AST.ASTValue value;
 			try {
-				value = distanceExpression.eval(environment).getNumCoercedVal();
+				value = distanceExpression.eval(environment).tryCoerceTo(AST.ValueType.NUM);
 			} catch (WordsProgramException e) {
 				throw e.getInnerException();
 			}

@@ -324,8 +324,8 @@ public class INode extends AST {
 	}
 
 	private ASTValue evalPosition(WordsEnvironment environment) throws WordsProgramException {
-		ASTValue row = children.get(0).eval(environment).getNumCoercedVal();
-		ASTValue col = children.get(1).eval(environment).getNumCoercedVal();
+		ASTValue row = children.get(0).eval(environment).tryCoerceTo(ValueType.NUM);
+		ASTValue col = children.get(1).eval(environment).tryCoerceTo(ValueType.NUM);
 		
 		if (row.type != ValueType.NUM) {
 			throw new WordsProgramException(lineNo, new InvalidTypeException(ValueType.NUM.toString(), row.type.toString()));
@@ -397,7 +397,7 @@ public class INode extends AST {
 	private ASTValue evalQueueSay(WordsEnvironment environment) throws WordsProgramException {
 		ASTValue referenceObject = children.get(0).eval(environment);
 		ASTValue identifier = children.get(1).eval(environment);
-		ASTValue message = children.get(2).eval(environment).getStringCoercedVal();
+		ASTValue message = children.get(2).eval(environment).tryCoerceTo(ValueType.STRING);
 		ASTValue doNow = children.get(3) != null ? children.get(3).eval(environment) : null;
 		
 		WordsObject object;
@@ -447,7 +447,7 @@ public class INode extends AST {
 	}
 
 	private ASTValue evalRepeat(WordsEnvironment environment) throws WordsProgramException {
-		ASTValue times = children.get(0).eval(environment).getNumCoercedVal();
+		ASTValue times = children.get(0).eval(environment).tryCoerceTo(ValueType.NUM);
 		AST statementList = children.get(1);
 		
 		if (times.type != ValueType.NUM) {
