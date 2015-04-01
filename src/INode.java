@@ -175,14 +175,15 @@ public class INode extends AST {
 	}
 
 	/**
-	 * Checks that the arguments to a relational operator <, <=, >, >= are appropriate an throws and exception
-	 * if not.
+	 * Checks that the arguments to a relational operator <, <=, >, >= are appropriate and throws an appropriate
+	 * exception if not.
 	 */
-	private void checkRelationalOperatorArguments(ASTValue lhs, ASTValue rhs) throws WordsProgramException {
+	private void checkRelOpArgTypes(ASTValue lhs, ASTValue rhs) throws WordsProgramException {
 		if ((lhs.type != ValueType.NUM && lhs.type != ValueType.STRING) ||
 			(rhs.type != ValueType.NUM && rhs.type != ValueType.STRING) ||
 			(lhs.type == ValueType.NUM && rhs.type != ValueType.NUM)	||
 			(lhs.type == ValueType.STRING && rhs.type != ValueType.STRING)) {
+			// TODO: Probably need a new OperatorTypeMismatch exception, since InvalidTypeException isn't quite right
 			throw new WordsProgramException(lineNo, new InvalidTypeException("", ""));
 		}
 	}
@@ -198,13 +199,13 @@ public class INode extends AST {
 	}
 
 	private ASTValue evalAnd(WordsEnvironment environment) throws WordsProgramException {
-		ASTValue lPredicate = children.get(0).eval(environment);
-		ASTValue rPredicate = children.get(1).eval(environment);
+		ASTValue lhs = children.get(0).eval(environment);
+		ASTValue rhs = children.get(1).eval(environment);
 		
-		assert lPredicate.type == ValueType.BOOLEAN : "Left predicate has type " + lPredicate.type.toString();
-		assert rPredicate.type == ValueType.BOOLEAN : "Right predicate has type " + rPredicate.type.toString();
+		assert lhs.type == ValueType.BOOLEAN : "Left predicate has type " + lhs.type.toString();
+		assert rhs.type == ValueType.BOOLEAN : "Right predicate has type " + rhs.type.toString();
 		
-		return new ASTValue(lPredicate.booleanValue && rPredicate.booleanValue);
+		return new ASTValue(lhs.booleanValue && rhs.booleanValue);
 	}
 
 	private ASTValue evalAssign(WordsEnvironment environment) {
@@ -255,7 +256,7 @@ public class INode extends AST {
 		ASTValue lhs = children.get(0).eval(environment);
 		ASTValue rhs = children.get(1).eval(environment);
 		
-		// Nothing equality
+		// The special type Nothing is equal only to Nothing
 		if ((lhs.type == ValueType.NOTHING && rhs.type != ValueType.NOTHING) || 
 			(lhs.type != ValueType.NOTHING && rhs.type == ValueType.NOTHING)) {
 			return new ASTValue(false);
@@ -265,7 +266,7 @@ public class INode extends AST {
 			return new ASTValue(true);
 		}
 		
-		// Object equality
+		// Objects only equal another object and cannot be equal to non-objects
 		if ((lhs.type == ValueType.OBJ && rhs.type != ValueType.OBJ) || 
 			(lhs.type != ValueType.OBJ && rhs.type == ValueType.OBJ)) {
 			return new ASTValue(false);
@@ -277,11 +278,8 @@ public class INode extends AST {
 		}
 		
 		// Remaining types must be a number or string
-		if (lhs.type != ValueType.NUM && lhs.type != ValueType.STRING) {
-			// TODO: throw exception
-		} else if (rhs.type != ValueType.NUM && rhs.type != ValueType.STRING) {
-			// TODO: throw exception
-		}
+		assert lhs.type == ValueType.NUM || lhs.type == ValueType.STRING : "Left side has type " + lhs.type.toString();
+		assert rhs.type == ValueType.NUM || rhs.type == ValueType.STRING : "Right side has type " + rhs.type.toString();
 		
 		// Number/string type coercion
 		ValueType comparisonType;
@@ -335,7 +333,7 @@ public class INode extends AST {
 		ASTValue lhs = children.get(0).eval(environment);
 		ASTValue rhs = children.get(1).eval(environment);
 		
-		checkRelationalOperatorArguments(lhs, rhs);
+		checkRelOpArgTypes(lhs, rhs);
 		
 		// lhs and rhs are now the same type
 		switch (lhs.type) {
@@ -352,7 +350,7 @@ public class INode extends AST {
 		ASTValue lhs = children.get(0).eval(environment);
 		ASTValue rhs = children.get(1).eval(environment);
 		
-		checkRelationalOperatorArguments(lhs, rhs);
+		checkRelOpArgTypes(lhs, rhs);
 		
 		// lhs and rhs are now the same type
 		switch (lhs.type) {
@@ -387,7 +385,7 @@ public class INode extends AST {
 		ASTValue lhs = children.get(0).eval(environment);
 		ASTValue rhs = children.get(1).eval(environment);
 		
-		checkRelationalOperatorArguments(lhs, rhs);
+		checkRelOpArgTypes(lhs, rhs);
 		
 		// lhs and rhs are now the same type
 		switch (lhs.type) {
@@ -404,7 +402,7 @@ public class INode extends AST {
 		ASTValue lhs = children.get(0).eval(environment);
 		ASTValue rhs = children.get(1).eval(environment);
 		
-		checkRelationalOperatorArguments(lhs, rhs);
+		checkRelOpArgTypes(lhs, rhs);
 		
 		// lhs and rhs are now the same type
 		switch (lhs.type) {
@@ -451,13 +449,13 @@ public class INode extends AST {
 	}
 
 	private ASTValue evalOr(WordsEnvironment environment) throws WordsProgramException {
-		ASTValue lPredicate = children.get(0).eval(environment);
-		ASTValue rPredicate = children.get(1).eval(environment);
+		ASTValue lhs = children.get(0).eval(environment);
+		ASTValue rhs = children.get(1).eval(environment);
 		
-		assert lPredicate.type == ValueType.BOOLEAN : "Left predicate has type " + lPredicate.type.toString();
-		assert rPredicate.type == ValueType.BOOLEAN : "Right predicate has type " + rPredicate.type.toString();
+		assert lhs.type == ValueType.BOOLEAN : "Left predicate has type " + lhs.type.toString();
+		assert rhs.type == ValueType.BOOLEAN : "Right predicate has type " + rhs.type.toString();
 		
-		return new ASTValue(lPredicate.booleanValue || rPredicate.booleanValue);
+		return new ASTValue(lhs.booleanValue || rhs.booleanValue);
 	}
 
 	private ASTValue evalParameter(WordsEnvironment environment) {
