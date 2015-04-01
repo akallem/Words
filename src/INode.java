@@ -213,7 +213,7 @@ public class INode extends AST {
 		try {
 			WordsObject newObject = environment.createObject(objName.stringValue, className.stringValue, position.positionValue);
 		} catch (WordsEnvironmentException e) {
-			throw new WordsProgramException(this.lineNo, e);
+			throw new WordsProgramException(this, e);
 		}
 		// TODO
 		if (properties != null) {
@@ -328,11 +328,11 @@ public class INode extends AST {
 		ASTValue col = children.get(1).eval(environment).getNumCoercedVal();
 		
 		if (row.type != ValueType.NUM) {
-			throw new WordsProgramException(lineNo, new InvalidTypeException(ValueType.NUM.toString(), row.type.toString()));
+			throw new WordsProgramException(this, new InvalidTypeException(ValueType.NUM.toString(), row.type.toString()));
 		}
 		
 		if (col.type != ValueType.NUM) {
-			throw new WordsProgramException(lineNo, new InvalidTypeException(ValueType.NUM.toString(), col.type.toString()));
+			throw new WordsProgramException(this, new InvalidTypeException(ValueType.NUM.toString(), col.type.toString()));
 		}
 		
 		return new ASTValue(new WordsPosition(row.numValue, col.numValue));
@@ -370,13 +370,13 @@ public class INode extends AST {
 		if (referenceObject.type.equals(ValueType.OBJ)){
 			WordsProperty property = referenceObject.objValue.getProperty(identifier.stringValue);
 			if (property.type != WordsProperty.PropertyType.OBJECT) {
-				throw new WordsProgramException(lineNo, new InvalidTypeException(ValueType.OBJ.toString(), property.type.toString()));
+				throw new WordsProgramException(this, new InvalidTypeException(ValueType.OBJ.toString(), property.type.toString()));
 			}
 			object = property.objProperty;
 		} else {
 			object = environment.getObject(identifier.stringValue);
 			if (object == null) {
-				throw new WordsProgramException(lineNo, new WordsObjectNotFoundException(identifier.stringValue));
+				throw new WordsProgramException(this, new WordsObjectNotFoundException(identifier.stringValue));
 			}
 		}
 		
@@ -404,7 +404,7 @@ public class INode extends AST {
 		if (referenceObject.type.equals(ValueType.OBJ)){
 			WordsProperty property = referenceObject.objValue.getProperty(identifier.stringValue);
 			if (property.type != WordsProperty.PropertyType.OBJECT) {
-				throw new WordsProgramException(lineNo, new InvalidTypeException(ValueType.OBJ.toString(), property.type.toString()));
+				throw new WordsProgramException(this, new InvalidTypeException(ValueType.OBJ.toString(), property.type.toString()));
 			}
 			object = property.objProperty;
 		} else {
@@ -412,7 +412,7 @@ public class INode extends AST {
 		}
 		
 		if (message.type != ValueType.STRING) {
-			throw new WordsProgramException(lineNo, new InvalidTypeException(ValueType.STRING.toString(), message.type.toString()));
+			throw new WordsProgramException(this, new InvalidTypeException(ValueType.STRING.toString(), message.type.toString()));
 		}
 		WordsSay action = new WordsSay(message.stringValue);
 		
@@ -451,7 +451,7 @@ public class INode extends AST {
 		AST statementList = children.get(1);
 		
 		if (times.type != ValueType.NUM) {
-			throw new WordsProgramException(lineNo, new InvalidTypeException(ValueType.NUM.toString(), times.type.toString()));
+			throw new WordsProgramException(this, new InvalidTypeException(ValueType.NUM.toString(), times.type.toString()));
 		}
 		
 		for (int i = 0; i < times.numValue; i++) {
@@ -481,6 +481,8 @@ public class INode extends AST {
 			try {
 				children.get(i).eval(environment);
 			} catch (WordsProgramException e) {
+				// Replace the AST in the exception with the entire statement instead of just the offending node area
+				e.replaceAST(this);
 				System.err.println();
 				System.err.println(e);
 				System.out.print("> ");

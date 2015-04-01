@@ -52,8 +52,8 @@ public class FrameLoop extends Thread {
 			for (WordsObject object : environment.getObjects()) {
 				try {
 					object.executeNextAction(environment);
-				} catch (WordsEnvironmentException e) {
-					System.err.println("Error executing action on object " + object.getObjectName() + ": " + e.toString());
+				} catch (WordsProgramException e) {
+					System.err.println("Error executing action on object " + object.getObjectName() + ": \n" + e.toString());
 					System.err.println("Action will not be performed");
 				}
 			}
