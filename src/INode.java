@@ -477,9 +477,10 @@ public class INode extends AST {
 			try {
 				children.get(i).eval(environment);
 			} catch (WordsRuntimeException e) {
-				// Replace the AST in the exception with the entire statement instead of just the offending node area
+				// Add the AST to the exception, and then print it.
+				WordsProgramException decoratedException = new WordsProgramException(children.get(i), e);
 				System.err.println();
-				System.err.println(e);
+				System.err.println(decoratedException);
 				System.out.print("> ");
 			}
 		}
