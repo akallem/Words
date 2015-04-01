@@ -41,38 +41,33 @@ public abstract class AST {
 		}
 		
 		/**
-		 * Coerces the ASTValue into a num if it can be coerced.
+		 * Attempts to coerce this ASTValue to the given type, if possible.  Regardless of whether or not it succeeds,
+		 * returns this ASTValue.  The caller should then check the type to determine if the result of the coercion resulted
+		 * in a suitable type for its purposes.
 		 * 
 		 * @return self
-		 **/
-		public ASTValue getNumCoercedVal() {
-			if (type == ValueType.NUM) {
-				return this;
-			} else if (type == ValueType.STRING) {
-				  try {  
-				    double val = Double.parseDouble(stringValue); 
-				    this.type = ValueType.NUM;
-				    this.numValue = val;
-				  } catch (NumberFormatException nfe) {  
-					  return this;
-				  }  
+		 */
+		public ASTValue tryCoerceTo(ValueType newType) {
+			switch(newType) {
+				case NUM:
+					if (type == ValueType.STRING) {
+						try {  
+							double val = Double.parseDouble(stringValue);
+							this.numValue = val;
+							this.type = newType;
+						} catch (NumberFormatException nfe) {}  
+					}
+					break;
+				case STRING:
+					if (type == ValueType.NUM) {
+						this.stringValue = String.format("%f", numValue);
+						this.type = newType;
+					}
+					break;
+				default:
+					break;
 			}
-			return this;
-		}
-		
-		/**
-		 * Coerces the ASTValue into a String if it can be coerced.
-		 * 
-		 * @return ASTValue this
-		 **/
-		public ASTValue getStringCoercedVal() {
-			if (type == ValueType.STRING) {
-				return this;
-			} else if (type == ValueType.NUM) {
-				this.stringValue = String.format("%f", numValue);
-				this.type = ValueType.STRING;
-				return this;
-			}
+			
 			return this;
 		}
 	}

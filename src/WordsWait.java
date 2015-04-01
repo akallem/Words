@@ -34,7 +34,7 @@ public class WordsWait extends WordsAction {
 	@Override
 	public LinkedList<WordsAction> doExpand(WordsObject object, WordsEnvironment environment) throws WordsProgramException {
 		if (lengthExpression != null) {
-			AST.ASTValue value = lengthExpression.eval(environment).getNumCoercedVal();
+			AST.ASTValue value = lengthExpression.eval(environment).tryCoerceTo(AST.ValueType.NUM);
 			
 			if (value.type != AST.ValueType.NUM) {
 				throw new WordsProgramException(lengthExpression, new InvalidTypeException(value.type.toString(), AST.ValueType.NUM.toString()));
