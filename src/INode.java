@@ -198,9 +198,12 @@ public class INode extends AST {
 
 	private ASTValue evalAnd(WordsEnvironment environment) throws WordsRuntimeException {
 		ASTValue lhs = children.get(0).eval(environment);
-		ASTValue rhs = children.get(1).eval(environment);
-		
 		assert lhs.type == ValueType.BOOLEAN : "Left side has type " + lhs.type.toString();
+		
+		if (lhs.booleanValue == false)
+			return new ASTValue(false);
+		
+		ASTValue rhs = children.get(1).eval(environment);
 		assert rhs.type == ValueType.BOOLEAN : "Right side has type " + rhs.type.toString();
 		
 		return new ASTValue(lhs.booleanValue && rhs.booleanValue);
@@ -436,9 +439,12 @@ public class INode extends AST {
 
 	private ASTValue evalOr(WordsEnvironment environment) throws WordsRuntimeException {
 		ASTValue lhs = children.get(0).eval(environment);
-		ASTValue rhs = children.get(1).eval(environment);
-		
 		assert lhs.type == ValueType.BOOLEAN : "Left side has type " + lhs.type.toString();
+		
+		if (lhs.booleanValue == true)
+			return new ASTValue(true);
+		
+		ASTValue rhs = children.get(1).eval(environment);
 		assert rhs.type == ValueType.BOOLEAN : "Right side has type " + rhs.type.toString();
 		
 		return new ASTValue(lhs.booleanValue || rhs.booleanValue);
