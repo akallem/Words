@@ -178,11 +178,11 @@ public class INode extends AST {
 	 * Checks that the arguments to a relational operator <, <=, >, >= are appropriate and throws an appropriate
 	 * exception if not.
 	 */
-	private void checkRelOpArgTypes(ASTValue lhs, ASTValue rhs) throws WordsProgramException {
+	private void checkRelOpArgTypes(ASTValue lhs, ASTValue rhs) throws WordsRuntimeException {
 		if ((lhs.type != ValueType.NUM && lhs.type != ValueType.STRING) ||
 			(lhs.type != rhs.type)) {
 			// TODO: Probably need a new OperatorTypeMismatch exception, since InvalidTypeException isn't quite right
-			throw new WordsProgramException(lineNo, new InvalidTypeException("", ""));
+			throw new WordsInvalidTypeException(lhs.type.toString(), rhs.type.toString());
 		}
 	}
 	
@@ -196,7 +196,7 @@ public class INode extends AST {
 		throw new AssertionError("Not yet implemented");
 	}
 
-	private ASTValue evalAnd(WordsEnvironment environment) throws WordsProgramException {
+	private ASTValue evalAnd(WordsEnvironment environment) throws WordsRuntimeException {
 		ASTValue lhs = children.get(0).eval(environment);
 		ASTValue rhs = children.get(1).eval(environment);
 		
@@ -246,7 +246,7 @@ public class INode extends AST {
 		throw new AssertionError("Not yet implemented");	
 	}
 
-	private ASTValue evalEquals(WordsEnvironment environment) throws WordsProgramException {
+	private ASTValue evalEquals(WordsEnvironment environment) throws WordsRuntimeException {
 		ASTValue lhs = children.get(0).eval(environment);
 		ASTValue rhs = children.get(1).eval(environment);
 		
@@ -278,18 +278,18 @@ public class INode extends AST {
 		// Number/string type coercion
 		if (lhs.type != rhs.type) {
 			if (lhs.type == ValueType.STRING) {
-				lhs = lhs.getNumCoercedVal();
+				lhs = lhs.tryCoerceTo(ValueType.NUM);
 				
 				// If string to number coercion failed on lhs, do number to string coercion on rhs
 				if (lhs.type == ValueType.STRING)
-					rhs = rhs.getStringCoercedVal();
+					rhs = rhs.tryCoerceTo(ValueType.STRING);
 			} else {
 				// lhs must be a number
-				rhs = rhs.getNumCoercedVal();
+				rhs = rhs.tryCoerceTo(ValueType.NUM);
 				
 				// If string to number coercion failed on rhs, do number to string coercion on lhs
 				if (rhs.type == ValueType.STRING)
-					lhs = lhs.getStringCoercedVal();
+					lhs = lhs.tryCoerceTo(ValueType.STRING);
 			}
 		}
 		
@@ -315,7 +315,7 @@ public class INode extends AST {
 		throw new AssertionError("Not yet implemented");	
 	}
 
-	private ASTValue evalGEQ(WordsEnvironment environment) throws WordsProgramException {
+	private ASTValue evalGEQ(WordsEnvironment environment) throws WordsRuntimeException {
 		ASTValue lhs = children.get(0).eval(environment);
 		ASTValue rhs = children.get(1).eval(environment);
 		
@@ -332,7 +332,7 @@ public class INode extends AST {
 		}
 	}
 
-	private ASTValue evalGreater(WordsEnvironment environment) throws WordsProgramException {
+	private ASTValue evalGreater(WordsEnvironment environment) throws WordsRuntimeException {
 		ASTValue lhs = children.get(0).eval(environment);
 		ASTValue rhs = children.get(1).eval(environment);
 		
@@ -354,7 +354,7 @@ public class INode extends AST {
 		throw new AssertionError("Not yet implemented");	
 	}
 
-	private ASTValue evalIf(WordsEnvironment environment) throws WordsProgramException {
+	private ASTValue evalIf(WordsEnvironment environment) throws WordsRuntimeException {
 		ASTValue predicate = children.get(0).eval(environment);
 		AST statementList = children.get(1);
 		
@@ -367,7 +367,7 @@ public class INode extends AST {
 		return null;
 	}
 
-	private ASTValue evalLEQ(WordsEnvironment environment) throws WordsProgramException {
+	private ASTValue evalLEQ(WordsEnvironment environment) throws WordsRuntimeException {
 		ASTValue lhs = children.get(0).eval(environment);
 		ASTValue rhs = children.get(1).eval(environment);
 		
@@ -384,7 +384,7 @@ public class INode extends AST {
 		}
 	}
 
-	private ASTValue evalLess(WordsEnvironment environment) throws WordsProgramException {
+	private ASTValue evalLess(WordsEnvironment environment) throws WordsRuntimeException {
 		ASTValue lhs = children.get(0).eval(environment);
 		ASTValue rhs = children.get(1).eval(environment);
 		
@@ -426,7 +426,7 @@ public class INode extends AST {
 		throw new AssertionError("Not yet implemented");	
 	}
 
-	private ASTValue evalNot(WordsEnvironment environment) throws WordsProgramException {
+	private ASTValue evalNot(WordsEnvironment environment) throws WordsRuntimeException {
 		ASTValue predicate = children.get(0).eval(environment);
 		
 		assert predicate.type == ValueType.BOOLEAN : "Predicate has type " + predicate.type.toString();
@@ -434,7 +434,7 @@ public class INode extends AST {
 		return new ASTValue(!predicate.booleanValue);
 	}
 
-	private ASTValue evalOr(WordsEnvironment environment) throws WordsProgramException {
+	private ASTValue evalOr(WordsEnvironment environment) throws WordsRuntimeException {
 		ASTValue lhs = children.get(0).eval(environment);
 		ASTValue rhs = children.get(1).eval(environment);
 		
