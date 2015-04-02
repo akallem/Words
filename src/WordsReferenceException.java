@@ -1,7 +1,7 @@
 @SuppressWarnings("serial")
-public class ReferenceException extends WordsEnvironmentException {
+public class WordsReferenceException extends WordsRuntimeException {
 	
-	public ReferenceException() {
+	public WordsReferenceException() {
 	}
 	
 	public String toString() {

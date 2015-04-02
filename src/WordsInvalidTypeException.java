@@ -1,10 +1,10 @@
 @SuppressWarnings("serial")
-public class InvalidTypeException extends WordsEnvironmentException {
+public class WordsInvalidTypeException extends WordsRuntimeException {
 	
 	private String expectedType;
 	private String receivedType;
 	
-	public InvalidTypeException(String expected, String received) {
+	public WordsInvalidTypeException(String expected, String received) {
 		this.expectedType = expected;
 		this.receivedType = received;
 	}

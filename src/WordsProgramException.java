@@ -1,21 +1,25 @@
-
+/**
+ * This exception decorates an existing WordsRuntimeException by including the AST that caused it.
+ * The WordsEnvironmentException contains what went wrong, while the AST contains where it went wrong.
+ *
+ */
 @SuppressWarnings("serial")
 public class WordsProgramException extends Exception {
-	private WordsEnvironmentException exception;
-	private int lineNo;
 	
-	public WordsProgramException(int lineNo, WordsEnvironmentException exception) {
-		this.lineNo = lineNo;
+	private WordsRuntimeException exception;
+	private AST offendingAST;
+	
+	public WordsProgramException(AST offendingAST, WordsRuntimeException exception) {
+		this.offendingAST = offendingAST;
 		this.exception = exception;
 	}
 	
-	public WordsEnvironmentException getInnerException() {
+	public WordsRuntimeException getEnvironmentException() {
 		return exception;
 	}
 	
 	@Override
 	public String toString() {
-		return String.format("Error at line %d: %s", lineNo, exception.toString());
+		return String.format("Error at line %d: %s", offendingAST.lineNo, exception.toString());
 	}
-	
 }

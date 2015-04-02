@@ -1,6 +1,6 @@
 
 @SuppressWarnings("serial")
-public class WordsFunctionArgsException extends WordsEnvironmentException {
+public class WordsFunctionArgsException extends WordsRuntimeException {
 	
 	private String expectedArgs;
 	private String receivedArgs;

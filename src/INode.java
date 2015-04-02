@@ -71,7 +71,7 @@ public class INode extends AST {
 	}
 
 	@Override
-	public ASTValue eval(WordsEnvironment environment) throws WordsProgramException {
+	public ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException {
 		switch(this.type) {
 			case ADD:
 				return evalAdd(environment);
@@ -221,17 +221,13 @@ public class INode extends AST {
 		throw new AssertionError("Not yet implemented");	
 	}
 
-	private ASTValue evalCreateObj(WordsEnvironment environment) throws WordsProgramException {
+	private ASTValue evalCreateObj(WordsEnvironment environment) throws WordsRuntimeException {
 		ASTValue objName = children.get(0).eval(environment);
 		ASTValue className = children.get(1).eval(environment);
 		ASTValue properties = children.get(2) != null ? children.get(2).eval(environment) : null;
 		ASTValue position = children.get(3).eval(environment);
 
-		try {
-			WordsObject newObject = environment.createObject(objName.stringValue, className.stringValue, position.positionValue);
-		} catch (WordsEnvironmentException e) {
-			throw new WordsProgramException(this.lineNo, e);
-		}
+		WordsObject newObject = environment.createObject(objName.stringValue, className.stringValue, position.positionValue);
 		// TODO
 		if (properties != null) {
 			// For each element of properties, add property to newObject
@@ -458,16 +454,16 @@ public class INode extends AST {
 		throw new AssertionError("Not yet implemented");
 	}
 
-	private ASTValue evalPosition(WordsEnvironment environment) throws WordsProgramException {
-		ASTValue row = children.get(0).eval(environment).getNumCoercedVal();
-		ASTValue col = children.get(1).eval(environment).getNumCoercedVal();
+	private ASTValue evalPosition(WordsEnvironment environment) throws WordsRuntimeException {
+		ASTValue row = children.get(0).eval(environment).tryCoerceTo(ValueType.NUM);
+		ASTValue col = children.get(1).eval(environment).tryCoerceTo(ValueType.NUM);
 		
 		if (row.type != ValueType.NUM) {
-			throw new WordsProgramException(lineNo, new InvalidTypeException(ValueType.NUM.toString(), row.type.toString()));
+			throw new WordsInvalidTypeException(ValueType.NUM.toString(), row.type.toString());
 		}
 		
 		if (col.type != ValueType.NUM) {
-			throw new WordsProgramException(lineNo, new InvalidTypeException(ValueType.NUM.toString(), col.type.toString()));
+			throw new WordsInvalidTypeException(ValueType.NUM.toString(), col.type.toString());
 		}
 		
 		return new ASTValue(new WordsPosition(row.numValue, col.numValue));
@@ -494,7 +490,7 @@ public class INode extends AST {
 		throw new AssertionError("Not yet implemented");
 	}
 
-	private ASTValue evalQueueMove(WordsEnvironment environment) throws WordsProgramException {
+	private ASTValue evalQueueMove(WordsEnvironment environment) throws WordsRuntimeException {
 		ASTValue referenceObject = children.get(0).eval(environment);
 		ASTValue identifier = children.get(1).eval(environment);
 		ASTValue direction = children.get(2).eval(environment);
@@ -505,13 +501,13 @@ public class INode extends AST {
 		if (referenceObject.type.equals(ValueType.OBJ)){
 			WordsProperty property = referenceObject.objValue.getProperty(identifier.stringValue);
 			if (property.type != WordsProperty.PropertyType.OBJECT) {
-				throw new WordsProgramException(lineNo, new InvalidTypeException(ValueType.OBJ.toString(), property.type.toString()));
+				throw new WordsInvalidTypeException(ValueType.OBJ.toString(), property.type.toString());
 			}
 			object = property.objProperty;
 		} else {
 			object = environment.getObject(identifier.stringValue);
 			if (object == null) {
-				throw new WordsProgramException(lineNo, new WordsObjectNotFoundException(identifier.stringValue));
+				throw new WordsObjectNotFoundException(identifier.stringValue);
 			}
 		}
 		
@@ -529,17 +525,17 @@ public class INode extends AST {
 		return null;
 	}
 
-	private ASTValue evalQueueSay(WordsEnvironment environment) throws WordsProgramException {
+	private ASTValue evalQueueSay(WordsEnvironment environment) throws WordsRuntimeException {
 		ASTValue referenceObject = children.get(0).eval(environment);
 		ASTValue identifier = children.get(1).eval(environment);
-		ASTValue message = children.get(2).eval(environment).getStringCoercedVal();
+		ASTValue message = children.get(2).eval(environment).tryCoerceTo(ValueType.STRING);
 		ASTValue doNow = children.get(3) != null ? children.get(3).eval(environment) : null;
 		
 		WordsObject object;
 		if (referenceObject.type.equals(ValueType.OBJ)){
 			WordsProperty property = referenceObject.objValue.getProperty(identifier.stringValue);
 			if (property.type != WordsProperty.PropertyType.OBJECT) {
-				throw new WordsProgramException(lineNo, new InvalidTypeException(ValueType.OBJ.toString(), property.type.toString()));
+				throw new WordsInvalidTypeException(ValueType.OBJ.toString(), property.type.toString());
 			}
 			object = property.objProperty;
 		} else {
@@ -547,7 +543,7 @@ public class INode extends AST {
 		}
 		
 		if (message.type != ValueType.STRING) {
-			throw new WordsProgramException(lineNo, new InvalidTypeException(ValueType.STRING.toString(), message.type.toString()));
+			throw new WordsInvalidTypeException(ValueType.STRING.toString(), message.type.toString());
 		}
 		WordsSay action = new WordsSay(message.stringValue);
 		
@@ -581,12 +577,12 @@ public class INode extends AST {
 		throw new AssertionError("Not yet implemented");
 	}
 
-	private ASTValue evalRepeat(WordsEnvironment environment) throws WordsProgramException {
-		ASTValue times = children.get(0).eval(environment).getNumCoercedVal();
+	private ASTValue evalRepeat(WordsEnvironment environment) throws WordsRuntimeException {
+		ASTValue times = children.get(0).eval(environment).tryCoerceTo(ValueType.NUM);
 		AST statementList = children.get(1);
 		
 		if (times.type != ValueType.NUM) {
-			throw new WordsProgramException(lineNo, new InvalidTypeException(ValueType.NUM.toString(), times.type.toString()));
+			throw new WordsInvalidTypeException(ValueType.NUM.toString(), times.type.toString());
 		}
 		
 		for (int i = 0; i < times.numValue; i++) {
@@ -615,9 +611,11 @@ public class INode extends AST {
 		for (int i = 0; i < children.size(); i++) {
 			try {
 				children.get(i).eval(environment);
-			} catch (WordsProgramException e) {
+			} catch (WordsRuntimeException e) {
+				// Add the AST to the exception, and then print it.
+				WordsProgramException decoratedException = new WordsProgramException(children.get(i), e);
 				System.err.println();
-				System.err.println(e);
+				System.err.println(decoratedException);
 				System.out.print("> ");
 			}
 		}
