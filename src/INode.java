@@ -181,8 +181,7 @@ public class INode extends AST {
 	private void checkRelOpArgTypes(ASTValue lhs, ASTValue rhs) throws WordsRuntimeException {
 		if ((lhs.type != ValueType.NUM && lhs.type != ValueType.STRING) ||
 			(lhs.type != rhs.type)) {
-			// TODO: Probably need a new OperatorTypeMismatch exception, since InvalidTypeException isn't quite right
-			throw new WordsInvalidTypeException(lhs.type.toString(), rhs.type.toString());
+			throw new WordsOperatorTypeMismatchException(lhs.type.toString(), rhs.type.toString());
 		}
 	}
 	
