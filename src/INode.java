@@ -196,12 +196,15 @@ public class INode extends AST {
 	}
 
 	private ASTValue evalAnd(WordsEnvironment environment) throws WordsRuntimeException {
+		// First evaluate just the left side to provide for short-circuit evaluation
 		ASTValue lhs = children.get(0).eval(environment);
 		assert lhs.type == ValueType.BOOLEAN : "Left side has type " + lhs.type.toString();
 		
+		// Short circuit
 		if (lhs.booleanValue == false)
 			return new ASTValue(false);
 		
+		// Now we can evaluate the right side
 		ASTValue rhs = children.get(1).eval(environment);
 		assert rhs.type == ValueType.BOOLEAN : "Right side has type " + rhs.type.toString();
 		
@@ -437,12 +440,15 @@ public class INode extends AST {
 	}
 
 	private ASTValue evalOr(WordsEnvironment environment) throws WordsRuntimeException {
+		// First evaluate just the left side to provide for short-circuit evaluation
 		ASTValue lhs = children.get(0).eval(environment);
 		assert lhs.type == ValueType.BOOLEAN : "Left side has type " + lhs.type.toString();
 		
+		// Short circuit
 		if (lhs.booleanValue == true)
 			return new ASTValue(true);
 		
+		// Now we can evaluate the right side
 		ASTValue rhs = children.get(1).eval(environment);
 		assert rhs.type == ValueType.BOOLEAN : "Right side has type " + rhs.type.toString();
 		
