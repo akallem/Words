@@ -19,5 +19,5 @@ public class WordsPropertyAssignment extends WordsAction {
 	}
 
 	@Override
-	protected LinkedList<WordsAction> doExpand(WordsObject object) { return null; }
+	protected LinkedList<WordsAction> doExpand(WordsObject object, WordsEnvironment environment) { return null; }
 }

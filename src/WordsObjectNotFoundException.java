@@ -1,7 +1,6 @@
-
-public class WordsObjectNotFoundException extends Exception {
+@SuppressWarnings("serial")
+public class WordsObjectNotFoundException extends WordsRuntimeException {
 	
-	private static final long serialVersionUID = -3671883021207555542L;
 	private String objectName;
 	
 	public WordsObjectNotFoundException(String objectName) {
@@ -12,4 +11,8 @@ public class WordsObjectNotFoundException extends Exception {
 		return objectName;
 	}
 	
+	@Override
+	public String toString() {
+		return String.format("Error: At line %d, object %s did not exist.", objectName);
+	}
 }

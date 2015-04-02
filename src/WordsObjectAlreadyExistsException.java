@@ -1,5 +1,5 @@
-
-public class WordsObjectAlreadyExistsException extends Exception {
+@SuppressWarnings("serial")
+public class WordsObjectAlreadyExistsException extends WordsRuntimeException {
 
 	private String objectName;
 	
@@ -7,7 +7,8 @@ public class WordsObjectAlreadyExistsException extends Exception {
 		this.objectName = objectName;
 	}
 	
-	public String getObjectName() {
-		return objectName;
+	@Override
+	public String toString() {
+		return String.format("object %s already existed. Cannot be created again.", objectName);
 	}
 }

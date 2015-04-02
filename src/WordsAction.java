@@ -15,11 +15,12 @@ public abstract class WordsAction {
 	
 	/**
 	 * Expand the action if it is expandable.
+	 * @throws WordsRuntimeException 
 	 */
-	public final LinkedList<WordsAction> expand(WordsObject object) {
+	public final LinkedList<WordsAction> expand(WordsObject object, WordsEnvironment environment) throws WordsProgramException {
 		boolean flag = !isExpandable();
 		assert flag : "Attempted to expand non-expandable action";
-		return doExpand(object);
+		return doExpand(object, environment);
 	};
 	
 	/**
@@ -29,6 +30,8 @@ public abstract class WordsAction {
 	
 	/**
 	 * Actually expand the action.  Guaranteed to be called only on expandable actions.  
+	 * @throws WordsRuntimeException 
+	 * @throws WordsProgramException 
 	 */
-	protected abstract LinkedList<WordsAction> doExpand(WordsObject object);
+	protected abstract LinkedList<WordsAction> doExpand(WordsObject object, WordsEnvironment environment) throws WordsProgramException;
 }
