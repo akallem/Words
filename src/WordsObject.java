@@ -98,12 +98,7 @@ public class WordsObject {
 		if (!actionQueue.isEmpty()) {
 			while (actionQueue.peek().isExpandable()) {
 				WordsAction action = actionQueue.pop();
-				try {
-					actionQueue.addAll(0, action.expand(this, environment));
-				} catch (WordsProgramException e) {
-					actionQueue.pop();
-					throw e;
-				}
+				actionQueue.addAll(0, action.expand(this, environment));
 			}
 			
 			WordsAction action = actionQueue.pop();
