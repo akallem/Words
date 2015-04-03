@@ -8,13 +8,16 @@ import org.junit.Test;
  * Each test class should test a single class. The name of the test class should be Test[Classname].
  */
 public class TestEnvironment {
+	
+	// Between each test case in JUnit, all instance variables are reinitialized. This means that
+	// each test case is run with a new, clean environment that has not been modified by previous test cases.
+	WordsEnvironment environment = new WordsEnvironment();
 		
 	/****************************************
 	 * Object Creation Section
 	 ****************************************/
 	@Test
 	public void basicObjectCreation() {
-		WordsEnvironment environment = new WordsEnvironment();
 		WordsObject newObject = null;
 		try {
 			// Objects are created directly with object literals instead of evaluated leaf nodes
@@ -36,14 +39,12 @@ public class TestEnvironment {
 	// If an operation can throw exceptions, check that it always throws that exception
 	@Test (expected = WordsObjectAlreadyExistsException.class)
 	public void objectCreationWhenObjectAlreadyExists() throws WordsRuntimeException {
-		WordsEnvironment environment = new WordsEnvironment();
 		environment.createObject("Alex", "thing", new WordsPosition(0,0));
 		environment.createObject("Alex", "thing", new WordsPosition(2,0));
 	}
 	
 	@Test (expected = WordsClassNotFoundException.class)
 	public void objectCreationWhenClassDoesNotExist() throws WordsRuntimeException {
-		WordsEnvironment environment = new WordsEnvironment();
 		environment.createObject("Alex", "person", new WordsPosition(0,0));
 	}
 

@@ -20,6 +20,9 @@ public class WordsPosition {
 	
 	@Override
 	public boolean equals(Object other) {
+		if (!(other instanceof WordsPosition)) {
+			return false;
+		}
 		WordsPosition otherPos = (WordsPosition) other;
 		return this.x == otherPos.x && this.y == otherPos.y;
 	}
