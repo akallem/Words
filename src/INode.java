@@ -320,15 +320,15 @@ public class INode extends AST {
 	}
 
 	private ASTValue evalPosition(WordsEnvironment environment) throws WordsRuntimeException {
-		ASTValue row = children.get(0).eval(environment).tryCoerceTo(ValueType.NUM);
-		ASTValue col = children.get(1).eval(environment).tryCoerceTo(ValueType.NUM);
+		ASTValue row = children.get(0).eval(environment).tryCoerceTo(ASTValue.ValueType.NUM);
+		ASTValue col = children.get(1).eval(environment).tryCoerceTo(ASTValue.ValueType.NUM);
 		
-		if (row.type != ValueType.NUM) {
-			throw new WordsInvalidTypeException(ValueType.NUM.toString(), row.type.toString());
+		if (row.type != ASTValue.ValueType.NUM) {
+			throw new WordsInvalidTypeException(ASTValue.ValueType.NUM.toString(), row.type.toString());
 		}
 		
-		if (col.type != ValueType.NUM) {
-			throw new WordsInvalidTypeException(ValueType.NUM.toString(), col.type.toString());
+		if (col.type != ASTValue.ValueType.NUM) {
+			throw new WordsInvalidTypeException(ASTValue.ValueType.NUM.toString(), col.type.toString());
 		}
 		
 		return new ASTValue(new WordsPosition(row.numValue, col.numValue));
@@ -363,10 +363,10 @@ public class INode extends AST {
 		ASTValue doNow = children.get(4) != null ? children.get(4).eval(environment) : null;
 		
 		WordsObject object;
-		if (referenceObject.type.equals(ValueType.OBJ)){
+		if (referenceObject.type.equals(ASTValue.ValueType.OBJ)){
 			WordsProperty property = referenceObject.objValue.getProperty(identifier.stringValue);
 			if (property.type != WordsProperty.PropertyType.OBJECT) {
-				throw new WordsInvalidTypeException(ValueType.OBJ.toString(), property.type.toString());
+				throw new WordsInvalidTypeException(ASTValue.ValueType.OBJ.toString(), property.type.toString());
 			}
 			object = property.objProperty;
 		} else {
@@ -376,7 +376,7 @@ public class INode extends AST {
 			}
 		}
 		
-		assert(direction.type == ValueType.DIRECTION) : "Expected direction";
+		assert(direction.type == ASTValue.ValueType.DIRECTION) : "Expected direction";
 		
 		//TODO: Distance = 0 should create a wait method
 		WordsMove action = new WordsMove(direction.directionValue, distance);
@@ -393,22 +393,22 @@ public class INode extends AST {
 	private ASTValue evalQueueSay(WordsEnvironment environment) throws WordsRuntimeException {
 		ASTValue referenceObject = children.get(0).eval(environment);
 		ASTValue identifier = children.get(1).eval(environment);
-		ASTValue message = children.get(2).eval(environment).tryCoerceTo(ValueType.STRING);
+		ASTValue message = children.get(2).eval(environment).tryCoerceTo(ASTValue.ValueType.STRING);
 		ASTValue doNow = children.get(3) != null ? children.get(3).eval(environment) : null;
 		
 		WordsObject object;
-		if (referenceObject.type.equals(ValueType.OBJ)){
+		if (referenceObject.type.equals(ASTValue.ValueType.OBJ)){
 			WordsProperty property = referenceObject.objValue.getProperty(identifier.stringValue);
 			if (property.type != WordsProperty.PropertyType.OBJECT) {
-				throw new WordsInvalidTypeException(ValueType.OBJ.toString(), property.type.toString());
+				throw new WordsInvalidTypeException(ASTValue.ValueType.OBJ.toString(), property.type.toString());
 			}
 			object = property.objProperty;
 		} else {
 			object = environment.getObject(identifier.stringValue);
 		}
 		
-		if (message.type != ValueType.STRING) {
-			throw new WordsInvalidTypeException(ValueType.STRING.toString(), message.type.toString());
+		if (message.type != ASTValue.ValueType.STRING) {
+			throw new WordsInvalidTypeException(ASTValue.ValueType.STRING.toString(), message.type.toString());
 		}
 		WordsSay action = new WordsSay(message.stringValue);
 		
@@ -434,7 +434,7 @@ public class INode extends AST {
 	private ASTValue evalReferenceList(WordsEnvironment environment) {
 		// TODO
 		//throw new AssertionError("Not yet implemented");
-		return new ASTValue(ValueType.NOTHING);
+		return new ASTValue(ASTValue.ValueType.NOTHING);
 	}
 
 	private ASTValue evalRemove(WordsEnvironment environment) {
@@ -443,11 +443,11 @@ public class INode extends AST {
 	}
 
 	private ASTValue evalRepeat(WordsEnvironment environment) throws WordsRuntimeException {
-		ASTValue times = children.get(0).eval(environment).tryCoerceTo(ValueType.NUM);
+		ASTValue times = children.get(0).eval(environment).tryCoerceTo(ASTValue.ValueType.NUM);
 		AST statementList = children.get(1);
 		
-		if (times.type != ValueType.NUM) {
-			throw new WordsInvalidTypeException(ValueType.NUM.toString(), times.type.toString());
+		if (times.type != ASTValue.ValueType.NUM) {
+			throw new WordsInvalidTypeException(ASTValue.ValueType.NUM.toString(), times.type.toString());
 		}
 		
 		for (int i = 0; i < times.numValue; i++) {

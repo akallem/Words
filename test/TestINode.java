@@ -17,16 +17,16 @@ public class TestINode {
 	@Test
 	public void positionWithNothingWrong() throws WordsRuntimeException {
 		INode positionEval = new INode(AST.ASTType.POSITION, 0, numLeaf1, numLeaf2);
-		AST.ASTValue result = positionEval.eval(environment);
-		assertEquals("Creates a position", result.type, AST.ValueType.POSITION);
+		ASTValue result = positionEval.eval(environment);
+		assertEquals("Creates a position", result.type, ASTValue.ValueType.POSITION);
 		assertEquals("The position is the right position", result.positionValue, new WordsPosition(0,2));
 	}
 	
 	@Test
 	public void positionWithCoercableString() throws WordsRuntimeException {
 		INode positionEval = new INode(AST.ASTType.POSITION, 0, numLeaf1, stringLeafCoercable);
-		AST.ASTValue result = positionEval.eval(environment);
-		assertEquals("Creates a position", result.type, AST.ValueType.POSITION);
+		ASTValue result = positionEval.eval(environment);
+		assertEquals("Creates a position", result.type, ASTValue.ValueType.POSITION);
 		assertEquals("The position is the right position", result.positionValue, new WordsPosition(0,2));
 	}
 	
