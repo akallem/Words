@@ -8,7 +8,7 @@ public class TestINode {
 
 	AST nothingLeaf = new LNode(AST.ASTType.NOTHING, 0);
 	AST numLeaf = new LNode(AST.ASTType.NUM, 0, 0.0);
-	AST stringLeaf = new LNode(AST.ASTType.NUM, 0, "string");
+	AST stringLeaf = new LNode(AST.ASTType.STRING, 0, "string");
 		
 	/*********************
 	 * evalPosition
