@@ -8,7 +8,7 @@ public class TestINode {
 
 	AST nothingLeaf = new LNode(AST.ASTType.NOTHING, 0);
 	AST numLeaf = new LNode(AST.ASTType.NUM, 0, 0.0);
-	AST stringLeaf = new LNode(AST.ASTType.NUM, 0, "string");
+	AST stringLeaf = new LNode(AST.ASTType.STRING, 0, "string");
 			
 	/*********************
 	 * evalEquals 
@@ -18,23 +18,23 @@ public class TestINode {
 		AST nothingLeaf1 = new LNode(AST.ASTType.NOTHING, 0);
 		AST nothingLeaf2 = new LNode(AST.ASTType.NOTHING, 0);
 		
-		INode equalsEval = new INode(AST.ASTType.EQUALS, 0, nothingLeaf1, nothingLeaf2);
-		ASTValue result = equalsEval.eval(environment);
+		INode testNode = new INode(AST.ASTType.EQUALS, 0, nothingLeaf1, nothingLeaf2);
+		ASTValue result = testNode.eval(environment);
 		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
 		assertTrue("Result is true", result.booleanValue);
 	}
 	
 	@Test
 	public void nothingShouldNotEqualAnythingElse() throws WordsRuntimeException {
-		INode equalsEval;
+		INode testNode;
 		ASTValue result;
 		
-		equalsEval = new INode(AST.ASTType.EQUALS, 0, nothingLeaf, numLeaf);
-		result = equalsEval.eval(environment);
+		testNode = new INode(AST.ASTType.EQUALS, 0, nothingLeaf, numLeaf);
+		result = testNode.eval(environment);
 		assertFalse("Result is false", result.booleanValue);
 		
-		equalsEval = new INode(AST.ASTType.EQUALS, 0, nothingLeaf, stringLeaf);
-		result = equalsEval.eval(environment);
+		testNode = new INode(AST.ASTType.EQUALS, 0, nothingLeaf, stringLeaf);
+		result = testNode.eval(environment);
 		assertFalse("Result is false", result.booleanValue);
 	}
 	
@@ -43,8 +43,8 @@ public class TestINode {
 		AST numLeaf1 = new LNode(AST.ASTType.NUM, 0, 1.4);
 		AST numLeaf2 = new LNode(AST.ASTType.NUM, 0, 1.4);
 		
-		INode equalsEval = new INode(AST.ASTType.EQUALS, 0, numLeaf1, numLeaf2);
-		ASTValue result = equalsEval.eval(environment);
+		INode testNode = new INode(AST.ASTType.EQUALS, 0, numLeaf1, numLeaf2);
+		ASTValue result = testNode.eval(environment);
 		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
 		assertTrue("Result is true", result.booleanValue);
 	}
@@ -54,8 +54,8 @@ public class TestINode {
 		AST numLeaf1 = new LNode(AST.ASTType.NUM, 0, 1.4);
 		AST numLeaf2 = new LNode(AST.ASTType.NUM, 0, 4.7);
 		
-		INode equalsEval = new INode(AST.ASTType.EQUALS, 0, numLeaf1, numLeaf2);
-		ASTValue result = equalsEval.eval(environment);
+		INode testNode = new INode(AST.ASTType.EQUALS, 0, numLeaf1, numLeaf2);
+		ASTValue result = testNode.eval(environment);
 		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
 		assertFalse("Result is false", result.booleanValue);
 	}
@@ -65,8 +65,8 @@ public class TestINode {
 		AST stringLeaf1 = new LNode(AST.ASTType.STRING, 0, "test");
 		AST stringLeaf2 = new LNode(AST.ASTType.STRING, 0, "test");
 		
-		INode equalsEval = new INode(AST.ASTType.EQUALS, 0, stringLeaf1, stringLeaf1);
-		ASTValue result = equalsEval.eval(environment);
+		INode testNode = new INode(AST.ASTType.EQUALS, 0, stringLeaf1, stringLeaf1);
+		ASTValue result = testNode.eval(environment);
 		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
 		assertTrue("Result is true", result.booleanValue);
 	}
@@ -76,8 +76,8 @@ public class TestINode {
 		AST stringLeaf1 = new LNode(AST.ASTType.STRING, 0, "this");
 		AST stringLeaf2 = new LNode(AST.ASTType.STRING, 0, "that");
 		
-		INode equalsEval = new INode(AST.ASTType.EQUALS, 0, stringLeaf1, stringLeaf2);
-		ASTValue result = equalsEval.eval(environment);
+		INode testNode = new INode(AST.ASTType.EQUALS, 0, stringLeaf1, stringLeaf2);
+		ASTValue result = testNode.eval(environment);
 		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
 		assertFalse("Result is false", result.booleanValue);
 	}
@@ -87,8 +87,8 @@ public class TestINode {
 		AST numLeaf = new LNode(AST.ASTType.NUM, 0, 1.4);
 		AST stringLeaf = new LNode(AST.ASTType.STRING, 0, "1.4");
 		
-		INode equalsEval = new INode(AST.ASTType.EQUALS, 0, numLeaf, stringLeaf);
-		ASTValue result = equalsEval.eval(environment);
+		INode testNode = new INode(AST.ASTType.EQUALS, 0, numLeaf, stringLeaf);
+		ASTValue result = testNode.eval(environment);
 		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
 		assertTrue("Result is true", result.booleanValue);
 	}
@@ -98,10 +98,63 @@ public class TestINode {
 		AST numLeaf = new LNode(AST.ASTType.NUM, 0, 1.4);
 		AST stringLeaf = new LNode(AST.ASTType.STRING, 0, "4.7");
 		
-		INode equalsEval = new INode(AST.ASTType.EQUALS, 0, numLeaf, stringLeaf);
-		ASTValue result = equalsEval.eval(environment);
+		INode testNode = new INode(AST.ASTType.EQUALS, 0, numLeaf, stringLeaf);
+		ASTValue result = testNode.eval(environment);
 		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
 		assertFalse("Result is false", result.booleanValue);
+	}
+	
+	/*********************
+	 * evalGEQ
+	 ********************/
+	@Test
+	public void numberShouldBeGEQItself() throws WordsRuntimeException {
+		AST numLeaf1 = new LNode(AST.ASTType.NUM, 0, 1.4);
+		AST numLeaf2 = new LNode(AST.ASTType.NUM, 0, 1.4);
+		
+		INode testNode = new INode(AST.ASTType.GEQ, 0, numLeaf1, numLeaf2);
+		ASTValue result = testNode.eval(environment);
+		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertTrue("Result is true", result.booleanValue);
+	}
+	
+	@Test
+	public void numberShouldBeGEQAnother() throws WordsRuntimeException {
+		AST numLeaf1 = new LNode(AST.ASTType.NUM, 0, 4.7);
+		AST numLeaf2 = new LNode(AST.ASTType.NUM, 0, 1.4);
+		
+		INode testNode = new INode(AST.ASTType.GEQ, 0, numLeaf1, numLeaf2);
+		ASTValue result = testNode.eval(environment);
+		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertTrue("Result is true", result.booleanValue);
+	}
+	
+	@Test
+	public void stringShouldBeGEQItself() throws WordsRuntimeException {
+		AST stringLeaf1 = new LNode(AST.ASTType.STRING, 0, "string");
+		AST stringLeaf2 = new LNode(AST.ASTType.STRING, 0, "string");
+		
+		INode testNode = new INode(AST.ASTType.GEQ, 0, stringLeaf1, stringLeaf2);
+		ASTValue result = testNode.eval(environment);
+		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertTrue("Result is true", result.booleanValue);
+	}
+	
+	@Test
+	public void stringShouldBeGEQAnother() throws WordsRuntimeException {
+		AST stringLeaf1 = new LNode(AST.ASTType.STRING, 0, "fghij");
+		AST stringLeaf2 = new LNode(AST.ASTType.STRING, 0, "abcde");
+		
+		INode testNode = new INode(AST.ASTType.GEQ, 0, stringLeaf1, stringLeaf2);
+		ASTValue result = testNode.eval(environment);
+		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertTrue("Result is true", result.booleanValue);
+	}
+	
+	@Test (expected = WordsOperatorTypeMismatchException.class)
+	public void numberAndStringsShouldNotBeGEQ() throws WordsRuntimeException {
+		INode testNode = new INode(AST.ASTType.GEQ, 0, numLeaf, stringLeaf);
+		ASTValue result = testNode.eval(environment);
 	}
 	
 	/*********************
