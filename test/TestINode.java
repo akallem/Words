@@ -158,6 +158,165 @@ public class TestINode {
 	}
 	
 	/*********************
+	 * evalGreater
+	 ********************/
+	@Test
+	public void numberShouldNotBeGreaterItself() throws WordsRuntimeException {
+		AST numLeaf1 = new LNode(AST.ASTType.NUM, 0, 1.4);
+		AST numLeaf2 = new LNode(AST.ASTType.NUM, 0, 1.4);
+		
+		INode testNode = new INode(AST.ASTType.GREATER, 0, numLeaf1, numLeaf2);
+		ASTValue result = testNode.eval(environment);
+		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertFalse("Result is false", result.booleanValue);
+	}
+	
+	@Test
+	public void numberShouldBeGreaterAnother() throws WordsRuntimeException {
+		AST numLeaf1 = new LNode(AST.ASTType.NUM, 0, 4.7);
+		AST numLeaf2 = new LNode(AST.ASTType.NUM, 0, 1.4);
+		
+		INode testNode = new INode(AST.ASTType.GREATER, 0, numLeaf1, numLeaf2);
+		ASTValue result = testNode.eval(environment);
+		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertTrue("Result is true", result.booleanValue);
+	}
+	
+	@Test
+	public void stringShouldNotBeGreaterItself() throws WordsRuntimeException {
+		AST stringLeaf1 = new LNode(AST.ASTType.STRING, 0, "string");
+		AST stringLeaf2 = new LNode(AST.ASTType.STRING, 0, "string");
+		
+		INode testNode = new INode(AST.ASTType.GREATER, 0, stringLeaf1, stringLeaf2);
+		ASTValue result = testNode.eval(environment);
+		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertFalse("Result is false", result.booleanValue);
+	}
+	
+	@Test
+	public void stringShouldBeGreaterAnother() throws WordsRuntimeException {
+		AST stringLeaf1 = new LNode(AST.ASTType.STRING, 0, "fghij");
+		AST stringLeaf2 = new LNode(AST.ASTType.STRING, 0, "abcde");
+		
+		INode testNode = new INode(AST.ASTType.GREATER, 0, stringLeaf1, stringLeaf2);
+		ASTValue result = testNode.eval(environment);
+		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertTrue("Result is true", result.booleanValue);
+	}
+	
+	@Test (expected = WordsOperatorTypeMismatchException.class)
+	public void numberAndStringsShouldNotBeGreater() throws WordsRuntimeException {
+		INode testNode = new INode(AST.ASTType.GREATER, 0, numLeaf, stringLeaf);
+		ASTValue result = testNode.eval(environment);
+	}
+
+	/*********************
+	 * evalLEQ
+	 ********************/
+	@Test
+	public void numberShouldBeLEQItself() throws WordsRuntimeException {
+		AST numLeaf1 = new LNode(AST.ASTType.NUM, 0, 1.4);
+		AST numLeaf2 = new LNode(AST.ASTType.NUM, 0, 1.4);
+		
+		INode testNode = new INode(AST.ASTType.LEQ, 0, numLeaf1, numLeaf2);
+		ASTValue result = testNode.eval(environment);
+		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertTrue("Result is true", result.booleanValue);
+	}
+	
+	@Test
+	public void numberShouldBeLEQAnother() throws WordsRuntimeException {
+		AST numLeaf1 = new LNode(AST.ASTType.NUM, 0, 1.4);
+		AST numLeaf2 = new LNode(AST.ASTType.NUM, 0, 4.7);
+		
+		INode testNode = new INode(AST.ASTType.LEQ, 0, numLeaf1, numLeaf2);
+		ASTValue result = testNode.eval(environment);
+		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertTrue("Result is true", result.booleanValue);
+	}
+	
+	@Test
+	public void stringShouldBeLEQItself() throws WordsRuntimeException {
+		AST stringLeaf1 = new LNode(AST.ASTType.STRING, 0, "string");
+		AST stringLeaf2 = new LNode(AST.ASTType.STRING, 0, "string");
+		
+		INode testNode = new INode(AST.ASTType.LEQ, 0, stringLeaf1, stringLeaf2);
+		ASTValue result = testNode.eval(environment);
+		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertTrue("Result is true", result.booleanValue);
+	}
+	
+	@Test
+	public void stringShouldBeLEQAnother() throws WordsRuntimeException {
+		AST stringLeaf1 = new LNode(AST.ASTType.STRING, 0, "abcde");
+		AST stringLeaf2 = new LNode(AST.ASTType.STRING, 0, "fghij");
+		
+		INode testNode = new INode(AST.ASTType.LEQ, 0, stringLeaf1, stringLeaf2);
+		ASTValue result = testNode.eval(environment);
+		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertTrue("Result is true", result.booleanValue);
+	}
+	
+	@Test (expected = WordsOperatorTypeMismatchException.class)
+	public void numberAndStringsShouldNotBeLEQ() throws WordsRuntimeException {
+		INode testNode = new INode(AST.ASTType.LEQ, 0, numLeaf, stringLeaf);
+		ASTValue result = testNode.eval(environment);
+	}
+	
+	/*********************
+	 * evalLesser
+	 ********************/
+	@Test
+	public void numberShouldNotBeLesserItself() throws WordsRuntimeException {
+		AST numLeaf1 = new LNode(AST.ASTType.NUM, 0, 1.4);
+		AST numLeaf2 = new LNode(AST.ASTType.NUM, 0, 1.4);
+		
+		INode testNode = new INode(AST.ASTType.LESS, 0, numLeaf1, numLeaf2);
+		ASTValue result = testNode.eval(environment);
+		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertFalse("Result is false", result.booleanValue);
+	}
+	
+	@Test
+	public void numberShouldBeLesserAnother() throws WordsRuntimeException {
+		AST numLeaf1 = new LNode(AST.ASTType.NUM, 0, 1.4);
+		AST numLeaf2 = new LNode(AST.ASTType.NUM, 0, 4.7);
+		
+		INode testNode = new INode(AST.ASTType.LESS, 0, numLeaf1, numLeaf2);
+		ASTValue result = testNode.eval(environment);
+		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertTrue("Result is true", result.booleanValue);
+	}
+	
+	@Test
+	public void stringShouldNotBeLesserItself() throws WordsRuntimeException {
+		AST stringLeaf1 = new LNode(AST.ASTType.STRING, 0, "string");
+		AST stringLeaf2 = new LNode(AST.ASTType.STRING, 0, "string");
+		
+		INode testNode = new INode(AST.ASTType.LESS, 0, stringLeaf1, stringLeaf2);
+		ASTValue result = testNode.eval(environment);
+		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertFalse("Result is false", result.booleanValue);
+	}
+	
+	@Test
+	public void stringShouldBeLesserAnother() throws WordsRuntimeException {
+		AST stringLeaf1 = new LNode(AST.ASTType.STRING, 0, "abcde");
+		AST stringLeaf2 = new LNode(AST.ASTType.STRING, 0, "fghij");
+		
+		INode testNode = new INode(AST.ASTType.LESS, 0, stringLeaf1, stringLeaf2);
+		ASTValue result = testNode.eval(environment);
+		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertTrue("Result is true", result.booleanValue);
+	}
+	
+	@Test (expected = WordsOperatorTypeMismatchException.class)
+	public void numberAndStringsShouldNotBeLesser() throws WordsRuntimeException {
+		INode testNode = new INode(AST.ASTType.LESS, 0, numLeaf, stringLeaf);
+		ASTValue result = testNode.eval(environment);
+	}
+	
+	/*********************
 	 * evalPosition 
 	 ********************/	
 	@Test
