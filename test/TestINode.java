@@ -112,8 +112,8 @@ public class TestINode {
 		AST numLeaf1 = new LNode(AST.ASTType.NUM, 0, 0.0);
 		AST numLeaf2 = new LNode(AST.ASTType.NUM, 0, 2.1);
 		
-		INode positionEval = new INode(AST.ASTType.POSITION, 0, numLeaf1, numLeaf2);
-		ASTValue result = positionEval.eval(environment);
+		INode testNode = new INode(AST.ASTType.POSITION, 0, numLeaf1, numLeaf2);
+		ASTValue result = testNode.eval(environment);
 		assertEquals("Creates a position", result.type, ASTValue.ValueType.POSITION);
 		assertEquals("The position is the right position", result.positionValue, new WordsPosition(0,2));
 	}
@@ -123,8 +123,8 @@ public class TestINode {
 		AST numLeaf = new LNode(AST.ASTType.NUM, 0, 0.0);
 		AST stringLeaf = new LNode(AST.ASTType.STRING, 0, "2.1");
 		
-		INode positionEval = new INode(AST.ASTType.POSITION, 0, numLeaf, stringLeaf);
-		ASTValue result = positionEval.eval(environment);
+		INode testNode = new INode(AST.ASTType.POSITION, 0, numLeaf, stringLeaf);
+		ASTValue result = testNode.eval(environment);
 		assertEquals("Creates a position", result.type, ASTValue.ValueType.POSITION);
 		assertEquals("The position is the right position", result.positionValue, new WordsPosition(0,2));
 	}
@@ -134,7 +134,7 @@ public class TestINode {
 		AST numLeaf = new LNode(AST.ASTType.NUM, 0, 0.0);
 		AST stringLeaf = new LNode(AST.ASTType.STRING, 0, "ham");
 		
-		INode positionEval = new INode(AST.ASTType.POSITION, 0, numLeaf, stringLeaf);
-		positionEval.eval(environment);
+		INode testNode = new INode(AST.ASTType.POSITION, 0, numLeaf, stringLeaf);
+		testNode.eval(environment);
 	}
 }
