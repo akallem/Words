@@ -9,7 +9,39 @@ public class TestINode {
 	AST nothingLeaf = new LNode(AST.ASTType.NOTHING, 0);
 	AST numLeaf = new LNode(AST.ASTType.NUM, 0, 0.0);
 	AST stringLeaf = new LNode(AST.ASTType.STRING, 0, "string");
-			
+	
+	AST trueLeaf = new INode(AST.ASTType.EQUALS, 0, nothingLeaf, nothingLeaf);
+	AST falseLeaf = new INode(AST.ASTType.EQUALS, 0, nothingLeaf, numLeaf);
+	
+	/*********************
+	 * evalAnd
+	 ********************/	
+	@Test
+	public void logicalAndShouldGiveCorrectResults() throws WordsRuntimeException {
+		INode testNode;
+		ASTValue result;
+		
+		testNode = new INode(AST.ASTType.AND, 0, trueLeaf, trueLeaf);
+		result = testNode.eval(environment);
+		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertTrue("Result is true", result.booleanValue);
+		
+		testNode = new INode(AST.ASTType.AND, 0, falseLeaf, trueLeaf);
+		result = testNode.eval(environment);
+		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertFalse("Result is false", result.booleanValue);
+		
+		testNode = new INode(AST.ASTType.AND, 0, trueLeaf, falseLeaf);
+		result = testNode.eval(environment);
+		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertFalse("Result is false", result.booleanValue);
+		
+		testNode = new INode(AST.ASTType.AND, 0, falseLeaf, falseLeaf);
+		result = testNode.eval(environment);
+		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertFalse("Result is false", result.booleanValue);
+	}
+	
 	/*********************
 	 * evalEquals 
 	 ********************/	
@@ -314,6 +346,54 @@ public class TestINode {
 	public void numberAndStringsShouldNotBeLesser() throws WordsRuntimeException {
 		INode testNode = new INode(AST.ASTType.LESS, 0, numLeaf, stringLeaf);
 		ASTValue result = testNode.eval(environment);
+	}
+
+	/*********************
+	 * evalNot
+	 ********************/	
+	@Test
+	public void logicalNotShouldGiveCorrectResults() throws WordsRuntimeException {
+		INode testNode;
+		ASTValue result;
+		
+		testNode = new INode(AST.ASTType.NOT, 0, trueLeaf);
+		result = testNode.eval(environment);
+		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertFalse("Result is false", result.booleanValue);
+		
+		testNode = new INode(AST.ASTType.NOT, 0, falseLeaf);
+		result = testNode.eval(environment);
+		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertTrue("Result is true", result.booleanValue);
+	}
+	
+	/*********************
+	 * evalOr
+	 ********************/	
+	@Test
+	public void logicalOrShouldGiveCorrectResults() throws WordsRuntimeException {
+		INode testNode;
+		ASTValue result;
+		
+		testNode = new INode(AST.ASTType.OR, 0, trueLeaf, trueLeaf);
+		result = testNode.eval(environment);
+		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertTrue("Result is true", result.booleanValue);
+		
+		testNode = new INode(AST.ASTType.OR, 0, falseLeaf, trueLeaf);
+		result = testNode.eval(environment);
+		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertTrue("Result is true", result.booleanValue);
+		
+		testNode = new INode(AST.ASTType.OR, 0, trueLeaf, falseLeaf);
+		result = testNode.eval(environment);
+		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertTrue("Result is true", result.booleanValue);
+		
+		testNode = new INode(AST.ASTType.OR, 0, falseLeaf, falseLeaf);
+		result = testNode.eval(environment);
+		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertFalse("Result is false", result.booleanValue);
 	}
 	
 	/*********************
