@@ -3,19 +3,21 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class TestINode {
-	
+	// Some generic variables useful for all tests
 	WordsEnvironment environment = new WordsEnvironment();
 
+	AST nothingLeaf = new LNode(AST.ASTType.NOTHING, 0);
+	AST numLeaf = new LNode(AST.ASTType.NUM, 0, 0.0);
+	AST stringLeaf = new LNode(AST.ASTType.NUM, 0, "string");
+		
 	/*********************
-	 * EvalPosition 
+	 * evalPosition
 	 ********************/
-	AST numLeaf1 = new LNode(AST.ASTType.NUM, 0, 0.0);
-	AST numLeaf2 = new LNode(AST.ASTType.NUM, 0, 2.1);
-	AST stringLeafCoercable = new LNode(AST.ASTType.STRING, 0, "2.1");
-	AST stringLeafNonCoercable = new LNode(AST.ASTType.STRING, 0, "ham");
-	
 	@Test
 	public void positionWithNothingWrong() throws WordsRuntimeException {
+		AST numLeaf1 = new LNode(AST.ASTType.NUM, 0, 0.0);
+		AST numLeaf2 = new LNode(AST.ASTType.NUM, 0, 2.1);
+		
 		INode positionEval = new INode(AST.ASTType.POSITION, 0, numLeaf1, numLeaf2);
 		ASTValue result = positionEval.eval(environment);
 		assertEquals("Creates a position", result.type, ASTValue.ValueType.POSITION);
@@ -24,7 +26,10 @@ public class TestINode {
 	
 	@Test
 	public void positionWithCoercableString() throws WordsRuntimeException {
-		INode positionEval = new INode(AST.ASTType.POSITION, 0, numLeaf1, stringLeafCoercable);
+		AST numLeaf = new LNode(AST.ASTType.NUM, 0, 0.0);
+		AST stringLeaf = new LNode(AST.ASTType.STRING, 0, "2.1");
+		
+		INode positionEval = new INode(AST.ASTType.POSITION, 0, numLeaf, stringLeaf);
 		ASTValue result = positionEval.eval(environment);
 		assertEquals("Creates a position", result.type, ASTValue.ValueType.POSITION);
 		assertEquals("The position is the right position", result.positionValue, new WordsPosition(0,2));
@@ -32,7 +37,10 @@ public class TestINode {
 	
 	@Test (expected = WordsInvalidTypeException.class)
 	public void positionWithNonCoercableString() throws WordsRuntimeException {
-		INode positionEval = new INode(AST.ASTType.POSITION, 0, numLeaf1, stringLeafNonCoercable);
+		AST numLeaf = new LNode(AST.ASTType.NUM, 0, 0.0);
+		AST stringLeaf = new LNode(AST.ASTType.STRING, 0, "ham");
+		
+		INode positionEval = new INode(AST.ASTType.POSITION, 0, numLeaf, stringLeaf);
 		positionEval.eval(environment);
 	}
 }
