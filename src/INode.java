@@ -458,6 +458,9 @@ public class INode extends AST {
 		for (int i = 1; i < children.size(); i++) {
 			String propertyRefName = children.get(i).eval(environment).stringValue;
 			WordsProperty prop = currentObj.getProperty(propertyRefName);
+			if (prop.type != WordsProperty.PropertyType.OBJECT) {
+					return new ASTValue(ValueType.NOTHING);
+			}
 			currentObj = prop.objProperty;
 		}
 		
