@@ -296,9 +296,14 @@ public class INode extends AST {
 		throw new AssertionError("Not yet implemented");	
 	}
 
-	private ASTValue evalNegate(WordsEnvironment environment) {
-		// TODO
-		throw new AssertionError("Not yet implemented");	
+	private ASTValue evalNegate(WordsEnvironment environment) throws WordsRuntimeException {
+		ASTValue value = children.get(0).eval(environment).tryCoerceTo(AST.ValueType.NUM);
+
+		if(value.type != AST.ValueType.NUM) {
+			throw new AssertionError("Argument must be of ValueType NUM");
+		}
+
+		return new ASTValue(value.numValue * -1);	
 	}
 
 	private ASTValue evalNot(WordsEnvironment environment) {
