@@ -189,9 +189,29 @@ public class INode extends AST {
 		throw new AssertionError("Not yet implemented");
 	}
 
-	private ASTValue evalAssign(WordsEnvironment environment) {
-		// TODO
-		throw new AssertionError("Not yet implemented");	
+	private ASTValue evalAssign(WordsEnvironment environment) throws WordsRuntimeException {
+		WordsObject obj = children.get(0).eval(environment).objValue;
+		String propertyName = children.get(1).eval(environment).stringValue;
+		ASTValue propertyASTValue = children.get(2).eval(environment);
+		
+		WordsProperty wordsProp = null;
+		switch (propertyASTValue.type) {
+			case NUM:
+				wordsProp = new WordsProperty(propertyASTValue.numValue);
+				break;
+			case STRING:
+				wordsProp = new WordsProperty(propertyASTValue.stringValue);
+				break;
+			case OBJ:
+				wordsProp = new WordsProperty(propertyASTValue.objValue);
+				break;
+			default:
+				wordsProp = new WordsProperty(WordsProperty.PropertyType.NOTHING);
+		}
+	
+		obj.setProperty(propertyName, wordsProp);
+		
+		return null;
 	}
 
 	private ASTValue evalClassStatementList(WordsEnvironment environment) {
@@ -431,10 +451,21 @@ public class INode extends AST {
 		throw new AssertionError("Not yet implemented");
 	}
 
-	private ASTValue evalReferenceList(WordsEnvironment environment) {
-		// TODO
-		//throw new AssertionError("Not yet implemented");
-		return new ASTValue(ValueType.NOTHING);
+	private ASTValue evalReferenceList(WordsEnvironment environment) throws WordsRuntimeException {
+		String firstObjRefName = children.get(0).eval(environment).stringValue;
+		WordsObject currentObj = environment.getObject(firstObjRefName);
+		
+		for (int i = 1; i < children.size(); i++) {
+			String propertyRefName = children.get(i).eval(environment).stringValue;
+			WordsProperty prop = currentObj.getProperty(propertyRefName);
+			currentObj = prop.objProperty;
+		}
+		
+		if (currentObj == null) { //not sure if this should be null or nothing
+			return new ASTValue(ValueType.NOTHING);
+		}
+		
+		return new ASTValue(currentObj);
 	}
 
 	private ASTValue evalRemove(WordsEnvironment environment) {
