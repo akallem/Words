@@ -459,7 +459,7 @@ public class INode extends AST {
 			String propertyRefName = children.get(i).eval(environment).stringValue;
 			WordsProperty prop = currentObj.getProperty(propertyRefName);
 			if (prop.type != WordsProperty.PropertyType.OBJECT) {
-					return new ASTValue(ValueType.NOTHING);
+				return new ASTValue(ValueType.NOTHING);
 			}
 			currentObj = prop.objProperty;
 		}
