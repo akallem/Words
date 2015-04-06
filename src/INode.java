@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.lang.StringBuilder;
 
-
 /**
  * An abstract syntax tree internal node.
  */
@@ -91,6 +90,8 @@ public class INode extends AST {
 				return evalDefineAction(environment);
 			case DEFINE_PROPERTY:
 				return evalDefineProperty(environment);
+			case DIVIDE:
+				return evalDivide(environment);
 			case EQUALS:
 				return evalEquals(environment);
 			case EXIT:
@@ -175,8 +176,7 @@ public class INode extends AST {
 	}
 
 	private ASTValue evalAdd(WordsEnvironment environment) throws WordsRuntimeException {
-		ASTValue lhs = children.get(0).eval(environment);
-		ASTValue rhs = children.get(1).eval(environment);
+		
 
 		throw new AssertionError("Not yet implemented");
 	}
@@ -229,6 +229,17 @@ public class INode extends AST {
 	private ASTValue evalDefineProperty(WordsEnvironment environment) {
 		// TODO
 		throw new AssertionError("Not yet implemented");	
+	}
+
+	private ASTValue evalDivide(WordsEnvironment environment) throws WordsRuntimeException {
+		ASTValue lhs = children.get(0).eval(environment).tryCoerceTo(AST.ValueType.NUM);
+		ASTValue rhs = children.get(1).eval(environment).tryCoerceTo(AST.ValueType.NUM);
+
+		if((lhs.type != AST.ValueType.NUM) || (rhs.type != AST.ValueType.NUM)) {
+			throw new AssertionError("Operation arguments must both be ValueType NUM");
+		}
+
+		return new ASTValue(lhs.numValue/rhs.numValue);
 	}
 
 	private ASTValue evalEquals(WordsEnvironment environment) {
@@ -291,9 +302,16 @@ public class INode extends AST {
 		throw new AssertionError("Not yet implemented");	
 	}
 
-	private ASTValue evalMultiply(WordsEnvironment environment) {
-		// TODO
-		throw new AssertionError("Not yet implemented");	
+	private ASTValue evalMultiply(WordsEnvironment environment) throws WordsRuntimeException {
+		ASTValue lhs = children.get(0).eval(environment).tryCoerceTo(AST.ValueType.NUM);
+		ASTValue rhs = children.get(1).eval(environment).tryCoerceTo(AST.ValueType.NUM);
+
+		if((lhs.type != AST.ValueType.NUM) || (rhs.type != AST.ValueType.NUM)) {
+			throw new AssertionError("Operation arguments must both be ValueType NUM");
+		}
+
+		return new ASTValue(lhs.numValue*rhs.numValue);
+			
 	}
 
 	private ASTValue evalNegate(WordsEnvironment environment) throws WordsRuntimeException {
