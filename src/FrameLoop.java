@@ -24,21 +24,21 @@ public class FrameLoop extends Thread {
 
 		while(!finished) {
 			long timeToSleep = Option.TIME_TO_WAIT;
-		    long start, end, slept;
+			long start, end, slept;
 			while(timeToSleep > 0) {
-		        start=System.currentTimeMillis();
-		        try {
-		            Thread.sleep(timeToSleep);
-		            break;
-		        }
-		        catch(InterruptedException e) {
+				start=System.currentTimeMillis();
+				try {
+					Thread.sleep(timeToSleep);
+					break;
+				}
+				catch(InterruptedException e) {
 
-		            //work out how much more time to sleep for
-		            end=System.currentTimeMillis();
-		            slept=end-start;
-		            timeToSleep-=slept;
-		        }
-		    }
+					//work out how much more time to sleep for
+					end=System.currentTimeMillis();
+					slept=end-start;
+					timeToSleep-=slept;
+				}
+			}
 			while (!ASTQueue.isEmpty()) {
 				AST ast = ASTQueue.pop();
 				try {
