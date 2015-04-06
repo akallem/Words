@@ -84,9 +84,9 @@ public class LNode extends AST {
 			case DIRECTION:
 				return new ASTValue(this.direction);
 			case NOTHING:
-				return new ASTValue(ValueType.NOTHING);
+				return new ASTValue(ASTValue.ValueType.NOTHING);
 			case NOW:
-				return new ASTValue(ValueType.NOW);
+				return new ASTValue(ASTValue.ValueType.NOW);
 			default:
 				throw new AssertionError("LNode evaluated with unexpected AST node type " + this.type.toString());
 		}
