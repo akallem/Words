@@ -252,9 +252,15 @@ public class INode extends AST {
 		throw new AssertionError("Not yet implemented");	
 	}
 
-	private ASTValue evalExponentiate(WordsEnvironment environment) {
-		// TODO
-		throw new AssertionError("Not yet implemented");	
+	private ASTValue evalExponentiate(WordsEnvironment environment) throws WordsRuntimeException {
+		ASTValue lhs = children.get(0).eval(environment).tryCoerceTo(AST.ValueType.NUM);
+		ASTValue rhs = children.get(1).eval(environment).tryCoerceTo(AST.ValueType.NUM);
+
+		if((lhs.type != AST.ValueType.NUM) || (rhs.type != AST.ValueType.NUM)) {
+			throw new AssertionError("Operation arguments must both be ValueType NUM");
+		}
+
+		return new ASTValue(Math.pow(lhs.numValue, rhs.numValue));	
 	}
 
 	private ASTValue evalGEQ(WordsEnvironment environment) {
