@@ -457,6 +457,35 @@ public class TestINode {
 	}
 	
 	/*********************
+	 * evalIf
+	 ********************/
+	@Test
+	public void testIfOnTrue() throws WordsRuntimeException {
+		AST statementList = new INode(AST.ASTType.STATEMENT_LIST, 0, moveFredRight2);
+		AST relationalExp = new INode(AST.ASTType.EQUALS, 0, numLeaf, numLeaf);
+		AST testNode = new INode(AST.ASTType.IF, 0, relationalExp, statementList);
+		
+		environment.createObject("Fred", "thing", new WordsPosition(0,0));
+		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up. 
+		loop.enqueueAST(testNode);
+		loop.fastForwardEnvironment(2);
+		assertEquals("Fred has moved correctly", environment.getObject("Fred").getCurrentCell(), new WordsPosition(2,0));
+	}
+	
+	@Test
+	public void testIfOnFalse() throws WordsRuntimeException {
+		AST statementList = new INode(AST.ASTType.STATEMENT_LIST, 0, moveFredRight2);
+		AST relationalExp = new INode(AST.ASTType.EQUALS, 0, twoLeaf, fiveLeaf);
+		AST testNode = new INode(AST.ASTType.IF, 0, relationalExp, statementList);
+		
+		environment.createObject("Fred", "thing", new WordsPosition(0,0));
+		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up. 
+		loop.enqueueAST(testNode);
+		loop.fastForwardEnvironment(2);
+		assertEquals("Fred has not moved", environment.getObject("Fred").getCurrentCell(), new WordsPosition(0,0));
+	}
+	
+	/*********************
 	 * evalIteration
 	 ********************/
 	@Test
