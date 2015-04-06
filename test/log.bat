@@ -1,4 +1,10 @@
-FOR %%PROG IN (%*) DO (
-    ECHO "Logging %%PROG"
-    java -jar jar/Words.jar "%%PROG" -nogui >"%%PROG.log"
+@echo off
+
+:loop
+if "%~1" neq "" (
+  echo Logging %1 ...
+  java -jar jar/Words.jar %1 -nogui >%1.log
+
+  shift
+  goto :loop
 )

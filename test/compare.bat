@@ -1,11 +1,14 @@
-#!/bin/bash
+@echo off
 
-for prog in "$@"
-do
-    echo "Logging $prog ..."
-    java -jar jar/Words.jar "$prog" -nogui >run.log
-    echo "Diff with $prog.log"
-    diff run.log "$prog.log"
-done
+:loop
+if "%~1" neq "" (
+  echo Logging %1 ...
+  java -jar jar/Words.jar %1 -nogui >run.log.tmp
+  echo Diff with %1.log
+  fc run.log.tmp %1.log
 
-rm run.log
+  shift
+  goto :loop
+)
+
+del run.log.tmp
