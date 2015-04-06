@@ -176,9 +176,22 @@ public class INode extends AST {
 	}
 
 	private ASTValue evalAdd(WordsEnvironment environment) throws WordsRuntimeException {
+		ASTValue lhs = children.get(0).eval(environment);
+		ASTValue rhs = children.get(1).eval(environment);
 		
-
-		throw new AssertionError("Not yet implemented");
+		if(((lhs.type == AST.ValueType.STRING) && (rhs.type == AST.ValueType.NUM)) || 
+				((lhs.type == AST.ValueType.NUM) && (rhs.type == AST.ValueType.STRING)) ||
+				((lhs.type == AST.ValueType.STRING) && (rhs.type == AST.ValueType.STRING))) {
+			lhs.tryCoerceTo(AST.ValueType.STRING);
+			rhs.tryCoerceTo(AST.ValueType.STRING);
+			return new ASTValue(lhs.stringValue+rhs.stringValue);
+		}
+		else if((lhs.type == AST.ValueType.NUM) && (rhs.type == AST.ValueType.NUM)) {
+			return new ASTValue(lhs.numValue+rhs.numValue); 
+		}
+		else {
+			throw new AssertionError("Incompatable ValueTypes");
+		}
 	}
 
 	private ASTValue evalAlias(WordsEnvironment environment) {
