@@ -176,8 +176,8 @@ public class INode extends AST {
 	}
 
 	private ASTValue evalAdd(WordsEnvironment environment) throws WordsRuntimeException {
-		ASTValue lhs = children.get(0).eval(environment);
-		ASTValue rhs = children.get(1).eval(environment);
+		ASTValue lhs = children.get(0).eval(environment).tryCoerceTo(AST.ValueType.NUM);
+		ASTValue rhs = children.get(1).eval(environment).tryCoerceTo(AST.ValueType.NUM);
 		
 		if(((lhs.type == AST.ValueType.STRING) && (rhs.type == AST.ValueType.NUM)) || 
 				((lhs.type == AST.ValueType.NUM) && (rhs.type == AST.ValueType.STRING)) ||
