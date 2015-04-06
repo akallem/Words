@@ -60,7 +60,7 @@ public class TestINode {
 	@Test
 	public void testWorkingMove() throws WordsRuntimeException {
 		environment.createObject("Fred", "thing", new WordsPosition(0,0));
-		loop.fastForwardEnvironment(1);
+		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up. 
 		assertEquals("Fred in good start position", environment.getObject("Fred").getCurrentCell(), new WordsPosition(0,0));
 		loop.enqueueAST(moveLeft2);
 		loop.fastForwardEnvironment(1);
@@ -77,8 +77,8 @@ public class TestINode {
 		AST statementList = new INode(AST.ASTType.STATEMENT_LIST, 0, moveLeft2, moveRight2);
 		AST iterativeLoop = new INode(AST.ASTType.REPEAT, 0, fiveLeaf, statementList);
 		environment.createObject("Fred", "thing", new WordsPosition(0,0));
+		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up. 
 		loop.enqueueAST(iterativeLoop);
-		loop.fastForwardEnvironment(1);
 		assertEquals("Fred in good start position", environment.getObject("Fred").getCurrentCell(), new WordsPosition(0,0));
 		loop.fastForwardEnvironment(2);
 		assertEquals("Fred makes first move", environment.getObject("Fred").getCurrentCell(), new WordsPosition(-2,0));
