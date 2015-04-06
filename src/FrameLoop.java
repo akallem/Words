@@ -2,35 +2,36 @@ import java.util.concurrent.LinkedBlockingDeque;
 
 
 public class FrameLoop extends Thread {
-	
+
 	private LinkedBlockingDeque<AST> ASTQueue;
 	private WordsEnvironment environment;
 	private WordsUI GUI;
-	private static int TIME_TO_WAIT = 1000;
-	
+
 	public FrameLoop(WordsUI GUI) {
 		environment = new WordsEnvironment();
 		ASTQueue = new LinkedBlockingDeque<AST>();
 		this.GUI = GUI;
 	}
-	
+
 	public void enqueueAST(AST ast) {
 		ASTQueue.add(ast);
 	}
 
-	
+
 	public void run() {
 		int counter = 1;
-		while(true) {
-			long timeToSleep = TIME_TO_WAIT;
+		boolean finished = false;
+
+		while(!finished) {
+			long timeToSleep = Option.TIME_TO_WAIT;
 		    long start, end, slept;
-			while(timeToSleep > 0){
+			while(timeToSleep > 0) {
 		        start=System.currentTimeMillis();
 		        try {
 		            Thread.sleep(timeToSleep);
 		            break;
 		        }
-		        catch(InterruptedException e){
+		        catch(InterruptedException e) {
 
 		            //work out how much more time to sleep for
 		            end=System.currentTimeMillis();
@@ -43,7 +44,7 @@ public class FrameLoop extends Thread {
 				try {
 					ast.eval(environment);
 				} catch (WordsRuntimeException e) {
-					// Note: this should never actually be caught here; it should be caught earlier at the statement level. 
+					// Note: this should never actually be caught here; it should be caught earlier at the statement level.
 					System.err.println();
 					System.err.println(e.toString());
 					System.out.println("> ");
@@ -58,16 +59,27 @@ public class FrameLoop extends Thread {
 					System.out.println("> ");
 				}
 			}
-			
+
 			for (WordsEventListener eventListener : environment.getEventListeners()) {
 				eventListener.execute();
 			}
-			
-			GUI.clear();
-			for (WordsObject object : environment.getObjects()) {
-				GUI.add(object.getCurrentCell(), object.getClassName(), object.getObjectName(), object.getCurrentMessage());
+
+			if (Option.GUI) {
+				GUI.clear();
+				for (WordsObject object : environment.getObjects()) {
+					GUI.add(object.getCurrentCell(), object.getClassName(), object.getObjectName(), object.getCurrentMessage());
+				}
+				GUI.render();
+			} else {
+				System.out.println("counter = " + counter);
+				WordsLog log = new WordsLog();
+				for (WordsObject object : environment.getObjects()) {
+					log.add(object.getCurrentCell(), object.getClassName(), object.getObjectName(), object.getCurrentMessage());
+				}
+				log.log();
+				if (counter >= Option.MAX_COUNTER)
+					finished = true;
 			}
-			GUI.render();
 			counter++;
 		}
 	}

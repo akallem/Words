@@ -1,7 +1,7 @@
 %{
   import java.io.*;
 %}
-     
+
 	/* Keyword-related tokens */
 %token A
 %token AND
@@ -141,7 +141,7 @@ class_definition_statement:
 		HAS A identifier '.'														{ $$ = new INode(AST.ASTType.DEFINE_PROPERTY, lexer.lineNumber, $3, null); }
 	|	HAS A identifier OF literal '.'												{ $$ = new INode(AST.ASTType.DEFINE_PROPERTY, lexer.lineNumber, $3, $5); }
 	|	CAN identifier WHICH MEANS '{' statement_list '}'							{ $$ = new INode(AST.ASTType.DEFINE_ACTION, lexer.lineNumber, $2, null, $6); }
-	|	CAN identifier WITH identifier_list WHICH MEANS '{' statement_list '}'		{ $$ = new INode(AST.ASTType.DEFINE_ACTION, lexer.lineNumber, $2, $4, $8); }	
+	|	CAN identifier WITH identifier_list WHICH MEANS '{' statement_list '}'		{ $$ = new INode(AST.ASTType.DEFINE_ACTION, lexer.lineNumber, $2, $4, $8); }
 	;
 
 object_create_statement:
@@ -349,31 +349,49 @@ public boolean hasError = false;
 public static void main(String args[]) throws IOException {
 	System.out.println("Welcome to Words!");
 
-	WordsUI ui = new WordsUI();
+	WordsUI ui = null;
+	// Handle GUI option
+	for (int i = 0; i < args.length; ++i) {
+		if (args[i].equals("-nogui")) {
+			System.out.println("GUI turned off");
+			Option.GUI = false;
+			Option.TIME_TO_WAIT = 100;
+		}
+	}
+	if (Option.GUI)
+		ui = new WordsUI();
+
 	frameLoop = new FrameLoop(ui);
 	frameLoop.start();
 
 	// Read and parse program argument, if any
-	if (args.length > 0) {
-		String filename = args[0];
+	for (int i = 0; i < args.length; ++i) {
+		if (args[i].charAt(0) != '-') {
+			// Read in Words program from file
+			String filename = args[i];
+			try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+				Words parser = new Words(br);
+				parser.yyparse();
 
-		try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
-			Words parser = new Words(br);
-			parser.yyparse();
+				// Temporary: dump AST to console.  (TODO: Enqueue AST for evaluation by frame loop thread.)
+				System.err.println();
+				System.err.println();
+				if (parser.root != null)
+					frameLoop.enqueueAST(parser.root);
+				else
+					System.err.println("Failed to generate AST");
 
-			// Temporary: dump AST to console.  (TODO: Enqueue AST for evaluation by frame loop thread.)
-			System.err.println();
-			System.err.println();
-			if (parser.root != null)
-				frameLoop.enqueueAST(parser.root);
-			else
-				System.err.println("Failed to generate AST");
-
-			br.close();
-		} catch (IOException e) {
-			System.err.println("Unable to read file " + filename);
+				br.close();
+			} catch (IOException e) {
+				System.err.println("Unable to read file " + filename);
+			}
+			break;
 		}
 	}
+
+	// If no GUI, then no REPL
+	if (!Option.GUI)
+		return;
 
 	// Simple REPL interface
 	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -390,7 +408,7 @@ public static void main(String args[]) throws IOException {
 
 			// Read next line and exit on EOF
 			String line = br.readLine();
-			
+
 			if (line == null)
 				System.exit(0);
 
