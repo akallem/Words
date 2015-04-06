@@ -249,6 +249,9 @@ public class INode extends AST {
 		if ((lhs.type != AST.ValueType.NUM) || (rhs.type != AST.ValueType.NUM)) {
 			throw new WordsArithmeticException(lhs.type.toString(), rhs.type.toString());
 		}
+		if (rhs.numValue == 0.0) {
+			throw new WordsDivideByZeroException();
+		}
 
 		return new ASTValue(lhs.numValue/rhs.numValue);
 	}
