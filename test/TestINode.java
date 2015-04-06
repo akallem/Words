@@ -17,8 +17,8 @@ public class TestINode {
 	AST leftDirectionLeaf = new LNode(AST.ASTType.DIRECTION, 0, Direction.Type.LEFT);
 	AST rightDirectionLeaf = new LNode(AST.ASTType.DIRECTION, 0, Direction.Type.RIGHT);
 	
-	AST moveLeft2 = new INode(AST.ASTType.QUEUE_MOVE, 0, nothingLeaf, fredStringLeaf, leftDirectionLeaf, twoLeaf, null);
-	AST moveRight2 = new INode(AST.ASTType.QUEUE_MOVE, 0, nothingLeaf, fredStringLeaf, rightDirectionLeaf, twoLeaf, null);
+	AST moveFredLeft2 = new INode(AST.ASTType.QUEUE_MOVE, 0, nothingLeaf, fredStringLeaf, leftDirectionLeaf, twoLeaf, null);
+	AST moveFredRight2 = new INode(AST.ASTType.QUEUE_MOVE, 0, nothingLeaf, fredStringLeaf, rightDirectionLeaf, twoLeaf, null);
 		
 	/*********************
 	 * evalPosition
@@ -62,7 +62,7 @@ public class TestINode {
 		environment.createObject("Fred", "thing", new WordsPosition(0,0));
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up. 
 		assertEquals("Fred in good start position", environment.getObject("Fred").getCurrentCell(), new WordsPosition(0,0));
-		loop.enqueueAST(moveLeft2);
+		loop.enqueueAST(moveFredLeft2);
 		loop.fastForwardEnvironment(1);
 		assertEquals("Fred moved", environment.getObject("Fred").getCurrentCell(), new WordsPosition(-1,0));
 		loop.fastForwardEnvironment(1);
@@ -74,7 +74,7 @@ public class TestINode {
 	 ********************/
 	@Test
 	public void testWorkingIteration() throws WordsRuntimeException {
-		AST statementList = new INode(AST.ASTType.STATEMENT_LIST, 0, moveLeft2, moveRight2);
+		AST statementList = new INode(AST.ASTType.STATEMENT_LIST, 0, moveFredLeft2, moveFredRight2);
 		AST iterativeLoop = new INode(AST.ASTType.REPEAT, 0, fiveLeaf, statementList);
 		environment.createObject("Fred", "thing", new WordsPosition(0,0));
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up. 
@@ -90,7 +90,7 @@ public class TestINode {
 	
 	@Test (expected = WordsInvalidTypeException.class)
 	public void testBadIteration() throws WordsRuntimeException {
-		AST statementList = new INode(AST.ASTType.STATEMENT_LIST, 0, moveLeft2, moveRight2);
+		AST statementList = new INode(AST.ASTType.STATEMENT_LIST, 0, moveFredLeft2, moveFredRight2);
 		AST iterativeLoop = new INode(AST.ASTType.REPEAT, 0, stringLeaf, statementList);
 		iterativeLoop.eval(environment);
 	}
