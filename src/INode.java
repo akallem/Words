@@ -190,7 +190,7 @@ public class INode extends AST {
 			return new ASTValue(lhs.numValue+rhs.numValue); 
 		}
 		else {
-			throw new AssertionError("Incompatable ValueTypes");
+			throw new WordsArithmeticException(lhs.type.toString(), rhs.type.toString());
 		}
 	}
 
@@ -249,7 +249,7 @@ public class INode extends AST {
 		ASTValue rhs = children.get(1).eval(environment).tryCoerceTo(AST.ValueType.NUM);
 
 		if((lhs.type != AST.ValueType.NUM) || (rhs.type != AST.ValueType.NUM)) {
-			throw new AssertionError("Operation arguments must both be ValueType NUM");
+			throw new WordsArithmeticException(lhs.type.toString(), rhs.type.toString());
 		}
 
 		return new ASTValue(lhs.numValue/rhs.numValue);
@@ -270,7 +270,7 @@ public class INode extends AST {
 		ASTValue rhs = children.get(1).eval(environment).tryCoerceTo(AST.ValueType.NUM);
 
 		if((lhs.type != AST.ValueType.NUM) || (rhs.type != AST.ValueType.NUM)) {
-			throw new AssertionError("Operation arguments must both be ValueType NUM");
+			throw new WordsArithmeticException(lhs.type.toString(), rhs.type.toString());
 		}
 
 		return new ASTValue(Math.pow(lhs.numValue, rhs.numValue));	
@@ -326,7 +326,7 @@ public class INode extends AST {
 		ASTValue rhs = children.get(1).eval(environment).tryCoerceTo(AST.ValueType.NUM);
 
 		if((lhs.type != AST.ValueType.NUM) || (rhs.type != AST.ValueType.NUM)) {
-			throw new AssertionError("Operation arguments must both be ValueType NUM");
+			throw new WordsArithmeticException(lhs.type.toString(), rhs.type.toString());
 		}
 
 		return new ASTValue(lhs.numValue*rhs.numValue);
@@ -337,7 +337,7 @@ public class INode extends AST {
 		ASTValue value = children.get(0).eval(environment).tryCoerceTo(AST.ValueType.NUM);
 
 		if(value.type != AST.ValueType.NUM) {
-			throw new AssertionError("Argument must be of ValueType NUM");
+			throw new WordsInvalidTypeException("NUM", value.type.toString());
 		}
 
 		return new ASTValue(value.numValue * -1);	
@@ -542,7 +542,7 @@ public class INode extends AST {
 		ASTValue rhs = children.get(1).eval(environment).tryCoerceTo(AST.ValueType.NUM);
 
 		if((lhs.type != AST.ValueType.NUM) || (rhs.type != AST.ValueType.NUM)) {
-			throw new AssertionError("Operation arguments must both be ValueType NUM");
+			throw new WordsArithmeticException(lhs.type.toString(), rhs.type.toString());
 		}
 
 		return new ASTValue(lhs.numValue-rhs.numValue);
