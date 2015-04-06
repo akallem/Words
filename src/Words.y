@@ -93,8 +93,8 @@
 %type <obj> literal
 
 	/* Operators precedence and associativity */
-%left AND
 %left OR
+%left AND
 %left '-' '+'
 %left '*' '/'
 %right '^'			/* exponentiation */

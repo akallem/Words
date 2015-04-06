@@ -2,7 +2,6 @@
  * An abstract syntax tree node, which may be either an internal node or leaf node.
  */
 public abstract class AST {
-	
 	/**
 	 * The type of the node, which determines how the node is evaluated.
 	 */
