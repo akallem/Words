@@ -179,17 +179,15 @@ public class INode extends AST {
 		ASTValue lhs = children.get(0).eval(environment).tryCoerceTo(AST.ValueType.NUM);
 		ASTValue rhs = children.get(1).eval(environment).tryCoerceTo(AST.ValueType.NUM);
 		
-		if(((lhs.type == AST.ValueType.STRING) && (rhs.type == AST.ValueType.NUM)) || 
+		if (((lhs.type == AST.ValueType.STRING) && (rhs.type == AST.ValueType.NUM)) || 
 				((lhs.type == AST.ValueType.NUM) && (rhs.type == AST.ValueType.STRING)) ||
 				((lhs.type == AST.ValueType.STRING) && (rhs.type == AST.ValueType.STRING))) {
 			lhs.tryCoerceTo(AST.ValueType.STRING);
 			rhs.tryCoerceTo(AST.ValueType.STRING);
 			return new ASTValue(lhs.stringValue+rhs.stringValue);
-		}
-		else if((lhs.type == AST.ValueType.NUM) && (rhs.type == AST.ValueType.NUM)) {
+		} else if ((lhs.type == AST.ValueType.NUM) && (rhs.type == AST.ValueType.NUM)) {
 			return new ASTValue(lhs.numValue+rhs.numValue); 
-		}
-		else {
+		} else {
 			throw new WordsArithmeticException(lhs.type.toString(), rhs.type.toString());
 		}
 	}
@@ -248,7 +246,7 @@ public class INode extends AST {
 		ASTValue lhs = children.get(0).eval(environment).tryCoerceTo(AST.ValueType.NUM);
 		ASTValue rhs = children.get(1).eval(environment).tryCoerceTo(AST.ValueType.NUM);
 
-		if((lhs.type != AST.ValueType.NUM) || (rhs.type != AST.ValueType.NUM)) {
+		if ((lhs.type != AST.ValueType.NUM) || (rhs.type != AST.ValueType.NUM)) {
 			throw new WordsArithmeticException(lhs.type.toString(), rhs.type.toString());
 		}
 
@@ -269,7 +267,7 @@ public class INode extends AST {
 		ASTValue lhs = children.get(0).eval(environment).tryCoerceTo(AST.ValueType.NUM);
 		ASTValue rhs = children.get(1).eval(environment).tryCoerceTo(AST.ValueType.NUM);
 
-		if((lhs.type != AST.ValueType.NUM) || (rhs.type != AST.ValueType.NUM)) {
+		if ((lhs.type != AST.ValueType.NUM) || (rhs.type != AST.ValueType.NUM)) {
 			throw new WordsArithmeticException(lhs.type.toString(), rhs.type.toString());
 		}
 
@@ -325,7 +323,7 @@ public class INode extends AST {
 		ASTValue lhs = children.get(0).eval(environment).tryCoerceTo(AST.ValueType.NUM);
 		ASTValue rhs = children.get(1).eval(environment).tryCoerceTo(AST.ValueType.NUM);
 
-		if((lhs.type != AST.ValueType.NUM) || (rhs.type != AST.ValueType.NUM)) {
+		if ((lhs.type != AST.ValueType.NUM) || (rhs.type != AST.ValueType.NUM)) {
 			throw new WordsArithmeticException(lhs.type.toString(), rhs.type.toString());
 		}
 
@@ -336,7 +334,7 @@ public class INode extends AST {
 	private ASTValue evalNegate(WordsEnvironment environment) throws WordsRuntimeException {
 		ASTValue value = children.get(0).eval(environment).tryCoerceTo(AST.ValueType.NUM);
 
-		if(value.type != AST.ValueType.NUM) {
+		if (value.type != AST.ValueType.NUM) {
 			throw new WordsInvalidTypeException("NUM", value.type.toString());
 		}
 
@@ -541,7 +539,7 @@ public class INode extends AST {
 		ASTValue lhs = children.get(0).eval(environment).tryCoerceTo(AST.ValueType.NUM);
 		ASTValue rhs = children.get(1).eval(environment).tryCoerceTo(AST.ValueType.NUM);
 
-		if((lhs.type != AST.ValueType.NUM) || (rhs.type != AST.ValueType.NUM)) {
+		if ((lhs.type != AST.ValueType.NUM) || (rhs.type != AST.ValueType.NUM)) {
 			throw new WordsArithmeticException(lhs.type.toString(), rhs.type.toString());
 		}
 
