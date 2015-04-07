@@ -347,13 +347,13 @@ public boolean hideErrors = false;
 public boolean hasError = false;
 
 public static void main(String args[]) throws IOException {
-	System.out.println("Welcome to Words!");
+	System.err.println("Welcome to Words!");
 
 	WordsUI ui = null;
 	// Handle GUI option
 	for (int i = 0; i < args.length; ++i) {
 		if (args[i].equals("-nogui")) {
-			System.out.println("GUI turned off");
+			System.err.println("GUI turned off");
 			Option.GUI = false;
 			Option.TIME_TO_WAIT = 100;
 		}
@@ -400,9 +400,9 @@ public static void main(String args[]) throws IOException {
 		while (true) {
 			// Prompt user
 			if (depth > 0)
-				System.out.printf("... ");
+				System.err.printf("... ");
 			else
-				System.out.printf("> ");
+				System.err.printf("> ");
 
 			// Read next line and exit on EOF
 			String line = br.readLine();
