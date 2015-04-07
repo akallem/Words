@@ -174,6 +174,17 @@ public class INode extends AST {
 		}
 	}
 
+	/**
+	 * Checks that the arguments to a relational operator <, <=, >, >= are appropriate and throws an appropriate
+	 * exception if not.
+	 */
+	private void checkRelOpArgTypes(ASTValue lhs, ASTValue rhs) throws WordsRuntimeException {
+		if ((lhs.type != ASTValue.ValueType.NUM && lhs.type != ASTValue.ValueType.STRING) ||
+			(lhs.type != rhs.type)) {
+			throw new WordsOperatorTypeMismatchException(lhs.type.toString(), rhs.type.toString());
+		}
+	}
+	
 	private ASTValue evalAdd(WordsEnvironment environment) {
 		// TODO
 		throw new AssertionError("Not yet implemented");
@@ -184,9 +195,20 @@ public class INode extends AST {
 		throw new AssertionError("Not yet implemented");
 	}
 
-	private ASTValue evalAnd(WordsEnvironment environment) {
-		// TODO
-		throw new AssertionError("Not yet implemented");
+	private ASTValue evalAnd(WordsEnvironment environment) throws WordsRuntimeException {
+		// First evaluate just the left side to provide for short-circuit evaluation
+		ASTValue lhs = children.get(0).eval(environment);
+		assert lhs.type == ASTValue.ValueType.BOOLEAN : "Left side has type " + lhs.type.toString();
+		
+		// Short circuit
+		if (lhs.booleanValue == false)
+			return new ASTValue(false);
+		
+		// Now we can evaluate the right side
+		ASTValue rhs = children.get(1).eval(environment);
+		assert rhs.type == ASTValue.ValueType.BOOLEAN : "Right side has type " + rhs.type.toString();
+		
+		return new ASTValue(lhs.booleanValue && rhs.booleanValue);
 	}
 
 	private ASTValue evalAssign(WordsEnvironment environment) {
@@ -229,9 +251,63 @@ public class INode extends AST {
 		throw new AssertionError("Not yet implemented");	
 	}
 
-	private ASTValue evalEquals(WordsEnvironment environment) {
-		// TODO
-		throw new AssertionError("Not yet implemented");	
+	private ASTValue evalEquals(WordsEnvironment environment) throws WordsRuntimeException {
+		ASTValue lhs = children.get(0).eval(environment);
+		ASTValue rhs = children.get(1).eval(environment);
+		
+		// The special type Nothing is equal only to Nothing
+		if ((lhs.type == ASTValue.ValueType.NOTHING && rhs.type != ASTValue.ValueType.NOTHING) || 
+			(lhs.type != ASTValue.ValueType.NOTHING && rhs.type == ASTValue.ValueType.NOTHING)) {
+			return new ASTValue(false);
+		}
+		
+		if (lhs.type == ASTValue.ValueType.NOTHING && rhs.type == ASTValue.ValueType.NOTHING) {
+			return new ASTValue(true);
+		}
+		
+		// Objects only equal another object and cannot be equal to non-objects
+		if ((lhs.type == ASTValue.ValueType.OBJ && rhs.type != ASTValue.ValueType.OBJ) || 
+			(lhs.type != ASTValue.ValueType.OBJ && rhs.type == ASTValue.ValueType.OBJ)) {
+			return new ASTValue(false);
+		}
+		
+		if ((lhs.type == ASTValue.ValueType.OBJ && rhs.type == ASTValue.ValueType.OBJ) &&
+			(lhs.objValue == rhs.objValue)) {
+			return new ASTValue(true);
+		}
+		
+		// Remaining types must be a number or string
+		assert lhs.type == ASTValue.ValueType.NUM || lhs.type == ASTValue.ValueType.STRING : "Left side has type " + lhs.type.toString();
+		assert rhs.type == ASTValue.ValueType.NUM || rhs.type == ASTValue.ValueType.STRING : "Right side has type " + rhs.type.toString();
+		
+		// Number/string type coercion
+		if (lhs.type != rhs.type) {
+			if (lhs.type == ASTValue.ValueType.STRING) {
+				lhs = lhs.tryCoerceTo(ASTValue.ValueType.NUM);
+				
+				// If string to number coercion failed on lhs, do number to string coercion on rhs
+				if (lhs.type == ASTValue.ValueType.STRING)
+					rhs = rhs.tryCoerceTo(ASTValue.ValueType.STRING);
+			} else {
+				// lhs must be a number
+				rhs = rhs.tryCoerceTo(ASTValue.ValueType.NUM);
+				
+				// If string to number coercion failed on rhs, do number to string coercion on lhs
+				if (rhs.type == ASTValue.ValueType.STRING)
+					lhs = lhs.tryCoerceTo(ASTValue.ValueType.STRING);
+			}
+		}
+		
+		// lhs and rhs are now the same type
+		assert lhs.type == rhs.type : "lhs has type " + lhs.type.toString() + " and rhs has type " + rhs.type.toString();
+		switch (lhs.type) {
+			case NUM:
+				return new ASTValue(lhs.numValue == rhs.numValue);
+			case STRING:
+				return new ASTValue(lhs.stringValue.equals(rhs.stringValue));
+			default:
+				throw new AssertionError("Attempted to evaluate relational operator on ValueType " + lhs.type);			
+		}
 	}
 
 	private ASTValue evalExit(WordsEnvironment environment) {
@@ -244,14 +320,38 @@ public class INode extends AST {
 		throw new AssertionError("Not yet implemented");	
 	}
 
-	private ASTValue evalGEQ(WordsEnvironment environment) {
-		// TODO
-		throw new AssertionError("Not yet implemented");	
+	private ASTValue evalGEQ(WordsEnvironment environment) throws WordsRuntimeException {
+		ASTValue lhs = children.get(0).eval(environment);
+		ASTValue rhs = children.get(1).eval(environment);
+		
+		checkRelOpArgTypes(lhs, rhs);
+		
+		// lhs and rhs are now the same type
+		switch (lhs.type) {
+			case NUM:
+				return new ASTValue(lhs.numValue >= rhs.numValue);
+			case STRING:
+				return new ASTValue(lhs.stringValue.compareTo(rhs.stringValue) >= 0);
+			default:
+				throw new AssertionError("Attempted to evaluate relational operator on ValueType " + lhs.type);			
+		}
 	}
 
-	private ASTValue evalGreater(WordsEnvironment environment) {
-		// TODO
-		throw new AssertionError("Not yet implemented");	
+	private ASTValue evalGreater(WordsEnvironment environment) throws WordsRuntimeException {
+		ASTValue lhs = children.get(0).eval(environment);
+		ASTValue rhs = children.get(1).eval(environment);
+		
+		checkRelOpArgTypes(lhs, rhs);
+		
+		// lhs and rhs are now the same type
+		switch (lhs.type) {
+			case NUM:
+				return new ASTValue(lhs.numValue > rhs.numValue);
+			case STRING:
+				return new ASTValue(lhs.stringValue.compareTo(rhs.stringValue) > 0);
+			default:
+				throw new AssertionError("Attempted to evaluate relational operator on ValueType " + lhs.type);			
+		}
 	}
 
 	private ASTValue evalIdentifierList(WordsEnvironment environment) {
@@ -259,19 +359,51 @@ public class INode extends AST {
 		throw new AssertionError("Not yet implemented");	
 	}
 
-	private ASTValue evalIf(WordsEnvironment environment) {
-		// TODO
-		throw new AssertionError("Not yet implemented");	
+	private ASTValue evalIf(WordsEnvironment environment) throws WordsRuntimeException {
+		ASTValue predicate = children.get(0).eval(environment);
+		AST statementList = children.get(1);
+		
+		assert predicate.type == ASTValue.ValueType.BOOLEAN : "Predicate has type " + predicate.type.toString();
+		
+		if (predicate.booleanValue == true) {
+			statementList.eval(environment);
+		}
+		
+		return null;
 	}
 
-	private ASTValue evalLEQ(WordsEnvironment environment) {
-		// TODO
-		throw new AssertionError("Not yet implemented");	
+	private ASTValue evalLEQ(WordsEnvironment environment) throws WordsRuntimeException {
+		ASTValue lhs = children.get(0).eval(environment);
+		ASTValue rhs = children.get(1).eval(environment);
+		
+		checkRelOpArgTypes(lhs, rhs);
+		
+		// lhs and rhs are now the same type
+		switch (lhs.type) {
+			case NUM:
+				return new ASTValue(lhs.numValue <= rhs.numValue);
+			case STRING:
+				return new ASTValue(lhs.stringValue.compareTo(rhs.stringValue) <= 0);
+			default:
+				throw new AssertionError("Attempted to evaluate relational operator on ValueType " + lhs.type);			
+		}
 	}
 
-	private ASTValue evalLess(WordsEnvironment environment) {
-		// TODO
-		throw new AssertionError("Not yet implemented");	
+	private ASTValue evalLess(WordsEnvironment environment) throws WordsRuntimeException {
+		ASTValue lhs = children.get(0).eval(environment);
+		ASTValue rhs = children.get(1).eval(environment);
+		
+		checkRelOpArgTypes(lhs, rhs);
+		
+		// lhs and rhs are now the same type
+		switch (lhs.type) {
+			case NUM:
+				return new ASTValue(lhs.numValue < rhs.numValue);
+			case STRING:
+				return new ASTValue(lhs.stringValue.compareTo(rhs.stringValue) < 0);
+			default:
+				throw new AssertionError("Attempted to evaluate relational operator on ValueType " + lhs.type);			
+		}
 	}
 
 	private ASTValue evalListenerPerm(WordsEnvironment environment) {
@@ -299,14 +431,28 @@ public class INode extends AST {
 		throw new AssertionError("Not yet implemented");	
 	}
 
-	private ASTValue evalNot(WordsEnvironment environment) {
-		// TODO
-		throw new AssertionError("Not yet implemented");	
+	private ASTValue evalNot(WordsEnvironment environment) throws WordsRuntimeException {
+		ASTValue predicate = children.get(0).eval(environment);
+		
+		assert predicate.type == ASTValue.ValueType.BOOLEAN : "Predicate has type " + predicate.type.toString();
+		
+		return new ASTValue(!predicate.booleanValue);
 	}
 
-	private ASTValue evalOr(WordsEnvironment environment) {
-		// TODO
-		throw new AssertionError("Not yet implemented");	
+	private ASTValue evalOr(WordsEnvironment environment) throws WordsRuntimeException {
+		// First evaluate just the left side to provide for short-circuit evaluation
+		ASTValue lhs = children.get(0).eval(environment);
+		assert lhs.type == ASTValue.ValueType.BOOLEAN : "Left side has type " + lhs.type.toString();
+		
+		// Short circuit
+		if (lhs.booleanValue == true)
+			return new ASTValue(true);
+		
+		// Now we can evaluate the right side
+		ASTValue rhs = children.get(1).eval(environment);
+		assert rhs.type == ASTValue.ValueType.BOOLEAN : "Right side has type " + rhs.type.toString();
+		
+		return new ASTValue(lhs.booleanValue || rhs.booleanValue);
 	}
 
 	private ASTValue evalParameter(WordsEnvironment environment) {
@@ -320,15 +466,15 @@ public class INode extends AST {
 	}
 
 	private ASTValue evalPosition(WordsEnvironment environment) throws WordsRuntimeException {
-		ASTValue row = children.get(0).eval(environment).tryCoerceTo(ValueType.NUM);
-		ASTValue col = children.get(1).eval(environment).tryCoerceTo(ValueType.NUM);
+		ASTValue row = children.get(0).eval(environment).tryCoerceTo(ASTValue.ValueType.NUM);
+		ASTValue col = children.get(1).eval(environment).tryCoerceTo(ASTValue.ValueType.NUM);
 		
-		if (row.type != ValueType.NUM) {
-			throw new WordsInvalidTypeException(ValueType.NUM.toString(), row.type.toString());
+		if (row.type != ASTValue.ValueType.NUM) {
+			throw new WordsInvalidTypeException(ASTValue.ValueType.NUM.toString(), row.type.toString());
 		}
 		
-		if (col.type != ValueType.NUM) {
-			throw new WordsInvalidTypeException(ValueType.NUM.toString(), col.type.toString());
+		if (col.type != ASTValue.ValueType.NUM) {
+			throw new WordsInvalidTypeException(ASTValue.ValueType.NUM.toString(), col.type.toString());
 		}
 		
 		return new ASTValue(new WordsPosition(row.numValue, col.numValue));
@@ -363,10 +509,10 @@ public class INode extends AST {
 		ASTValue doNow = children.get(4) != null ? children.get(4).eval(environment) : null;
 		
 		WordsObject object;
-		if (referenceObject.type.equals(ValueType.OBJ)){
+		if (referenceObject.type.equals(ASTValue.ValueType.OBJ)){
 			WordsProperty property = referenceObject.objValue.getProperty(identifier.stringValue);
 			if (property.type != WordsProperty.PropertyType.OBJECT) {
-				throw new WordsInvalidTypeException(ValueType.OBJ.toString(), property.type.toString());
+				throw new WordsInvalidTypeException(ASTValue.ValueType.OBJ.toString(), property.type.toString());
 			}
 			object = property.objProperty;
 		} else {
@@ -376,7 +522,7 @@ public class INode extends AST {
 			}
 		}
 		
-		assert(direction.type == ValueType.DIRECTION) : "Expected direction";
+		assert(direction.type == ASTValue.ValueType.DIRECTION) : "Expected direction";
 		
 		//TODO: Distance = 0 should create a wait method
 		WordsMove action = new WordsMove(direction.directionValue, distance);
@@ -393,22 +539,22 @@ public class INode extends AST {
 	private ASTValue evalQueueSay(WordsEnvironment environment) throws WordsRuntimeException {
 		ASTValue referenceObject = children.get(0).eval(environment);
 		ASTValue identifier = children.get(1).eval(environment);
-		ASTValue message = children.get(2).eval(environment).tryCoerceTo(ValueType.STRING);
+		ASTValue message = children.get(2).eval(environment).tryCoerceTo(ASTValue.ValueType.STRING);
 		ASTValue doNow = children.get(3) != null ? children.get(3).eval(environment) : null;
 		
 		WordsObject object;
-		if (referenceObject.type.equals(ValueType.OBJ)){
+		if (referenceObject.type.equals(ASTValue.ValueType.OBJ)){
 			WordsProperty property = referenceObject.objValue.getProperty(identifier.stringValue);
 			if (property.type != WordsProperty.PropertyType.OBJECT) {
-				throw new WordsInvalidTypeException(ValueType.OBJ.toString(), property.type.toString());
+				throw new WordsInvalidTypeException(ASTValue.ValueType.OBJ.toString(), property.type.toString());
 			}
 			object = property.objProperty;
 		} else {
 			object = environment.getObject(identifier.stringValue);
 		}
 		
-		if (message.type != ValueType.STRING) {
-			throw new WordsInvalidTypeException(ValueType.STRING.toString(), message.type.toString());
+		if (message.type != ASTValue.ValueType.STRING) {
+			throw new WordsInvalidTypeException(ASTValue.ValueType.STRING.toString(), message.type.toString());
 		}
 		WordsSay action = new WordsSay(message.stringValue);
 		
@@ -434,7 +580,7 @@ public class INode extends AST {
 	private ASTValue evalReferenceList(WordsEnvironment environment) {
 		// TODO
 		//throw new AssertionError("Not yet implemented");
-		return new ASTValue(ValueType.NOTHING);
+		return new ASTValue(ASTValue.ValueType.NOTHING);
 	}
 
 	private ASTValue evalRemove(WordsEnvironment environment) {
@@ -443,11 +589,11 @@ public class INode extends AST {
 	}
 
 	private ASTValue evalRepeat(WordsEnvironment environment) throws WordsRuntimeException {
-		ASTValue times = children.get(0).eval(environment).tryCoerceTo(ValueType.NUM);
+		ASTValue times = children.get(0).eval(environment).tryCoerceTo(ASTValue.ValueType.NUM);
 		AST statementList = children.get(1);
 		
-		if (times.type != ValueType.NUM) {
-			throw new WordsInvalidTypeException(ValueType.NUM.toString(), times.type.toString());
+		if (times.type != ASTValue.ValueType.NUM) {
+			throw new WordsInvalidTypeException(ASTValue.ValueType.NUM.toString(), times.type.toString());
 		}
 		
 		for (int i = 0; i < times.numValue; i++) {
