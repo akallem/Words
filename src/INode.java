@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.lang.StringBuilder;
 
-
 /**
  * An abstract syntax tree internal node.
  */

@@ -1,6 +1,5 @@
 import java.util.concurrent.LinkedBlockingDeque;
 
-
 public class FrameLoop extends Thread {
 	private static int counter = 1;
 
@@ -12,8 +11,8 @@ public class FrameLoop extends Thread {
 	 * Initialize the Frame Loop with a GUI -- generally used for a real run of the program
 	 */
 	public FrameLoop(WordsUI GUI) {
-		environment = new WordsEnvironment();
-		ASTQueue = new LinkedBlockingDeque<AST>();
+		this.environment = new WordsEnvironment();
+		this.ASTQueue = new LinkedBlockingDeque<AST>();
 		this.GUI = GUI;
 	}
 
@@ -33,29 +32,29 @@ public class FrameLoop extends Thread {
 
 	public void run() {
 		boolean finished = false;
-		while(!finished) {
+		while (!finished) {
 			long timeToSleep = Option.TIME_TO_WAIT;
 		    long start, end, slept;
-			while(timeToSleep > 0){
-		        start=System.currentTimeMillis();
+			while (timeToSleep > 0){
+		        start = System.currentTimeMillis();
 		        try {
 		            Thread.sleep(timeToSleep);
 		            break;
+		        } catch (InterruptedException e) {
+					//work out how much more time to sleep for
+					end = System.currentTimeMillis();
+					slept = end-start;
+					timeToSleep -= slept;
 		        }
-		        catch(InterruptedException e){
-		            //work out how much more time to sleep for
-		            end=System.currentTimeMillis();
-		            slept=end-start;
-		            timeToSleep-=slept;
-		        }
-		    }
+			}
 			finished = executeSingleFrame();
 		}
 	}
 
 	private boolean executeSingleFrame() {
 		boolean finished = false;
-
+		
+		// Phase 1: Statement Translation and Execution
 		while (!ASTQueue.isEmpty()) {
 			AST ast = ASTQueue.pop();
 			try {
@@ -67,6 +66,8 @@ public class FrameLoop extends Thread {
 				System.out.println("> ");
 			}
 		}
+		
+		// Phase 2: Action Queue Processing
 		for (WordsObject object : environment.getObjects()) {
 			try {
 				object.executeNextAction(environment);
@@ -77,6 +78,7 @@ public class FrameLoop extends Thread {
 			}
 		}
 
+		// Phase 3: Listener Evaluation
 		for (WordsEventListener eventListener : environment.getEventListeners()) {
 			eventListener.execute();
 		}

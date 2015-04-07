@@ -1,4 +1,6 @@
-
+/**
+ * A property that can be assigned to a WordsObject.
+ */
 public class WordsProperty {
 	public enum PropertyType {
 		NOTHING, NUM, STRING, OBJECT
