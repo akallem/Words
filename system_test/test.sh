@@ -5,6 +5,10 @@ for prog in "$@"; do
     java -jar jar/Words.jar "$prog" -nogui >run.log.tmp
     echo "Diff with $prog.log"
     diff run.log.tmp "$prog.log"
+
+    echo
+    echo "==========="
+    echo
 done
 
 rm run.log.tmp
