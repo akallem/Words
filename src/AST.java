@@ -4,7 +4,9 @@
 public abstract class AST {
 	public int lineNumber;
 	
-	public AST() {}
+	public AST() {
+		lineNumber = -1;
+	}
 	
 	/**
 	 * Debugging method to dump this node and all its children, if any, to standard error for inspection.
