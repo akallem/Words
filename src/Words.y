@@ -358,6 +358,7 @@ public static void main(String args[]) throws IOException {
 			Option.TIME_TO_WAIT = 100;
 		}
 	}
+
 	if (Option.GUI)
 		ui = new WordsUI();
 
@@ -373,13 +374,10 @@ public static void main(String args[]) throws IOException {
 				Words parser = new Words(br);
 				parser.yyparse();
 
-				// Temporary: dump AST to console.  (TODO: Enqueue AST for evaluation by frame loop thread.)
 				System.err.println();
 				System.err.println();
 				if (parser.root != null)
 					frameLoop.enqueueAST(parser.root);
-				else
-					System.err.println("Failed to generate AST");
 
 				br.close();
 			} catch (IOException e) {
@@ -429,13 +427,10 @@ public static void main(String args[]) throws IOException {
 		Words parser = new Words(new StringReader(fragment));
 		parser.yyparse();
 
-		// Temporary: dump AST to console.  (TODO: Enqueue AST for evaluation by frame loop thread.)
 		// In REPL interface, we might want to evaluate only ASTs that had no syntax errors
 		System.err.println();
 		System.err.println();
 		if (parser.root != null)
 			frameLoop.enqueueAST(parser.root);
-		else
-			System.err.println("Failed to generate AST");
 	}
 }
