@@ -82,10 +82,7 @@ public abstract class AST {
 	public ASTType type;
 	public int lineNo;
 	
-	public AST(ASTType type, int lineNo) {
-		this.type = type;
-		this.lineNo = lineNo;
-	}
+	public AST() {}
 	
 	/**
 	 * Debugging method to dump this node and all its children, if any, to standard error for inspection.
@@ -95,7 +92,7 @@ public abstract class AST {
 	abstract public void dump(int level);
 	
 	/**
-	 * Evaluate an AST node, possibly by having side effects on the passed environment.
+	 * Evaluate an AST node to return an ASTValue and possibly have side effects on the passed environment.
 	 * @throws WordsRuntimeException 
 	 */
 	public abstract ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException;
