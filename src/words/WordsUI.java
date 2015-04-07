@@ -1,7 +1,10 @@
-package words.environment;
+package words;
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
+
+import words.environment.WordsPosition;
 
 import java.util.*;
 
