@@ -355,7 +355,7 @@ public static void main(String args[]) throws IOException {
 		if (args[i].equals("-nogui")) {
 			System.err.println("GUI turned off");
 			Option.GUI = false;
-			Option.TIME_TO_WAIT = 100;
+			Option.TIME_TO_WAIT = -1;
 		}
 	}
 
@@ -363,7 +363,6 @@ public static void main(String args[]) throws IOException {
 		ui = new WordsUI();
 
 	frameLoop = new FrameLoop(ui);
-	frameLoop.start();
 
 	// Read and parse program argument, if any
 	for (int i = 0; i < args.length; ++i) {
@@ -386,6 +385,9 @@ public static void main(String args[]) throws IOException {
 			break;
 		}
 	}
+
+	// Start the frame loop only after the source program has been loaded so that all loaded statements occur in the first frame
+	frameLoop.start();
 
 	// If no GUI, then no REPL
 	if (!Option.GUI)

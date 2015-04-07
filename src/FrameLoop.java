@@ -33,19 +33,21 @@ public class FrameLoop extends Thread {
 	public void run() {
 		boolean finished = false;
 		while (!finished) {
-			long timeToSleep = Option.TIME_TO_WAIT;
-		    long start, end, slept;
-			while (timeToSleep > 0){
-		        start = System.currentTimeMillis();
-		        try {
-		            Thread.sleep(timeToSleep);
-		            break;
-		        } catch (InterruptedException e) {
-					//work out how much more time to sleep for
-					end = System.currentTimeMillis();
-					slept = end-start;
-					timeToSleep -= slept;
-		        }
+			if (Option.TIME_TO_WAIT > 0) {
+				long timeToSleep = Option.TIME_TO_WAIT;
+			    long start, end, slept;
+				while (timeToSleep > 0){
+			        start = System.currentTimeMillis();
+			        try {
+			            Thread.sleep(timeToSleep);
+			            break;
+			        } catch (InterruptedException e) {
+						//work out how much more time to sleep for
+						end = System.currentTimeMillis();
+						slept = end-start;
+						timeToSleep -= slept;
+			        }
+				}
 			}
 			finished = executeSingleFrame();
 		}
