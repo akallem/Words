@@ -42,7 +42,7 @@ public abstract class INode extends AST {
 	@Override
 	public void dump(int level) {
 		indent(level);
-		System.err.println(this.type.toString());
+		System.err.println(this.getClass().toString());
 		
 		if (children.size() > 0) {
 			for (AST child : children) {
@@ -60,7 +60,7 @@ public abstract class INode extends AST {
 	public String toString() {
 		StringBuilder s = new StringBuilder();
 		
-		s.append("[" + this.lineNo + ": " + type.toString() + ": ");
+		s.append("[" + this.lineNo + ": " + this.getClass().toString() + ": ");
 		
 		for (AST child : children)
 			if (child != null)

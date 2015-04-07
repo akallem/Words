@@ -16,11 +16,11 @@ public abstract class LNode extends AST {
 		for (int i = 0; i < level; i++)
 			System.err.printf("  ");
 		
-		System.err.println(this.lineNo + ": " + this.type.toString() + ": " + valueAsString());
+		System.err.println(this.lineNo + ": " + this.getClass().toString() + ": " + valueAsString());
 	}
 	
 	@Override
 	public String toString() {
-		return "[" + type.toString() + ": " + valueAsString() + "]";
+		return "[" + this.getClass().toString() + ": " + valueAsString() + "]";
 	}
 }
