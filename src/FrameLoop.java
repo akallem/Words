@@ -2,12 +2,12 @@ import java.util.concurrent.LinkedBlockingDeque;
 
 
 public class FrameLoop extends Thread {
-	
+	private static int counter = 1;
+
 	private LinkedBlockingDeque<AST> ASTQueue;
 	private WordsEnvironment environment;
 	private WordsUI GUI;
-	private static int TIME_TO_WAIT = 1000;
-	
+
 	/**
 	 * Initialize the Frame Loop with a GUI -- generally used for a real run of the program
 	 */
@@ -16,7 +16,7 @@ public class FrameLoop extends Thread {
 		ASTQueue = new LinkedBlockingDeque<AST>();
 		this.GUI = GUI;
 	}
-	
+
 	/**
 	 * Initialize the frame loop with a specific environment -- generally used for testing
 	 */
@@ -25,15 +25,16 @@ public class FrameLoop extends Thread {
 		this.ASTQueue = new LinkedBlockingDeque<AST>();
 		this.GUI = null;
 	}
-	
+
 	public void enqueueAST(AST ast) {
 		ASTQueue.add(ast);
 	}
 
-	
+
 	public void run() {
-		while(true) {
-			long timeToSleep = TIME_TO_WAIT;
+		boolean finished = false;
+		while(!finished) {
+			long timeToSleep = Option.TIME_TO_WAIT;
 		    long start, end, slept;
 			while(timeToSleep > 0){
 		        start=System.currentTimeMillis();
@@ -48,17 +49,19 @@ public class FrameLoop extends Thread {
 		            timeToSleep-=slept;
 		        }
 		    }
-			executeSingleFrame();
+			finished = executeSingleFrame();
 		}
 	}
-	
-	private void executeSingleFrame() {
+
+	private boolean executeSingleFrame() {
+		boolean finished = false;
+
 		while (!ASTQueue.isEmpty()) {
 			AST ast = ASTQueue.pop();
 			try {
 				ast.eval(environment);
 			} catch (WordsRuntimeException e) {
-				// Note: this should never actually be caught here; it should be caught earlier at the statement level. 
+				// Note: this should never actually be caught here; it should be caught earlier at the statement level.
 				System.err.println();
 				System.err.println(e.toString());
 				System.out.println("> ");
@@ -73,20 +76,32 @@ public class FrameLoop extends Thread {
 				System.out.println("> ");
 			}
 		}
-		
+
 		for (WordsEventListener eventListener : environment.getEventListeners()) {
 			eventListener.execute();
 		}
-		
+
 		if (GUI != null) {
 			GUI.clear();
 			for (WordsObject object : environment.getObjects()) {
 				GUI.add(object.getCurrentCell(), object.getClassName(), object.getObjectName(), object.getCurrentMessage());
 			}
 			GUI.render();
+		}  else {
+			System.out.println("counter = " + counter);
+			WordsLog log = new WordsLog();
+			for (WordsObject object : environment.getObjects()) {
+				log.add(object.getCurrentCell(), object.getClassName(), object.getObjectName(), object.getCurrentMessage());
+			}
+			log.log();
+			if (counter >= Option.MAX_COUNTER)
+				finished = true;
 		}
+
+		++counter;
+		return finished;
 	}
-	
+
 	public void fastForwardEnvironment(int numOfFrames) {
 		for (int i = 0; i < numOfFrames; i++) {
 			executeSingleFrame();
