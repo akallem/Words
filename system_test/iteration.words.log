@@ -1,0 +1,60 @@
+counter = 1
+(0,0):
+<thing> Fred
+counter = 2
+(0,-1):
+<thing> Fred
+counter = 3
+(0,-2):
+<thing> Fred
+counter = 4
+(0,-1):
+<thing> Fred
+counter = 5
+(0,-2):
+<thing> Fred
+counter = 6
+(0,-3):
+<thing> Fred
+counter = 7
+(0,-2):
+<thing> Fred
+counter = 8
+(0,-3):
+<thing> Fred
+counter = 9
+(0,-4):
+<thing> Fred
+counter = 10
+(0,-3):
+<thing> Fred
+counter = 11
+(0,-3):
+<thing> Fred "Done!"
+counter = 12
+(0,-3):
+<thing> Fred "Done!"
+counter = 13
+(0,-3):
+<thing> Fred "Done!"
+counter = 14
+(0,-3):
+<thing> Fred "Done!"
+counter = 15
+(0,-3):
+<thing> Fred "Done!"
+counter = 16
+(0,-3):
+<thing> Fred "Done!"
+counter = 17
+(0,-3):
+<thing> Fred "Done!"
+counter = 18
+(0,-3):
+<thing> Fred "Done!"
+counter = 19
+(0,-3):
+<thing> Fred "Done!"
+counter = 20
+(0,-3):
+<thing> Fred "Done!"
