@@ -81,7 +81,7 @@
         <java jar="${jar.dir}/Words.jar" fork="true" />
     </target>
 
-    <!-- run JUnit tests and system integration tests -->
+    <!-- run JUnit tests and integration tests -->
     <!-- report is plain, could also be xml -->
     <target name="test-unit" depends="test-compile">
         <mkdir dir="${test.report.dir}" />
@@ -96,18 +96,19 @@
         </junit>
     </target>
 
+    <!-- run system tests -->
     <target name="test-system" depends="jar, test-system-windows, test-system-other" />
 	<target name="test-system-windows" if="isWindows">
         <apply executable="${system_test.dir}/test.bat" failonerror="true">
             <fileset dir="${system_test.dir}" includes="*.words" />
         </apply>
-	</target>
+    </target>
 
-	<target name="test-system-other" unless="isWindows">
-		<apply executable="${system_test.dir}/test.sh" failonerror="true">
+    <target name="test-system-other" unless="isWindows">
+        <apply executable="${system_test.dir}/test.sh" failonerror="true">
             <fileset dir="${system_test.dir}" includes="*.words" />
         </apply>
-	</target>
+    </target>
 
     <target name="test" depends="test-unit, test-system">
     </target>
