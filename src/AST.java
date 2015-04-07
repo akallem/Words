@@ -2,8 +2,7 @@
  * An abstract syntax tree node, which may be either an internal node or leaf node.
  */
 public abstract class AST {
-	
-	public int lineNo;
+	public int lineNumber;
 	
 	public AST() {}
 	

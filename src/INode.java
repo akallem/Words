@@ -60,7 +60,7 @@ public abstract class INode extends AST {
 	public String toString() {
 		StringBuilder s = new StringBuilder();
 		
-		s.append("[" + this.lineNo + ": " + this.getClass().toString() + ": ");
+		s.append("[" + this.lineNumber + ": " + this.getClass().toString() + ": ");
 		
 		for (AST child : children)
 			if (child != null)

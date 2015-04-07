@@ -20,6 +20,6 @@ public class WordsProgramException extends Exception {
 	
 	@Override
 	public String toString() {
-		return String.format("Error at line %d: %s", offendingAST.lineNo, exception.toString());
+		return String.format("Error at line %d: %s", offendingAST.lineNumber, exception.toString());
 	}
 }

@@ -16,7 +16,7 @@ public abstract class LNode extends AST {
 		for (int i = 0; i < level; i++)
 			System.err.printf("  ");
 		
-		System.err.println(this.lineNo + ": " + this.getClass().toString() + ": " + valueAsString());
+		System.err.println(this.lineNumber + ": " + this.getClass().toString() + ": " + valueAsString());
 	}
 	
 	@Override

@@ -109,8 +109,8 @@ program:
 	;
 
 statement_list:
-		statement					{ $$ = new INodeStatementList($1); }
-	|	statement statement_list	{ $$ = new INodeStatementList($1); ((INode) $$).add(((INode) $2).children); }
+		statement					{ $$ = new INodeStatementList($1); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	statement statement_list	{ $$ = new INodeStatementList($1); ((INode) $$).add(((INode) $2).children); ((AST) $$).lineNumber = lexer.lineNumber; }
 
 statement:
 		immediate_statement			{ $$ = $1; }
@@ -128,74 +128,74 @@ immediate_statement:
 	|	runtime_control_statement	{ $$ = $1; }
 
 class_create_statement:
-		A identifier IS A identifier '.'											{ $$ = new INodeCreateClass($2, $5, null); }
-	|	A identifier IS A identifier WHICH '{' class_definition_statement_list '}'	{ $$ = new INodeCreateClass($2, $5, $8); }
+		A identifier IS A identifier '.'											{ $$ = new INodeCreateClass($2, $5, null); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	A identifier IS A identifier WHICH '{' class_definition_statement_list '}'	{ $$ = new INodeCreateClass($2, $5, $8); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 class_definition_statement_list:
-		class_definition_statement													{ $$ = new INodeClassStatementList($1); }
-	|	class_definition_statement class_definition_statement_list					{ $$ = new INodeClassStatementList($1); ((INode) $$).add(((INode) $2).children); }
+		class_definition_statement													{ $$ = new INodeClassStatementList($1); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	class_definition_statement class_definition_statement_list					{ $$ = new INodeClassStatementList($1); ((INode) $$).add(((INode) $2).children); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 class_definition_statement:
-		HAS A identifier '.'														{ $$ = new INodeDefineProperty($3, null); }
-	|	HAS A identifier OF literal '.'												{ $$ = new INodeDefineProperty($3, $5); }
-	|	CAN identifier WHICH MEANS '{' statement_list '}'							{ $$ = new INodeDefineCustomAction($2, null, $6); }
-	|	CAN identifier WITH identifier_list WHICH MEANS '{' statement_list '}'		{ $$ = new INodeDefineCustomAction($2, $4, $8); }
+		HAS A identifier '.'														{ $$ = new INodeDefineProperty($3, null); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	HAS A identifier OF literal '.'												{ $$ = new INodeDefineProperty($3, $5); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	CAN identifier WHICH MEANS '{' statement_list '}'							{ $$ = new INodeDefineCustomAction($2, null, $6); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	CAN identifier WITH identifier_list WHICH MEANS '{' statement_list '}'		{ $$ = new INodeDefineCustomAction($2, $4, $8); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 object_create_statement:
-		identifier IS A identifier AT position '.'									{ $$ = new INodeCreateObject($1, $4, null, $6); }
-	|	identifier IS A identifier WITH parameter_list AT position '.'				{ $$ = new INodeCreateObject($1, $4, $6, $8); }
+		identifier IS A identifier AT position '.'									{ $$ = new INodeCreateObject($1, $4, null, $6); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	identifier IS A identifier WITH parameter_list AT position '.'				{ $$ = new INodeCreateObject($1, $4, $6, $8); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 object_destroy_statement:
-		REMOVE reference_list identifier '.'										{ $$ = new INodeRemoveObject($2, $3); }
+		REMOVE reference_list identifier '.'										{ $$ = new INodeRemoveObject($2, $3); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 property_assign_statement:
-		reference reference_list identifier IS value_expression '.'					{ $$ = new INodeAssign((new INodeReferenceList($1)).add(((INode) $2).children), $3, $5); }
+		reference reference_list identifier IS value_expression '.'					{ $$ = new INodeAssign((new INodeReferenceList($1)).add(((INode) $2).children), $3, $5); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 iteration_statement:
-		REPEAT value_expression TIMES '{' statement_list '}'						{ $$ = new INodeRepeat($2, $5); }
-	|	WHILE boolean_predicate '{' statement_list '}'								{ $$ = new INodeWhile($2, $4); }
+		REPEAT value_expression TIMES '{' statement_list '}'						{ $$ = new INodeRepeat($2, $5); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	WHILE boolean_predicate '{' statement_list '}'								{ $$ = new INodeWhile($2, $4); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 conditional_statement:
-		IF boolean_predicate THEN '{' statement_list '}'							{ $$ = new INodeIf($2, $5); }
+		IF boolean_predicate THEN '{' statement_list '}'							{ $$ = new INodeIf($2, $5); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 listener_statement:
-		WHENEVER predicate '{' statement_list '}'									{ $$ = new INodeListenerPerm($2, $4); }
-	|	AS LONG AS predicate '{' statement_list '}'									{ $$ = new INodeListenerTemp($4, $6); }
+		WHENEVER predicate '{' statement_list '}'									{ $$ = new INodeListenerPerm($2, $4); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	AS LONG AS predicate '{' statement_list '}'									{ $$ = new INodeListenerTemp($4, $6); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 runtime_control_statement:
-		RESET '.'																	{ $$ = new INodeReset(); }
-	|	EXIT '.'																	{ $$ = new INodeExit(); }
+		RESET '.'																	{ $$ = new INodeReset(); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	EXIT '.'																	{ $$ = new INodeExit(); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 queueing_statement:
-		MAKE reference_list queue_assign_property_list '.'							{ $$ = new INodeQueueAssign($2, $3, null); }
-	|	MAKE reference_list queue_assign_property_list now '.'						{ $$ = new INodeQueueAssign($2, $3, $4); }
-	|	MAKE reference_list identifier MOVE direction '.'							{ $$ = new INodeQueueMove($2, $3, $5, null, null); }
-	|	MAKE reference_list identifier MOVE direction now '.'						{ $$ = new INodeQueueMove($2, $3, $5, null, $6); }
-	|	MAKE reference_list identifier MOVE direction value_expression '.'			{ $$ = new INodeQueueMove($2, $3, $5, $6, null); }
-	|	MAKE reference_list identifier MOVE direction value_expression now '.'		{ $$ = new INodeQueueMove($2, $3, $5, $6, $7); }
-	|	MAKE reference_list identifier SAY value_expression '.'						{ $$ = new INodeQueueSay($2, $3, $5, null); }
-	|	MAKE reference_list identifier SAY value_expression now '.'					{ $$ = new INodeQueueSay($2, $3, $5, $6); }
-	|	MAKE reference_list identifier WAIT value_expression TURNS '.'				{ $$ = new INodeQueueWait($2, $3, $5, null); }
-	|	MAKE reference_list identifier WAIT value_expression TURNS now '.'			{ $$ = new INodeQueueWait($2, $3, $5, $7); }
-	|	STOP reference_list identifier '.'											{ $$ = new INodeQueueStop($2, $3); }
+		MAKE reference_list queue_assign_property_list '.'							{ $$ = new INodeQueueAssign($2, $3, null); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	MAKE reference_list queue_assign_property_list now '.'						{ $$ = new INodeQueueAssign($2, $3, $4); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	MAKE reference_list identifier MOVE direction '.'							{ $$ = new INodeQueueMove($2, $3, $5, null, null); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	MAKE reference_list identifier MOVE direction now '.'						{ $$ = new INodeQueueMove($2, $3, $5, null, $6); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	MAKE reference_list identifier MOVE direction value_expression '.'			{ $$ = new INodeQueueMove($2, $3, $5, $6, null); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	MAKE reference_list identifier MOVE direction value_expression now '.'		{ $$ = new INodeQueueMove($2, $3, $5, $6, $7); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	MAKE reference_list identifier SAY value_expression '.'						{ $$ = new INodeQueueSay($2, $3, $5, null); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	MAKE reference_list identifier SAY value_expression now '.'					{ $$ = new INodeQueueSay($2, $3, $5, $6); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	MAKE reference_list identifier WAIT value_expression TURNS '.'				{ $$ = new INodeQueueWait($2, $3, $5, null); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	MAKE reference_list identifier WAIT value_expression TURNS now '.'			{ $$ = new INodeQueueWait($2, $3, $5, $7); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	STOP reference_list identifier '.'											{ $$ = new INodeQueueStop($2, $3); ((AST) $$).lineNumber = lexer.lineNumber; }
 	|	queueing_custom_action_statement											{ $$ = $1; }
 	;
 
 queueing_custom_action_statement:
-		MAKE reference_list identifier identifier '.'								{ $$ = new INodeQueueCustomAction($2, $3, $4, null, null); }
-	|	MAKE reference_list identifier identifier now '.'							{ $$ = new INodeQueueCustomAction($2, $3, $4, null, $5); }
-	|	MAKE reference_list identifier identifier WITH parameter_list '.'			{ $$ = new INodeQueueCustomAction($2, $3, $4, $6, null); }
-	|	MAKE reference_list identifier identifier WITH parameter_list now '.'		{ $$ = new INodeQueueCustomAction($2, $3, $4, $6, $7); }
+		MAKE reference_list identifier identifier '.'								{ $$ = new INodeQueueCustomAction($2, $3, $4, null, null); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	MAKE reference_list identifier identifier now '.'							{ $$ = new INodeQueueCustomAction($2, $3, $4, null, $5); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	MAKE reference_list identifier identifier WITH parameter_list '.'			{ $$ = new INodeQueueCustomAction($2, $3, $4, $6, null); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	MAKE reference_list identifier identifier WITH parameter_list now '.'		{ $$ = new INodeQueueCustomAction($2, $3, $4, $6, $7); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 predicate:
@@ -204,108 +204,108 @@ predicate:
 	;
 
 basic_action_predicate:
-		subject alias MOVES															{ $$ = new INodeMovesPredicate($1, $2, null); }
-	|	subject alias MOVES direction												{ $$ = new INodeMovesPredicate($1, $2, $4); }
-	|	subject alias SAYS value_expression											{ $$ = new INodeSaysPredicate($1, $2, $4); }
-	|	subject alias WAITS															{ $$ = new INodeWaitsPredicate($1, $2); }
-	|	subject alias TOUCHES subject alias											{ $$ = new INodeTouchesPredicate($1, $2, $4, $5); }
+		subject alias MOVES															{ $$ = new INodeMovesPredicate($1, $2, null); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	subject alias MOVES direction												{ $$ = new INodeMovesPredicate($1, $2, $4); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	subject alias SAYS value_expression											{ $$ = new INodeSaysPredicate($1, $2, $4); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	subject alias WAITS															{ $$ = new INodeWaitsPredicate($1, $2); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	subject alias TOUCHES subject alias											{ $$ = new INodeTouchesPredicate($1, $2, $4, $5); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 boolean_predicate:
 		relational_expression						{ $$ = $1; }
 	|	'(' boolean_predicate ')'					{ $$ = $2; }
-	|	NOT '(' boolean_predicate ')'				{ $$ = new INodeNot($3); }
-	|	boolean_predicate AND boolean_predicate		{ $$ = new INodeAnd($1, $3); }
-	|	boolean_predicate OR boolean_predicate		{ $$ = new INodeOr($1, $3); }
+	|	NOT '(' boolean_predicate ')'				{ $$ = new INodeNot($3); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	boolean_predicate AND boolean_predicate		{ $$ = new INodeAnd($1, $3); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	boolean_predicate OR boolean_predicate		{ $$ = new INodeOr($1, $3); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 relational_expression:
-		value_expression '=' value_expression		{ $$ = new INodeEquals($1, $3); }
-	|	value_expression '<' value_expression		{ $$ = new INodeLess($1, $3); }
-	|	value_expression '>' value_expression		{ $$ = new INodeGreater($1, $3); }
-	|	value_expression LEQ value_expression		{ $$ = new INodeLEQ($1, $3); }
-	|	value_expression GEQ value_expression		{ $$ = new INodeGEQ($1, $3); }
+		value_expression '=' value_expression		{ $$ = new INodeEquals($1, $3); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	value_expression '<' value_expression		{ $$ = new INodeLess($1, $3); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	value_expression '>' value_expression		{ $$ = new INodeGreater($1, $3); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	value_expression LEQ value_expression		{ $$ = new INodeLEQ($1, $3); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	value_expression GEQ value_expression		{ $$ = new INodeGEQ($1, $3); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 value_expression:
-		reference_list identifier					{ $$ = new INodeRetrieveProperty($1, $2); }
+		reference_list identifier					{ $$ = new INodeRetrieveProperty($1, $2); ((AST) $$).lineNumber = lexer.lineNumber; }
 	|	literal										{ $$ = $1; }
-	|	NOTHING										{ $$ = new LNodeNothing(); }
+	|	NOTHING										{ $$ = new LNodeNothing(); ((AST) $$).lineNumber = lexer.lineNumber; }
 	|	'(' value_expression ')'					{ $$ = $2; }
-	|	'-' value_expression %prec UMINUS			{ $$ = new INodeNegate($2); }
-	|	value_expression '+' value_expression		{ $$ = new INodeAdd($1, $3); }
-	|	value_expression '-' value_expression		{ $$ = new INodeSubtract($1, $3); }
-	|	value_expression '*' value_expression		{ $$ = new INodeMultiply($1, $3); }
-	|	value_expression '/' value_expression		{ $$ = new INodeDivide($1, $3); }
-	|	value_expression '^' value_expression		{ $$ = new INodeExponentiate($1, $3); }
+	|	'-' value_expression %prec UMINUS			{ $$ = new INodeNegate($2); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	value_expression '+' value_expression		{ $$ = new INodeAdd($1, $3); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	value_expression '-' value_expression		{ $$ = new INodeSubtract($1, $3); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	value_expression '*' value_expression		{ $$ = new INodeMultiply($1, $3); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	value_expression '/' value_expression		{ $$ = new INodeDivide($1, $3); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	value_expression '^' value_expression		{ $$ = new INodeExponentiate($1, $3); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 reference_list:
-													{ $$ = new INodeReferenceList(); }
-	|	reference reference_list					{ $$ = new INodeReferenceList($1); ((INode) $$).add(((INode) $2).children); }
+													{ $$ = new INodeReferenceList(); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	reference reference_list					{ $$ = new INodeReferenceList($1); ((INode) $$).add(((INode) $2).children); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 identifier_list:
-		identifier									{ $$ = new INodeIdentifierList($1); }
-	|	identifier ',' identifier_list				{ $$ = new INodeIdentifierList($1); ((INode) $$).add(((INode) $3).children); }
+		identifier									{ $$ = new INodeIdentifierList($1); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	identifier ',' identifier_list				{ $$ = new INodeIdentifierList($1); ((INode) $$).add(((INode) $3).children); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 parameter_list:
-		parameter									{ $$ = new INodeParameterList($1); }
-	|	parameter ',' parameter_list				{ $$ = new INodeParameterList($1); ((INode) $$).add(((INode) $3).children); }
+		parameter									{ $$ = new INodeParameterList($1); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	parameter ',' parameter_list				{ $$ = new INodeParameterList($1); ((INode) $$).add(((INode) $3).children); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 queue_assign_property_list:
-		queue_assign_property										{ $$ = new INodeQueueAssignPropertyList($1); }
-	|	queue_assign_property ',' queue_assign_property_list		{ $$ = new INodeQueueAssignPropertyList($1); ((INode) $$).add(((INode) $3).children); }
+		queue_assign_property										{ $$ = new INodeQueueAssignPropertyList($1); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	queue_assign_property ',' queue_assign_property_list		{ $$ = new INodeQueueAssignPropertyList($1); ((INode) $$).add(((INode) $3).children); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 
 reference:
-		REFERENCE									{ $$ = new LNodeReference($1); }
+		REFERENCE									{ $$ = new LNodeReference($1); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 identifier:
-		IDENTIFIER									{ $$ = new LNodeIdentifier($1); }
+		IDENTIFIER									{ $$ = new LNodeIdentifier($1); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 parameter:
-		identifier value_expression					{ $$ = new INodeParameter($1, $2); }
+		identifier value_expression					{ $$ = new INodeParameter($1, $2); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 subject:
-		reference_list identifier					{ $$ = new INodeSubject(null, $1, $2); }
-	|	A identifier								{ $$ = new INodeSubject($2, null, null); }
+		reference_list identifier					{ $$ = new INodeSubject(null, $1, $2); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	A identifier								{ $$ = new INodeSubject($2, null, null); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 alias:
-													{ $$ = new INodeAlias(); }
-	|	'[' identifier ']'							{ $$ = new INodeAlias($2); }
+													{ $$ = new INodeAlias(); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	'[' identifier ']'							{ $$ = new INodeAlias($2); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 queue_assign_property:
-		identifier BE value_expression				{ $$ = new INodeQueueAssignProperty($1, $3); }
+		identifier BE value_expression				{ $$ = new INodeQueueAssignProperty($1, $3); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 direction:
-		ANYWHERE									{ $$ = new LNodeDirection(Direction.Type.ANYWHERE); }
-	|	DOWN										{ $$ = new LNodeDirection(Direction.Type.DOWN); }
-	|	LEFT										{ $$ = new LNodeDirection(Direction.Type.LEFT); }
-	|	RIGHT										{ $$ = new LNodeDirection(Direction.Type.RIGHT); }
-	|	UP											{ $$ = new LNodeDirection(Direction.Type.UP); }
+		ANYWHERE									{ $$ = new LNodeDirection(Direction.Type.ANYWHERE); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	DOWN										{ $$ = new LNodeDirection(Direction.Type.DOWN); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	LEFT										{ $$ = new LNodeDirection(Direction.Type.LEFT); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	RIGHT										{ $$ = new LNodeDirection(Direction.Type.RIGHT); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	UP											{ $$ = new LNodeDirection(Direction.Type.UP); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 now:
-		NOW											{ $$ = new LNodeNow(); }
+		NOW											{ $$ = new LNodeNow(); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 position:
-		value_expression ',' value_expression		{ $$ = new INodePosition($1, $3); }
+		value_expression ',' value_expression		{ $$ = new INodePosition($1, $3); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 literal:
-		NUM											{ $$ = new LNodeNum($1); }
-	|	STRING										{ $$ = new LNodeString($1); }
+		NUM											{ $$ = new LNodeNum($1); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	STRING										{ $$ = new LNodeString($1); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 
