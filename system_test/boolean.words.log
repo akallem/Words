@@ -1,0 +1,60 @@
+counter = 1
+(0,0):
+<thing> Fred
+counter = 2
+(0,0):
+<thing> Fred "1 < 2"
+counter = 3
+(0,0):
+<thing> Fred "1 <= 1"
+counter = 4
+(0,0):
+<thing> Fred "1 = "1""
+counter = 5
+(0,0):
+<thing> Fred "2 = "2""
+counter = 6
+(0,0):
+<thing> Fred ""this" = "that""
+counter = 7
+(0,0):
+<thing> Fred "And"
+counter = 8
+(0,0):
+<thing> Fred "Or"
+counter = 9
+(0,0):
+<thing> Fred "Not"
+counter = 10
+(0,0):
+<thing> Fred "Not"
+counter = 11
+(0,0):
+<thing> Fred "Not"
+counter = 12
+(0,0):
+<thing> Fred "Not"
+counter = 13
+(0,0):
+<thing> Fred "Not"
+counter = 14
+(0,0):
+<thing> Fred "Not"
+counter = 15
+(0,0):
+<thing> Fred "Not"
+counter = 16
+(0,0):
+<thing> Fred "Not"
+counter = 17
+(0,0):
+<thing> Fred "Not"
+counter = 18
+(0,0):
+<thing> Fred "Not"
+counter = 19
+(0,0):
+<thing> Fred "Not"
+counter = 20
+(0,0):
+<thing> Fred "Not"
