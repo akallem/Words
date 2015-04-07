@@ -356,6 +356,8 @@ public static void main(String args[]) throws IOException {
 			System.err.println("GUI turned off");
 			Option.GUI = false;
 			Option.TIME_TO_WAIT = -1;
+			Option.FRAME_LIMIT_ENABLED = true;
+			Option.MAX_FRAMES = 500;
 		}
 	}
 

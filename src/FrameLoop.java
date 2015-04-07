@@ -1,7 +1,7 @@
 import java.util.concurrent.LinkedBlockingDeque;
 
 public class FrameLoop extends Thread {
-	private static int counter = 1;
+	private static int numFrames = 1;
 
 	private LinkedBlockingDeque<AST> ASTQueue;
 	private WordsEnvironment environment;
@@ -92,17 +92,17 @@ public class FrameLoop extends Thread {
 			}
 			GUI.render();
 		}  else {
-			System.out.println("counter = " + counter);
+			System.out.println("frame #: " + numFrames);
 			WordsLog log = new WordsLog();
 			for (WordsObject object : environment.getObjects()) {
 				log.add(object.getCurrentCell(), object.getClassName(), object.getObjectName(), object.getCurrentMessage());
 			}
 			log.log();
-			if (counter >= Option.MAX_COUNTER)
+			if (Option.FRAME_LIMIT_ENABLED && numFrames >= Option.MAX_FRAMES)
 				finished = true;
 		}
 
-		++counter;
+		++numFrames;
 		return finished;
 	}
 
