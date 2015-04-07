@@ -2,7 +2,7 @@
   import java.io.*;
   import words.environment.*;
   import words.exceptions.*;
-  import words.nodes.*;
+  import words.ast.*;
 %}
 
 	/* Keyword-related tokens */
