@@ -1,5 +1,7 @@
+/**
+ * A dynamically-typed value that an AST node can return as its result.
+ */
 public class ASTValue {
-	
 	public enum ValueType {
 		BOOLEAN,
 		NUM,

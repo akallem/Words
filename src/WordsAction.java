@@ -1,5 +1,8 @@
 import java.util.LinkedList;
 
+/**
+ * An abstract action for a WordsObject that can be enqueued on the object's action queue and later executed or expanded.
+ */
 public abstract class WordsAction {
 	public abstract boolean isExecutable();
 	public final boolean isExpandable() { return !isExecutable(); }

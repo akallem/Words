@@ -7,6 +7,9 @@ if "%~1" neq "" (
   echo Diff with %1.log
   fc run.log.tmp %1.log
 
+  echo.
+  echo ===========
+  echo.
   shift
   goto :loop
 )

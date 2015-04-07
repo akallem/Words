@@ -1,4 +1,3 @@
-
 public class WordsPosition {
 	public int x;
 	public int y;
