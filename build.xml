@@ -98,12 +98,11 @@
 
     <!-- run system tests -->
     <target name="test-system" depends="jar, test-system-windows, test-system-other" />
-	<target name="test-system-windows" if="isWindows">
+    <target name="test-system-windows" if="isWindows">
         <apply executable="${system_test.dir}/test.bat" failonerror="true">
             <fileset dir="${system_test.dir}" includes="*.words" />
         </apply>
     </target>
-
     <target name="test-system-other" unless="isWindows">
         <apply executable="${system_test.dir}/test.sh" failonerror="true">
             <fileset dir="${system_test.dir}" includes="*.words" />
