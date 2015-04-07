@@ -84,14 +84,14 @@
 
     <!-- run tests -->
     <!-- report is plain, could also be xml -->
-    <target name="test" >
+    <target name="test" depends="test-compile">
         <mkdir dir="${test.report.dir}" />
         <junit printsummary="on" fork="true" haltonfailure="no">
             <classpath refid="junit.classpath" />
             <formatter type="plain" />
             <batchtest todir="${test.report.dir}">
-                <fileset dir="${test.dir}">
-                    <include name="**/*Test*.java" />
+                <fileset dir="${bin.test.dir}">
+                    <include name="**/*Test*.class" />
                 </fileset>
             </batchtest>
         </junit>
