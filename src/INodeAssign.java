@@ -30,7 +30,7 @@ public class INodeAssign extends INode {
 			default:
 				throw new AssertionError("Shouldn't get here");
 		}
-	
+
 		obj.setProperty(propertyName, wordsProp);
 		
 		return null;

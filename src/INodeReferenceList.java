@@ -22,7 +22,7 @@ public class INodeReferenceList extends INode {
 			String propertyRefName = children.get(i).eval(environment).stringValue;
 			WordsProperty prop = currentObj.getProperty(propertyRefName);
 			if (prop.type != WordsProperty.PropertyType.OBJECT) {
-				throw new WordsReferenceException();
+				throw new WordsReferenceException("from eval ref list");
 			}
 			currentObj = prop.objProperty;
 		}

@@ -19,15 +19,17 @@ public class TestEnvironment {
 	@Test
 	public void basicObjectCreation() {
 		WordsObject newObject = null;
+		WordsObject receivedObject = null;
+
 		try {
 			// Objects are created directly with object literals instead of evaluated leaf nodes
 			// If we evaluated leaf nodes, we would be testing multiple things in the same method. 
 			newObject = environment.createObject("Alex", "thing", new WordsPosition(0,0));
+			receivedObject = environment.getObject("Alex");
 		} catch (WordsRuntimeException e) {
 			// If we have an exception, immediately fail the run.
 			fail();
 		}
-		WordsObject receivedObject = environment.getObject("Alex");
 		
 		// Test that the object received is the same as the object we tried to create. 
 		// Always give a test a descriptive name so, if it fails, we know what went wrong

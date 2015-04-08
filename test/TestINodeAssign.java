@@ -16,11 +16,17 @@ public class TestINodeAssign extends TestINode {
 		INodeAssign numAssign = new INodeAssign(alexRefList, new LNodeIdentifier("height"), fiveLeaf);
 		INodeAssign stringAssign = new INodeAssign(alexRefList, new LNodeIdentifier("greeting"), stringLeaf);
 		INodeAssign objAssign = new INodeAssign(alexRefList, new LNodeIdentifier("friend"), new INodeReferenceList(), bobIdentifier);
-		INodeAssign nothingAssign = new INodeAssign(alexRefList, new LNodeIdentifier("myNothing"), new LNodeNothing());
+		INodeAssign nothingAssign = new INodeAssign(alexRefList, new LNodeIdentifier("myNothing"), nothingLeaf);
 		
-		assertEquals("Number assignment successful", alexObject.getProperty("height").numProperty, 5.0);
+		
+		numAssign.eval(environment);
+		stringAssign.eval(environment);
+		objAssign.eval(environment);
+		nothingAssign.eval(environment);
+		
+		assertEquals("Number assignment successful", alexObject.getProperty("height").numProperty., 5.0);
 		assertEquals("String assignment successful", alexObject.getProperty("greeting").stringProperty, "string");
 		assertEquals("Object assignment successful", alexObject.getProperty("friend"), bobObject);
-		assertEquals("Nothing assignment successful", alexObject.getProperty("myNothing", WordsProperty.PropertyType.NOTHING);
+		assertEquals("Nothing assignment successful", alexObject.getProperty("myNothing"), WordsProperty.PropertyType.NOTHING);
 	}
 }

@@ -14,17 +14,20 @@ public class INodeRetrieveProperty extends INode {
 	public ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException {
 		ASTValue refList = children.get(0).eval(environment);
 		if (refList.type == ASTValue.ValueType.NOTHING) {
-			WordsObject obj = children.get(1).eval(environment).objValue;
-			if (obj == null) {
-				throw new WordsReferenceException();
+			ASTValue id = children.get(1).eval(environment);
+			
+			try {
+				WordsObject obj = environment.getObject(id.stringValue);
+				return new ASTValue(obj);
+			} catch (WordsObjectNotFoundException e) {
+				throw new WordsReferenceException("Value expression is not an object");
 			}
 			
-			return new ASTValue(obj);
 		}
 		
 		WordsObject obj = refList.objValue;
 		if (obj == null) {
-			throw new WordsReferenceException();
+			throw new WordsReferenceException("Value expression is not an object");
 		}
 		
 		ASTValue id = children.get(1).eval(environment);

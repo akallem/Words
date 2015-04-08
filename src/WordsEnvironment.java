@@ -49,23 +49,25 @@ public class WordsEnvironment {
 	 * Creates a new object in the environment and returns it.  Throws an exception if the object could not be created.
 	 */
 	public WordsObject createObject(String objectName, String className, WordsPosition position) throws WordsRuntimeException {
-		if (getObject(objectName) != null) {
+		try {
+			getObject(objectName);
 			throw new WordsObjectAlreadyExistsException(objectName);
+		} catch (WordsObjectNotFoundException e){
+		
+			WordsClass wordsClass = getClass(className);
+			
+			if (wordsClass == null) {
+				throw new WordsClassNotFoundException(className);
+			}
+			
+			WordsObject newObject = new WordsObject(objectName, wordsClass, position);
+			objects.put(objectName, newObject);
+			
+			// TODO: decide if this is appropriate (given that it could figure listeners)
+			newObject.enqueueAction(new WordsWait(1));
+			
+			return newObject;
 		}
-		
-		WordsClass wordsClass = getClass(className);
-		
-		if (wordsClass == null) {
-			throw new WordsClassNotFoundException(className);
-		}
-		
-		WordsObject newObject = new WordsObject(objectName, wordsClass, position);
-		objects.put(objectName, newObject);
-		
-		// TODO: decide if this is appropriate (given that it could figure listeners)
-		newObject.enqueueAction(new WordsWait(1));
-		
-		return newObject;
 	}
 	
 	/**
