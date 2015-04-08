@@ -1,8 +1,11 @@
 package words.test;
 import static org.junit.Assert.*;
+
+import org.junit.Test;
+
 import words.ast.*;
-import words.exceptions.*;
 import words.environment.*;
+import words.exceptions.WordsRuntimeException;
 
 import org.junit.Test;
 
@@ -41,10 +44,10 @@ public class TestINodeAssign extends TestINode {
 		WordsObject bobObject = environment.createObject("Bob", "thing", new WordsPosition(0,0));
 		LNodeIdentifier bobIdentifier = new LNodeIdentifier("Bob");
 		
-		INodeAssign objAssign = new INodeAssign(alexRefList, new LNodeIdentifier("friend"), new INodeReferenceList(), bobIdentifier);
+		INodeAssign objAssign = new INodeAssign(alexRefList, new LNodeIdentifier("friend"), new INodeRetrieveProperty(new INodeReferenceList(), bobIdentifier));
 		objAssign.eval(environment);
 		
-		assertEquals("Object assignment successful", alexObject.getProperty("friend"), bobObject);
+		assertEquals("Object assignment successful", alexObject.getProperty("friend").objProperty, bobObject);
 	}
 	
 	@Test
