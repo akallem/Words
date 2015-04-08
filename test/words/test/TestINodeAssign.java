@@ -5,9 +5,7 @@ import org.junit.Test;
 
 import words.ast.*;
 import words.environment.*;
-import words.exceptions.WordsRuntimeException;
-
-import org.junit.Test;
+import words.exceptions.*;
 
 public class TestINodeAssign extends TestINode {
 	
@@ -60,5 +58,14 @@ public class TestINodeAssign extends TestINode {
 		nothingAssign.eval(environment);
 		
 		assertEquals("Nothing assignment successful", alexObject.getProperty("myNothing").type, WordsProperty.PropertyType.NOTHING);
+	}
+	
+	@Test (expected = WordsObjectNotFoundException.class)
+	public void assignPropertyToNonExistentObject() throws WordsRuntimeException {
+		LNodeReference alexLNodeRef = new LNodeReference("Alex's");
+		INodeReferenceList alexRefList = new INodeReferenceList(alexLNodeRef);
+
+		INodeAssign stringAssign = new INodeAssign(alexRefList, new LNodeIdentifier("greeting"), stringLeaf);
+		stringAssign.eval(environment);
 	}
 }
