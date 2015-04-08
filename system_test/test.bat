@@ -2,14 +2,10 @@
 
 :loop
 if "%~1" neq "" (
-  echo Logging %1 ...
-  java -jar jar/Words.jar %1 -nogui > run.log.tmp
-  echo Diff with %1.log
-  fc run.log.tmp %1.log >nul 2>&1 && echo OK || (echo FAILED: diff is not-empty.  Check run.log.tmp.  Aborting...  & exit 1)
+  java -jar jar/Words.jar %1 -testmode > run.log.tmp
 
-  echo.
-  echo ===========
-  echo.
+  fc run.log.tmp %1.log >nul 2>&1 && echo [System Test] %1 OK || (echo [System Test] %1 FAILED  Check run.log.tmp.  Aborting...  & exit 1)
+  
   shift
   goto :loop
 )
