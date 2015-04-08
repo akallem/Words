@@ -323,7 +323,7 @@ private int yylex() {
 		yylval = new WordsVal(0);
 		yyl_return = lexer.yylex();
 	} catch (IOException e) {
-		System.err.println("IO error :"+e);
+		printLnToConsole("IO error :"+e);
 	}
 
 	return yyl_return;
@@ -332,7 +332,7 @@ private int yylex() {
 
 public void yyerror(String error) {
 	if (!hideErrors)
-		System.err.println("Error: " + error);
+		printLnToConsole("Error: " + error);
 }
 
 public int getDepth() {
@@ -343,6 +343,18 @@ public Words(Reader r) {
 	lexer = new Yylex(r, this);
 }
 
+private static void printLnToConsole() {
+	if (Option.PRINT_TO_CONSOLE) {
+		System.err.println();
+	}
+}
+
+private static void printLnToConsole(String message) {
+	if (Option.PRINT_TO_CONSOLE) {
+		System.err.println(message);
+	}
+}
+
 
 public static FrameLoop frameLoop;
 public AST root;
@@ -350,20 +362,21 @@ public boolean hideErrors = false;
 public boolean hasError = false;
 
 public static void main(String args[]) throws IOException {
-	System.err.println("Welcome to Words!");
-
+	
 	WordsUI ui = null;
 	// Handle GUI option
 	for (int i = 0; i < args.length; ++i) {
-		if (args[i].equals("-nogui")) {
-			System.err.println("GUI turned off");
+		if (args[i].equals("-testmode")) {
 			Option.GUI = false;
 			Option.TIME_TO_WAIT = -1;
 			Option.FRAME_LIMIT_ENABLED = true;
 			Option.MAX_FRAMES = 500;
+			Option.PRINT_TO_CONSOLE = false;
 		}
 	}
-
+	
+	printLnToConsole("Welcome to Words!");
+	
 	if (Option.GUI)
 		ui = new WordsUI();
 
@@ -378,14 +391,14 @@ public static void main(String args[]) throws IOException {
 				Words parser = new Words(br);
 				parser.yyparse();
 
-				System.err.println();
-				System.err.println();
+				printLnToConsole();
+				printLnToConsole();
 				if (parser.root != null)
 					frameLoop.enqueueAST(parser.root);
 
 				br.close();
 			} catch (IOException e) {
-				System.err.println("Unable to read file " + filename);
+				printLnToConsole("Unable to read file " + filename);
 			}
 			break;
 		}
@@ -435,8 +448,8 @@ public static void main(String args[]) throws IOException {
 		parser.yyparse();
 
 		// In REPL interface, we might want to evaluate only ASTs that had no syntax errors
-		System.err.println();
-		System.err.println();
+		printLnToConsole();
+		printLnToConsole();
 		if (parser.root != null)
 			frameLoop.enqueueAST(parser.root);
 	}
