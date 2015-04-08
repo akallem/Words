@@ -1,5 +1,8 @@
 package words.test;
 import static org.junit.Assert.*;
+import words.ast.*;
+import words.exceptions.*;
+import words.environment.*;
 
 import org.junit.Test;
 
