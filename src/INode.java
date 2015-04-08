@@ -189,11 +189,17 @@ public class INode extends AST {
 		throw new AssertionError("Not yet implemented");
 	}
 
+	/**
+	 * 
+	 * @param environment
+	 * @return
+	 * @throws WordsRuntimeException
+	 */
 	private ASTValue evalAssign(WordsEnvironment environment) throws WordsRuntimeException {
 		WordsObject obj = children.get(0).eval(environment).objValue;
 		String propertyName = children.get(1).eval(environment).stringValue;
-		ASTValue propertyASTValue = children.get(2).eval(environment);
-		
+		ASTValue propertyASTValue = children.get(2).eval(environment);	
+
 		WordsProperty wordsProp = null;
 		switch (propertyASTValue.type) {
 			case NUM:
@@ -205,8 +211,11 @@ public class INode extends AST {
 			case OBJ:
 				wordsProp = new WordsProperty(propertyASTValue.objValue);
 				break;
-			default:
+			case NOTHING:
 				wordsProp = new WordsProperty(WordsProperty.PropertyType.NOTHING);
+				break;
+			default:
+				throw new AssertionError("Shouldn't get here");
 		}
 	
 		obj.setProperty(propertyName, wordsProp);
@@ -391,9 +400,7 @@ public class INode extends AST {
 			object = property.objProperty;
 		} else {
 			object = environment.getObject(identifier.stringValue);
-			if (object == null) {
-				throw new WordsObjectNotFoundException(identifier.stringValue);
-			}
+
 		}
 		
 		assert(direction.type == ValueType.DIRECTION) : "Expected direction";
@@ -451,7 +458,17 @@ public class INode extends AST {
 		throw new AssertionError("Not yet implemented");
 	}
 
+	/**
+	 * 
+	 * @param environment
+	 * @return ValueType.NOTHING if no children, 
+	 * @throws WordsRuntimeException
+	 */
 	private ASTValue evalReferenceList(WordsEnvironment environment) throws WordsRuntimeException {
+		if (children.size() == 0) {
+			return new ASTValue(ValueType.NOTHING);
+		}
+		
 		String firstObjRefName = children.get(0).eval(environment).stringValue;
 		WordsObject currentObj = environment.getObject(firstObjRefName);
 		
@@ -459,13 +476,9 @@ public class INode extends AST {
 			String propertyRefName = children.get(i).eval(environment).stringValue;
 			WordsProperty prop = currentObj.getProperty(propertyRefName);
 			if (prop.type != WordsProperty.PropertyType.OBJECT) {
-				return new ASTValue(ValueType.NOTHING);
+				throw new WordsReferenceException();
 			}
 			currentObj = prop.objProperty;
-		}
-		
-		if (currentObj == null) { //not sure if this should be null or nothing
-			return new ASTValue(ValueType.NOTHING);
 		}
 		
 		return new ASTValue(currentObj);
@@ -496,9 +509,22 @@ public class INode extends AST {
 		throw new AssertionError("Not yet implemented");
 	}
 
-	private ASTValue evalRetrieveProperty(WordsEnvironment environment) {
-		// TODO
-		throw new AssertionError("Not yet implemented");
+	private ASTValue evalRetrieveProperty(WordsEnvironment environment) throws WordsRuntimeException {
+		ASTValue refList = children.get(0).eval(environment);
+		ASTValue id = children.get(1).eval(environment);
+		
+		WordsObject obj = refList.objValue;
+		String propName = id.stringValue;
+		
+		WordsProperty wordsProp = obj.getProperty(propName);
+		switch (wordsProp.type) {
+			case STRING:
+				return new ASTValue(wordsProp.stringProperty);
+			case NUM:
+				return new ASTValue(wordsProp.numProperty);
+			default:
+				return new ASTValue(ValueType.NOTHING);
+		}
 	}
 
 	private ASTValue evalSaysPredicate(WordsEnvironment environment) {

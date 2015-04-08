@@ -70,11 +70,18 @@ public class WordsEnvironment {
 	}
 	
 	/**
-	 * Retrieves an object by name.  Returns null if no such object exists.
-	 * TODO: Should it return NOTHING instead of null?
+	 * 
+	 * @param objectName
+	 * @return the words object
+	 * @throws WordsRuntimeException if object not found
 	 */
-	public WordsObject getObject(String objectName) {
-		return objects.get(objectName);
+	public WordsObject getObject(String objectName) throws WordsRuntimeException {
+		WordsObject wordsObj = objects.get(objectName);
+		if (wordsObj == null) {
+			throw new WordsObjectNotFoundException(objectName);
+		}
+		
+		return wordsObj;
 	}
 	
 	/**
