@@ -1,7 +1,6 @@
 /**
  * This exception decorates an existing WordsRuntimeException by including the AST that caused it.
  * The WordsEnvironmentException contains what went wrong, while the AST contains where it went wrong.
- *
  */
 @SuppressWarnings("serial")
 public class WordsProgramException extends Exception {
@@ -20,6 +19,6 @@ public class WordsProgramException extends Exception {
 	
 	@Override
 	public String toString() {
-		return String.format("Error at line %d: %s", offendingAST.lineNo, exception.toString());
+		return String.format("Error at line %d: %s", offendingAST.lineNumber, exception.toString());
 	}
 }

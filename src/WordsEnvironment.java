@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
-
 public class WordsEnvironment {
 	private HashMap<String, WordsClass> classes;
 	private HashMap<String, WordsObject> objects;

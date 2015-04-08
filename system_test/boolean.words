@@ -1,0 +1,37 @@
+Fred is a thing at 0,0.
+
+If 1 < 2 then {
+	Make Fred say "1 < 2".
+}
+
+If 1 > 2 then {
+	Make Fred say "Oops!".
+}
+
+If 1 <= 1 then {
+	Make Fred say "1 <= 1".
+}
+
+If 1 = 1 then {
+	Make Fred say "1 = \"1\"".
+}
+
+If 2 = "2" then {
+	Make Fred say "2 = \"2\"".
+}
+
+If "this" > "that" then {
+	Make Fred say "\"this\" = \"that\"".
+}
+
+If 1 < 2 and 5 > 4 then {
+	Make Fred say "And".
+}
+
+If 1 < 2 or 4 < 5 then {
+	Make Fred say "Or".
+}
+
+If not(1 > 2) then {
+	Make Fred say "Not".
+}

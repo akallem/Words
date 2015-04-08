@@ -2,169 +2,10 @@
  * An abstract syntax tree node, which may be either an internal node or leaf node.
  */
 public abstract class AST {
-	public class ASTValue {
-		public ValueType type;
-		
-		public double numValue;
-		public String stringValue;
-		public WordsObject objValue;
-		public Direction directionValue;
-		public WordsPosition positionValue;
-		
-		public ASTValue(double num) {
-			this.type = ValueType.NUM;
-			this.numValue = num;
-		}	
-
-		public ASTValue(String s) {
-			this.type = ValueType.STRING;
-			this.stringValue = s;
-		}
-		
-		public ASTValue(WordsObject obj) {
-			this.type = ValueType.OBJ;
-			this.objValue = obj;
-		}
-		
-		public ASTValue(Direction d) {
-			this.type = ValueType.DIRECTION;
-			this.directionValue = d;
-		}
-
-		public ASTValue(WordsPosition p) {
-			this.type = ValueType.POSITION;
-			this.positionValue = p;
-		}
-		
-		public ASTValue(ValueType type) {
-			this.type = type;
-		}
-		
-		/**
-		 * Attempts to coerce this ASTValue to the given type, if possible.  Regardless of whether or not it succeeds,
-		 * returns this ASTValue.  The caller should then check the type to determine if the result of the coercion resulted
-		 * in a suitable type for its purposes.
-		 * 
-		 * @return self
-		 */
-		public ASTValue tryCoerceTo(ValueType newType) {
-			switch(newType) {
-				case NUM:
-					if (type == ValueType.STRING) {
-						try {  
-							double val = Double.parseDouble(stringValue);
-							this.numValue = val;
-							this.type = newType;
-						} catch (NumberFormatException nfe) {}  
-					}
-					break;
-				case STRING:
-					if (type == ValueType.NUM) {
-						this.stringValue = String.format("%f", numValue);
-						this.type = newType;
-					}
-					break;
-				default:
-					break;
-			}
-			
-			return this;
-		}
-	}
-
-	public enum ValueType {
-		NUM,
-		STRING,
-		OBJ,
-		DIRECTION,
-		POSITION,
-		NOW,
-		NOTHING
-	}
+	public int lineNumber;
 	
-	/**
-	 * The type of the node, which determines how the node is evaluated.
-	 */
-	public enum ASTType { 
-		// Leaf node types
-		DIRECTION,
-		NOTHING,
-		NOW,
-		NUM,
-		IDENTIFIER,
-		REFERENCE,
-		STRING,
-		
-		// Internal node types
-		STATEMENT_LIST,
-		
-		RESET,
-		EXIT,
-		
-		CREATE_CLASS,
-		CLASS_STATEMENT_LIST,
-		DEFINE_PROPERTY,
-		DEFINE_ACTION,
-		CREATE_OBJ,
-		REMOVE,
-		ASSIGN,
-		
-		REPEAT,
-		WHILE,
-		IF,
-		
-		LISTENER_PERM,
-		LISTENER_TEMP,
-		
-		QUEUE_MOVE,
-		QUEUE_SAY,
-		QUEUE_WAIT,
-		QUEUE_STOP,
-		QUEUE_ASSIGN,
-		QUEUE_ACTION,
-		
-		MOVES_PREDICATE,
-		SAYS_PREDICATE,
-		WAITS_PREDICATE,
-		TOUCHES_PREDICATE,
-		
-		NOT,
-		AND,
-		OR,
-		
-		EQUALS,
-		LESS,
-		GREATER,
-		LEQ,
-		GEQ,
-		
-		NEGATE,
-		ADD,
-		SUBTRACT,
-		MULTIPLY,
-		DIVIDE,
-		EXPONENTIATE,
-		
-		POSITION,
-		RETRIEVE_PROPERTY,
-		
-		REFERENCE_LIST,
-		IDENTIFIER_LIST,
-		PARAMETER_LIST,
-		QUEUE_ASSIGN_PROPERTY_LIST,
-		
-		PARAMETER,
-		SUBJECT,
-		ALIAS,
-		QUEUE_ASSIGN_PROPERTY,
-	};
-	
-	public ASTType type;
-	public int lineNo;
-	
-	public AST(ASTType type, int lineNo) {
-		this.type = type;
-		this.lineNo = lineNo;
+	public AST() {
+		lineNumber = -1;
 	}
 	
 	/**
@@ -175,7 +16,7 @@ public abstract class AST {
 	abstract public void dump(int level);
 	
 	/**
-	 * Evaluate an AST node, possibly by having side effects on the passed environment.
+	 * Evaluate an AST node to return an ASTValue and possibly have side effects on the passed environment.
 	 * @throws WordsRuntimeException 
 	 */
 	public abstract ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException;

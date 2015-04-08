@@ -49,7 +49,7 @@
     <!-- compile program java code -->
     <target name="compile" depends="grammar">
         <mkdir dir="${bin.dir}" />
-        <javac srcdir="${src.dir}" destdir="${bin.dir}" includeantruntime="false">
+        <javac srcdir="${src.dir}" destdir="${bin.dir}" debug="true" includeantruntime="false">
             <classpath>
                 <pathelement location="${lib.src}/slick.jar" />
                 <pathelement location="${lib.src}/lwjgl.jar" />
