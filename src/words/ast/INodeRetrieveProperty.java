@@ -27,7 +27,6 @@ public class INodeRetrieveProperty extends INode {
 			} catch (WordsObjectNotFoundException e) {
 				throw new WordsReferenceException("Value expression is not an object");
 			}
-			
 		}
 		
 		WordsObject obj = refList.objValue;
