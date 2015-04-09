@@ -8,7 +8,7 @@ import words.exceptions.*;
 
 public class TestINodeNegate extends TestINode {
 	@Test
-	public void twoNumbersNegateCorrectly() throws WordsRuntimeException {
+	public void numberNegateCorrectly() throws WordsRuntimeException {
 		AST numLeaf1 = new LNodeNum(3);
 		
 		INode testNode = new INodeNegate(numLeaf1);
