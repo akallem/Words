@@ -12,6 +12,6 @@ public class WordsArithmeticException extends WordsRuntimeException {
 
 	@Override
 	public String toString() {
-		return String.format("Invalid arithmetic operation on %s and %s", type1, type2);
+		return String.format("Invalid arithmetic operation on %s and %s.", type1, type2);
 	}
 }
