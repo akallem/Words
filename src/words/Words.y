@@ -364,7 +364,7 @@ public boolean hasError = false;
 public static void main(String args[]) throws IOException {
 	
 	WordsUI ui = null;
-	// Handle GUI option
+	// Handle testmode option
 	for (int i = 0; i < args.length; ++i) {
 		if (args[i].equals("-testmode")) {
 			Option.GUI = false;
