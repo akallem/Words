@@ -26,7 +26,7 @@ public class INodeReferenceList extends INode {
 			String propertyRefName = children.get(i).eval(environment).stringValue;
 			WordsProperty prop = currentObj.getProperty(propertyRefName);
 			if (prop.type != WordsProperty.PropertyType.OBJECT) {
-				throw new WordsReferenceException("from eval ref list");
+				throw new WordsReferenceException("Non-object found in reference list.");
 			}
 			currentObj = prop.objProperty;
 		}
