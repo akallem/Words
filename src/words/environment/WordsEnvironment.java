@@ -38,9 +38,15 @@ public class WordsEnvironment {
 	
 	/**
 	 * Retrieves a class by name.  Returns null if no such class exists.
+	 * @throws WordsClassNotFoundException 
 	 */
-	public WordsClass getClass(String className) {
-		return classes.get(className);
+	public WordsClass getClass(String className) throws WordsClassNotFoundException {
+		WordsClass wordsClass = classes.get(className);
+		if (wordsClass == null) {
+			throw new WordsClassNotFoundException(className);
+		}
+		
+		return wordsClass;
 	}
 
 	/**
@@ -61,10 +67,6 @@ public class WordsEnvironment {
 		} catch (WordsObjectNotFoundException e){
 		
 			WordsClass wordsClass = getClass(className);
-			
-			if (wordsClass == null) {
-				throw new WordsClassNotFoundException(className);
-			}
 			
 			WordsObject newObject = new WordsObject(objectName, wordsClass, position);
 			objects.put(objectName, newObject);

@@ -17,6 +17,9 @@ public class INodeAssign extends INode {
 	@Override
 	public ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException {
 		WordsObject obj = children.get(0).eval(environment).objValue;
+		if (obj == null) {
+			throw new AssertionError("Obj should never be null here");
+		}
 		String propertyName = children.get(1).eval(environment).stringValue;
 		ASTValue propertyASTValue = children.get(2).eval(environment);	
 

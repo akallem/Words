@@ -43,6 +43,48 @@ public class TestINodeReferenceList extends TestINode {
 		assertEquals(alexFriendValue.objValue, bobObject);
 	}
 	
+	@Test
+	public void testSizeThree() throws WordsRuntimeException {
+		WordsObject alexObject = environment.createObject("Alex", "thing", new WordsPosition(0, 0));
+		LNodeReference alexRef = new LNodeReference("Alex's");
+		
+		WordsObject bobObject = environment.createObject("Bob", "thing", new WordsPosition(0, 0));
+		alexObject.setProperty("friend", new WordsProperty(bobObject));
+		LNodeReference friendRef = new LNodeReference("friend's");
+		
+		WordsObject chrisObject = environment.createObject("Chris", "thing", new WordsPosition(0, 0));
+		bobObject.setProperty("enemy", new WordsProperty(chrisObject));
+		LNodeReference enemyRef = new LNodeReference("enemy");
+		
+		INodeReferenceList refList = new INodeReferenceList(alexRef, friendRef, enemyRef);
+		
+		ASTValue alexFriendValue = refList.eval(environment);
+		assertEquals(alexFriendValue.objValue, chrisObject);
+	}
+	
+	@Test
+	public void testSizeFour() throws WordsRuntimeException {
+		WordsObject alexObject = environment.createObject("Alex", "thing", new WordsPosition(0, 0));
+		LNodeReference alexRef = new LNodeReference("Alex's");
+		
+		WordsObject bobObject = environment.createObject("Bob", "thing", new WordsPosition(0, 0));
+		alexObject.setProperty("friend", new WordsProperty(bobObject));
+		LNodeReference friendRef = new LNodeReference("friend's");
+		
+		WordsObject chrisObject = environment.createObject("Chris", "thing", new WordsPosition(0, 0));
+		bobObject.setProperty("enemy", new WordsProperty(chrisObject));
+		LNodeReference enemyRef = new LNodeReference("enemy's");
+		
+		WordsObject dennisObject = environment.createObject("Dennis", "thing", new WordsPosition(0, 0));
+		chrisObject.setProperty("dad", new WordsProperty(dennisObject));
+		LNodeReference dadRef = new LNodeReference("dad");
+
+		INodeReferenceList refList = new INodeReferenceList(alexRef, friendRef, enemyRef, dadRef);
+		
+		ASTValue alexFriendValue = refList.eval(environment);
+		assertEquals(alexFriendValue.objValue, dennisObject);
+	}
+	
 	@Test (expected = WordsObjectNotFoundException.class)
 	public void firstNotAnObject() throws WordsRuntimeException {
 		LNodeReference friendRef = new LNodeReference("friend");

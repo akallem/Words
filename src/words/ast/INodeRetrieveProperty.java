@@ -21,18 +21,13 @@ public class INodeRetrieveProperty extends INode {
 		if (refList.type == ASTValue.ValueType.NOTHING) {
 			ASTValue id = children.get(1).eval(environment);
 			
-			try {
-				WordsObject obj = environment.getObject(id.stringValue);
-				return new ASTValue(obj);
-			} catch (WordsObjectNotFoundException e) {
-				throw new WordsReferenceException("Value expression is not an object");
-			}
+			WordsObject obj = environment.getObject(id.stringValue);
+			return new ASTValue(obj);
+
 		}
 		
 		WordsObject obj = refList.objValue;
-		if (obj == null) {
-			throw new WordsReferenceException("Value expression is not an object");
-		}
+		new AssertionError("obj shouldn't be null");
 		
 		ASTValue id = children.get(1).eval(environment);
 		String propName = id.stringValue;

@@ -76,7 +76,7 @@ public class TestINodeRetrieveProperty extends TestINode {
 		assertEquals(alexHeightValue.type, ASTValue.ValueType.NOTHING);
 	}
 	
-	@Test (expected = WordsReferenceException.class)
+	@Test (expected = WordsObjectNotFoundException.class)
 	public void testNoRefListIdNotObject() throws WordsRuntimeException {
 		INodeRetrieveProperty retrieveError = new INodeRetrieveProperty(new INodeReferenceList(), new LNodeIdentifier("bad"));
 		retrieveError.eval(environment);
