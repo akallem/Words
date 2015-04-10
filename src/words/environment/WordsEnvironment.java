@@ -77,6 +77,24 @@ public class WordsEnvironment {
 	}
 	
 	/**
+	 * Get the number of different object scopes at the moment. Includes the global scope.
+	 */
+	public int getNumberOfScopes() {
+		return gettableObjects.size();
+	}
+	
+	/**
+	 * Pop local scopes off the table until you arrive at the correct number.
+	 * Useful for resetting the symbol table after an error is thrown.
+	 */
+	public void popScopesUntilSize(int desiredSize) {
+		assert gettableObjects.size() >= desiredSize : "Symbol table is smaller than desired size";
+		while (gettableObjects.size() > desiredSize) {
+			exitLocalScope();
+		}
+	}
+	
+	/**
 	 * Creates a new object in the environment and returns it.  Throws an exception if the object could not be created.
 	 * A new object is always added to the most local scope in use
 	 */
