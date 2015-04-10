@@ -39,4 +39,26 @@ public class TestINodeAdd extends TestINode {
 		assertTrue("Returns STRING value", result.type == ASTValue.ValueType.STRING);
 		assertEquals("Correct String Concatenation", result.stringValue, "ab");
 	}
+	
+	@Test
+	public void numberToStringCoercionIdiom() throws WordsRuntimeException {
+		AST numLeaf = new LNodeNum(5);
+		AST stringLeaf = new LNodeString("");
+		
+		INode testNode = new INodeAdd(numLeaf, stringLeaf);
+		ASTValue result = testNode.eval(environment);
+		assertTrue("Returns STRING value", result.type == ASTValue.ValueType.STRING);
+		assertEquals("Correct string value", result.stringValue, "5.000000");
+	}
+	
+	@Test
+	public void stringToNumberCoercionIdiom() throws WordsRuntimeException {
+		AST stringLeaf = new LNodeString("5");
+		AST numLeaf = new LNodeNum(0);
+		
+		INode testNode = new INodeAdd(stringLeaf, numLeaf);
+		ASTValue result = testNode.eval(environment);
+		assertTrue("Returns NUM value", result.type == ASTValue.ValueType.NUM);
+		assertEquals("Correct number value", result.numValue, 5.0, 0.0001);
+	}
 }
