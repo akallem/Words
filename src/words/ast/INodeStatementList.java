@@ -23,8 +23,6 @@ public class INodeStatementList extends INode {
 			try {
 				children.get(i).eval(environment);
 			} catch (WordsRuntimeException e) {
-				// First, deal with any local scopes that made need to be closed
-				environment.popScopesUntilSize(startingScopeLevel);
 				// Add the AST to the exception, and then print it.
 				WordsProgramException decoratedException = new WordsProgramException(children.get(i), e);
 				System.err.println();

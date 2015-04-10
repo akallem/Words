@@ -6,6 +6,7 @@ import org.junit.Test;
 import words.ast.*;
 import words.environment.WordsPosition;
 import words.exceptions.WordsInvalidTypeException;
+import words.exceptions.WordsObjectAlreadyExistsException;
 import words.exceptions.WordsRuntimeException;
 
 
@@ -31,5 +32,26 @@ public class TestINodeRepeat extends TestINode {
 		AST statementList = new INodeStatementList(moveFredLeft2, moveFredRight2);
 		AST iterativeLoop = new INodeRepeat(stringLeaf, statementList);
 		iterativeLoop.eval(environment);
+	}
+	
+	@Test
+	public void canRepeatObjectCreation() {
+		AST statementList = new INodeStatementList(createObjectFred);
+		AST iterativeLoop = new INodeRepeat(fiveLeaf, statementList);
+		loop.enqueueAST(iterativeLoop);
+		loop.fastForwardEnvironment(5);
+		assertEquals("Successfully created multiple Freds", environment.getObjects().size(), 5);
+		assertEquals("Outside of loop, ends in global scope", environment.getNumberOfScopes(), 1);
+	}
+	
+	@Test
+	public void scopeHandlesExceptions() throws WordsRuntimeException {
+		AST statementList = new INodeStatementList(createObjectFred);
+		AST iterativeLoop = new INodeRepeat(fiveLeaf, statementList);
+		loop.enqueueAST(createObjectFred);
+		loop.fastForwardEnvironment(1);
+		// this iterative loop will fail 5 times
+		loop.enqueueAST(iterativeLoop);
+		assertEquals("Outside of loop, ends in global scope", environment.getNumberOfScopes(), 1);
 	}
 }
