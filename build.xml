@@ -124,5 +124,6 @@
         <delete file="${src.dir}/WordsVal.java" />
         <delete file="${src.dir}/Yylex.java" />
         <delete file="${src.dir}/Yylex.java~" />
+        <delete file="run.log.tmp" />
     </target>
 </project>
