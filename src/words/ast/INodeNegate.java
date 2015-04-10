@@ -1,7 +1,7 @@
 package words.ast;
 
 import words.environment.WordsEnvironment;
-import words.exceptions.WordsRuntimeException;
+import words.exceptions.*;
 
 public class INodeNegate extends INode {
 	public INodeNegate(Object... children) {
@@ -10,7 +10,12 @@ public class INodeNegate extends INode {
 
 	@Override
 	public ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException {
-		// TODO
-		throw new AssertionError("Not yet implemented");
+		ASTValue value = children.get(0).eval(environment).tryCoerceTo(ASTValue.ValueType.NUM);
+
+		if (value.type != ASTValue.ValueType.NUM) {
+			throw new WordsInvalidTypeException("NUM", value.type.toString());
+		}
+
+		return new ASTValue(value.numValue * -1);
 	}
 }
