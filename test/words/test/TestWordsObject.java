@@ -201,4 +201,14 @@ public class TestWordsObject {
 		assertEquals("Object's x is 3", obj.getCurrentCell().x, 3);
 		assertEquals("Object's y is -4", obj.getCurrentCell().y, -4);
 	}
+	
+	@Test
+	public void inheritanceOfClassPropertyShouldWork() {
+		String propertyName = "height";
+		WordsProperty numProperty = new WordsProperty(15.5);
+		
+		assertEquals("Object currently does not have the property", WordsProperty.PropertyType.NOTHING, obj.getProperty(propertyName).type);
+		thing.setProperty(propertyName, numProperty);
+		assertEquals("Object inherited property from parent", numProperty, obj.getProperty(propertyName));
+	}
 }
