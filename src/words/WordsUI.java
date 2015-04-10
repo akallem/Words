@@ -26,8 +26,11 @@ public class WordsUI {
 	static final int moveStep = 2;
 	int xCenterCell, yCenterCell;		// The board coordinates of the cell depicted in the center
 
-	static final int topPadding = 20;	// Padding at the top of the window before the board in pixels
+	static final int topPadding = 40;	// Padding at the top of the window before the board in pixels
 
+	static final int labelPadding = 4;	// Padding from label to grid cell
+	
+	static final Font fLabel = new Font("SansSerif", Font.BOLD, 16);
 	static final Font fObj = new Font("SansSerif", Font.BOLD, 12);
 	static final Font fClass = new Font("SansSerif", Font.PLAIN, 9);
 	static final Font fMsg = new Font("SansSerif", Font.PLAIN, 8);
@@ -139,10 +142,20 @@ public class WordsUI {
 			g2.setPaint(new Color(255, 255, 255));
 			g2.fillRect(x1, y1, x2-x1, y2-y1);
 
+			int extent = (numCells-1)/2;
+			
 			// Draw each cell
-			for (int i = -(numCells-1)/2; i <= (numCells-1)/2; i++)
-				for (int j = -(numCells-1)/2; j <= (numCells-1)/2; j++)
+			for (int i = -extent; i <= extent; i++)
+				for (int j = -extent; j <= extent; j++)
 					renderCell(g2, cx + i*cellSize, cy + j*cellSize, new WordsPosition(xCenterCell + i, yCenterCell + j));
+			
+			// Draw the x-axis labels
+			for (int i = -extent; i <= extent; i++)
+				drawCenteredString(g2, Integer.toString(xCenterCell + i), cx + i*cellSize, y1 - fLabel.getSize()/2 - labelPadding, fLabel, Color.BLACK);
+			
+			// Draw the y-axis labels
+			for (int j = -extent; j <= extent; j++)
+				drawCenteredString(g2, Integer.toString(yCenterCell + j), x1 - fLabel.getSize()/2 - labelPadding, cy + j*cellSize, fLabel, Color.BLACK);
 		}
 	}
 
@@ -208,7 +221,7 @@ public class WordsUI {
 		buttons = new Buttons();
 
 		windowWidth = 750;		// Default windowWidth
-		windowHeight = 750;		// Default windowHeight
+		windowHeight = 770;		// Default windowHeight
 		boardSize = 650;		// Default boardSize
 		numCells = 9;			// Default numCells
 		xCenterCell = 0;
