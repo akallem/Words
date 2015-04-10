@@ -1,8 +1,8 @@
 package words.ast;
 
-import words.ast.ASTValue.ValueType;
-import words.environment.WordsEnvironment;
-import words.exceptions.WordsRuntimeException;
+import words.ast.ASTValue;
+import words.environment.*;
+import words.exceptions.*;
 
 public class INodeReferenceList extends INode {
 	public INodeReferenceList(Object... children) {
@@ -10,9 +10,27 @@ public class INodeReferenceList extends INode {
 	}
 
 	@Override
+	/**
+	 * Returns ASTValue.ValueType.NOTHING if no children. Returns an ASTValue of type OBJ if all references are to objects.
+	 * Throws WordsReferenceException if some reference isn't to an object.
+	 */
 	public ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException {
-		// TODO
-		//throw new AssertionError("Not yet implemented");
-		return new ASTValue(ASTValue.ValueType.NOTHING);
+		if (children.size() == 0) {
+			return new ASTValue(ASTValue.ValueType.NOTHING);
+		}
+		
+		String firstObjRefName = children.get(0).eval(environment).stringValue;
+		WordsObject currentObj = environment.getObject(firstObjRefName);
+		
+		for (int i = 1; i < children.size(); i++) {
+			String propertyRefName = children.get(i).eval(environment).stringValue;
+			WordsProperty prop = currentObj.getProperty(propertyRefName);
+			if (prop.type != WordsProperty.PropertyType.OBJECT) {
+				throw new WordsReferenceException(propertyRefName, prop.type);
+			}
+			currentObj = prop.objProperty;
+		}
+		
+		return new ASTValue(currentObj);
 	}
 }

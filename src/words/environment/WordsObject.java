@@ -16,6 +16,7 @@ public class WordsObject {
 		this.objectName = objectName;
 		this.cell = cell;
 		this.actionQueue = new LinkedList<WordsAction>();
+		this.properties = new HashMap<String, WordsProperty>();
 	}
 	
 	public void enqueueAction(WordsAction action) {

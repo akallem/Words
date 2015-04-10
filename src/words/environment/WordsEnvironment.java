@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import words.exceptions.WordsClassNotFoundException;
 import words.exceptions.WordsObjectAlreadyExistsException;
+import words.exceptions.WordsObjectNotFoundException;
 import words.exceptions.WordsRuntimeException;
 
 public class WordsEnvironment {
@@ -37,9 +38,15 @@ public class WordsEnvironment {
 	
 	/**
 	 * Retrieves a class by name.  Returns null if no such class exists.
+	 * @throws WordsClassNotFoundException 
 	 */
-	public WordsClass getClass(String className) {
-		return classes.get(className);
+	public WordsClass getClass(String className) throws WordsClassNotFoundException {
+		WordsClass wordsClass = classes.get(className);
+		if (wordsClass == null) {
+			throw new WordsClassNotFoundException(className);
+		}
+		
+		return wordsClass;
 	}
 
 	/**
@@ -54,31 +61,36 @@ public class WordsEnvironment {
 	 * Creates a new object in the environment and returns it.  Throws an exception if the object could not be created.
 	 */
 	public WordsObject createObject(String objectName, String className, WordsPosition position) throws WordsRuntimeException {
-		if (getObject(objectName) != null) {
+		try {
+			getObject(objectName);
 			throw new WordsObjectAlreadyExistsException(objectName);
+		} catch (WordsObjectNotFoundException e){
+		
+			WordsClass wordsClass = getClass(className);
+			
+			WordsObject newObject = new WordsObject(objectName, wordsClass, position);
+			objects.put(objectName, newObject);
+			
+			// TODO: decide if this is appropriate (given that it could figure listeners)
+			newObject.enqueueAction(new WordsWait(1));
+			
+			return newObject;
 		}
-		
-		WordsClass wordsClass = getClass(className);
-		
-		if (wordsClass == null) {
-			throw new WordsClassNotFoundException(className);
-		}
-		
-		WordsObject newObject = new WordsObject(objectName, wordsClass, position);
-		objects.put(objectName, newObject);
-		
-		// TODO: decide if this is appropriate (given that it could figure listeners)
-		newObject.enqueueAction(new WordsWait(1));
-		
-		return newObject;
 	}
 	
 	/**
-	 * Retrieves an object by name.  Returns null if no such object exists.
-	 * TODO: Should it return NOTHING instead of null?
+	 * 
+	 * @param objectName
+	 * @return the words object
+	 * @throws WordsRuntimeException if object not found
 	 */
-	public WordsObject getObject(String objectName) {
-		return objects.get(objectName);
+	public WordsObject getObject(String objectName) throws WordsRuntimeException {
+		WordsObject wordsObj = objects.get(objectName);
+		if (wordsObj == null) {
+			throw new WordsObjectNotFoundException(objectName);
+		}
+		
+		return wordsObj;
 	}
 	
 	/**
