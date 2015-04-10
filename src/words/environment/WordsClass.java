@@ -48,9 +48,14 @@ public class WordsClass {
 		return new WordsProperty(WordsProperty.PropertyType.NOTHING);
 	}
 	
+	/**
+	 * Sets a property on this class for a given name, overwriting any existing property for that name.
+	 * Does not set anything if the provided property is NOTHING.
+	 */
 	public void setProperty(String propertyName, WordsProperty property) {
-		// TODO
-		// Handle case where property is nothing, in which case we should actually remove the key if it exists, not store it
+		if (property.type != WordsProperty.PropertyType.NOTHING) {
+			properties.put(propertyName, property);
+		}
 	}
 	
 	public WordsCustomActionDefinition getCustomActionDefinition(String customActionName) {
