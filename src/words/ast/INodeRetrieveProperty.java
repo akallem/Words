@@ -28,7 +28,7 @@ public class INodeRetrieveProperty extends INode {
 		
 		WordsObject obj = refList.objValue;
 		if (obj == null) {
-			new AssertionError("obj shouldn't be null");
+			throw new AssertionError("obj shouldn't be null");
 		}
 		
 		ASTValue id = children.get(1).eval(environment);
@@ -50,7 +50,7 @@ public class INodeRetrieveProperty extends INode {
 				astValue = new ASTValue(ASTValue.ValueType.NOTHING);
 				break;
 			default:
-				new AssertionError("Shouldn't get here in INodeRetrieveProperty");
+				throw new AssertionError("Shouldn't get here in INodeRetrieveProperty");
 		}
 		
 		return astValue;
