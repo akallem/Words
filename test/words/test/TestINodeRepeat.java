@@ -52,6 +52,7 @@ public class TestINodeRepeat extends TestINode {
 		loop.fastForwardEnvironment(1);
 		// this iterative loop will fail 5 times
 		loop.enqueueAST(iterativeLoop);
+		loop.fastForwardEnvironment(2);
 		assertEquals("Outside of loop, ends in global scope", environment.getNumberOfScopes(), 1);
 	}
 }
