@@ -5,19 +5,20 @@ import words.ast.AST;
 import words.ast.ASTValue;
 import words.ast.ASTValue.ValueType;
 import words.exceptions.WordsInvalidTypeException;
+import words.exceptions.WordsProgramException;
 import words.exceptions.WordsRuntimeException;
 
 public class WordsMove extends WordsAction {
 	private Direction direction;
 	private AST distanceExpression;
 	private int distanceValue;
-	
+
 	//TODO: handle ANYWHERE direction by selecting a random direction
 	public WordsMove(Direction direction, AST distanceExpression) {
 		this.direction = direction;
 		this.distanceExpression = distanceExpression;
 	}
-	
+
 	//TODO: handle ANYWHERE direction by selecting a random direction
 	/**
 	 * Create a new WordsMove action.  distanceValue must round to a positive or negative integer.
@@ -26,7 +27,7 @@ public class WordsMove extends WordsAction {
 	public WordsMove(Direction direction, double distanceValue) {
 		this.direction = direction;
 		this.distanceValue = (int) Math.round(distanceValue);
-		
+
 		// TODO: flip if distanceValue is negative
 	}
 
@@ -37,12 +38,12 @@ public class WordsMove extends WordsAction {
 
 		if (distanceValue != 1)
 			return false;
-		
+
 		return true;
 	}
 
 	@Override
-	public void doExecute(WordsObject object, WordsEnvironment environment) {
+	public void doExecute(WordsObject object, WordsEnvironment environment) throws WordsProgramException {
 		// We know that the distanceValue is 1
 		// ANYWHERE directions will already have been replaced to be a real direction
 		switch(direction.type) {
@@ -60,7 +61,7 @@ public class WordsMove extends WordsAction {
 				break;
 			default:
 				throw new AssertionError("Attempted to execute direction type " + direction.type.toString());
-		}		
+		}
 	}
 
 	@Override
@@ -72,15 +73,15 @@ public class WordsMove extends WordsAction {
 			} catch (WordsRuntimeException e) {
 				throw new WordsProgramException(distanceExpression, e);
 			}
-			
+
 			if (value.type != ASTValue.ValueType.NUM) {
 				throw new WordsProgramException(distanceExpression, new WordsInvalidTypeException(value.type.toString(), ASTValue.ValueType.NUM.toString()));
 			}
-			
+
 			distanceValue = (int) Math.round(value.numValue);
 			distanceExpression = null;						// Not necessary, but including for clarity since once the expression is evaluated, it is no longer needed
 		}
-		
+
 		//TODO: flip if distanceValue is negative
 
 		LinkedList<WordsAction> list = new LinkedList<WordsAction>();
@@ -93,7 +94,7 @@ public class WordsMove extends WordsAction {
 		} else {
 			list.add(new WordsWait(1));
 		}
-		
+
 		return list;
 	}
 }

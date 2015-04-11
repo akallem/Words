@@ -1,14 +1,14 @@
 package words.ast;
 
 import words.environment.WordsEnvironment;
-import words.environment.WordsProgramException;
+import words.exceptions.WordsProgramException;
 import words.exceptions.WordsRuntimeException;
 
 public class INodeStatementList extends INode {
 	public INodeStatementList(Object... children) {
 		super(children);
 	}
-	
+
 	@Override
 	public ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException {
 		for (int i = 0; i < children.size(); i++) {
@@ -16,7 +16,7 @@ public class INodeStatementList extends INode {
 			// Avoid attempting to do any evaluation in that case
 			if (children.get(i) == null)
 				continue;
-			
+
 			try {
 				children.get(i).eval(environment);
 			} catch (WordsRuntimeException e) {
@@ -27,7 +27,7 @@ public class INodeStatementList extends INode {
 				System.out.print("> ");
 			}
 		}
-		
+
 		return null;
 	}
 }
