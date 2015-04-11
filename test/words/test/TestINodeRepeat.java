@@ -55,4 +55,14 @@ public class TestINodeRepeat extends TestINode {
 		loop.fastForwardEnvironment(2);
 		assertEquals("Outside of loop, ends in global scope", environment.getNumberOfScopes(), 1);
 	}
+	
+	@Test
+	public void scopeHandlesMoreExceptions() throws WordsRuntimeException {
+		AST statementList = new INodeStatementList(createObjectFred);
+		AST iterativeLoop = new INodeRepeat(stringLeaf, statementList);
+		loop.fastForwardEnvironment(1);
+		loop.enqueueAST(iterativeLoop);
+		loop.fastForwardEnvironment(2);
+		assertEquals("Outside of loop, ends in global scope", environment.getNumberOfScopes(), 1);
+	}
 }
