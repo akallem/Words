@@ -2,6 +2,7 @@ package words.environment;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import words.exceptions.*;
 
 public class WordsObject {
 	private String objectName;
@@ -60,12 +61,11 @@ public class WordsObject {
 	/**
 	 * Assigns a property to an object.  Assigning NOTHING removes the property, if it exists.
 	 */
-	public void setProperty(String propertyName, WordsProperty property) {
+	public void setProperty(String propertyName, WordsProperty property) throws WordsRuntimeException {
 		// Special handling of "row" and "column" properties
 		if (propertyName.equals("row") || propertyName.equals("column")) {
 			if (property.type != WordsProperty.PropertyType.NUM) {
-				// throw an exception?
-				return;
+				throw new WordsInvalidTypeException("NUM", property.type.toString());
 			}
 			
 			if (propertyName.equals("row"))
