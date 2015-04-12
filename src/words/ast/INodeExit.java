@@ -10,7 +10,8 @@ public class INodeExit extends INode {
 
 	@Override
 	public ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException {
-		// TODO
-		throw new AssertionError("Not yet implemented");
+		System.exit(0);
+		
+		return null;
 	}
 }

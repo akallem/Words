@@ -27,6 +27,16 @@ public class WordsEnvironment {
 		WordsClass thing = new WordsClass("thing", null);
 		classes.put("thing", thing);
 	}
+	
+	/**
+	 * Resets the environment.
+	 */
+	public void resetEnvironment() {
+		classes.clear();
+		objects.clear();
+		eventListeners.clear();
+		setupEnvironment();
+	}
 
 	/**
 	 * Creates a new class in the environment and returns it.  Throws an exception if the class could not be created.
