@@ -19,6 +19,8 @@ public class TestINode {
 	AST negTwoLeaf = new LNodeNum(-2.0);
 	AST fiveLeaf = new LNodeNum(5.0);
 	AST stringLeaf = new LNodeString("string");
+	AST thingStringLeaf = new LNodeString("thing");
+	AST position00 = new INodePosition(numLeaf, numLeaf);
 	
 	AST fredStringLeaf = new LNodeString("Fred");
 	AST leftDirectionLeaf = new LNodeDirection(Direction.Type.LEFT);
@@ -32,6 +34,8 @@ public class TestINode {
 
 	AST trueLeaf = new INodeEquals(nothingLeaf, nothingLeaf);
 	AST falseLeaf = new INodeEquals(nothingLeaf, numLeaf);
+	
+	AST createObjectFred = new INodeCreateObject(fredStringLeaf, thingStringLeaf, null, position00);
 	
 	@Test
 	public void canAddNullToINode() {

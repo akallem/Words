@@ -20,7 +20,9 @@ public class INodeRepeat extends INode {
 		}
 		
 		for (int i = 0; i < times.numValue; i++) {
+			environment.enterNewLocalScope();
 			statementList.eval(environment);
+			environment.exitLocalScope();
 		}
 		
 		return null;

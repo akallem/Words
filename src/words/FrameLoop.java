@@ -3,6 +3,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 
 import words.ast.AST;
 import words.environment.*;
+import words.exceptions.WordsProgramException;
 import words.exceptions.WordsRuntimeException;
 
 public class FrameLoop extends Thread {
@@ -60,7 +61,7 @@ public class FrameLoop extends Thread {
 
 	private boolean executeSingleFrame() {
 		boolean finished = false;
-		
+
 		// Phase 1: Statement Translation and Execution
 		while (!ASTQueue.isEmpty()) {
 			AST ast = ASTQueue.pop();
@@ -73,7 +74,7 @@ public class FrameLoop extends Thread {
 				System.out.println("> ");
 			}
 		}
-		
+
 		// Phase 2: Action Queue Processing
 		for (WordsObject object : environment.getObjects()) {
 			try {
