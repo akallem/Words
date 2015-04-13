@@ -40,7 +40,6 @@ public class TestEnvironment {
 		// Always give a test a descriptive name so, if it fails, we know what went wrong
 		assertEquals("An object can successfully be created", newObject, receivedObject);
 		assertEquals("Object is placed at correct position", receivedObject.getCurrentCell(), new WordsPosition(0,0));
-
 	}
 	
 	// If an operation can throw exceptions, check that it always throws that exception
@@ -54,5 +53,58 @@ public class TestEnvironment {
 	public void objectCreationWhenClassDoesNotExist() throws WordsRuntimeException {
 		environment.createObject("Alex", "person", new WordsPosition(0,0));
 	}
+	
+	@Test
+	public void localScopeIteratedObjectCreation() {
+		// Arbitrarily try this 5 times. 
+		for (int i = 0; i < 5; i++) {
+			environment.enterNewLocalScope();
+			WordsObject newObject = null;
+			WordsObject receivedObject = null;
+	
+			try {
+				// Objects are created directly with object literals instead of evaluated leaf nodes
+				// If we evaluated leaf nodes, we would be testing multiple things in the same method. 
+				newObject = environment.createObject("Alex", "thing", new WordsPosition(0,0));
+				receivedObject = environment.getObject("Alex");
+			} catch (WordsRuntimeException e) {
+				// If we have an exception, immediately fail the run.
+				fail();
+			}
+			
+			// Test that the object received is the same as the object we tried to create. 
+			// Always give a test a descriptive name so, if it fails, we know what went wrong
+			assertEquals("A local object can successfully be created", newObject, receivedObject);
+			assertEquals("Object is placed at correct position", receivedObject.getCurrentCell(), new WordsPosition(0,0));
+			environment.exitLocalScope();
+		}
+	}
+	
+	@Test
+	public void localScopeVariablePersists() throws WordsRuntimeException {
+		environment.enterNewLocalScope();
+		try {
+			environment.createObject("Alex", "thing", new WordsPosition(0,0));
+			environment.createObject("James", "thing", new WordsPosition(0,0));
+		} catch (WordsRuntimeException e) {
+			fail();
+		}
+		environment.exitLocalScope();
+		assertEquals("Object out of local scope still exists", 2, environment.getObjects().size());
+	}
+	
+	@Test (expected = WordsObjectNotFoundException.class)
+	public void localScopeVariableOnlyExistsLocally() throws WordsRuntimeException {
+		environment.enterNewLocalScope();
+		try {
+			environment.createObject("Alex", "thing", new WordsPosition(0,0));
+			environment.createObject("James", "thing", new WordsPosition(0,0));
+		} catch (WordsRuntimeException e) {
+			fail();
+		}
+		environment.exitLocalScope();
+		environment.getObject("Alex");
+	}
+	
 
 }
