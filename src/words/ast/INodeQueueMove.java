@@ -1,6 +1,5 @@
 package words.ast;
 
-import java.util.Random;
 import words.ast.ASTValue.ValueType;
 import words.environment.*;
 import words.exceptions.*;
@@ -33,17 +32,6 @@ public class INodeQueueMove extends INode {
 		}
 		
 		assert(direction.type == ASTValue.ValueType.DIRECTION) : "Expected direction";
-
-		if (direction.directionValue.type == Direction.Type.ANYWHERE) {
-			Random randomGenerator = new Random();
-			int randomInt = randomGenerator.nextInt(4);
-			direction.directionValue.type = Direction.Type.explicit[randomInt];
-		}
-
-		if (distance.numValue < 0) {
-			distance.numValue = distance.numValue * -1;
-			direction.directionValue.type = Direction.getOpposite(direction.directionValue.type);
-		}
 		
 		//TODO: Distance = 0 should create a wait method
 		WordsMove action = new WordsMove(direction.directionValue, distance.numValue);

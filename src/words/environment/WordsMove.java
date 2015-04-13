@@ -1,6 +1,7 @@
 package words.environment;
 import java.util.LinkedList;
 
+import java.util.Random;
 import words.ast.AST;
 import words.ast.ASTValue;
 import words.ast.ASTValue.ValueType;
@@ -12,22 +13,31 @@ public class WordsMove extends WordsAction {
 	private AST distanceExpression;
 	private int distanceValue;
 	
-	//TODO: handle ANYWHERE direction by selecting a random direction
 	public WordsMove(Direction direction, AST distanceExpression) {
-		this.direction = direction;
+		if (direction.type == Direction.Type.ANYWHERE) {
+			Random randomGenerator = new Random();
+			int randomInt = randomGenerator.nextInt(4);
+			this.direction.type = Direction.Type.explicit[randomInt];
+		} else {
+			this.direction = direction;
+		}
 		this.distanceExpression = distanceExpression;
 	}
 	
-	//TODO: handle ANYWHERE direction by selecting a random direction
-	/**
-	 * Create a new WordsMove action.  distanceValue must round to a positive or negative integer.
-	 * distanceValue cannot round to zero.
-	 */
 	public WordsMove(Direction direction, double distanceValue) {
-		this.direction = direction;
+		if (direction.type == Direction.Type.ANYWHERE) {
+			Random randomGenerator = new Random();
+			int randomInt = randomGenerator.nextInt(4);
+			this.direction.type = Direction.Type.explicit[randomInt];
+		} else {
+			this.direction = direction;
+		}
+
+		if (distanceValue < 0) {
+			distanceValue = distanceValue * -1;
+			this.direction.type = Direction.getOpposite(this.direction.type);
+		}
 		this.distanceValue = (int) Math.round(distanceValue);
-		
-		// TODO: flip if distanceValue is negative
 	}
 
 	@Override
