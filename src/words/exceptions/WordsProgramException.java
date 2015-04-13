@@ -1,4 +1,4 @@
-package words.environment;
+package words.exceptions;
 
 import words.ast.AST;
 import words.exceptions.WordsRuntimeException;
@@ -9,19 +9,19 @@ import words.exceptions.WordsRuntimeException;
  */
 @SuppressWarnings("serial")
 public class WordsProgramException extends Exception {
-	
+
 	private WordsRuntimeException exception;
 	private AST offendingAST;
-	
+
 	public WordsProgramException(AST offendingAST, WordsRuntimeException exception) {
 		this.offendingAST = offendingAST;
 		this.exception = exception;
 	}
-	
+
 	public WordsRuntimeException getEnvironmentException() {
 		return exception;
 	}
-	
+
 	@Override
 	public String toString() {
 		return String.format("Error at line %d: %s", offendingAST.lineNumber, exception.toString());

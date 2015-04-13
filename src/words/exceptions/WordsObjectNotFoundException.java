@@ -14,6 +14,6 @@ public class WordsObjectNotFoundException extends WordsRuntimeException {
 	
 	@Override
 	public String toString() {
-		return String.format("object %s did not exist.", objectName);
+		return String.format("object %s did not exist or was not in scope.", objectName);
 	}
 }

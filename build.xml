@@ -87,7 +87,7 @@
     <!-- report is plain, could also be xml -->
     <target name="test-unit" depends="test-compile">
         <mkdir dir="${test.report.dir}" />
-        <junit printsummary="on" fork="true" haltonfailure="no">
+        <junit printsummary="on" fork="true" haltonfailure="true">
             <classpath refid="junit.classpath" />
             <formatter type="plain" />
             <batchtest todir="${test.report.dir}">
