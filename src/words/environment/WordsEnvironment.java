@@ -43,7 +43,8 @@ public class WordsEnvironment {
 	 */
 	public void resetEnvironment() {
 		classes.clear();
-		objects.clear();
+		gettableObjects.clear();
+		ungettableObjects.clear();
 		eventListeners.clear();
 		setupEnvironment();
 	}
