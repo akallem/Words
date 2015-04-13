@@ -1,14 +1,8 @@
 package words.ast;
 
 import words.ast.ASTValue.ValueType;
-import words.environment.WordsEnvironment;
-import words.environment.WordsMove;
-import words.environment.WordsObject;
-import words.environment.WordsProperty;
-import words.environment.WordsProperty.PropertyType;
-import words.exceptions.WordsInvalidTypeException;
-import words.exceptions.WordsObjectNotFoundException;
-import words.exceptions.WordsRuntimeException;
+import words.environment.*;
+import words.exceptions.*;
 
 public class INodeQueueMove extends INode {
 	public INodeQueueMove(Object... children) {
@@ -20,7 +14,7 @@ public class INodeQueueMove extends INode {
 		ASTValue referenceObject = children.get(0).eval(environment);
 		ASTValue identifier = children.get(1).eval(environment);
 		ASTValue direction = children.get(2).eval(environment);
-		AST distance = children.get(3);
+		ASTValue distance = children.get(3) != null ? children.get(3).eval(environment) : new ASTValue(1);
 		ASTValue doNow = children.get(4) != null ? children.get(4).eval(environment) : null;
 		
 		WordsObject object;
@@ -40,7 +34,7 @@ public class INodeQueueMove extends INode {
 		assert(direction.type == ASTValue.ValueType.DIRECTION) : "Expected direction";
 		
 		//TODO: Distance = 0 should create a wait method
-		WordsMove action = new WordsMove(direction.directionValue, distance);
+		WordsMove action = new WordsMove(direction.directionValue, distance.numValue);
 		
 		if (doNow == null) {
 			object.enqueueAction(action);
