@@ -4,9 +4,6 @@ Make Alex say Alex's name.
 
 Reset.
 
-Alex is a thing at 0,0.
-Make Alex say Alex's name.
-
-Reset.
-
-Make Alex say Alex's name.
+Bob is a thing at 0,1.
+Bob's name is "bob".
+Make Bob say Bob's name.
