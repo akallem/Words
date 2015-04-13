@@ -79,8 +79,8 @@ public class TestINodeQueueSay extends TestINode {
 		AST idLeaf = new LNodeIdentifier("Fred");
 		AST numLeaf1 = new LNodeNum(3);
 		AST numLeaf2 = new LNodeNum(4);
-		AST epressionNode = new INodeMultiply(numLeaf1, numLeaf2);
-		INode testNode = new INodeQueueSay(new INodeReferenceList(), idLeaf, epressionNode, null);
+		AST expressionNode = new INodeMultiply(numLeaf1, numLeaf2);
+		INode testNode = new INodeQueueSay(new INodeReferenceList(), idLeaf, expressionNode, null);
 		testNode.eval(environment);
 		loop.fastForwardEnvironment(1);
 		assertEquals("New message assigned", Double.parseDouble(environment.getObject("Fred").getCurrentMessage()), 12.0, 0.0001);
