@@ -15,7 +15,7 @@ public class INodeQueueMove extends INode {
 		ASTValue referenceObject = children.get(0).eval(environment);
 		ASTValue identifier = children.get(1).eval(environment);
 		ASTValue direction = children.get(2).eval(environment);
-		ASTValue distance = children.get(3).eval(environment);
+		ASTValue distance = children.get(3) != null ? children.get(3).eval(environment) : new ASTValue(1);
 		ASTValue doNow = children.get(4) != null ? children.get(4).eval(environment) : null;
 		
 		WordsObject object;
