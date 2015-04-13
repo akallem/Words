@@ -1,4 +1,6 @@
 package words.environment;
+
+import java.util.EnumSet;
 /**
  * An orthogonal direction, possibly random.
  */
@@ -11,7 +13,8 @@ public class Direction {
 		DOWN,
 		LEFT,
 		RIGHT,
-		UP
+		UP;
+		public static Type[] explicit = {DOWN, LEFT, RIGHT, UP};
 	}
 	
 	public Type type;

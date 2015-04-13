@@ -37,20 +37,7 @@ public class INodeQueueMove extends INode {
 		if (direction.directionValue.type == Direction.Type.ANYWHERE) {
 			Random randomGenerator = new Random();
 			int randomInt = randomGenerator.nextInt(4);
-			switch(randomInt) {
-				case 0:
-					direction.directionValue.type = Direction.Type.DOWN;
-					break;
-				case 1:
-					direction.directionValue.type = Direction.Type.LEFT;
-					break;
-				case 2:
-					direction.directionValue.type = Direction.Type.RIGHT;
-					break;
-				case 3:
-					direction.directionValue.type = Direction.Type.UP;
-					break;
-			} 
+			direction.directionValue.type = Direction.Type.explicit[randomInt];
 		}
 
 		if (distance.numValue < 0) {
