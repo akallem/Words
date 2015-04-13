@@ -18,9 +18,9 @@ public class INodeQueueSay extends INode {
 	public ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException {
 		ASTValue referenceObject = children.get(0).eval(environment);
 		ASTValue identifier = children.get(1).eval(environment);
-		ASTValue message = children.get(2).eval(environment).tryCoerceTo(ASTValue.ValueType.STRING);
+		AST message = children.get(2);
 		ASTValue doNow = children.get(3) != null ? children.get(3).eval(environment) : null;
-		
+
 		WordsObject object;
 		if (referenceObject.type.equals(ASTValue.ValueType.OBJ)){
 			WordsProperty property = referenceObject.objValue.getProperty(identifier.stringValue);
@@ -31,18 +31,15 @@ public class INodeQueueSay extends INode {
 		} else {
 			object = environment.getObject(identifier.stringValue);
 		}
-		
-		if (message.type != ASTValue.ValueType.STRING) {
-			throw new WordsInvalidTypeException(ASTValue.ValueType.STRING.toString(), message.type.toString());
-		}
-		WordsSay action = new WordsSay(message.stringValue);
-		
+
+		WordsSay action = new WordsSay(message);
+
 		if (doNow == null) {
 			object.enqueueAction(action);
 		} else {
 			object.enqueueActionAtFront(action);
 		}
-		
+
 		return null;
 	}
 }

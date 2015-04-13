@@ -9,15 +9,10 @@ import words.exceptions.WordsProgramException;
 import words.exceptions.WordsRuntimeException;
 
 public class WordsSay extends WordsAction {
-	private AST messageExpression;
-	private String messageValue;
+	private AST message;
 
-	public WordsSay(AST messageExpression) {
-		this.messageExpression = messageExpression;
-	}
-
-	public WordsSay(String messageValue) {
-		this.messageValue = messageValue;
+	public WordsSay(AST message) {
+		this.message = message;
 	}
 
 	@Override
@@ -27,23 +22,20 @@ public class WordsSay extends WordsAction {
 
 	@Override
 	protected void doExecute(WordsObject object, WordsEnvironment environment) throws WordsProgramException {
-		if (messageExpression != null) {
-			ASTValue value;
-			try {
-				value = messageExpression.eval(environment).tryCoerceTo(ASTValue.ValueType.STRING);
-			} catch (WordsRuntimeException e) {
-				throw new WordsProgramException(messageExpression, e);
-			}
+		assert message != null : "Say message is null";
 
-			if (value.type != ASTValue.ValueType.STRING) {
-				throw new WordsProgramException(messageExpression, new WordsInvalidTypeException(value.type.toString(), ASTValue.ValueType.STRING.toString()));
-			}
-
-			messageValue = value.stringValue;
-			messageExpression = null;					// Not necessary, but including for clarity since once the expression is evaluated, it is no longer needed
+		ASTValue value;
+		try {
+			value = message.eval(environment).tryCoerceTo(ASTValue.ValueType.STRING);
+		} catch (WordsRuntimeException e) {
+			throw new WordsProgramException(message, e);
 		}
 
-		object.setMessage(messageValue);
+		if (value.type != ASTValue.ValueType.STRING) {
+			throw new WordsProgramException(message, new WordsInvalidTypeException(ASTValue.ValueType.STRING.toString(), value.type.toString()));
+		}
+
+		object.setMessage(value.stringValue);
 	}
 
 	@Override
