@@ -1,6 +1,7 @@
 package words.environment;
 import java.util.LinkedList;
 
+import words.exceptions.WordsProgramException;
 import words.exceptions.WordsRuntimeException;
 
 /**
@@ -13,31 +14,31 @@ public abstract class WordsAction {
 	/**
 	 * Execute the action if it is expandable.
 	 */
-	public final void execute(WordsObject object, WordsEnvironment environment) {
+	public final void execute(WordsObject object, WordsEnvironment environment) throws WordsProgramException {
 		boolean flag = !isExecutable();
 		assert flag : "Attempted to execute non-executable action";
 		doExecute(object, environment);
 	};
-	
+
 	/**
 	 * Expand the action if it is expandable.
-	 * @throws WordsRuntimeException 
+	 * @throws WordsRuntimeException
 	 */
 	public final LinkedList<WordsAction> expand(WordsObject object, WordsEnvironment environment) throws WordsProgramException {
 		boolean flag = !isExpandable();
 		assert flag : "Attempted to expand non-expandable action";
 		return doExpand(object, environment);
 	};
-	
+
 	/**
-	 * Actually execute the action.  Guaranteed to be called only on executable actions.  
+	 * Actually execute the action.  Guaranteed to be called only on executable actions.
 	 */
-	protected abstract void doExecute(WordsObject object, WordsEnvironment environment);
-	
+	protected abstract void doExecute(WordsObject object, WordsEnvironment environment) throws WordsProgramException;
+
 	/**
-	 * Actually expand the action.  Guaranteed to be called only on expandable actions.  
-	 * @throws WordsRuntimeException 
-	 * @throws WordsProgramException 
+	 * Actually expand the action.  Guaranteed to be called only on expandable actions.
+	 * @throws WordsRuntimeException
+	 * @throws WordsProgramException
 	 */
 	protected abstract LinkedList<WordsAction> doExpand(WordsObject object, WordsEnvironment environment) throws WordsProgramException;
 }
