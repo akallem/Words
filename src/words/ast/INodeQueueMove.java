@@ -42,20 +42,7 @@ public class INodeQueueMove extends INode {
 
 		if (distance.numValue < 0) {
 			distance.numValue = distance.numValue * -1;
-			switch(direction.directionValue.type) {
-				case DOWN:
-					direction.directionValue.type = Direction.Type.UP;
-					break;
-				case LEFT:
-					direction.directionValue.type = Direction.Type.RIGHT;
-					break;
-				case RIGHT:
-					direction.directionValue.type = Direction.Type.LEFT;
-					break;
-				case UP:
-					direction.directionValue.type = Direction.Type.DOWN;
-					break;
-			} 
+			direction.directionValue.type = Direction.getOpposite(direction.directionValue.type);
 		}
 		
 		//TODO: Distance = 0 should create a wait method
