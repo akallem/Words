@@ -86,14 +86,4 @@ public class TestINodeQueueSay extends TestINode {
 		assertEquals("New message assigned", Double.parseDouble(environment.getObject("Fred").getCurrentMessage()), 12.0, 0.0001);
 	}
 
-	@Test (expected = WordsInvalidTypeException.class)
-	public void onlyOperatesOnStringsAndNumbers() throws WordsRuntimeException {
-		environment.createObject("Fred", "thing", new WordsPosition(0, 0));
-		AST idLeaf = new LNodeIdentifier("Fred");
-		INode testNode = new INodeQueueSay(new INodeReferenceList(), idLeaf, nothingLeaf, null);
-		testNode.eval(environment);
-		testNode = new INodeQueueSay(new INodeReferenceList(), idLeaf, trueLeaf, null);
-		testNode.eval(environment);
-	}
-
 }
