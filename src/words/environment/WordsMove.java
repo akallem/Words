@@ -17,7 +17,7 @@ public class WordsMove extends WordsAction {
 		if (direction.type == Direction.Type.ANYWHERE) {
 			Random randomGenerator = new Random();
 			int randomInt = randomGenerator.nextInt(4);
-			this.direction.type = Direction.Type.explicit[randomInt];
+			this.direction.type = Direction.explicit[randomInt];
 		} else {
 			this.direction = direction;
 		}
@@ -28,7 +28,7 @@ public class WordsMove extends WordsAction {
 		if (direction.type == Direction.Type.ANYWHERE) {
 			Random randomGenerator = new Random();
 			int randomInt = randomGenerator.nextInt(4);
-			this.direction.type = Direction.Type.explicit[randomInt];
+			this.direction = new Direction(Direction.explicit[randomInt]);
 		} else {
 			this.direction = direction;
 		}

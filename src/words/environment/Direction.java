@@ -13,11 +13,12 @@ public class Direction {
 		DOWN,
 		LEFT,
 		RIGHT,
-		UP;
-		public static Type[] explicit = {DOWN, LEFT, RIGHT, UP};
+		UP
 	}
 	
 	public Type type;
+
+	public static Type[] explicit = {Type.DOWN, Type.LEFT, Type.RIGHT, Type.UP};
 	
 	public Direction(Type type) {
 		this.type = type;
