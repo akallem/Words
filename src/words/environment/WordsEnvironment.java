@@ -24,7 +24,6 @@ public class WordsEnvironment {
 	public WordsEnvironment() {
 		classes = new HashMap<String, WordsClass>();
 		gettableObjects = new LinkedList<HashMap<String, WordsObject>>();
-		gettableObjects.push(new HashMap<String, WordsObject>());
 		eventListeners = new ArrayList<WordsEventListener>();
 		ungettableObjects = new HashSet<WordsObject>();
 		setupEnvironment();
@@ -36,6 +35,18 @@ public class WordsEnvironment {
 	private void setupEnvironment() {
 		WordsClass thing = new WordsClass("thing", null);
 		classes.put("thing", thing);
+		gettableObjects.push(new HashMap<String, WordsObject>());
+	}
+	
+	/**
+	 * Resets the environment.
+	 */
+	public void resetEnvironment() {
+		classes.clear();
+		gettableObjects.clear();
+		ungettableObjects.clear();
+		eventListeners.clear();
+		setupEnvironment();
 	}
 
 	/**

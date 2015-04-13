@@ -10,7 +10,8 @@ public class INodeReset extends INode {
 
 	@Override
 	public ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException {
-		// TODO
-		throw new AssertionError("Not yet implemented");
+		environment.resetEnvironment();
+		
+		return null;
 	}
 }
