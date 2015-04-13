@@ -10,7 +10,7 @@ import words.exceptions.*;
 public class TestINodeQueueSay extends TestINode {
 	@Test
 	public void testWorkingSay() throws WordsRuntimeException {
-		environment.createObject("Fred", "thing", new WordsPosition(0,0));
+		environment.createObject("Fred", "thing", new WordsPosition(0, 0));
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up.
 		assertEquals("Initially no message", environment.getObject("Fred").getCurrentMessage(), null);
 
@@ -48,7 +48,7 @@ public class TestINodeQueueSay extends TestINode {
 
 	@Test
 	public void testSayWithNow() throws WordsRuntimeException {
-		environment.createObject("Fred", "thing", new WordsPosition(0,0));
+		environment.createObject("Fred", "thing", new WordsPosition(0, 0));
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up.
 		assertEquals("Initially no message", environment.getObject("Fred").getCurrentMessage(), null);
 
@@ -72,18 +72,28 @@ public class TestINodeQueueSay extends TestINode {
 
 	@Test
 	public void testSayWithExpression() throws WordsRuntimeException {
-		environment.createObject("Fred", "thing", new WordsPosition(0,0));
+		environment.createObject("Fred", "thing", new WordsPosition(0, 0));
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up.
 		assertEquals("Initially no message", environment.getObject("Fred").getCurrentMessage(), null);
 
 		AST idLeaf = new LNodeIdentifier("Fred");
 		AST numLeaf1 = new LNodeNum(3);
 		AST numLeaf2 = new LNodeNum(4);
-		AST expressionLeaf = new INodeMultiply(numLeaf1, numLeaf2);
-		INode testNode = new INodeQueueSay(new INodeReferenceList(), idLeaf, expressionLeaf, null);
+		AST epressionNode = new INodeMultiply(numLeaf1, numLeaf2);
+		INode testNode = new INodeQueueSay(new INodeReferenceList(), idLeaf, epressionNode, null);
 		testNode.eval(environment);
 		loop.fastForwardEnvironment(1);
 		assertEquals("New message assigned", Double.parseDouble(environment.getObject("Fred").getCurrentMessage()), 12.0, 0.0001);
+	}
+
+	@Test (expected = WordsInvalidTypeException.class)
+	public void onlyOperatesOnStringsAndNumbers() throws WordsRuntimeException {
+		environment.createObject("Fred", "thing", new WordsPosition(0, 0));
+		AST idLeaf = new LNodeIdentifier("Fred");
+		INode testNode = new INodeQueueSay(new INodeReferenceList(), idLeaf, nothingLeaf, null);
+		testNode.eval(environment);
+		testNode = new INodeQueueSay(new INodeReferenceList(), idLeaf, trueLeaf, null);
+		testNode.eval(environment);
 	}
 
 }
