@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import words.ast.LNodeNum;
+import words.ast.LNodeString;
 import words.environment.Direction;
 import words.environment.WordsClass;
 import words.environment.WordsMove;
@@ -70,9 +71,9 @@ public class TestWordsObject {
 	@Test
 	public void executeNextActionShouldExecuteNextSayAction() {
 		// This line will need to be changed when WordsSay is updated to take an AST expression
-		obj.enqueueAction(new WordsSay("first"));
-		obj.enqueueAction(new WordsSay("second"));
-		obj.enqueueAction(new WordsSay("third"));
+		obj.enqueueAction(new WordsSay(new LNodeString("first")));
+		obj.enqueueAction(new WordsSay(new LNodeString("second")));
+		obj.enqueueAction(new WordsSay(new LNodeString("third")));
 		
 		try {
 			obj.executeNextAction(null);
