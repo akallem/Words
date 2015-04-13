@@ -7,6 +7,7 @@ import words.ast.*;
 import words.environment.WordsPosition;
 import words.exceptions.WordsInvalidTypeException;
 import words.exceptions.WordsObjectAlreadyExistsException;
+import words.exceptions.WordsObjectNotFoundException;
 import words.exceptions.WordsRuntimeException;
 
 
@@ -64,5 +65,15 @@ public class TestINodeRepeat extends TestINode {
 		loop.enqueueAST(iterativeLoop);
 		loop.fastForwardEnvironment(2);
 		assertEquals("Outside of loop, ends in global scope", environment.getNumberOfScopes(), 1);
+	}
+	
+	@Test (expected = WordsObjectNotFoundException.class)
+	public void variablesGoOutOfScope() throws WordsRuntimeException {
+		AST statementList = new INodeStatementList(createObjectFred);
+		AST iterativeLoop = new INodeRepeat(stringLeaf, statementList);
+		loop.fastForwardEnvironment(1);
+		loop.enqueueAST(iterativeLoop);
+		loop.fastForwardEnvironment(2);
+		environment.getObject("Fred");
 	}
 }
