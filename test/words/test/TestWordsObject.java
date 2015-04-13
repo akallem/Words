@@ -13,6 +13,8 @@ import words.environment.WordsPosition;
 import words.environment.WordsProperty;
 import words.environment.WordsSay;
 
+import words.exceptions.*;
+
 public class TestWordsObject {
 	WordsPosition startPos = new WordsPosition(4, -9);
 	WordsClass thing = new WordsClass("thing", null);
@@ -148,7 +150,11 @@ public class TestWordsObject {
 		String propertyName = "height";
 		WordsProperty numProperty = new WordsProperty(15.5);
 		
-		obj.setProperty(propertyName, numProperty);
+		try {
+			obj.setProperty(propertyName, numProperty);
+		} catch (Exception e) {
+			fail();
+		}
 		assertEquals("Retrieved property should match set property", numProperty, obj.getProperty(propertyName));
 	}
 	
@@ -161,7 +167,11 @@ public class TestWordsObject {
 	@Test
 	public void settingMissingPropertyToNothingShouldHaveNoEffect() {
 		String propertyName = "height";
-		obj.setProperty(propertyName, new WordsProperty(WordsProperty.PropertyType.NOTHING));		
+		try {
+			obj.setProperty(propertyName, new WordsProperty(WordsProperty.PropertyType.NOTHING));
+		} catch (Exception e) {
+			fail();
+		}	
 		assertEquals("Retrieved property was NOTHING", WordsProperty.PropertyType.NOTHING, obj.getProperty(propertyName).type);
 	}
 	
@@ -170,9 +180,12 @@ public class TestWordsObject {
 		String propertyName = "height";
 		
 		// Set it, then remove it by assigning NOTHING
-		obj.setProperty(propertyName, new WordsProperty(15.5));		
-		obj.setProperty(propertyName, new WordsProperty(WordsProperty.PropertyType.NOTHING));
-		
+		try {
+			obj.setProperty(propertyName, new WordsProperty(15.5));		
+			obj.setProperty(propertyName, new WordsProperty(WordsProperty.PropertyType.NOTHING));
+		} catch (Exception e) {
+			fail();
+		}
 		assertEquals("Retrieved property was NOTHING", WordsProperty.PropertyType.NOTHING, obj.getProperty(propertyName).type);
 	}
 
@@ -185,8 +198,12 @@ public class TestWordsObject {
 	
 	@Test
 	public void settingRowAndColumnPropertiesShouldSetObjectPosition() {
-		obj.setProperty("row", new WordsProperty(-4));
-		obj.setProperty("column", new WordsProperty(2));
+		try {
+			obj.setProperty("row", new WordsProperty(-4));
+			obj.setProperty("column", new WordsProperty(2));
+		} catch (Exception e) {
+			fail();
+		}
 		
 		// Note: x is column, y is row
 		assertEquals("Object's x is 2", obj.getCurrentCell().x, 2);
@@ -195,12 +212,20 @@ public class TestWordsObject {
 	
 	@Test
 	public void settingRowAndColumnPropertiesShouldBeRounded() {
-		obj.setProperty("row", new WordsProperty(-4.3));
-		obj.setProperty("column", new WordsProperty(2.9));
-		
+		try {
+			obj.setProperty("row", new WordsProperty(-4.3));
+			obj.setProperty("column", new WordsProperty(2.9));
+		} catch (Exception e) {
+			fail();
+		}
 		// Note: x is column, y is row
 		assertEquals("Object's x is 3", obj.getCurrentCell().x, 3);
 		assertEquals("Object's y is -4", obj.getCurrentCell().y, -4);
+	}
+
+	@Test (expected = WordsInvalidTypeException.class)
+	public void setPropertyCorrectType() throws WordsRuntimeException {
+		obj.setProperty("row", new WordsProperty("String"));
 	}
 	
 	@Test
