@@ -370,7 +370,7 @@ public static void main(String args[]) throws IOException {
 			Option.GUI = false;
 			Option.TIME_TO_WAIT = -1;
 			Option.FRAME_LIMIT_ENABLED = true;
-			Option.MAX_FRAMES = 500;
+			Option.MAX_FRAMES = 100;
 			Option.PRINT_TO_CONSOLE = false;
 		}
 	}
