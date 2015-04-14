@@ -147,7 +147,7 @@ public class WordsUI {
 			// Draw each cell
 			for (int i = -extent; i <= extent; i++)
 				for (int j = -extent; j <= extent; j++)
-					renderCell(g2, cx + i*cellSize, cy + j*cellSize, new WordsPosition(xCenterCell + i, yCenterCell + j));
+					renderCell(g2, cx + i*cellSize, cy - j*cellSize, new WordsPosition(xCenterCell + i, yCenterCell + j));
 			
 			// Draw the x-axis labels
 			for (int i = -extent; i <= extent; i++)
@@ -155,7 +155,7 @@ public class WordsUI {
 			
 			// Draw the y-axis labels
 			for (int j = -extent; j <= extent; j++)
-				drawCenteredString(g2, Integer.toString(yCenterCell + j), x1 - fLabel.getSize()/2 - labelPadding, cy + j*cellSize, fLabel, Color.BLACK);
+				drawCenteredString(g2, Integer.toString(yCenterCell + j), x1 - fLabel.getSize()/2 - labelPadding, cy - j*cellSize, fLabel, Color.BLACK);
 		}
 	}
 
