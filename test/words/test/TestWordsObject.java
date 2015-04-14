@@ -124,13 +124,13 @@ public class TestWordsObject {
 	@Test
 	public void objectMovesUpCorrectly() {
 		obj.moveUp();
-		assertEquals("Object moved up 1", obj.getCurrentCell().y, startPos.y - 1);
+		assertEquals("Object moved up 1", obj.getCurrentCell().y, startPos.y + 1);
 	}
 	
 	@Test
 	public void objectMovesDownCorrectly() {
 		obj.moveDown();
-		assertEquals("Object moved down 1", obj.getCurrentCell().y, startPos.y + 1);
+		assertEquals("Object moved down 1", obj.getCurrentCell().y, startPos.y - 1);
 	}
 	
 	@Test
