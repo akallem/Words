@@ -82,11 +82,11 @@ public class WordsObject {
 	}
 
 	public void moveUp() {
-		this.cell.y--;
+		this.cell.y++;
 	}
 
 	public void moveDown() {
-		this.cell.y++;
+		this.cell.y--;
 	}
 
 	public void moveLeft() {
