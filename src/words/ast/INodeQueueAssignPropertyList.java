@@ -10,6 +10,16 @@ public class INodeQueueAssignPropertyList extends INode {
 
 	@Override
 	public ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException {
-		throw new AssertionError("Evaluated by parent");
+		assert false : "Cannot eval INodeQueueAssignPropertyList without inherited WordsObject";
+		return null;
+	}
+	
+	@Override
+	public ASTValue eval(WordsEnvironment environment, Object inherited) throws WordsRuntimeException {
+		for (AST ast : children) {
+			ast.eval(environment, inherited);
+		}
+		
+		return null;
 	}
 }
