@@ -10,7 +10,6 @@ public class INodeQueueAssignPropertyList extends INode {
 
 	@Override
 	public ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException {
-		// TODO
-		throw new AssertionError("Not yet implemented");
+		throw new AssertionError("Evaluated by parent");
 	}
 }
