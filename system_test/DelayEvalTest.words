@@ -1,8 +1,8 @@
 Fred is a thing at 0,0.
-Fred's dist is 4-3.
 
-Make Fred move left Fred's dist.
+Fred's dist is 4-3.
+Make Fred move left Fred's dist.	// Should move left 3, since by time of dequeue, Fred's dist is 3 as set below
 
 Fred's dist is 1+2.
-
 Make Fred move right Fred's dist.
+Make Fred say Fred's dist.
