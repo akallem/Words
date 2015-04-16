@@ -4,6 +4,7 @@ import java.util.HashSet;
 
 import words.environment.WordsEnvironment;
 import words.environment.WordsObject;
+import words.exceptions.WordsAliasException;
 import words.exceptions.WordsRuntimeException;
 
 public class INodeTouchesPredicate extends INode {
@@ -17,6 +18,10 @@ public class INodeTouchesPredicate extends INode {
 		ASTValue objectAlias1 = children.get(1).eval(environment);
 		ASTValue class2 = children.get(2).eval(environment);
 		ASTValue objectAlias2 = children.get(3).eval(environment);
+		
+		if (objectAlias1.stringValue.equals(objectAlias2.stringValue)) {
+			throw new WordsAliasException("Aliases may not be named the same.");
+		}
 		
 		HashSet<WordsObject> objectsOfClass1 = environment.getObjectsByClass(class1.stringValue);
 		HashSet<WordsObject> objectsOfClass2 = environment.getObjectsByClass(class2.stringValue);
