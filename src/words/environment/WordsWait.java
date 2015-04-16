@@ -12,11 +12,9 @@ import words.exceptions.WordsRuntimeException;
 
 public class WordsWait extends WordsAction {
 	private AST lengthExpression;
-	private double lengthValue;
 
 	private WordsWait() {
 		this.lengthExpression = null;
-		this.lengthValue = 1.0;
 	}
 
 	public WordsWait(AST lengthExpression) {
@@ -25,13 +23,7 @@ public class WordsWait extends WordsAction {
 
 	@Override
 	public boolean isExecutable() {
-		if (lengthExpression != null)
-			return false;
-
-		if (Math.round(lengthValue) != 1)
-			return false;
-
-		return true;
+		return (lengthExpression == null);
 	}
 
 	@Override
@@ -54,8 +46,7 @@ public class WordsWait extends WordsAction {
 			throw new WordsProgramException(lengthExpression, new WordsInvalidTypeException(value.type.toString(), ASTValue.ValueType.NUM.toString()));
 		}
 
-		lengthValue = Math.round(value.numValue);
-		lengthExpression = null; // Not necessary, but including for clarity since once the expression is evaluated, it is no longer needed
+		int lengthValue = (int) Math.round(value.numValue);
 
 		// Throw an appropriate WordsException if lengthValue is zero or negative
 		if (lengthValue < 1) {
