@@ -1,5 +1,6 @@
 package words.ast;
 
+import words.ast.ASTValue.ValueType;
 import words.environment.WordsClass;
 import words.environment.WordsEnvironment;
 import words.environment.WordsProperty;
@@ -17,22 +18,22 @@ public class INodeCreateClass extends INode {
 		ASTValue className  = this.children.get(0).eval(environment);
 		ASTValue parentClassName = this.children.get(1).eval(environment);
 		
-		try {
-			environment.getClass(className.stringValue);
-			throw new WordsClassAlreadyExistsException(className.stringValue);
+		WordsClass wordsClass = environment.createClass(className.stringValue, parentClassName.stringValue);
 		
-		} catch (WordsClassNotFoundException e) {
-			environment.getClass(parentClassName.stringValue); //throws error if class not found
-			WordsClass freshClass = environment.createClass(className.stringValue, parentClassName.stringValue);
-			
-			INodeClassStatementList statementList = (INodeClassStatementList) this.children.get(2);
-			if (statementList != null) {
-				for (Object child : statementList.children) {
-					if (child instanceof INodeDefineProperty) {
-						ASTValue propertyName = ((INodeDefineProperty) child).id.eval(environment);
+		INodeClassStatementList statementList = (INodeClassStatementList) this.children.get(2);
+		if (statementList != null) {
+			for (Object child : statementList.children) {
+				if (child instanceof INodeDefineProperty) {
+					
+					assert (((INodeDefineProperty) child).id == null) : "ID WAS NOT NULL";
+					ASTValue propertyName = ((INodeDefineProperty) child).id.eval(environment);
+					
+					if (((INodeDefineProperty) child).literal == null) {
+						wordsClass.setProperty(propertyName.stringValue, new WordsProperty(WordsProperty.PropertyType.NOTHING));
+					} else {
 						ASTValue propertyValue = ((INodeDefineProperty) child).literal.eval(environment);
-						
 						WordsProperty wordsProp = null;
+						
 						switch (propertyValue.type) {
 							case STRING:
 								wordsProp = new WordsProperty(propertyValue.stringValue);
@@ -44,7 +45,7 @@ public class INodeCreateClass extends INode {
 								throw new AssertionError("literal wasn't number or string");
 						}
 						
-						freshClass.setProperty(propertyName.stringValue, wordsProp);
+						wordsClass.setProperty(propertyName.stringValue, wordsProp);
 					}
 				}
 			}
