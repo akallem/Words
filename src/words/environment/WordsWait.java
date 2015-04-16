@@ -12,6 +12,7 @@ import words.exceptions.WordsRuntimeException;
 public class WordsWait extends WordsAction {
 	private AST lengthExpression;
 	private double lengthValue;
+	public boolean firstWait;
 
 	public WordsWait(AST lengthExpression) {
 		this.lengthExpression = lengthExpression;

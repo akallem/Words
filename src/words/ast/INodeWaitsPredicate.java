@@ -4,7 +4,6 @@ import java.util.HashSet;
 
 import words.environment.WordsAction;
 import words.environment.WordsEnvironment;
-import words.environment.WordsMove;
 import words.environment.WordsObject;
 import words.environment.WordsWait;
 import words.exceptions.WordsRuntimeException;
