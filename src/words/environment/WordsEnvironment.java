@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 
+import words.ast.AST;
 import words.exceptions.WordsClassNotFoundException;
 import words.exceptions.WordsObjectAlreadyExistsException;
 import words.exceptions.WordsObjectNotFoundException;
@@ -146,6 +147,13 @@ public class WordsEnvironment {
 		return allObjects;
 	}
 	
+	/**
+	 * Create a new event listener.
+	 */
+	public void createListener(AST predicate, AST statementList, boolean temporary) {
+		eventListeners.add(new WordsEventListener(predicate, statementList, temporary));
+	}
+
 	/**
 	 * Returns a collection of all event listeners.
 	 */
