@@ -24,8 +24,6 @@ public class INodeCreateClass extends INode {
 		if (statementList != null) {
 			for (Object child : statementList.children) {
 				if (child instanceof INodeDefineProperty) {
-					
-					assert (((INodeDefineProperty) child).id == null) : "ID WAS NOT NULL";
 					ASTValue propertyName = ((INodeDefineProperty) child).id.eval(environment);
 					
 					if (((INodeDefineProperty) child).literal == null) {
