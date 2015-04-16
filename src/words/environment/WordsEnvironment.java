@@ -15,17 +15,18 @@ public class WordsEnvironment {
 	/* gettableObjects is a list of locally scoped symbol tables with the most local 
 	 * scope first in the list, and global scope always being last in the list.
 	 */
-	private LinkedList<HashMap<String, WordsObject>> gettableObjects;
-	/* ungettableObjects contains the objects that have gone out of scope, but should still appear
-	 * on the board, and are still used by action listeners */
-	private HashSet<WordsObject> ungettableObjects;
+	private LinkedList<HashMap<String, WordsObject>> objectsByName;
+	/*
+	 * Objects always persist in the map where they can be gotten by class
+	 */
+	private HashMap<String, HashSet<WordsObject>> objectsByClass;
 	private ArrayList<WordsEventListener> eventListeners;
 	
 	public WordsEnvironment() {
 		classes = new HashMap<String, WordsClass>();
-		gettableObjects = new LinkedList<HashMap<String, WordsObject>>();
+		objectsByName = new LinkedList<HashMap<String, WordsObject>>();
 		eventListeners = new ArrayList<WordsEventListener>();
-		ungettableObjects = new HashSet<WordsObject>();
+		objectsByClass = new HashMap<String, HashSet<WordsObject>>();
 		setupEnvironment();
 	}
 	
@@ -35,7 +36,8 @@ public class WordsEnvironment {
 	private void setupEnvironment() {
 		WordsClass thing = new WordsClass("thing", null);
 		classes.put("thing", thing);
-		gettableObjects.push(new HashMap<String, WordsObject>());
+		objectsByClass.put("thing", new HashSet<WordsObject>());
+		objectsByName.push(new HashMap<String, WordsObject>());
 	}
 	
 	/**
@@ -43,8 +45,7 @@ public class WordsEnvironment {
 	 */
 	public void resetEnvironment() {
 		classes.clear();
-		gettableObjects.clear();
-		ungettableObjects.clear();
+		objectsByName.clear();
 		eventListeners.clear();
 		setupEnvironment();
 	}
@@ -74,7 +75,7 @@ public class WordsEnvironment {
 	 * Enters a new local scope by pushing a new scope onto the gettable objects stack
 	 */
 	public void enterNewLocalScope() {
-		gettableObjects.push(new HashMap<String, WordsObject>());
+		objectsByName.push(new HashMap<String, WordsObject>());
 	}
 	
 	/**
@@ -82,16 +83,15 @@ public class WordsEnvironment {
 	 * objects collection, where they will continue to live, but will not be callable by name
 	 */
 	public void exitLocalScope() {
-		HashMap<String, WordsObject> localScope = gettableObjects.pop();
-		ungettableObjects.addAll(localScope.values());
-		assert gettableObjects.size() > 0 : "You just popped the global scope off the objects table";
+		HashMap<String, WordsObject> localScope = objectsByName.pop();
+		assert objectsByName.size() > 0 : "You just popped the global scope off the objects table";
 	}
 	
 	/**
 	 * Get the number of different object scopes at the moment. Includes the global scope.
 	 */
 	public int getNumberOfScopes() {
-		return gettableObjects.size();
+		return objectsByName.size();
 	}
 	
 	/**
@@ -107,7 +107,8 @@ public class WordsEnvironment {
 			WordsClass wordsClass = getClass(className);
 			
 			WordsObject newObject = new WordsObject(objectName, wordsClass, position);
-			gettableObjects.getFirst().put(objectName, newObject);
+			objectsByName.getFirst().put(objectName, newObject);
+			objectsByClass.get(className).add(newObject);
 			
 			// TODO: decide if this is appropriate (given that it could figure listeners)
 			newObject.enqueueAction(new WordsWait(1));
@@ -124,8 +125,8 @@ public class WordsEnvironment {
 	 */
 	public WordsObject getObject(String objectName) throws WordsRuntimeException {
 		WordsObject wordsObj = null;
-		for (int i = 0; i < gettableObjects.size() && wordsObj == null; i++) {
-			wordsObj = gettableObjects.get(i).get(objectName);
+		for (int i = 0; i < objectsByName.size() && wordsObj == null; i++) {
+			wordsObj = objectsByName.get(i).get(objectName);
 		}
 		if (wordsObj == null) {
 			throw new WordsObjectNotFoundException(objectName);
@@ -139,11 +140,23 @@ public class WordsEnvironment {
 	 */
 	public Collection<WordsObject> getObjects() {
 		Collection<WordsObject> allObjects = new HashSet<WordsObject>();
-		for (HashMap<String,WordsObject> scopeObjects : gettableObjects) {
-			allObjects.addAll(scopeObjects.values());
+		for (Collection<WordsObject> objects : objectsByClass.values()) {
+			allObjects.addAll(objects);
 		}
-		allObjects.addAll(ungettableObjects);
 		return allObjects;
+	}
+	
+	/**
+	 * Return a collection of all objects of a certain class
+	 * Returns an empty collection if there are no objects of that class in the environment
+	 * @throws a WordsClassNotFoundException if the class does not exist.
+	 */
+	public HashSet<WordsObject> getObjectsByClass(String className) throws WordsClassNotFoundException {
+		HashSet<WordsObject> objectsToReturn = objectsByClass.get(className);
+		if (objectsToReturn == null) {
+			throw new WordsClassNotFoundException(className);
+		}
+		return objectsToReturn;
 	}
 	
 	/**

@@ -12,6 +12,7 @@ public class WordsObject {
 	private LinkedList<WordsAction> actionQueue;
 	private WordsPosition cell;
 	private String currentMessage;
+	private WordsAction lastAction;
 
 	public WordsObject(String objectName, WordsClass wordsClass, WordsPosition cell) {
 		this.wordsClass = wordsClass;
@@ -103,13 +104,14 @@ public class WordsObject {
 				WordsAction action = actionQueue.pop();
 				actionQueue.addAll(0, action.expand(this, environment));
 			}
-
+			
 			WordsAction action = actionQueue.pop();
+			lastAction = action;
 			action.execute(this, environment);
 		}
 	}
 
-	public WordsPosition getCurrentCell() {
+	public WordsPosition getCurrentPosition() {
 		return cell;
 	}
 

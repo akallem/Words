@@ -94,14 +94,14 @@ public class FrameLoop extends Thread {
 		if (GUI != null) {
 			GUI.clear();
 			for (WordsObject object : environment.getObjects()) {
-				GUI.add(object.getCurrentCell(), object.getClassName(), object.getObjectName(), object.getCurrentMessage());
+				GUI.add(object.getCurrentPosition(), object.getClassName(), object.getObjectName(), object.getCurrentMessage());
 			}
 			GUI.render();
 		}  else {
 			System.out.println("frame #: " + numFrames);
 			WordsLog log = new WordsLog();
 			for (WordsObject object : environment.getObjects()) {
-				log.add(object.getCurrentCell(), object.getClassName(), object.getObjectName(), object.getCurrentMessage());
+				log.add(object.getCurrentPosition(), object.getClassName(), object.getObjectName(), object.getCurrentMessage());
 			}
 			log.log();
 			if (Option.FRAME_LIMIT_ENABLED && numFrames >= Option.MAX_FRAMES)

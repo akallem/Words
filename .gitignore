@@ -17,3 +17,4 @@ hs_err_pid*
 *.settings
 *.project
 /bin/
+/bin1/

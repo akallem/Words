@@ -19,13 +19,13 @@ public class TestINodeRepeat extends TestINode {
 		environment.createObject("Fred", "thing", new WordsPosition(0,0));
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up. 
 		loop.enqueueAST(iterativeLoop);
-		assertEquals("Fred in good start position", environment.getObject("Fred").getCurrentCell(), new WordsPosition(0,0));
+		assertEquals("Fred in good start position", environment.getObject("Fred").getCurrentPosition(), new WordsPosition(0,0));
 		loop.fastForwardEnvironment(2);
-		assertEquals("Fred makes first move", environment.getObject("Fred").getCurrentCell(), new WordsPosition(-2,0));
+		assertEquals("Fred makes first move", environment.getObject("Fred").getCurrentPosition(), new WordsPosition(-2,0));
 		loop.fastForwardEnvironment(2);
-		assertEquals("Fred returns from move", environment.getObject("Fred").getCurrentCell(), new WordsPosition(0,0));
+		assertEquals("Fred returns from move", environment.getObject("Fred").getCurrentPosition(), new WordsPosition(0,0));
 		loop.fastForwardEnvironment(20);
-		assertEquals("Fred ends in correct place", environment.getObject("Fred").getCurrentCell(), new WordsPosition(0,0));
+		assertEquals("Fred ends in correct place", environment.getObject("Fred").getCurrentPosition(), new WordsPosition(0,0));
 	}
 	
 	@Test (expected = WordsInvalidTypeException.class)

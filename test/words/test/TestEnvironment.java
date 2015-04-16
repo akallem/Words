@@ -39,7 +39,7 @@ public class TestEnvironment {
 		// Test that the object received is the same as the object we tried to create. 
 		// Always give a test a descriptive name so, if it fails, we know what went wrong
 		assertEquals("An object can successfully be created", newObject, receivedObject);
-		assertEquals("Object is placed at correct position", receivedObject.getCurrentCell(), new WordsPosition(0,0));
+		assertEquals("Object is placed at correct position", receivedObject.getCurrentPosition(), new WordsPosition(0,0));
 	}
 	
 	// If an operation can throw exceptions, check that it always throws that exception
@@ -75,7 +75,7 @@ public class TestEnvironment {
 			// Test that the object received is the same as the object we tried to create. 
 			// Always give a test a descriptive name so, if it fails, we know what went wrong
 			assertEquals("A local object can successfully be created", newObject, receivedObject);
-			assertEquals("Object is placed at correct position", receivedObject.getCurrentCell(), new WordsPosition(0,0));
+			assertEquals("Object is placed at correct position", receivedObject.getCurrentPosition(), new WordsPosition(0,0));
 			environment.exitLocalScope();
 		}
 	}

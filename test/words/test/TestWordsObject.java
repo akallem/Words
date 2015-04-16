@@ -43,7 +43,7 @@ public class TestWordsObject {
 			fail();
 		}
 		
-		assertEquals("Object moved 1 to the right in total", obj.getCurrentCell().x, startPos.x + 1);
+		assertEquals("Object moved 1 to the right in total", obj.getCurrentPosition().x, startPos.x + 1);
 		
 		try {
 			obj.executeNextAction(null);
@@ -51,7 +51,7 @@ public class TestWordsObject {
 			fail();
 		}
 		
-		assertEquals("Object moved 2 to the right in total", obj.getCurrentCell().x, startPos.x + 2);
+		assertEquals("Object moved 2 to the right in total", obj.getCurrentPosition().x, startPos.x + 2);
 		
 		try {
 			obj.executeNextAction(null);
@@ -59,7 +59,7 @@ public class TestWordsObject {
 			fail();
 		}
 		
-		assertEquals("Object moved 1 to the right in total again", obj.getCurrentCell().x, startPos.x + 1);
+		assertEquals("Object moved 1 to the right in total again", obj.getCurrentPosition().x, startPos.x + 1);
 		
 		try {
 			obj.executeNextAction(null);
@@ -67,7 +67,7 @@ public class TestWordsObject {
 			fail();
 		}
 		
-		assertEquals("Object is back at its starting position", obj.getCurrentCell().x, startPos.x);
+		assertEquals("Object is back at its starting position", obj.getCurrentPosition().x, startPos.x);
 	}
 	
 	@Test
@@ -118,31 +118,31 @@ public class TestWordsObject {
 			fail();
 		}
 		
-		assertEquals("Object moved 1 to the left", obj.getCurrentCell().x, startPos.x - 1);
+		assertEquals("Object moved 1 to the left", obj.getCurrentPosition().x, startPos.x - 1);
 	}
 	
 	@Test
 	public void objectMovesUpCorrectly() {
 		obj.moveUp();
-		assertEquals("Object moved up 1", obj.getCurrentCell().y, startPos.y + 1);
+		assertEquals("Object moved up 1", obj.getCurrentPosition().y, startPos.y + 1);
 	}
 	
 	@Test
 	public void objectMovesDownCorrectly() {
 		obj.moveDown();
-		assertEquals("Object moved down 1", obj.getCurrentCell().y, startPos.y - 1);
+		assertEquals("Object moved down 1", obj.getCurrentPosition().y, startPos.y - 1);
 	}
 	
 	@Test
 	public void objectMovesLeftCorrectly() {
 		obj.moveLeft();
-		assertEquals("Object moved let 1", obj.getCurrentCell().x, startPos.x - 1);
+		assertEquals("Object moved let 1", obj.getCurrentPosition().x, startPos.x - 1);
 	}
 	
 	@Test
 	public void objectMovesRightCorrectly() {
 		obj.moveRight();
-		assertEquals("Object moved right 1", obj.getCurrentCell().x, startPos.x + 1);
+		assertEquals("Object moved right 1", obj.getCurrentPosition().x, startPos.x + 1);
 	}
 	
 	@Test
@@ -192,8 +192,8 @@ public class TestWordsObject {
 	@Test
 	public void gettingRowAndColumnPropertiesShouldMatchObjectPosition() {
 		// Note: x is column, y is row
-		assertEquals("Object's row matches y", (double) obj.getCurrentCell().y, obj.getProperty("row").numProperty, 0.0001);
-		assertEquals("Object's column matches x", (double) obj.getCurrentCell().x, obj.getProperty("column").numProperty, 0.0001);
+		assertEquals("Object's row matches y", (double) obj.getCurrentPosition().y, obj.getProperty("row").numProperty, 0.0001);
+		assertEquals("Object's column matches x", (double) obj.getCurrentPosition().x, obj.getProperty("column").numProperty, 0.0001);
 	}
 	
 	@Test
@@ -206,8 +206,8 @@ public class TestWordsObject {
 		}
 		
 		// Note: x is column, y is row
-		assertEquals("Object's x is 2", obj.getCurrentCell().x, 2);
-		assertEquals("Object's y is 4", obj.getCurrentCell().y, -4);
+		assertEquals("Object's x is 2", obj.getCurrentPosition().x, 2);
+		assertEquals("Object's y is 4", obj.getCurrentPosition().y, -4);
 	}
 	
 	@Test
@@ -219,8 +219,8 @@ public class TestWordsObject {
 			fail();
 		}
 		// Note: x is column, y is row
-		assertEquals("Object's x is 3", obj.getCurrentCell().x, 3);
-		assertEquals("Object's y is -4", obj.getCurrentCell().y, -4);
+		assertEquals("Object's x is 3", obj.getCurrentPosition().x, 3);
+		assertEquals("Object's y is -4", obj.getCurrentPosition().y, -4);
 	}
 
 	@Test (expected = WordsInvalidTypeException.class)
