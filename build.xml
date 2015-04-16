@@ -88,6 +88,9 @@
     <target name="test-unit" depends="clean, test-compile">
         <mkdir dir="${test.report.dir}" />
         <junit printsummary="on" fork="true" haltonfailure="true">
+            <assertions>
+                <enable />
+            </assertions>
             <classpath refid="junit.classpath" />
             <formatter type="plain" />
             <batchtest todir="${test.report.dir}">
