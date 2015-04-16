@@ -1,0 +1,18 @@
+Fred is a thing at 0,0.
+
+Make Fred's property be 1.
+Make Fred say Fred's property.
+
+Make Fred's height be 68, weight be 150, gender be "male".
+Make Fred say Fred's height.
+Make Fred say Fred's weight.
+Make Fred say Fred's gender.
+
+Make Fred's row be 2, column be 4.
+Make Fred say "I jumped".
+
+Bob is a thing at -2, -2.
+Bob's friend is Fred.
+
+Make Bob's friend's property be 2.
+Make Fred say Fred's property.
