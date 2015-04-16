@@ -95,7 +95,7 @@ public class FrameLoop extends Thread {
 				if (delete) {
 					iterator.remove();
 				}
-			} catch (WordsRuntimeException e) {
+			} catch (WordsProgramException e) {
 				System.err.println(e.toString());
 				System.out.println("> ");
 			}
