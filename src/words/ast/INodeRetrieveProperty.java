@@ -27,10 +27,8 @@ public class INodeRetrieveProperty extends INode {
 		}
 		
 		WordsObject obj = refList.objValue;
-		if (obj == null) {
-			throw new AssertionError("obj shouldn't be null");
-		}
-		
+		assert obj != null : "Obj was null when it shouldn't have been.";
+
 		ASTValue id = children.get(1).eval(environment);
 		String propName = id.stringValue;
 		
