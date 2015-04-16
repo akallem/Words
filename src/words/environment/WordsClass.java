@@ -1,4 +1,5 @@
 package words.environment;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class WordsClass {
@@ -6,16 +7,37 @@ public class WordsClass {
 	private HashMap<String, WordsCustomActionDefinition> functions;
 	private WordsClass parent;
 	private String className;
+	private ArrayList<WordsClass> children;
 	
 	public WordsClass(String className, WordsClass parent) {
 		properties = new HashMap<String, WordsProperty>();
 		functions = new HashMap<String, WordsCustomActionDefinition>();
+		children = new ArrayList<WordsClass>();
 		this.parent = parent;
 		this.className = className;
+		if (parent != null) {
+			// only "thing" should get here
+			parent.registerChild(this);
+		}
 	}
 		
 	public String getClassName() {
 		return className;
+	}
+	
+	/**
+	 * Register a child to its parent
+	 * 
+	 */
+	public void registerChild(WordsClass childClass) {
+		children.add(childClass);
+	}
+	
+	/**
+	 * Get all classes that inherit from this one
+	 */
+	public ArrayList<WordsClass> getChildren() {
+		return children;
 	}
 	
 	/**

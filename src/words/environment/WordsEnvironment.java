@@ -20,14 +20,14 @@ public class WordsEnvironment {
 	/*
 	 * Objects always persist in the map where they can be gotten by class
 	 */
-	private HashMap<String, HashSet<WordsObject>> objectsByClass;
+	private HashMap<WordsClass, HashSet<WordsObject>> objectsByClass;
 	private ArrayList<WordsEventListener> eventListeners;
 	
 	public WordsEnvironment() {
 		classes = new HashMap<String, WordsClass>();
 		objectsByName = new LinkedList<HashMap<String, WordsObject>>();
 		eventListeners = new ArrayList<WordsEventListener>();
-		objectsByClass = new HashMap<String, HashSet<WordsObject>>();
+		objectsByClass = new HashMap<WordsClass, HashSet<WordsObject>>();
 		setupEnvironment();
 	}
 	
@@ -37,7 +37,7 @@ public class WordsEnvironment {
 	private void setupEnvironment() {
 		WordsClass thing = new WordsClass("thing", null);
 		classes.put("thing", thing);
-		objectsByClass.put("thing", new HashSet<WordsObject>());
+		objectsByClass.put(thing, new HashSet<WordsObject>());
 		objectsByName.push(new HashMap<String, WordsObject>());
 	}
 	
@@ -84,7 +84,7 @@ public class WordsEnvironment {
 	 * objects collection, where they will continue to live, but will not be callable by name
 	 */
 	public void exitLocalScope() {
-		HashMap<String, WordsObject> localScope = objectsByName.pop();
+		objectsByName.pop();
 		assert objectsByName.size() > 0 : "You just popped the global scope off the objects table";
 	}
 	
@@ -109,7 +109,7 @@ public class WordsEnvironment {
 			
 			WordsObject newObject = new WordsObject(objectName, wordsClass, position);
 			objectsByName.getFirst().put(objectName, newObject);
-			objectsByClass.get(className).add(newObject);
+			objectsByClass.get(wordsClass).add(newObject);
 			
 			// TODO: decide if this is appropriate (given that it could figure listeners)
 			newObject.enqueueAction(new WordsWait(new LNodeNum(1)));
@@ -140,11 +140,12 @@ public class WordsEnvironment {
 	 * Returns a collection of all objects.
 	 */
 	public Collection<WordsObject> getObjects() {
-		Collection<WordsObject> allObjects = new HashSet<WordsObject>();
-		for (Collection<WordsObject> objects : objectsByClass.values()) {
-			allObjects.addAll(objects);
+		try {
+			return getObjectsByClass("thing");
+		} catch (WordsClassNotFoundException e) {
+			System.exit(1);
 		}
-		return allObjects;
+		return null;
 	}
 	
 	/**
@@ -153,9 +154,10 @@ public class WordsEnvironment {
 	 * @throws a WordsClassNotFoundException if the class does not exist.
 	 */
 	public HashSet<WordsObject> getObjectsByClass(String className) throws WordsClassNotFoundException {
-		HashSet<WordsObject> objectsToReturn = objectsByClass.get(className);
-		if (objectsToReturn == null) {
-			throw new WordsClassNotFoundException(className);
+		WordsClass wc = classes.get(className);
+		HashSet<WordsObject> objectsToReturn = objectsByClass.get(wc);
+		for (WordsClass childClass : wc.getChildren()) {
+			objectsToReturn.addAll(objectsByClass.get(childClass));
 		}
 		return objectsToReturn;
 	}
