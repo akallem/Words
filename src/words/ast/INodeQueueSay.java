@@ -32,9 +32,6 @@ public class INodeQueueSay extends INode {
 		} else {
 			object = environment.getObject(identifier.stringValue);
 		}
-		if (object == null) {
-			throw new WordsObjectNotFoundException(identifier.stringValue);
-		}
 
 		WordsSay action = new WordsSay(message);
 

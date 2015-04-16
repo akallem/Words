@@ -32,9 +32,6 @@ public class INodeQueueWait extends INode {
 		} else {
 			object = environment.getObject(identifier.stringValue);
 		}
-		if (object == null) {
-			throw new WordsObjectNotFoundException(identifier.stringValue);
-		}
 
 		WordsWait action = new WordsWait(lengthExpression);
 
