@@ -15,8 +15,7 @@ public abstract class WordsAction {
 	 * Execute the action if it is expandable.
 	 */
 	public final void execute(WordsObject object, WordsEnvironment environment) throws WordsProgramException {
-		boolean flag = !isExecutable();
-		assert flag : "Attempted to execute non-executable action";
+		assert isExecutable() : "Attempted to execute non-executable action";
 		doExecute(object, environment);
 	};
 
@@ -25,8 +24,7 @@ public abstract class WordsAction {
 	 * @throws WordsRuntimeException
 	 */
 	public final LinkedList<WordsAction> expand(WordsObject object, WordsEnvironment environment) throws WordsProgramException {
-		boolean flag = !isExpandable();
-		assert flag : "Attempted to expand non-expandable action";
+		assert isExpandable() : "Attempted to expand non-expandable action";
 		return doExpand(object, environment);
 	};
 
