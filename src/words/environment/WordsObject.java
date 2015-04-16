@@ -130,6 +130,10 @@ public class WordsObject {
 	public String getObjectName() {
 		return objectName;
 	}
+	
+	public WordsAction getLastAction() {
+		return lastAction;
+	}
 
 	public void setMessage(String message) {
 		currentMessage = message;

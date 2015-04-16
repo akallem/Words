@@ -24,6 +24,10 @@ public class WordsMove extends WordsAction {
 		}
 		this.distanceExpression = distanceExpression;
 	}
+	
+	public Direction getDirection() {
+		return direction;
+	}
 
 	/**
 	 * Create a new WordsMove action.  distanceValue must round to a positive or negative integer.

@@ -1,6 +1,5 @@
 package words.ast;
 
-import java.util.Collection;
 import java.util.HashSet;
 
 import words.environment.WordsEnvironment;
