@@ -7,6 +7,7 @@ import words.environment.WordsProperty;
 import words.environment.WordsSay;
 import words.environment.WordsProperty.PropertyType;
 import words.exceptions.WordsInvalidTypeException;
+import words.exceptions.WordsObjectNotFoundException;
 import words.exceptions.WordsRuntimeException;
 
 public class INodeQueueSay extends INode {

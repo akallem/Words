@@ -5,6 +5,7 @@ import java.util.Random;
 import words.ast.AST;
 import words.ast.ASTValue;
 import words.ast.ASTValue.ValueType;
+import words.ast.LNodeNum;
 import words.exceptions.WordsInvalidTypeException;
 import words.exceptions.WordsProgramException;
 import words.exceptions.WordsRuntimeException;
@@ -110,7 +111,7 @@ public class WordsMove extends WordsAction {
 				list.add(new WordsMove(direction, 1));
 			}
 		} else {
-			list.add(new WordsWait(1));
+			list.add(new WordsWait(new LNodeNum(1)));
 		}
 
 		return list;
