@@ -1,5 +1,6 @@
 package words;
 import java.util.concurrent.LinkedBlockingDeque;
+import java.util.Iterator;
 
 import words.ast.AST;
 import words.environment.*;
@@ -87,8 +88,17 @@ public class FrameLoop extends Thread {
 		}
 
 		// Phase 3: Listener Evaluation
-		for (WordsEventListener eventListener : environment.getEventListeners()) {
-			eventListener.execute();
+		for (Iterator<WordsEventListener> iterator = environment.getEventListeners().iterator(); iterator.hasNext();) {
+			try {
+				WordsEventListener eventListener = iterator.next();
+				boolean delete = !eventListener.execute(environment);
+				if (delete) {
+					iterator.remove();
+				}
+			} catch (WordsProgramException e) {
+				System.err.println(e.toString());
+				System.out.println("> ");
+			}
 		}
 
 		if (GUI != null) {
@@ -97,7 +107,7 @@ public class FrameLoop extends Thread {
 				GUI.add(object.getCurrentCell(), object.getClassName(), object.getObjectName(), object.getCurrentMessage());
 			}
 			GUI.render();
-		}  else {
+		} else {
 			System.out.println("frame #: " + numFrames);
 			WordsLog log = new WordsLog();
 			for (WordsObject object : environment.getObjects()) {
