@@ -8,7 +8,7 @@ import words.environment.WordsMove;
 import words.environment.WordsObject;
 import words.exceptions.WordsRuntimeException;
 
-public class INodeMovesPredicate extends INode {
+public class INodeMovesPredicate extends INodeBasicActionPredicate {
 	public INodeMovesPredicate(Object... children) {
 		super(children);
 	}

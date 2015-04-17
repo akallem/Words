@@ -2,6 +2,7 @@ package words.environment;
 
 import words.ast.AST;
 import words.ast.ASTValue;
+import words.ast.INodeBasicActionPredicate;
 import words.environment.WordsEnvironment;
 import words.exceptions.WordsProgramException;
 import words.exceptions.WordsRuntimeException;
@@ -18,29 +19,39 @@ public class WordsEventListener {
 	}
 	
 	public boolean execute(WordsEnvironment environment) throws WordsProgramException {
-		ASTValue predicateValue;
-		try {
-			predicateValue = predicate.eval(environment);
-		} catch (WordsRuntimeException e) {
-			throw new WordsProgramException(predicate, e);
-		}
-
-		// currently restricted to boolean predicate
-		assert predicateValue.type == ASTValue.ValueType.BOOLEAN : "Predicate has type " + predicateValue.type.toString();
-
-		if (predicateValue.booleanValue == true) {
+		if (predicate instanceof INodeBasicActionPredicate) {
+			boolean predVal = false;
 			try {
-				statementList.eval(environment);
+				predVal = predicate.eval(environment, statementList).booleanValue;
 			} catch (WordsRuntimeException e) {
 				throw new WordsProgramException(statementList, e);
 			}
+			return !temporary || predVal;
 		} else {
-			if (temporary) {
-				return false;
+			ASTValue predicateValue;
+			try {
+				predicateValue = predicate.eval(environment);
+			} catch (WordsRuntimeException e) {
+				throw new WordsProgramException(predicate, e);
 			}
+	
+			// currently restricted to boolean predicate
+			assert predicateValue.type == ASTValue.ValueType.BOOLEAN : "Predicate has type " + predicateValue.type.toString();
+	
+			if (predicateValue.booleanValue == true) {
+				try {
+					statementList.eval(environment);
+				} catch (WordsRuntimeException e) {
+					throw new WordsProgramException(statementList, e);
+				}
+			} else {
+				if (temporary) {
+					return false;
+				}
+			}
+	
+			return true;
 		}
-
-		return true;
 	}
 	
 }

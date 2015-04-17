@@ -7,7 +7,7 @@ import words.environment.WordsObject;
 import words.exceptions.WordsAliasException;
 import words.exceptions.WordsRuntimeException;
 
-public class INodeTouchesPredicate extends INode {
+public class INodeTouchesPredicate extends INodeBasicActionPredicate {
 	public INodeTouchesPredicate(Object... children) {
 		super(children);
 	}

@@ -69,7 +69,7 @@ public class WordsEnvironment {
 			WordsClass parentClass = getClass(parent);
 			WordsClass wordsClass = new WordsClass(className, parentClass);
 			classes.put(className, wordsClass);
-			objectsByClass.put(parentClass, new HashSet<WordsObject>());
+			objectsByClass.put(wordsClass, new HashSet<WordsObject>());
 			
 			return wordsClass;
 		}

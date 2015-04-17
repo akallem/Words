@@ -13,16 +13,25 @@ public class INodeListenerTemp extends INode {
 		AST predicate = children.get(0);
 		AST statementList = children.get(1);
 		
-		ASTValue predicateValue = predicate.eval(environment);
-
-		// currently only restricted to boolean predicate
-		assert predicateValue.type == ASTValue.ValueType.BOOLEAN : "Predicate has type " + predicateValue.type.toString();
-
-		// temporary listener is created only if the predicate is true
-		if (predicateValue.booleanValue == true) {
-			environment.createListener(predicate, statementList, true);
+		if (predicate instanceof INodeBasicActionPredicate) {
+			ASTValue predicateValue = predicate.eval(environment, statementList);
+			
+			if (predicateValue.booleanValue == true) {
+				environment.createListener(predicate, statementList, true);
+			}
+			return null;
+		} else {
+			ASTValue predicateValue = predicate.eval(environment);
+	
+			// currently only restricted to boolean predicate
+			assert predicateValue.type == ASTValue.ValueType.BOOLEAN : "Predicate has type " + predicateValue.type.toString();
+	
+			// temporary listener is created only if the predicate is true
+			if (predicateValue.booleanValue == true) {
+				environment.createListener(predicate, statementList, true);
+			}
+			
+			return null;
 		}
-		
-		return null;
 	}
 }
