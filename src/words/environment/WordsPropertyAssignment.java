@@ -2,10 +2,15 @@ package words.environment;
 import java.util.LinkedList;
 
 import words.ast.AST;
+import words.exceptions.WordsProgramException;
+import words.exceptions.WordsRuntimeException;
 
 public class WordsPropertyAssignment extends WordsAction {
-	private String propertyName;
-	private AST propertyValue;
+	private AST propertyAssignmentList;
+	
+	public WordsPropertyAssignment(AST propertyAssignmentList) {
+		this.propertyAssignmentList = propertyAssignmentList;
+	}
 	
 	@Override
 	public boolean isExecutable() {
@@ -13,12 +18,12 @@ public class WordsPropertyAssignment extends WordsAction {
 	}
 
 	@Override
-	protected void doExecute(WordsObject object, WordsEnvironment environment) {
-		// TODO
-		
-		/*
-		 * Evaluate propertyValue, check result if needed, and assign it to propertyName using the object's methods for that
-		 */
+	protected void doExecute(WordsObject object, WordsEnvironment environment) throws WordsProgramException {
+		try {
+			propertyAssignmentList.eval(environment, object);
+		} catch (WordsRuntimeException e) {
+			throw new WordsProgramException(propertyAssignmentList, e);
+		}
 	}
 
 	@Override

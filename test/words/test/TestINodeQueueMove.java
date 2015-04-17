@@ -3,8 +3,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import words.environment.WordsPosition;
-import words.exceptions.WordsRuntimeException;
+import words.ast.*;
+import words.environment.*;
+import words.exceptions.*;
 
 
 public class TestINodeQueueMove extends TestINode {
@@ -18,6 +19,51 @@ public class TestINodeQueueMove extends TestINode {
 		assertEquals("Fred moved", environment.getObject("Fred").getCurrentCell(), new WordsPosition(-1,0));
 		loop.fastForwardEnvironment(1);
 		assertEquals("Fred moved", environment.getObject("Fred").getCurrentCell(), new WordsPosition(-2,0));
+	}
+	
+	@Test
+	public void testMoveWithReferenceList() throws WordsRuntimeException {
+		WordsObject alexObject = environment.createObject("Alex", "thing", new WordsPosition(0, 0));
+		LNodeReference alexRef = new LNodeReference("Alex's");
+
+		WordsObject bobObject = environment.createObject("Bob", "thing", new WordsPosition(0, 0));
+		alexObject.setProperty("friend", new WordsProperty(bobObject));
+		LNodeReference friendRef = new LNodeReference("friend's");
+
+		WordsObject chrisObject = environment.createObject("Chris", "thing", new WordsPosition(0, 0));
+		bobObject.setProperty("enemy", new WordsProperty(chrisObject));
+
+		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up.
+		assertEquals("Chris at starting position", environment.getObject("Chris").getCurrentCell(), new WordsPosition(0, 0));
+
+		AST refLeaf = new INodeReferenceList(alexRef, friendRef);
+		AST idLeaf = new LNodeIdentifier("enemy");
+		AST strLeaf = new LNodeString("Hello World");
+		INode testNode = new INodeQueueMove(refLeaf, idLeaf, rightDirectionLeaf, twoLeaf, null);
+		testNode.eval(environment);
+		loop.fastForwardEnvironment(1);
+		loop.fastForwardEnvironment(2);
+		assertEquals("Chris at correct position", environment.getObject("Chris").getCurrentCell(), new WordsPosition(2, 0));		
+	}
+	
+	@Test
+	public void testMoveWithNow() throws WordsRuntimeException {
+		environment.createObject("Fred", "thing", new WordsPosition(0,0));
+		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up. 
+		assertEquals("Fred in good start position", environment.getObject("Fred").getCurrentCell(), new WordsPosition(0,0));
+
+		moveFredLeft2.eval(environment);
+		AST moveFredRight2 = new INodeQueueMove(nothingLeaf, fredStringLeaf, rightDirectionLeaf, twoLeaf, new LNodeNow());
+		moveFredRight2.eval(environment);
+		
+		loop.fastForwardEnvironment(1);
+		assertEquals("Fred moved", environment.getObject("Fred").getCurrentCell(), new WordsPosition(1,0));
+		loop.fastForwardEnvironment(1);
+		assertEquals("Fred moved", environment.getObject("Fred").getCurrentCell(), new WordsPosition(2,0));
+		loop.fastForwardEnvironment(1);
+		assertEquals("Fred moved", environment.getObject("Fred").getCurrentCell(), new WordsPosition(1,0));
+		loop.fastForwardEnvironment(1);
+		assertEquals("Fred moved", environment.getObject("Fred").getCurrentCell(), new WordsPosition(0,0));
 	}
 
 	@Test
