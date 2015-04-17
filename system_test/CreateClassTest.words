@@ -5,9 +5,6 @@ A man is a person.
 Bob is a person at -1,-1.
 Charlie is a man at 0,0.
 
-A woman is a person which {has a height.}
-Debra is a woman at 1,1.
-
 A child is a person which {has a height of 3.4.}
 A boy is a child that {has a weight of 90. has a language of "words4life".}
 

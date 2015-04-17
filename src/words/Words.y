@@ -153,8 +153,7 @@ class_definition_statement_list:
 	;
 
 class_definition_statement:
-		HAS A identifier '.'														{ $$ = new INodeDefineProperty($3, null); ((AST) $$).lineNumber = lexer.lineNumber; }
-	|	HAS A identifier OF literal '.'												{ $$ = new INodeDefineProperty($3, $5); ((AST) $$).lineNumber = lexer.lineNumber; }
+		HAS A identifier OF literal '.'												{ $$ = new INodeDefineProperty($3, $5); ((AST) $$).lineNumber = lexer.lineNumber; }
 	|	CAN identifier WHICH MEANS '{' non_declarative_statement_list '}'							{ $$ = new INodeDefineCustomAction($2, null, $6); ((AST) $$).lineNumber = lexer.lineNumber; }
 	|	CAN identifier WITH identifier_list WHICH MEANS '{' non_declarative_statement_list '}'		{ $$ = new INodeDefineCustomAction($2, $4, $8); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
