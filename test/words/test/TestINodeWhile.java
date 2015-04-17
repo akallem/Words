@@ -14,7 +14,7 @@ import words.exceptions.WordsRuntimeException;
 public class TestINodeWhile extends TestINode {
 	@Test
 	public void testWorkingWhile() throws WordsRuntimeException {
-		WordsObject fredObject = environment.createObject("Fred", "thing", new WordsPosition(0,0));
+		environment.createObject("Fred", "thing", new WordsPosition(0,0));
 		LNodeReference fredLNodeRef = new LNodeReference("Fred's");
 		INodeReferenceList fredRefList = new INodeReferenceList(fredLNodeRef);
 		
@@ -26,4 +26,8 @@ public class TestINodeWhile extends TestINode {
 		loop.fastForwardEnvironment(2);
 		assertEquals("Fred has moved correctly", environment.getObject("Fred").getCurrentCell(), new WordsPosition(2,0));
 	}
+	
+	// grammar always ensures boolean passed to while, no need to test.
+	
+	
 }
