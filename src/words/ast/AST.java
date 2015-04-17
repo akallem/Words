@@ -16,11 +16,22 @@ public abstract class AST {
 	 * 
 	 * @param level the indentation level
 	 */
-	abstract public void dump(int level);
+	public abstract void dump(int level);
 	
 	/**
 	 * Evaluate an AST node to return an ASTValue and possibly have side effects on the passed environment.
+	 * 
 	 * @throws WordsRuntimeException 
 	 */
 	public abstract ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException;
+
+	/**
+	 * Evaluate an AST node using inherited attributes to return an ASTValue and possibly having side effects on the passed environment.
+	 * 
+	 * Subclasses may override this method if they use inherited attributes.  If not, their implementation of eval() without
+	 * inherited attributes will be called.
+	 * 
+	 * @throws WordsRuntimeException
+	 */
+	public ASTValue eval(WordsEnvironment environment, Object inherited) throws WordsRuntimeException { return eval(environment); };
 }
