@@ -10,7 +10,19 @@ public class INodeListenerTemp extends INode {
 
 	@Override
 	public ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException {
-		// TODO
-		throw new AssertionError("Not yet implemented");
+		AST predicate = children.get(0);
+		AST statementList = children.get(1);
+		
+		ASTValue predicateValue = predicate.eval(environment);
+
+		// currently only restricted to boolean predicate
+		assert predicateValue.type == ASTValue.ValueType.BOOLEAN : "Predicate has type " + predicateValue.type.toString();
+
+		// temporary listener is created only if the predicate is true
+		if (predicateValue.booleanValue == true) {
+			environment.createListener(predicate, statementList, true);
+		}
+		
+		return null;
 	}
 }

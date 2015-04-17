@@ -1,4 +1,5 @@
 package words;
+import java.lang.StringBuilder;
 
 %%
 
@@ -7,12 +8,25 @@ package words;
 
 %{
   private Words yyparser;
+  public StringBuilder line = new StringBuilder();
   public int lineNumber = 1;
+  public int charNumber = 0;
   public int depth = 0;
 
   public Yylex(java.io.Reader r, Words yyparser) {
     this(r);
     this.yyparser = yyparser;
+  }
+
+  private void onMatch() {
+  	line.append(yytext());
+  	charNumber = charNumber + yytext().length();
+  }
+
+  private void onNewLine() {
+ 	lineNumber++;
+ 	line = new StringBuilder();
+ 	charNumber = 0;
   }
 %}
 
@@ -47,71 +61,70 @@ LEQ = "<="
 "[" | 
 "]" |
 ","	|
-"."		{ return (int) yycharat(0); }
+"."		{ onMatch(); return (int) yycharat(0); }
 
-"{"		{ depth++; return (int) yycharat(0); }
-"}"		{ depth--; return (int) yycharat(0); }
+"{"		{ onMatch(); depth++; return (int) yycharat(0); }
+"}"		{ onMatch(); depth--; return (int) yycharat(0); }
 
 	/* Keywords */
-"A" | "a" | "An" | "an"			{ return Words.A; }
-"and"							{ return Words.AND; }
-"anywhere"						{ return Words.ANYWHERE; }
-"As" | "as"						{ return Words.AS; }
-"at"							{ return Words.AT; }
-"be"							{ return Words.BE; }
-"can"							{ return Words.CAN; }
-"down"							{ return Words.DOWN; }
-"Exit"							{ return Words.EXIT; }
-"has"							{ return Words.HAS; }
-"If"							{ return Words.IF; }
-"is"							{ return Words.IS; }
-"left"							{ return Words.LEFT; }
-"long"							{ return Words.LONG; }
-"Make"							{ return Words.MAKE; }
-"move"							{ return Words.MOVE; }
-"moves"							{ return Words.MOVES; }
-"means"							{ return Words.MEANS; }
-"not"							{ return Words.NOT; }
-"nothing"						{ return Words.NOTHING; }
-"now"							{ return Words.NOW; }
-"of"							{ return Words.OF; }
-"or"							{ return Words.OR; }
-"Remove"						{ return Words.REMOVE; }
-"Repeat"						{ return Words.REPEAT; }
-"Reset"							{ return Words.RESET; }
-"right"							{ return Words.RIGHT; }
-"say"							{ return Words.SAY; }
-"says"							{ return Words.SAYS; }
-"Stop"							{ return Words.STOP; }
-"then"							{ return Words.THEN; }
-"times"							{ return Words.TIMES; }
-"touches"						{ return Words.TOUCHES; }
-"turns"							{ return Words.TURNS; }
-"up"							{ return Words.UP; }
-"wait"							{ return Words.WAIT; }
-"waits"							{ return Words.WAITS; }
-"Whenever"						{ return Words.WHENEVER; }
-"which" | "that"				{ return Words.WHICH; }
-"While"							{ return Words.WHILE; }
-"with"							{ return Words.WITH; }
+"A" | "a" | "An" | "an"			{ onMatch(); return Words.A; }
+"and"							{ onMatch(); return Words.AND; }
+"anywhere"						{ onMatch(); return Words.ANYWHERE; }
+"As" | "as"						{ onMatch(); return Words.AS; }
+"at"							{ onMatch(); return Words.AT; }
+"be"							{ onMatch(); return Words.BE; }
+"can"							{ onMatch(); return Words.CAN; }
+"down"							{ onMatch(); return Words.DOWN; }
+"Exit"							{ onMatch(); return Words.EXIT; }
+"has"							{ onMatch(); return Words.HAS; }
+"If"							{ onMatch(); return Words.IF; }
+"is"							{ onMatch(); return Words.IS; }
+"left"							{ onMatch(); return Words.LEFT; }
+"long"							{ onMatch(); return Words.LONG; }
+"Make"							{ onMatch(); return Words.MAKE; }
+"move"							{ onMatch(); return Words.MOVE; }
+"moves"							{ onMatch(); return Words.MOVES; }
+"means"							{ onMatch(); return Words.MEANS; }
+"not"							{ onMatch(); return Words.NOT; }
+"nothing"						{ onMatch(); return Words.NOTHING; }
+"now"							{ onMatch(); return Words.NOW; }
+"of"							{ onMatch(); return Words.OF; }
+"or"							{ onMatch(); return Words.OR; }
+"Remove"						{ onMatch(); return Words.REMOVE; }
+"Repeat"						{ onMatch(); return Words.REPEAT; }
+"Reset"							{ onMatch(); return Words.RESET; }
+"right"							{ onMatch(); return Words.RIGHT; }
+"say"							{ onMatch(); return Words.SAY; }
+"says"							{ onMatch(); return Words.SAYS; }
+"Stop"							{ onMatch(); return Words.STOP; }
+"then"							{ onMatch(); return Words.THEN; }
+"times"							{ onMatch(); return Words.TIMES; }
+"touches"						{ onMatch(); return Words.TOUCHES; }
+"up"							{ onMatch(); return Words.UP; }
+"wait"							{ onMatch(); return Words.WAIT; }
+"waits"							{ onMatch(); return Words.WAITS; }
+"Whenever"						{ onMatch(); return Words.WHENEVER; }
+"which" | "that"				{ onMatch(); return Words.WHICH; }
+"While"							{ onMatch(); return Words.WHILE; }
+"with"							{ onMatch(); return Words.WITH; }
 
 	/* Other lexemes */
-{IDENTIFIER} 	{ yyparser.yylval = new WordsVal(yytext()); return Words.IDENTIFIER; }
-"her" 			{ yyparser.yylval = new WordsVal(yytext()); return Words.REFERENCE; }
-"his" 			{ yyparser.yylval = new WordsVal(yytext()); return Words.REFERENCE; }
-"its" 			{ yyparser.yylval = new WordsVal(yytext()); return Words.REFERENCE; }
-"their" 		{ yyparser.yylval = new WordsVal(yytext()); return Words.REFERENCE; }
-{REFERENCE} 	{ yyparser.yylval = new WordsVal(yytext()); return Words.REFERENCE; }
-{NUM}			{ yyparser.yylval = new WordsVal(Double.parseDouble(yytext())); return Words.NUM; }
-{STRING}		{ yyparser.yylval = new WordsVal(yytext());	return Words.STRING; }
+{IDENTIFIER} 	{ onMatch(); yyparser.yylval = new WordsVal(yytext()); return Words.IDENTIFIER; }
+"her" 			{ onMatch(); yyparser.yylval = new WordsVal(yytext()); return Words.REFERENCE; }
+"his" 			{ onMatch(); yyparser.yylval = new WordsVal(yytext()); return Words.REFERENCE; }
+"its" 			{ onMatch(); yyparser.yylval = new WordsVal(yytext()); return Words.REFERENCE; }
+"their" 		{ onMatch(); yyparser.yylval = new WordsVal(yytext()); return Words.REFERENCE; }
+{REFERENCE} 	{ onMatch(); yyparser.yylval = new WordsVal(yytext()); return Words.REFERENCE; }
+{NUM}			{ onMatch(); yyparser.yylval = new WordsVal(Double.parseDouble(yytext())); return Words.NUM; }
+{STRING}		{ onMatch(); yyparser.yylval = new WordsVal(yytext()); return Words.STRING; }
 
 	/* Multi-character operators */
-{GEQ}			{ return Words.GEQ; }
-{LEQ}			{ return Words.LEQ; }
+{GEQ}			{ onMatch(); return Words.GEQ; }
+{LEQ}			{ onMatch(); return Words.LEQ; }
 
 	/* Whitespace (no action except counting line numbers) */
-[ \t\r]+ 		{ }
-\n				{ lineNumber++; }
+[ \t\r]+ 		{ onMatch(); }
+\n				{ onNewLine(); }
 
 	/* Backspace (error) */
 \b				{ System.err.println("Sorry, backspace doesn't work"); }

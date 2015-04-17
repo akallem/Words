@@ -39,7 +39,6 @@
 %token THEN
 %token TIMES
 %token TOUCHES
-%token TURNS
 %token UP
 %token WAIT
 %token WAITS
@@ -62,16 +61,19 @@
 %type <obj> program
 %type <obj> statement_list
 %type <obj> statement
+%type <obj> declarative_statement
+%type <obj> non_declarative_statement
+%type <obj> non_declarative_statement_list
 %type <obj> immediate_statement
-%type <obj> class_create_statement
+%type <obj> class_declare_statement
 %type <obj> class_definition_statement_list
 %type <obj> class_definition_statement
+%type <obj> listener_declare_statement
 %type <obj> object_create_statement
 %type <obj> object_destroy_statement
 %type <obj> property_assign_statement
 %type <obj> iteration_statement
 %type <obj> conditional_statement
-%type <obj> listener_statement
 %type <obj> runtime_control_statement
 %type <obj> queueing_statement
 %type <obj> queueing_custom_action_statement
@@ -116,21 +118,31 @@ statement_list:
 	|	statement statement_list	{ $$ = new INodeStatementList($1); ((INode) $$).add(((INode) $2).children); ((AST) $$).lineNumber = lexer.lineNumber; }
 
 statement:
+		declarative_statement		{ $$ = $1; }
+	|	non_declarative_statement	{ $$ = $1; }
+	|	error { errorToken = lexer.yytext(); errorLineNumber = lexer.lineNumber; errorCharNumber = lexer.charNumber; } '.' { yyerror("Line " + errorLineNumber + " near '" + errorToken + "'" + "\n" + lexer.line.toString() + "\n" + new String(new char[errorCharNumber-1]).replace("\0", " ") + "^"); yyerrflag = 0; }
+
+non_declarative_statement_list:
+		non_declarative_statement									{ $$ = new INodeStatementList($1); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	non_declarative_statement non_declarative_statement_list	{ $$ = new INodeStatementList($1); ((INode) $$).add(((INode) $2).children); ((AST) $$).lineNumber = lexer.lineNumber; }
+
+declarative_statement:
+		class_declare_statement		{ $$ = $1; }
+	|	listener_declare_statement	{ $$ = $1; }
+
+non_declarative_statement:
 		immediate_statement			{ $$ = $1; }
 	|	queueing_statement			{ $$ = $1; }
-	|	error { hasError = true; yyerror("Line " + lexer.lineNumber + " near '" + lexer.yytext() + "'"); } '.' { yyerrflag = 0; }
 
 immediate_statement:
-		class_create_statement		{ $$ = $1; }
-	|	object_create_statement		{ $$ = $1; }
+		object_create_statement		{ $$ = $1; }
 	|	object_destroy_statement	{ $$ = $1; }
 	|	property_assign_statement	{ $$ = $1; }
 	|	iteration_statement			{ $$ = $1; }
 	|	conditional_statement		{ $$ = $1; }
-	|	listener_statement			{ $$ = $1; }
 	|	runtime_control_statement	{ $$ = $1; }
 
-class_create_statement:
+class_declare_statement:
 		A identifier IS A identifier '.'											{ $$ = new INodeCreateClass($2, $5, null); ((AST) $$).lineNumber = lexer.lineNumber; }
 	|	A identifier IS A identifier WHICH '{' class_definition_statement_list '}'	{ $$ = new INodeCreateClass($2, $5, $8); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
@@ -143,8 +155,13 @@ class_definition_statement_list:
 class_definition_statement:
 		HAS A identifier '.'														{ $$ = new INodeDefineProperty($3, null); ((AST) $$).lineNumber = lexer.lineNumber; }
 	|	HAS A identifier OF literal '.'												{ $$ = new INodeDefineProperty($3, $5); ((AST) $$).lineNumber = lexer.lineNumber; }
-	|	CAN identifier WHICH MEANS '{' statement_list '}'							{ $$ = new INodeDefineCustomAction($2, null, $6); ((AST) $$).lineNumber = lexer.lineNumber; }
-	|	CAN identifier WITH identifier_list WHICH MEANS '{' statement_list '}'		{ $$ = new INodeDefineCustomAction($2, $4, $8); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	CAN identifier WHICH MEANS '{' non_declarative_statement_list '}'							{ $$ = new INodeDefineCustomAction($2, null, $6); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	CAN identifier WITH identifier_list WHICH MEANS '{' non_declarative_statement_list '}'		{ $$ = new INodeDefineCustomAction($2, $4, $8); ((AST) $$).lineNumber = lexer.lineNumber; }
+	;
+
+listener_declare_statement:
+		WHENEVER predicate '{' non_declarative_statement_list '}'									{ $$ = new INodeListenerPerm($2, $4); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	AS LONG AS predicate '{' non_declarative_statement_list '}'									{ $$ = new INodeListenerTemp($4, $6); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 object_create_statement:
@@ -161,17 +178,12 @@ property_assign_statement:
 	;
 
 iteration_statement:
-		REPEAT value_expression TIMES '{' statement_list '}'						{ $$ = new INodeRepeat($2, $5); ((AST) $$).lineNumber = lexer.lineNumber; }
-	|	WHILE boolean_predicate '{' statement_list '}'								{ $$ = new INodeWhile($2, $4); ((AST) $$).lineNumber = lexer.lineNumber; }
+		REPEAT value_expression TIMES '{' non_declarative_statement_list '}'						{ $$ = new INodeRepeat($2, $5); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	WHILE boolean_predicate '{' non_declarative_statement_list '}'								{ $$ = new INodeWhile($2, $4); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 conditional_statement:
-		IF boolean_predicate THEN '{' statement_list '}'							{ $$ = new INodeIf($2, $5); ((AST) $$).lineNumber = lexer.lineNumber; }
-	;
-
-listener_statement:
-		WHENEVER predicate '{' statement_list '}'									{ $$ = new INodeListenerPerm($2, $4); ((AST) $$).lineNumber = lexer.lineNumber; }
-	|	AS LONG AS predicate '{' statement_list '}'									{ $$ = new INodeListenerTemp($4, $6); ((AST) $$).lineNumber = lexer.lineNumber; }
+		IF boolean_predicate THEN '{' non_declarative_statement_list '}'							{ $$ = new INodeIf($2, $5); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 runtime_control_statement:
@@ -188,8 +200,8 @@ queueing_statement:
 	|	MAKE reference_list identifier MOVE direction value_expression now '.'		{ $$ = new INodeQueueMove($2, $3, $5, $6, $7); ((AST) $$).lineNumber = lexer.lineNumber; }
 	|	MAKE reference_list identifier SAY value_expression '.'						{ $$ = new INodeQueueSay($2, $3, $5, null); ((AST) $$).lineNumber = lexer.lineNumber; }
 	|	MAKE reference_list identifier SAY value_expression now '.'					{ $$ = new INodeQueueSay($2, $3, $5, $6); ((AST) $$).lineNumber = lexer.lineNumber; }
-	|	MAKE reference_list identifier WAIT value_expression TURNS '.'				{ $$ = new INodeQueueWait($2, $3, $5, null); ((AST) $$).lineNumber = lexer.lineNumber; }
-	|	MAKE reference_list identifier WAIT value_expression TURNS now '.'			{ $$ = new INodeQueueWait($2, $3, $5, $7); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	MAKE reference_list identifier WAIT value_expression '.'					{ $$ = new INodeQueueWait($2, $3, $5, null); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	MAKE reference_list identifier WAIT value_expression now '.'				{ $$ = new INodeQueueWait($2, $3, $5, $6); ((AST) $$).lineNumber = lexer.lineNumber; }
 	|	STOP reference_list identifier '.'											{ $$ = new INodeQueueStop($2, $3); ((AST) $$).lineNumber = lexer.lineNumber; }
 	|	queueing_custom_action_statement											{ $$ = $1; }
 	;
@@ -359,7 +371,9 @@ private static void printLnToConsole(String message) {
 public static FrameLoop frameLoop;
 public AST root;
 public boolean hideErrors = false;
-public boolean hasError = false;
+public String errorToken;
+public int errorLineNumber;
+public int errorCharNumber;
 
 public static void main(String args[]) throws IOException {
 	

@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.LinkedList;
 
 import words.exceptions.WordsClassAlreadyExistsException;
+import words.ast.AST;
+import words.ast.LNodeNum;
 import words.exceptions.WordsClassNotFoundException;
 import words.exceptions.WordsObjectAlreadyExistsException;
 import words.exceptions.WordsObjectNotFoundException;
@@ -124,7 +126,7 @@ public class WordsEnvironment {
 			gettableObjects.getFirst().put(objectName, newObject);
 			
 			// TODO: decide if this is appropriate (given that it could figure listeners)
-			newObject.enqueueAction(new WordsWait(1));
+			newObject.enqueueAction(new WordsWait(new LNodeNum(1)));
 			
 			return newObject;
 		}
@@ -160,6 +162,13 @@ public class WordsEnvironment {
 		return allObjects;
 	}
 	
+	/**
+	 * Create a new event listener.
+	 */
+	public void createListener(AST predicate, AST statementList, boolean temporary) {
+		eventListeners.add(new WordsEventListener(predicate, statementList, temporary));
+	}
+
 	/**
 	 * Returns a collection of all event listeners.
 	 */
