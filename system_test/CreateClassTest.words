@@ -1,0 +1,17 @@
+A person is a thing.
+Alison is a person at -2,-2.
+
+A man is a person.
+Bob is a person at -1,-1.
+Charlie is a man at 0,0.
+
+A child is a person which {has a height of 3.4.}
+A boy is a child that {has a weight of 90. has a language of "words4life".}
+
+Emily is a child at 2,2.
+Make Emily say Emily's height.
+
+Frank is a boy at 3,3.
+Make Frank say Frank's height.
+Make Frank say Frank's weight.
+Make Frank say Frank's language.

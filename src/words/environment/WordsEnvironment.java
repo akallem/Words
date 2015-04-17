@@ -5,11 +5,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 
+import words.exceptions.WordsClassAlreadyExistsException;
 import words.ast.AST;
 import words.ast.LNodeNum;
 import words.exceptions.WordsClassNotFoundException;
 import words.exceptions.WordsObjectAlreadyExistsException;
 import words.exceptions.WordsObjectNotFoundException;
+import words.exceptions.WordsReferenceException;
 import words.exceptions.WordsRuntimeException;
 
 public class WordsEnvironment {
@@ -53,10 +55,22 @@ public class WordsEnvironment {
 
 	/**
 	 * Creates a new class in the environment and returns it.  Throws an exception if the class could not be created.
+	 * @throws WordsClassAlreadyExistsException 
+	 * @throws WordsClassNotFoundException 
 	 */
-	public WordsClass createClass(String className, String parent) {
-		// TODO
-		return null;
+	public WordsClass createClass(String className, String parent) throws WordsRuntimeException {
+		
+		try {
+			getClass(className);
+			throw new WordsClassAlreadyExistsException(className);
+		} catch (WordsClassNotFoundException e){
+		
+			WordsClass parentClass = getClass(parent);
+			WordsClass wordsClass = new WordsClass(className, parentClass);
+			classes.put(className, wordsClass);
+			
+			return wordsClass;
+		}
 	}
 	
 	/**

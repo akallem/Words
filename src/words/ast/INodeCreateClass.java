@@ -1,5 +1,6 @@
 package words.ast;
 
+import words.environment.WordsClass;
 import words.environment.WordsEnvironment;
 import words.exceptions.WordsRuntimeException;
 
@@ -10,7 +11,15 @@ public class INodeCreateClass extends INode {
 
 	@Override
 	public ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException {
-		// TODO
-		throw new AssertionError("Not yet implemented");
+		ASTValue className  = this.children.get(0).eval(environment);
+		ASTValue parentClassName = this.children.get(1).eval(environment);
+		WordsClass wordsClass = environment.createClass(className.stringValue, parentClassName.stringValue);
+		
+		INodeClassStatementList statementList = (INodeClassStatementList) this.children.get(2);
+		if (statementList != null) {
+			statementList.eval(environment, wordsClass);
+		}
+		
+		return null;
 	}
 }
