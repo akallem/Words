@@ -13,6 +13,7 @@ public class TestWordsSay extends TestINode {
         environment.createObject("Fred", "thing", new WordsPosition(0, 0));
         WordsAction action = new WordsSay(stringLeaf);
         action.execute(environment.getObject("Fred"), environment);
+        assertEquals("New message assigned", environment.getObject("Fred").getCurrentMessage(), "string");
     }
 
     @Test (expected = WordsProgramException.class)

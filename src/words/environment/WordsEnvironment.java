@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 
+import words.ast.LNodeNum;
 import words.exceptions.WordsClassNotFoundException;
 import words.exceptions.WordsObjectAlreadyExistsException;
 import words.exceptions.WordsObjectNotFoundException;
@@ -110,7 +111,7 @@ public class WordsEnvironment {
 			gettableObjects.getFirst().put(objectName, newObject);
 			
 			// TODO: decide if this is appropriate (given that it could figure listeners)
-			newObject.enqueueAction(new WordsWait(1));
+			newObject.enqueueAction(new WordsWait(new LNodeNum(1)));
 			
 			return newObject;
 		}

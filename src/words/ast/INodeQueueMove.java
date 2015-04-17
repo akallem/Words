@@ -25,9 +25,6 @@ public class INodeQueueMove extends INode {
 			object = property.objProperty;
 		} else {
 			object = environment.getObject(identifier.stringValue);
-			if (object == null) {
-				throw new WordsObjectNotFoundException(identifier.stringValue);
-			}
 		}
 		
 		assert(direction.type == ASTValue.ValueType.DIRECTION) : "Expected direction";
