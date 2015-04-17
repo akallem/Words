@@ -29,15 +29,15 @@ public class TestINodeWaitsPredicate extends TestINode {
 		
 		INodeWaitsPredicate thingWaited = new INodeWaitsPredicate(new LNodeIdentifier("thing"), new LNodeIdentifier("alias"));
 		loop.fastForwardEnvironment(1); // Fred moves
-		assertEquals("Doesn't eval true when Fred moves", thingWaited.eval(environment).booleanValue, false);
+		assertEquals("Doesn't eval true when Fred moves", thingWaited.eval(environment, statementsAboutFred).booleanValue, false);
 		loop.fastForwardEnvironment(1); // Fred moves
-		assertEquals("Doesn't eval true when Fred moves", thingWaited.eval(environment).booleanValue, false);
+		assertEquals("Doesn't eval true when Fred moves", thingWaited.eval(environment, statementsAboutFred).booleanValue, false);
 		loop.fastForwardEnvironment(1); // Fred waits
-		assertEquals("Evals true when Fred waits", thingWaited.eval(environment).booleanValue, true);
+		assertEquals("Evals true when Fred waits", thingWaited.eval(environment, statementsAboutFred).booleanValue, true);
 		loop.fastForwardEnvironment(1); // Fred waits
-		assertEquals("Evals true when Fred moves", thingWaited.eval(environment).booleanValue, true);
+		assertEquals("Evals true when Fred moves", thingWaited.eval(environment, statementsAboutFred).booleanValue, true);
 		loop.fastForwardEnvironment(1); // Fred moves
-		assertEquals("Doesn't eval true when Fred moves", thingWaited.eval(environment).booleanValue, false);
+		assertEquals("Doesn't eval true when Fred moves", thingWaited.eval(environment, statementsAboutFred).booleanValue, false);
 	}
 	
 	@Test
@@ -54,14 +54,14 @@ public class TestINodeWaitsPredicate extends TestINode {
 		
 		INodeWaitsPredicate thingWaited = new INodeWaitsPredicate(new LNodeIdentifier("thing"), new LNodeIdentifier("alias"));
 		loop.fastForwardEnvironment(1); // Fred moves
-		assertEquals("Doesn't eval true when Fred moves", thingWaited.eval(environment).booleanValue, false);
+		assertEquals("Doesn't eval true when Fred moves", thingWaited.eval(environment, statementsAboutFred).booleanValue, false);
 		loop.fastForwardEnvironment(1); // Fred moves
-		assertEquals("Doesn't eval true when Fred moves", thingWaited.eval(environment).booleanValue, false);
+		assertEquals("Doesn't eval true when Fred moves", thingWaited.eval(environment, statementsAboutFred).booleanValue, false);
 		loop.fastForwardEnvironment(1); // Fred waits
-		assertEquals("Evals true when Fred waits", thingWaited.eval(environment).booleanValue, true);
+		assertEquals("Evals true when Fred waits", thingWaited.eval(environment, statementsAboutFred).booleanValue, true);
 		loop.fastForwardEnvironment(1); // Fred waits
-		assertEquals("Evals true when Fred moves", thingWaited.eval(environment).booleanValue, true);
+		assertEquals("Evals true when Fred moves", thingWaited.eval(environment, statementsAboutFred).booleanValue, true);
 		loop.fastForwardEnvironment(1); // Fred moves
-		assertEquals("Doesn't eval true when Fred moves", thingWaited.eval(environment).booleanValue, false);
+		assertEquals("Doesn't eval true when Fred moves", thingWaited.eval(environment, statementsAboutFred).booleanValue, false);
 	}
 }

@@ -141,6 +141,13 @@ public class WordsEnvironment {
 	}
 	
 	/**
+	 * Adds a named object to the most local scope in use. 
+	 */
+	public void addObjectToCurrentNameScope(String objectName, WordsObject object) {
+		objectsByName.getFirst().put(objectName, object);
+	}
+	
+	/**
 	 * 
 	 * @param objectName
 	 * @return the words object

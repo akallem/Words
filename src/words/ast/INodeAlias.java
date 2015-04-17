@@ -10,7 +10,7 @@ public class INodeAlias extends INode {
 
 	@Override
 	public ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException {
-		ASTValue identifier = children.get(0) == null ? null : children.get(0).eval(environment);
+		ASTValue identifier = children.size() == 0 ? null : children.get(0).eval(environment);
 		if (identifier != null) {
 			return identifier;
 		} else {

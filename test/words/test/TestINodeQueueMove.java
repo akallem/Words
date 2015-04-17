@@ -38,7 +38,6 @@ public class TestINodeQueueMove extends TestINode {
 
 		AST refLeaf = new INodeReferenceList(alexRef, friendRef);
 		AST idLeaf = new LNodeIdentifier("enemy");
-		AST strLeaf = new LNodeString("Hello World");
 		INode testNode = new INodeQueueMove(refLeaf, idLeaf, rightDirectionLeaf, twoLeaf, null);
 		testNode.eval(environment);
 		loop.fastForwardEnvironment(1);

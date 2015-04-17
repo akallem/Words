@@ -21,11 +21,11 @@ public class TestINodeTouchesPredicate extends TestINode {
 		INodeTouchesPredicate touchesPred = new INodeTouchesPredicate(thingStringLeaf, new LNodeIdentifier("alias1"), 
 				thingStringLeaf, new LNodeIdentifier("alias2"));
 		
-		assertEquals("Two things in same location eval true", touchesPred.eval(environment).booleanValue, true);
+		assertEquals("Two things in same location eval true", touchesPred.eval(environment, statementsAboutFred).booleanValue, true);
 		environment.getObject("Fred").moveDown();
-		assertEquals("Two things not in same location eval false", touchesPred.eval(environment).booleanValue, false);
+		assertEquals("Two things not in same location eval false", touchesPred.eval(environment, statementsAboutFred).booleanValue, false);
 		environment.getObject("George").moveDown();
-		assertEquals("Two things in same location eval true", touchesPred.eval(environment).booleanValue, true);
+		assertEquals("Two things in same location eval true", touchesPred.eval(environment, statementsAboutFred).booleanValue, true);
 	}
 	
 	@Test
@@ -33,14 +33,14 @@ public class TestINodeTouchesPredicate extends TestINode {
 		environment.createObject("Fred", "thing", new WordsPosition(0,0));
 		INodeTouchesPredicate touchesPred = new INodeTouchesPredicate(thingStringLeaf, new LNodeIdentifier("alias1"), 
 				thingStringLeaf, new LNodeIdentifier("alias2"));
-		assertEquals("One thing evals false", touchesPred.eval(environment).booleanValue, false);
+		assertEquals("One thing evals false", touchesPred.eval(environment, statementsAboutFred).booleanValue, false);
 	}
 	
 	@Test (expected = WordsAliasException.class)
 	public void twoAliasesCannotBeSame() throws WordsRuntimeException {
 		INodeTouchesPredicate touchesPred = new INodeTouchesPredicate(thingStringLeaf, new LNodeIdentifier("alias"), 
 				thingStringLeaf, new LNodeIdentifier("alias"));
-		touchesPred.eval(environment);
+		touchesPred.eval(environment, statementsAboutFred);
 	}
 	
 	@Test
@@ -53,11 +53,11 @@ public class TestINodeTouchesPredicate extends TestINode {
 		INodeTouchesPredicate touchesPred = new INodeTouchesPredicate(thingStringLeaf, new LNodeIdentifier("alias1"), 
 				thingStringLeaf, new LNodeIdentifier("alias2"));
 		
-		assertEquals("Two things in same location eval true", touchesPred.eval(environment).booleanValue, true);
+		assertEquals("Two things in same location eval true", touchesPred.eval(environment, statementsAboutFred).booleanValue, true);
 		environment.getObject("Fred").moveDown();
-		assertEquals("Two things not in same location eval false", touchesPred.eval(environment).booleanValue, false);
+		assertEquals("Two things not in same location eval false", touchesPred.eval(environment, statementsAboutFred).booleanValue, false);
 		environment.getObject("George").moveDown();
-		assertEquals("Two things in same location eval true", touchesPred.eval(environment).booleanValue, true);
+		assertEquals("Two things in same location eval true", touchesPred.eval(environment, statementsAboutFred).booleanValue, true);
 	}
 
 }

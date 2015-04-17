@@ -11,13 +11,21 @@ public class INodeTouchesPredicate extends INode {
 	public INodeTouchesPredicate(Object... children) {
 		super(children);
 	}
-
+	
 	@Override
 	public ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException {
+		assert false : "Cannot eval INodeTouchesPredicate without inherited Statement List";
+		return null;
+	}
+
+	@Override
+	public ASTValue eval(WordsEnvironment environment, Object inheritedStmts) throws WordsRuntimeException {
 		ASTValue subject1 = children.get(0).eval(environment);
 		ASTValue objectAlias1 = children.get(1).eval(environment);
 		ASTValue subject2 = children.get(2).eval(environment);
 		ASTValue objectAlias2 = children.get(3).eval(environment);
+		
+		INodeStatementList stmtList = (INodeStatementList) inheritedStmts;
 		
 		if (objectAlias1.type.equals(ASTValue.ValueType.STRING) 
 				&& objectAlias2.type.equals(ASTValue.ValueType.STRING)
@@ -27,6 +35,7 @@ public class INodeTouchesPredicate extends INode {
 		
 		HashSet<WordsObject> objectsToCheck1 = new HashSet<WordsObject>();
 		HashSet<WordsObject> objectsToCheck2 = new HashSet<WordsObject>();
+		ASTValue returnVal = new ASTValue(false);
 		
 		if (subject1.type.equals(ASTValue.ValueType.STRING)) {
 			objectsToCheck1 = environment.getObjectsByClass(subject1.stringValue);
@@ -43,12 +52,19 @@ public class INodeTouchesPredicate extends INode {
 		for (WordsObject object1: objectsToCheck1) {
 			for (WordsObject object2: objectsToCheck2) {
 				if (object1 != object2 && object1.getCurrentPosition().equals(object2.getCurrentPosition())) {
-					return new ASTValue(true);
-					// TODO: Modify the object table to contain an entry for these objects with their aliases,
-					// run the statement list of the listener, and then pop the scope. 
+					returnVal.booleanValue = true;
+					environment.enterNewLocalScope();
+					if (objectAlias1.type.equals(ASTValue.ValueType.STRING)) {
+						environment.addObjectToCurrentNameScope(objectAlias1.stringValue, object1);
+					}
+					if (objectAlias2.type.equals(ASTValue.ValueType.STRING)) {
+						environment.addObjectToCurrentNameScope(objectAlias2.stringValue, object2);
+					}
+					stmtList.eval(environment);
+					environment.exitLocalScope();
 				}
 			}
 		}
-		return new ASTValue(false);
+		return returnVal;
 	}
 }
