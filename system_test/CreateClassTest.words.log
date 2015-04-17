@@ -5,8 +5,6 @@ frame #: 1
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily
 (3,3):
@@ -18,8 +16,6 @@ frame #: 2
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -31,8 +27,6 @@ frame #: 3
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -44,8 +38,6 @@ frame #: 4
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -57,8 +49,6 @@ frame #: 5
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -70,8 +60,6 @@ frame #: 6
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -83,8 +71,6 @@ frame #: 7
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -96,8 +82,6 @@ frame #: 8
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -109,8 +93,6 @@ frame #: 9
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -122,8 +104,6 @@ frame #: 10
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -135,8 +115,6 @@ frame #: 11
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -148,8 +126,6 @@ frame #: 12
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -161,8 +137,6 @@ frame #: 13
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -174,8 +148,6 @@ frame #: 14
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -187,8 +159,6 @@ frame #: 15
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -200,8 +170,6 @@ frame #: 16
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -213,8 +181,6 @@ frame #: 17
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -226,8 +192,6 @@ frame #: 18
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -239,8 +203,6 @@ frame #: 19
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -252,8 +214,6 @@ frame #: 20
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -265,8 +225,6 @@ frame #: 21
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -278,8 +236,6 @@ frame #: 22
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -291,8 +247,6 @@ frame #: 23
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -304,8 +258,6 @@ frame #: 24
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -317,8 +269,6 @@ frame #: 25
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -330,8 +280,6 @@ frame #: 26
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -343,8 +291,6 @@ frame #: 27
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -356,8 +302,6 @@ frame #: 28
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -369,8 +313,6 @@ frame #: 29
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -382,8 +324,6 @@ frame #: 30
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -395,8 +335,6 @@ frame #: 31
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -408,8 +346,6 @@ frame #: 32
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -421,8 +357,6 @@ frame #: 33
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -434,8 +368,6 @@ frame #: 34
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -447,8 +379,6 @@ frame #: 35
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -460,8 +390,6 @@ frame #: 36
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -473,8 +401,6 @@ frame #: 37
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -486,8 +412,6 @@ frame #: 38
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -499,8 +423,6 @@ frame #: 39
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -512,8 +434,6 @@ frame #: 40
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -525,8 +445,6 @@ frame #: 41
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -538,8 +456,6 @@ frame #: 42
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -551,8 +467,6 @@ frame #: 43
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -564,8 +478,6 @@ frame #: 44
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -577,8 +489,6 @@ frame #: 45
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -590,8 +500,6 @@ frame #: 46
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -603,8 +511,6 @@ frame #: 47
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -616,8 +522,6 @@ frame #: 48
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -629,8 +533,6 @@ frame #: 49
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -642,8 +544,6 @@ frame #: 50
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -655,8 +555,6 @@ frame #: 51
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -668,8 +566,6 @@ frame #: 52
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -681,8 +577,6 @@ frame #: 53
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -694,8 +588,6 @@ frame #: 54
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -707,8 +599,6 @@ frame #: 55
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -720,8 +610,6 @@ frame #: 56
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -733,8 +621,6 @@ frame #: 57
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -746,8 +632,6 @@ frame #: 58
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -759,8 +643,6 @@ frame #: 59
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -772,8 +654,6 @@ frame #: 60
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -785,8 +665,6 @@ frame #: 61
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -798,8 +676,6 @@ frame #: 62
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -811,8 +687,6 @@ frame #: 63
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -824,8 +698,6 @@ frame #: 64
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -837,8 +709,6 @@ frame #: 65
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -850,8 +720,6 @@ frame #: 66
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -863,8 +731,6 @@ frame #: 67
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -876,8 +742,6 @@ frame #: 68
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -889,8 +753,6 @@ frame #: 69
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -902,8 +764,6 @@ frame #: 70
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -915,8 +775,6 @@ frame #: 71
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -928,8 +786,6 @@ frame #: 72
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -941,8 +797,6 @@ frame #: 73
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -954,8 +808,6 @@ frame #: 74
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -967,8 +819,6 @@ frame #: 75
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -980,8 +830,6 @@ frame #: 76
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -993,8 +841,6 @@ frame #: 77
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -1006,8 +852,6 @@ frame #: 78
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -1019,8 +863,6 @@ frame #: 79
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -1032,8 +874,6 @@ frame #: 80
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -1045,8 +885,6 @@ frame #: 81
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -1058,8 +896,6 @@ frame #: 82
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -1071,8 +907,6 @@ frame #: 83
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -1084,8 +918,6 @@ frame #: 84
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -1097,8 +929,6 @@ frame #: 85
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -1110,8 +940,6 @@ frame #: 86
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -1123,8 +951,6 @@ frame #: 87
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -1136,8 +962,6 @@ frame #: 88
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -1149,8 +973,6 @@ frame #: 89
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -1162,8 +984,6 @@ frame #: 90
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -1175,8 +995,6 @@ frame #: 91
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -1188,8 +1006,6 @@ frame #: 92
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -1201,8 +1017,6 @@ frame #: 93
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -1214,8 +1028,6 @@ frame #: 94
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -1227,8 +1039,6 @@ frame #: 95
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -1240,8 +1050,6 @@ frame #: 96
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -1253,8 +1061,6 @@ frame #: 97
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -1266,8 +1072,6 @@ frame #: 98
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -1279,8 +1083,6 @@ frame #: 99
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):
@@ -1292,8 +1094,6 @@ frame #: 100
 <person> Alison
 (0,0):
 <man> Charlie
-(1,1):
-<woman> Debra
 (2,2):
 <child> Emily "3.400000"
 (3,3):

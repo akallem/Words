@@ -105,6 +105,79 @@ public class TestEnvironment {
 		environment.exitLocalScope();
 		environment.getObject("Alex");
 	}
-	
 
+	/****************************************
+	 * Class Creation Section
+	 ****************************************/
+	
+	@Test
+	public void basicClassCreation() throws WordsRuntimeException {
+		WordsClass newClass = environment.createClass("Person", "thing");
+		WordsClass receivedClass = environment.getClass("Person");
+		
+		assertEquals("Class created and retrieved", newClass, receivedClass);
+	}
+	
+	@Test
+	public void basicClassWithObject() throws WordsRuntimeException {
+		WordsClass newClass = environment.createClass("Person", "thing");
+		WordsObject newObject = environment.createObject("James", "Person", new WordsPosition(0.0, 0.0));
+		WordsObject receivedObject = environment.getObject("James");
+		
+		assertEquals("Object of class created and retrieved", newObject, receivedObject);
+		assertEquals("Object is of correct class", newObject.getClassName(), "Person");
+	}
+
+	@Test
+	public void singleInheritance() throws WordsRuntimeException {
+		WordsClass parentClass = environment.createClass("Person", "thing");
+		parentClass.setProperty("height", new WordsProperty(5.0));
+		
+		WordsClass childClass = environment.createClass("Man", "Person");
+		WordsObject childObject = environment.createObject("Dude", "Man", new WordsPosition(0.0, 0.0));
+		
+		assertEquals("Child class inherits property", childObject.getProperty("height").numProperty, 5.0, .0001);
+	}
+	
+	@Test
+	public void skipGenerationInheritance() throws WordsRuntimeException {
+		WordsClass grandParentClass = environment.createClass("Person", "thing");
+		grandParentClass.setProperty("height", new WordsProperty(5.0));
+		
+		environment.createClass("Man", "Person");
+		environment.createClass("Boy", "Man");
+		WordsObject grandChildObject = environment.createObject("Sonnie", "Boy", new WordsPosition(0.0, 0.0));
+		
+		assertEquals("Grandchild class inherits property", grandChildObject.getProperty("height").numProperty, 5.0, .0001);
+	}
+	
+	@Test
+	public void compoundInheritance() throws WordsRuntimeException {
+		WordsClass grandParentClass = environment.createClass("Person", "thing");
+		grandParentClass.setProperty("height", new WordsProperty(5.0));
+		
+		WordsClass parentClass = environment.createClass("Man", "Person");
+		parentClass.setProperty("language", new WordsProperty("wordz"));
+		
+		environment.createClass("Boy", "Man");
+		WordsObject grandChildObject = environment.createObject("Sonnie", "Boy", new WordsPosition(0.0, 0.0));
+		
+		assertEquals("Grandchild class inherits grandparent property", grandChildObject.getProperty("height").numProperty, 5.0, .0001);
+		assertEquals("Grandchild class inherits parent property", grandChildObject.getProperty("language").stringProperty, "wordz");
+	}
+	
+	@Test
+	(expected = WordsClassAlreadyExistsException.class)
+	public void classNameTaken() throws WordsRuntimeException {
+		WordsClass newClass = environment.createClass("Person", "thing");
+		WordsClass otherClass = environment.createClass("Person", "thing");
+	}
+	
+	@Test
+	(expected = WordsClassNotFoundException.class)
+	public void parentClassDoesntExist() throws WordsRuntimeException {
+		WordsClass newClass = environment.createClass("Person", "wing");
+	}
+		
+	
 }
