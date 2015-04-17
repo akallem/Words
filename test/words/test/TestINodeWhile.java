@@ -22,8 +22,8 @@ public class TestINodeWhile extends TestINode {
 		AST relation = new INodeLess(new LNodeNum(environment.getObject("Fred").getCurrentCell().x), new LNodeNum(2));
 		AST testNode = new INodeWhile(relation, statementList);
 		
-		loop.enqueueAST(testNode);
-		loop.fastForwardEnvironment(2);
+		testNode.eval(environment);
+		loop.fastForwardEnvironment(1);
 		assertEquals("Fred has moved correctly", environment.getObject("Fred").getCurrentCell(), new WordsPosition(2,0));
 	}
 	
