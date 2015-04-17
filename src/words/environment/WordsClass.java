@@ -4,19 +4,19 @@ import java.util.HashMap;
 
 public class WordsClass {
 	private HashMap<String, WordsProperty> properties;
-	private HashMap<String, WordsCustomActionDefinition> functions;
+	private HashMap<String, WordsCustomAction> functions;
 	private WordsClass parent;
 	private String className;
 	private ArrayList<WordsClass> children;
 	
 	public WordsClass(String className, WordsClass parent) {
 		properties = new HashMap<String, WordsProperty>();
-		functions = new HashMap<String, WordsCustomActionDefinition>();
+		functions = new HashMap<String, WordsCustomAction>();
 		children = new ArrayList<WordsClass>();
 		this.parent = parent;
 		this.className = className;
 		if (parent != null) {
-			// only "thing" should get here
+			// everything except the base superclass should have a parent. 
 			parent.registerChild(this);
 		}
 	}

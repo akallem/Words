@@ -14,7 +14,7 @@ import words.exceptions.WordsRuntimeException;
 
 public class WordsEnvironment {
 	private HashMap<String, WordsClass> classes;
-	/* gettableObjects is a list of locally scoped symbol tables with the most local 
+	/* objectsByName is a list of locally scoped symbol tables with the most local 
 	 * scope first in the list, and global scope always being last in the list.
 	 */
 	private LinkedList<HashMap<String, WordsObject>> objectsByName;
@@ -23,6 +23,7 @@ public class WordsEnvironment {
 	 */
 	private HashMap<WordsClass, HashSet<WordsObject>> objectsByClass;
 	private ArrayList<WordsEventListener> eventListeners;
+	private static final String BASE_SUPERCLASS = "thing";
 	
 	public WordsEnvironment() {
 		classes = new HashMap<String, WordsClass>();
@@ -36,8 +37,8 @@ public class WordsEnvironment {
 	 * Creates the base class thing.
 	 */
 	private void setupEnvironment() {
-		WordsClass thing = new WordsClass("thing", null);
-		classes.put("thing", thing);
+		WordsClass thing = new WordsClass(BASE_SUPERCLASS, null);
+		classes.put(BASE_SUPERCLASS, thing);
 		objectsByClass.put(thing, new HashSet<WordsObject>());
 		objectsByName.push(new HashMap<String, WordsObject>());
 	}
@@ -48,6 +49,7 @@ public class WordsEnvironment {
 	public void resetEnvironment() {
 		classes.clear();
 		objectsByName.clear();
+		objectsByClass.clear();
 		eventListeners.clear();
 		setupEnvironment();
 	}
@@ -63,10 +65,10 @@ public class WordsEnvironment {
 			getClass(className);
 			throw new WordsClassAlreadyExistsException(className);
 		} catch (WordsClassNotFoundException e){
-		
 			WordsClass parentClass = getClass(parent);
 			WordsClass wordsClass = new WordsClass(className, parentClass);
 			classes.put(className, wordsClass);
+			objectsByClass.put(parentClass, new HashSet<WordsObject>());
 			
 			return wordsClass;
 		}
@@ -154,7 +156,7 @@ public class WordsEnvironment {
 	 */
 	public Collection<WordsObject> getObjects() {
 		try {
-			return getObjectsByClass("thing");
+			return getObjectsByClass(BASE_SUPERCLASS);
 		} catch (WordsClassNotFoundException e) {
 			System.exit(1);
 		}
@@ -162,12 +164,13 @@ public class WordsEnvironment {
 	}
 	
 	/**
-	 * Return a collection of all objects of a certain class
+	 * Return a collection of all objects of a certain class, as well as all the objects
+	 * that exist in children classes of the certain class.
 	 * Returns an empty collection if there are no objects of that class in the environment
 	 * @throws a WordsClassNotFoundException if the class does not exist.
 	 */
 	public HashSet<WordsObject> getObjectsByClass(String className) throws WordsClassNotFoundException {
-		WordsClass wc = classes.get(className);
+		WordsClass wc = getClass(className);
 		HashSet<WordsObject> objectsToReturn = objectsByClass.get(wc);
 		for (WordsClass childClass : wc.getChildren()) {
 			objectsToReturn.addAll(objectsByClass.get(childClass));

@@ -10,7 +10,11 @@ public class INodeAlias extends INode {
 
 	@Override
 	public ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException {
-		// TODO
-		throw new AssertionError("Not yet implemented");
+		ASTValue identifier = children.get(0) == null ? null : children.get(0).eval(environment);
+		if (identifier != null) {
+			return identifier;
+		} else {
+			return new ASTValue(ASTValue.ValueType.NOTHING);
+		}
 	}
 }
