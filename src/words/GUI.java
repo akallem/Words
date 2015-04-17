@@ -66,6 +66,7 @@ public class GUI {
 		return Integer.toString(p.x) + "_" + Integer.toString(p.y);
 	}
 
+	@SuppressWarnings("serial")
 	private class Grid extends JPanel {
 		int cellSize;					// Dimensions of a cell in pixels
 
@@ -159,6 +160,7 @@ public class GUI {
 		}
 	}
 
+	@SuppressWarnings("serial")
 	private class Buttons extends JPanel {
 		Button up, down, left, right, zoomIn, zoomOut;
 		Handler handler;

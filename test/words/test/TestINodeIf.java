@@ -4,8 +4,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import words.ast.*;
-import words.environment.Position;
-import words.exceptions.WordsRuntimeException;
+import words.environment.*;
+import words.exceptions.*;
 
 
 public class TestINodeIf extends TestINode {

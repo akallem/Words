@@ -1,9 +1,8 @@
 package words.environment;
 import java.util.LinkedList;
 
-import words.ast.AST;
-import words.exceptions.WordsProgramException;
-import words.exceptions.WordsRuntimeException;
+import words.exceptions.*;
+import words.ast.*;
 
 public class PropertyAssignAction extends Action {
 	private AST propertyAssignmentList;

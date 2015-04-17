@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import words.ast.*;
-import words.exceptions.WordsRuntimeException;
+import words.exceptions.*;
 
 
 public class TestINodeEquals extends TestINode {
@@ -58,7 +58,6 @@ public class TestINodeEquals extends TestINode {
 	@Test
 	public void stringShouldEqualItself() throws WordsRuntimeException {
 		AST stringLeaf1 = new LNodeString("test");
-		AST stringLeaf2 = new LNodeString("test");
 		
 		INode testNode = new INodeEquals(stringLeaf1, stringLeaf1);
 		ASTValue result = testNode.eval(environment);

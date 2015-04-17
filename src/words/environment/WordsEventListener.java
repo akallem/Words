@@ -1,11 +1,7 @@
 package words.environment;
 
-import words.ast.AST;
-import words.ast.ASTValue;
-import words.ast.INodeBasicActionPredicate;
-import words.environment.Environment;
-import words.exceptions.WordsProgramException;
-import words.exceptions.WordsRuntimeException;
+import words.exceptions.*;
+import words.ast.*;
 
 public class WordsEventListener {
 	private AST predicate;

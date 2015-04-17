@@ -5,13 +5,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 
-import words.ast.AST;
-import words.ast.LNodeNum;
-import words.exceptions.ClassAlreadyExistsException;
-import words.exceptions.WordsClassNotFoundException;
-import words.exceptions.ObjectAlreadyExistsException;
-import words.exceptions.ObjectNotFoundException;
-import words.exceptions.WordsRuntimeException;
+import words.exceptions.*;
+import words.ast.*;
 
 public class Environment {
 	private HashMap<String, WordsClass> classes;

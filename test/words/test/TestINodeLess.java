@@ -4,8 +4,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import words.ast.*;
-import words.exceptions.OperatorTypeMismatchException;
-import words.exceptions.WordsRuntimeException;
+import words.exceptions.*;
 
 
 public class TestINodeLess extends TestINode {
@@ -56,6 +55,6 @@ public class TestINodeLess extends TestINode {
 	@Test (expected = OperatorTypeMismatchException.class)
 	public void numberAndStringsShouldNotBeLesser() throws WordsRuntimeException {
 		INode testNode = new INodeLess(numLeaf, stringLeaf);
-		ASTValue result = testNode.eval(environment);
+		testNode.eval(environment);
 	}
 }

@@ -66,7 +66,7 @@ public class TestINodeRetrieveProperty extends TestINode {
 	
 	@Test
 	public void testWithReferenceListIdNothing() throws WordsRuntimeException {
-		WordsObject alexObject = environment.createObject("Alex", "thing", new Position(0,0));
+		environment.createObject("Alex", "thing", new Position(0,0));
 		LNodeReference alexLNodeRef = new LNodeReference("Alex's");
 		INodeReferenceList alexRefList = new INodeReferenceList(alexLNodeRef);
 		

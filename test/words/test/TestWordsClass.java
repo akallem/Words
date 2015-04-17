@@ -3,8 +3,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import words.environment.WordsClass;
-import words.environment.Property;
+import words.environment.*;
 
 public class TestWordsClass {
 	@Test

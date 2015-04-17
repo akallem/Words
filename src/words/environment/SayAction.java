@@ -1,12 +1,8 @@
 package words.environment;
 import java.util.LinkedList;
 
-import words.ast.AST;
-import words.ast.ASTValue;
-import words.ast.ASTValue.Type;
-import words.exceptions.InvalidTypeException;
-import words.exceptions.WordsProgramException;
-import words.exceptions.WordsRuntimeException;
+import words.exceptions.*;
+import words.ast.*;
 
 public class SayAction extends Action {
 	private AST message;

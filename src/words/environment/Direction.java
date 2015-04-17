@@ -1,6 +1,5 @@
 package words.environment;
 
-import java.util.EnumSet;
 /**
  * An orthogonal direction, possibly random.
  */

@@ -20,6 +20,6 @@ public class TestINodeNegate extends TestINode {
 	@Test (expected = InvalidTypeException.class)
 	public void onlyOperatesOnNumbers() throws WordsRuntimeException {
 		INode testNode = new INodeNegate(stringLeaf);
-		ASTValue result = testNode.eval(environment);
+		testNode.eval(environment);
 	}
 }

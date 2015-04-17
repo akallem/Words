@@ -4,15 +4,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import words.ast.AST;
-import words.ast.INode;
-import words.ast.INodeQueueWait;
-import words.ast.INodeReferenceList;
-import words.ast.INodeWaitsPredicate;
-import words.ast.LNodeIdentifier;
-import words.ast.LNodeNum;
-import words.environment.Position;
-import words.exceptions.WordsRuntimeException;
+import words.ast.*;
+import words.environment.*;
+import words.exceptions.*;
 
 public class TestINodeWaitsPredicate extends TestINode {
 

@@ -4,11 +4,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import words.ast.INodeTouchesPredicate;
-import words.ast.LNodeIdentifier;
-import words.environment.Position;
-import words.exceptions.AliasException;
-import words.exceptions.WordsRuntimeException;
+import words.ast.*;
+import words.environment.*;
+import words.exceptions.*;
 
 public class TestINodeTouchesPredicate extends TestINode {
 

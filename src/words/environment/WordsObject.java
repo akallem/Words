@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import words.exceptions.*;
-import words.environment.WaitAction;
 
 public class WordsObject {
 	private String objectName;

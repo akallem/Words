@@ -3,7 +3,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import words.environment.Position;
+import words.environment.*;
 
 public class TestWordsPosition {
 	@Test

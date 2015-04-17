@@ -1,5 +1,4 @@
 package words.test;
-import static org.junit.Assert.*;
 
 import org.junit.Test;
 
@@ -8,6 +7,7 @@ import words.environment.*;
 import words.exceptions.*;
 
 public class TestWordsWait extends TestINode {
+	
     @Test
     public void testWorkingWordsWait() throws WordsRuntimeException, WordsProgramException {
         environment.createObject("Fred", "thing", new Position(0, 0));

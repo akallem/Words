@@ -4,15 +4,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import words.ast.AST;
-import words.ast.INodeReferenceList;
-import words.ast.INodeSubject;
-import words.ast.LNodeIdentifier;
-import words.ast.LNodeReference;
-import words.environment.WordsObject;
-import words.environment.Position;
-import words.environment.Property;
-import words.exceptions.WordsRuntimeException;
+import words.ast.*;
+import words.environment.*;
+import words.exceptions.*;
 
 public class TestINodeSubject extends TestINode {
 

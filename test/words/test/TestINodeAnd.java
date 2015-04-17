@@ -4,8 +4,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import words.ast.*;
-import words.exceptions.WordsRuntimeException;
-
+import words.exceptions.*;
 
 public class TestINodeAnd extends TestINode {
 	@Test

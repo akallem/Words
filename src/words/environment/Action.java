@@ -1,8 +1,7 @@
 package words.environment;
 import java.util.LinkedList;
 
-import words.exceptions.WordsProgramException;
-import words.exceptions.WordsRuntimeException;
+import words.exceptions.*;
 
 /**
  * An abstract action for a WordsObject that can be enqueued on the object's action queue and later executed or expanded.

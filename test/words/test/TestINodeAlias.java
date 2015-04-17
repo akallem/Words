@@ -4,11 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import words.ast.AST;
-import words.ast.ASTValue;
-import words.ast.INodeAlias;
-import words.ast.LNodeIdentifier;
-import words.exceptions.WordsRuntimeException;
+import words.ast.*;
+import words.exceptions.*;
 
 public class TestINodeAlias extends TestINode {
 

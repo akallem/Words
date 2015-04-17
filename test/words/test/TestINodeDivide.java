@@ -21,12 +21,12 @@ public class TestINodeDivide extends TestINode {
 	@Test (expected = WordsArithmeticException.class)
 	public void onlyOperatesOnTwoNumbers() throws WordsRuntimeException {
 		INode testNode = new INodeDivide(numLeaf, stringLeaf);
-		ASTValue result = testNode.eval(environment);
+		testNode.eval(environment);
 	}
 
 	@Test (expected = DivideByZeroException.class)
 	public void cannotDivideByZero() throws WordsRuntimeException {
 		INode testNode = new INodeDivide(twoLeaf, numLeaf);
-		ASTValue result = testNode.eval(environment);
+		testNode.eval(environment);
 	}
 }

@@ -2,13 +2,8 @@ package words.environment;
 import java.util.LinkedList;
 
 import java.util.Random;
-import words.ast.AST;
-import words.ast.ASTValue;
-import words.ast.ASTValue.Type;
-import words.ast.LNodeNum;
-import words.exceptions.InvalidTypeException;
-import words.exceptions.WordsProgramException;
-import words.exceptions.WordsRuntimeException;
+import words.exceptions.*;
+import words.ast.*;
 
 public class MoveAction extends Action {
 	private Direction direction;

@@ -2,7 +2,8 @@ package words.environment;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import words.ast.AST;
+import words.exceptions.*;
+import words.ast.*;
 
 public class CustomAction extends Action {
 	private AST statementList;

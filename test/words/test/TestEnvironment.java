@@ -120,7 +120,7 @@ public class TestEnvironment {
 	
 	@Test
 	public void basicClassWithObject() throws WordsRuntimeException {
-		WordsClass newClass = environment.createClass("Person", "thing");
+		environment.createClass("Person", "thing");
 		WordsObject newObject = environment.createObject("James", "Person", new Position(0.0, 0.0));
 		WordsObject receivedObject = environment.getObject("James");
 		
@@ -133,7 +133,7 @@ public class TestEnvironment {
 		WordsClass parentClass = environment.createClass("Person", "thing");
 		parentClass.setProperty("height", new Property(5.0));
 		
-		WordsClass childClass = environment.createClass("Man", "Person");
+		environment.createClass("Man", "Person");
 		WordsObject childObject = environment.createObject("Dude", "Man", new Position(0.0, 0.0));
 		
 		assertEquals("Child class inherits property", childObject.getProperty("height").numProperty, 5.0, .0001);
@@ -169,14 +169,14 @@ public class TestEnvironment {
 	@Test
 	(expected = ClassAlreadyExistsException.class)
 	public void classNameTaken() throws WordsRuntimeException {
-		WordsClass newClass = environment.createClass("Person", "thing");
-		WordsClass otherClass = environment.createClass("Person", "thing");
+		environment.createClass("Person", "thing");
+		environment.createClass("Person", "thing");
 	}
 	
 	@Test
 	(expected = WordsClassNotFoundException.class)
 	public void parentClassDoesntExist() throws WordsRuntimeException {
-		WordsClass newClass = environment.createClass("Person", "wing");
+		environment.createClass("Person", "wing");
 	}
 		
 	

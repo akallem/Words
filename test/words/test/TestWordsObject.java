@@ -3,16 +3,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import words.ast.LNodeNum;
-import words.ast.LNodeString;
-import words.environment.Direction;
-import words.environment.WordsClass;
-import words.environment.MoveAction;
-import words.environment.WordsObject;
-import words.environment.Position;
-import words.environment.Property;
-import words.environment.SayAction;
-
+import words.ast.*;
+import words.environment.*;
 import words.exceptions.*;
 
 public class TestWordsObject {

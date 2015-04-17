@@ -4,12 +4,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import words.ast.INodeMovesPredicate;
-import words.ast.INodeReferenceList;
-import words.ast.INodeSubject;
-import words.ast.LNodeIdentifier;
-import words.environment.Position;
-import words.exceptions.WordsRuntimeException;
+import words.ast.*;
+import words.environment.*;
+import words.exceptions.*;
 
 public class TestINodeMovesPredicate extends TestINode {
 

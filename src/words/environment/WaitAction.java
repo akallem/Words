@@ -1,14 +1,8 @@
 package words.environment;
 import java.util.LinkedList;
 
-import words.ast.AST;
-import words.ast.ASTValue;
-import words.ast.ASTValue.Type;
-import words.ast.LNodeNum;
-import words.exceptions.FunctionArgsException;
-import words.exceptions.InvalidTypeException;
-import words.exceptions.WordsProgramException;
-import words.exceptions.WordsRuntimeException;
+import words.exceptions.*;
+import words.ast.*;
 
 public class WaitAction extends Action {
 	private AST lengthExpression;

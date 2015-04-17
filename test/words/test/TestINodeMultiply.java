@@ -21,6 +21,6 @@ public class TestINodeMultiply extends TestINode {
 	@Test (expected = WordsArithmeticException.class)
 	public void onlyOperatesOnTwoNumbers() throws WordsRuntimeException {
 		INode testNode = new INodeMultiply(numLeaf, stringLeaf);
-		ASTValue result = testNode.eval(environment);
+		testNode.eval(environment);
 	}
 }
