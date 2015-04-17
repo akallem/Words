@@ -187,7 +187,7 @@ public class WordsEnvironment {
 		WordsClass wc = getClass(className);
 		HashSet<WordsObject> objectsToReturn = objectsByClass.get(wc);
 		for (WordsClass childClass : wc.getChildren()) {
-			objectsToReturn.addAll(objectsByClass.get(childClass));
+			objectsToReturn.addAll(getObjectsByClass(childClass.getClassName()));
 		}
 		return objectsToReturn;
 	}
