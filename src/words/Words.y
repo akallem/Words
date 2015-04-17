@@ -159,8 +159,8 @@ class_definition_statement:
 	;
 
 listener_declare_statement:
-		WHENEVER predicate '{' non_declarative_statement_list '}'									{ $$ = new INodeListenerPerm($2, $4); ((AST) $$).lineNumber = lexer.lineNumber; }
-	|	AS LONG AS predicate '{' non_declarative_statement_list '}'									{ $$ = new INodeListenerTemp($4, $6); ((AST) $$).lineNumber = lexer.lineNumber; }
+		WHENEVER predicate '{' non_declarative_statement_list '}'									{ $$ = new INodeListener($2, $4, new LNodeBoolean(false)); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	AS LONG AS predicate '{' non_declarative_statement_list '}'									{ $$ = new INodeListener($4, $6, new LNodeBoolean(true)); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 object_create_statement:

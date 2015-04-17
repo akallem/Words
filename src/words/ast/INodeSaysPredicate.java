@@ -24,15 +24,8 @@ public class INodeSaysPredicate extends INodeBasicActionPredicate {
 		
 		INodeStatementList stmtList = (INodeStatementList) inheritedStmts;
 		
-		HashSet<WordsObject> objectsToCheck = new HashSet<WordsObject>();
+		HashSet<WordsObject> objectsToCheck = getObjectsToCheck(subject, environment);
 		ASTValue returnVal = new ASTValue(false);
-		
-		// If subject is a string, then we are looking at a class name
-		if (subject.type.equals(ASTValue.Type.STRING)) {
-			objectsToCheck = environment.getObjectsByClass(subject.stringValue);
-		} else if (subject.type.equals(ASTValue.Type.OBJ)) {
-			objectsToCheck.add(subject.objValue);
-		}
 		
 		for (WordsObject object : objectsToCheck) {
 			Action lastAction = object.getLastAction();

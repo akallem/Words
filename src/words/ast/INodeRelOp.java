@@ -1,6 +1,5 @@
 package words.ast;
 
-import words.environment.*;
 import words.exceptions.*;
 
 public abstract class INodeRelOp extends INode {

@@ -14,6 +14,11 @@ public class WordsEventListener {
 		this.temporary = temporary;
 	}
 	
+	/**
+	 * Execute a listener
+	 * @return false if the listener should be deleted by the caller. 
+	 * @throws WordsProgramException
+	 */
 	public boolean execute(Environment environment) throws WordsProgramException {
 		if (predicate instanceof INodeBasicActionPredicate) {
 			boolean predVal = false;
@@ -30,8 +35,7 @@ public class WordsEventListener {
 			} catch (WordsRuntimeException e) {
 				throw new WordsProgramException(predicate, e);
 			}
-	
-			// currently restricted to boolean predicate
+			
 			assert predicateValue.type == ASTValue.Type.BOOLEAN : "Predicate has type " + predicateValue.type.toString();
 	
 			if (predicateValue.booleanValue == true) {

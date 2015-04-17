@@ -24,21 +24,15 @@ public class INodeMovesPredicate extends INodeBasicActionPredicate {
 		
 		INodeStatementList stmtList = (INodeStatementList) inheritedStmts;
 		
-		HashSet<WordsObject> objectsToCheck = new HashSet<WordsObject>();
+		HashSet<WordsObject> objectsToCheck = getObjectsToCheck(subject, environment);
 		ASTValue returnVal = new ASTValue(false);
-		
-		// If subject is a string, then we are looking at a class name
-		if (subject.type.equals(ASTValue.Type.STRING)) {
-			objectsToCheck = environment.getObjectsByClass(subject.stringValue);
-		} else if (subject.type.equals(ASTValue.Type.OBJ)) {
-			objectsToCheck.add(subject.objValue);
-		}
 
 		for (WordsObject object : objectsToCheck) {
 			Action lastAction = object.getLastAction();
 			if (lastAction instanceof MoveAction) {
 				MoveAction lastMove = (MoveAction) lastAction;
-				if (moveDirection == null || moveDirection.directionValue.equals(lastMove.getDirection())) {
+				if (moveDirection == null || moveDirection.directionValue.type == Direction.Type.ANYWHERE 
+						|| moveDirection.directionValue.equals(lastMove.getDirection())) {
 					returnVal.booleanValue = true;
 					environment.enterNewLocalScope();
 					if (objectAlias.type.equals(ASTValue.Type.STRING)) {
