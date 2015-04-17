@@ -11,14 +11,14 @@ import words.ast.INodeReferenceList;
 import words.ast.INodeWaitsPredicate;
 import words.ast.LNodeIdentifier;
 import words.ast.LNodeNum;
-import words.environment.WordsPosition;
+import words.environment.Position;
 import words.exceptions.WordsRuntimeException;
 
 public class TestINodeWaitsPredicate extends TestINode {
 
 	@Test
 	public void knowsIfAnObjectWaited() throws WordsRuntimeException {
-		environment.createObject("Fred", "thing", new WordsPosition(0,0));
+		environment.createObject("Fred", "thing", new Position(0,0));
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up.
 		AST idLeaf = new LNodeIdentifier("Fred");
 		AST numLeaf = new LNodeNum(2);
@@ -43,7 +43,7 @@ public class TestINodeWaitsPredicate extends TestINode {
 	@Test
 	public void usesInheritence() throws WordsRuntimeException {
 		environment.createClass("child", "thing");
-		environment.createObject("Fred", "child", new WordsPosition(0,0));
+		environment.createObject("Fred", "child", new Position(0,0));
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up.
 		AST idLeaf = new LNodeIdentifier("Fred");
 		AST numLeaf = new LNodeNum(2);

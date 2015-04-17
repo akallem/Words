@@ -1,6 +1,5 @@
 package words.ast;
 
-import words.ast.ASTValue;
 import words.environment.*;
 import words.exceptions.*;
 
@@ -14,9 +13,9 @@ public class INodeReferenceList extends INode {
 	 * Returns ASTValue.ValueType.NOTHING if no children. Returns an ASTValue of type OBJ if all references are to objects.
 	 * Throws WordsReferenceException if some reference isn't to an object.
 	 */
-	public ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException {
+	public ASTValue eval(Environment environment) throws WordsRuntimeException {
 		if (children.size() == 0) {
-			return new ASTValue(ASTValue.ValueType.NOTHING);
+			return new ASTValue(ASTValue.Type.NOTHING);
 		}
 		
 		String firstObjRefName = children.get(0).eval(environment).stringValue;
@@ -24,9 +23,9 @@ public class INodeReferenceList extends INode {
 		
 		for (int i = 1; i < children.size(); i++) {
 			String propertyRefName = children.get(i).eval(environment).stringValue;
-			WordsProperty prop = currentObj.getProperty(propertyRefName);
-			if (prop.type != WordsProperty.PropertyType.OBJECT) {
-				throw new WordsReferenceException(propertyRefName, prop.type);
+			Property prop = currentObj.getProperty(propertyRefName);
+			if (prop.type != Property.PropertyType.OBJECT) {
+				throw new ReferenceException(propertyRefName, prop.type);
 			}
 			currentObj = prop.objProperty;
 		}

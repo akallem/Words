@@ -1,11 +1,11 @@
 package words.exceptions;
 
 @SuppressWarnings("serial")
-public class WordsAliasException extends WordsRuntimeException {
+public class AliasException extends WordsRuntimeException {
 	
 	private String message;
 	
-	public WordsAliasException(String message) {
+	public AliasException(String message) {
 		this.message = message;
 	}
 	

@@ -1,6 +1,6 @@
 package words.ast;
 
-import words.environment.WordsEnvironment;
+import words.environment.*;
 import words.exceptions.*;
 
 public class INodeNegate extends INode {
@@ -9,11 +9,11 @@ public class INodeNegate extends INode {
 	}
 
 	@Override
-	public ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException {
-		ASTValue value = children.get(0).eval(environment).tryCoerceTo(ASTValue.ValueType.NUM);
+	public ASTValue eval(Environment environment) throws WordsRuntimeException {
+		ASTValue value = children.get(0).eval(environment).tryCoerceTo(ASTValue.Type.NUM);
 
-		if (value.type != ASTValue.ValueType.NUM) {
-			throw new WordsInvalidTypeException("NUM", value.type.toString());
+		if (value.type != ASTValue.Type.NUM) {
+			throw new InvalidTypeException("NUM", value.type.toString());
 		}
 
 		return new ASTValue(value.numValue * -1);

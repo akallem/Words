@@ -14,7 +14,7 @@ public class TestINodeSubtract extends TestINode {
 		
 		INode testNode = new INodeSubtract(numLeaf1, numLeaf2);
 		ASTValue result = testNode.eval(environment);
-		assertTrue("Returns NUM value", result.type == ASTValue.ValueType.NUM);
+		assertTrue("Returns NUM value", result.type == ASTValue.Type.NUM);
 		assertEquals("Correct Subtraction", result.numValue, 4.0, 0.0001);
 	}
 	

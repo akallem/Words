@@ -1,15 +1,12 @@
 package words.ast;
 
-import words.environment.Direction;
-import words.environment.WordsObject;
-import words.environment.WordsPosition;
-import words.environment.WordsProperty;
+import words.environment.*;
 
 /**
  * A dynamically-typed value that an AST node can return as its result.
  */
 public class ASTValue {
-	public enum ValueType {
+	public enum Type {
 		BOOLEAN,
 		NUM,
 		STRING,
@@ -19,46 +16,46 @@ public class ASTValue {
 		NOW,
 		NOTHING
 	}
-	public ValueType type;
+	public Type type;
 	
 	public boolean booleanValue;
 	public double numValue;
 	public String stringValue;
 	public WordsObject objValue;
 	public Direction directionValue;
-	public WordsPosition positionValue;
+	public Position positionValue;
 	
 	public ASTValue(boolean b) {
-		this.type = ValueType.BOOLEAN;
+		this.type = Type.BOOLEAN;
 		this.booleanValue = b;
 	}
 	
 	public ASTValue(double num) {
-		this.type = ValueType.NUM;
+		this.type = Type.NUM;
 		this.numValue = num;
 	}	
 
 	public ASTValue(String s) {
-		this.type = ValueType.STRING;
+		this.type = Type.STRING;
 		this.stringValue = s;
 	}
 	
 	public ASTValue(WordsObject obj) {
-		this.type = ValueType.OBJ;
+		this.type = Type.OBJ;
 		this.objValue = obj;
 	}
 	
 	public ASTValue(Direction d) {
-		this.type = ValueType.DIRECTION;
+		this.type = Type.DIRECTION;
 		this.directionValue = d;
 	}
 
-	public ASTValue(WordsPosition p) {
-		this.type = ValueType.POSITION;
+	public ASTValue(Position p) {
+		this.type = Type.POSITION;
 		this.positionValue = p;
 	}
 	
-	public ASTValue(ValueType type) {
+	public ASTValue(Type type) {
 		this.type = type;
 	}
 	
@@ -69,10 +66,10 @@ public class ASTValue {
 	 * 
 	 * @return self
 	 */
-	public ASTValue tryCoerceTo(ValueType newType) {
+	public ASTValue tryCoerceTo(Type newType) {
 		switch(newType) {
 			case NUM:
-				if (type == ValueType.STRING) {
+				if (type == Type.STRING) {
 					try {  
 						double val = Double.parseDouble(stringValue);
 						this.numValue = val;
@@ -81,7 +78,7 @@ public class ASTValue {
 				}
 				break;
 			case STRING:
-				if (type == ValueType.NUM) {
+				if (type == Type.NUM) {
 					this.stringValue = String.format("%f", numValue);
 					this.type = newType;
 				}
@@ -98,16 +95,16 @@ public class ASTValue {
 	 * corresponding to this ASTValue.  Calling on an ASTValue with a type
 	 * other than those listed above is prohibited.
 	 */
-	public WordsProperty toWordsProperty() {
+	public Property toWordsProperty() {
 		switch (this.type) {
 			case NUM:
-				return new WordsProperty(this.numValue);
+				return new Property(this.numValue);
 			case STRING:
-				return new WordsProperty(this.stringValue);
+				return new Property(this.stringValue);
 			case OBJ:
-				return new WordsProperty(this.objValue);
+				return new Property(this.objValue);
 			case NOTHING:
-				return new WordsProperty(WordsProperty.PropertyType.NOTHING);
+				return new Property(Property.PropertyType.NOTHING);
 			default:
 				throw new AssertionError("Cannot convert ASTValue of type " + this.type.toString() + "to WordsProperty");
 		}

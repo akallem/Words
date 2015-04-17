@@ -10,7 +10,7 @@ import words.exceptions.*;
 public class TestINodeQueueSay extends TestINode {
 	@Test
 	public void testWorkingSay() throws WordsRuntimeException {
-		environment.createObject("Fred", "thing", new WordsPosition(0, 0));
+		environment.createObject("Fred", "thing", new Position(0, 0));
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up.
 		assertEquals("Initially no message", environment.getObject("Fred").getCurrentMessage(), null);
 
@@ -24,15 +24,15 @@ public class TestINodeQueueSay extends TestINode {
 
 	@Test
 	public void testSayWithReferenceList() throws WordsRuntimeException {
-		WordsObject alexObject = environment.createObject("Alex", "thing", new WordsPosition(0, 0));
+		WordsObject alexObject = environment.createObject("Alex", "thing", new Position(0, 0));
 		LNodeReference alexRef = new LNodeReference("Alex's");
 
-		WordsObject bobObject = environment.createObject("Bob", "thing", new WordsPosition(0, 0));
-		alexObject.setProperty("friend", new WordsProperty(bobObject));
+		WordsObject bobObject = environment.createObject("Bob", "thing", new Position(0, 0));
+		alexObject.setProperty("friend", new Property(bobObject));
 		LNodeReference friendRef = new LNodeReference("friend's");
 
-		WordsObject chrisObject = environment.createObject("Chris", "thing", new WordsPosition(0, 0));
-		bobObject.setProperty("enemy", new WordsProperty(chrisObject));
+		WordsObject chrisObject = environment.createObject("Chris", "thing", new Position(0, 0));
+		bobObject.setProperty("enemy", new Property(chrisObject));
 
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up.
 		assertEquals("Initially no message", environment.getObject("Chris").getCurrentMessage(), null);
@@ -48,7 +48,7 @@ public class TestINodeQueueSay extends TestINode {
 
 	@Test
 	public void testSayWithNow() throws WordsRuntimeException {
-		environment.createObject("Fred", "thing", new WordsPosition(0, 0));
+		environment.createObject("Fred", "thing", new Position(0, 0));
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up.
 		assertEquals("Initially no message", environment.getObject("Fred").getCurrentMessage(), null);
 
@@ -72,7 +72,7 @@ public class TestINodeQueueSay extends TestINode {
 
 	@Test
 	public void testSayWithExpression() throws WordsRuntimeException {
-		environment.createObject("Fred", "thing", new WordsPosition(0, 0));
+		environment.createObject("Fred", "thing", new Position(0, 0));
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up.
 		assertEquals("Initially no message", environment.getObject("Fred").getCurrentMessage(), null);
 

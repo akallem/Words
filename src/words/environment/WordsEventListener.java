@@ -3,7 +3,7 @@ package words.environment;
 import words.ast.AST;
 import words.ast.ASTValue;
 import words.ast.INodeBasicActionPredicate;
-import words.environment.WordsEnvironment;
+import words.environment.Environment;
 import words.exceptions.WordsProgramException;
 import words.exceptions.WordsRuntimeException;
 
@@ -18,7 +18,7 @@ public class WordsEventListener {
 		this.temporary = temporary;
 	}
 	
-	public boolean execute(WordsEnvironment environment) throws WordsProgramException {
+	public boolean execute(Environment environment) throws WordsProgramException {
 		if (predicate instanceof INodeBasicActionPredicate) {
 			boolean predVal = false;
 			try {
@@ -36,7 +36,7 @@ public class WordsEventListener {
 			}
 	
 			// currently restricted to boolean predicate
-			assert predicateValue.type == ASTValue.ValueType.BOOLEAN : "Predicate has type " + predicateValue.type.toString();
+			assert predicateValue.type == ASTValue.Type.BOOLEAN : "Predicate has type " + predicateValue.type.toString();
 	
 			if (predicateValue.booleanValue == true) {
 				try {

@@ -14,7 +14,7 @@ public class TestINodeExponentiate extends TestINode {
 		
 		INode testNode = new INodeExponentiate(numLeaf1, numLeaf2);
 		ASTValue result = testNode.eval(environment);
-		assertTrue("Returns NUM value", result.type == ASTValue.ValueType.NUM);
+		assertTrue("Returns NUM value", result.type == ASTValue.Type.NUM);
 		assertEquals("Correct Exponentiation", result.numValue, 64.0, 0.0001);
 	}
 	

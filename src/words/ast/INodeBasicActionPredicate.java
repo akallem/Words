@@ -1,7 +1,7 @@
 package words.ast;
 
-import words.environment.WordsEnvironment;
-import words.exceptions.WordsRuntimeException;
+import words.environment.*;
+import words.exceptions.*;
 
 public abstract class INodeBasicActionPredicate extends INode {
 	
@@ -9,5 +9,5 @@ public abstract class INodeBasicActionPredicate extends INode {
 		super(children);
 	}
 	
-	public abstract ASTValue eval(WordsEnvironment environment, Object inherited) throws WordsRuntimeException;
+	public abstract ASTValue eval(Environment environment, Object inherited) throws WordsRuntimeException;
 }

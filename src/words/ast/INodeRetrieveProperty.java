@@ -16,9 +16,9 @@ public class INodeRetrieveProperty extends INode {
 	 * Returns NOTHING if the property isn't found.
 	 * Throws a WordsReferenceException if the reference_list or identifier doesn't refer to an object when it's expected to.
 	 */
-	public ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException {
+	public ASTValue eval(Environment environment) throws WordsRuntimeException {
 		ASTValue refList = children.get(0).eval(environment);
-		if (refList.type == ASTValue.ValueType.NOTHING) {
+		if (refList.type == ASTValue.Type.NOTHING) {
 			ASTValue id = children.get(1).eval(environment);
 			
 			WordsObject obj = environment.getObject(id.stringValue);
@@ -32,7 +32,7 @@ public class INodeRetrieveProperty extends INode {
 		ASTValue id = children.get(1).eval(environment);
 		String propName = id.stringValue;
 		
-		WordsProperty wordsProp = obj.getProperty(propName);
+		Property wordsProp = obj.getProperty(propName);
 		ASTValue astValue = null;
 		switch (wordsProp.type) {
 			case STRING:
@@ -45,7 +45,7 @@ public class INodeRetrieveProperty extends INode {
 				astValue = new ASTValue(wordsProp.objProperty);
 				break;
 			case NOTHING:
-				astValue = new ASTValue(ASTValue.ValueType.NOTHING);
+				astValue = new ASTValue(ASTValue.Type.NOTHING);
 				break;
 			default:
 				throw new AssertionError("Shouldn't get here in INodeRetrieveProperty");

@@ -1,7 +1,7 @@
 package words.ast;
 
-import words.environment.WordsEnvironment;
-import words.exceptions.WordsRuntimeException;
+import words.environment.*;
+import words.exceptions.*;
 
 public class INodeListenerTemp extends INode {
 	public INodeListenerTemp(Object... children) {
@@ -9,7 +9,7 @@ public class INodeListenerTemp extends INode {
 	}
 
 	@Override
-	public ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException {
+	public ASTValue eval(Environment environment) throws WordsRuntimeException {
 		AST predicate = children.get(0);
 		AST statementList = children.get(1);
 		
@@ -24,7 +24,7 @@ public class INodeListenerTemp extends INode {
 			ASTValue predicateValue = predicate.eval(environment);
 	
 			// currently only restricted to boolean predicate
-			assert predicateValue.type == ASTValue.ValueType.BOOLEAN : "Predicate has type " + predicateValue.type.toString();
+			assert predicateValue.type == ASTValue.Type.BOOLEAN : "Predicate has type " + predicateValue.type.toString();
 	
 			// temporary listener is created only if the predicate is true
 			if (predicateValue.booleanValue == true) {

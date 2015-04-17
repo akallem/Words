@@ -10,8 +10,8 @@ import words.ast.INodeSubject;
 import words.ast.LNodeIdentifier;
 import words.ast.LNodeReference;
 import words.environment.WordsObject;
-import words.environment.WordsPosition;
-import words.environment.WordsProperty;
+import words.environment.Position;
+import words.environment.Property;
 import words.exceptions.WordsRuntimeException;
 
 public class TestINodeSubject extends TestINode {
@@ -24,10 +24,10 @@ public class TestINodeSubject extends TestINode {
 	
 	@Test
 	public void properlyHandlesObject() throws WordsRuntimeException {
-		WordsObject fredObject = environment.createObject("Fred", "thing", new WordsPosition(0, 0));
-		WordsObject georgeObject = environment.createObject("George", "thing", new WordsPosition(0, 0));
+		WordsObject fredObject = environment.createObject("Fred", "thing", new Position(0, 0));
+		WordsObject georgeObject = environment.createObject("George", "thing", new Position(0, 0));
 		LNodeReference fredRef = new LNodeReference("Fred's");
-		fredObject.setProperty("brother", new WordsProperty(georgeObject));
+		fredObject.setProperty("brother", new Property(georgeObject));
 		INodeReferenceList fredRefList = new INodeReferenceList(fredRef);
 		LNodeIdentifier id = new LNodeIdentifier("brother");
 		AST subject = new INodeSubject(null, fredRefList, id);

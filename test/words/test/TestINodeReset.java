@@ -11,9 +11,9 @@ import words.exceptions.*;
 public class TestINodeReset extends TestINode {
 	
 	@Test
-	(expected = WordsObjectNotFoundException.class)
+	(expected = ObjectNotFoundException.class)
 	public void testObjectDisappears() throws WordsRuntimeException {
-		WordsObject alexObj = environment.createObject("Alex", "thing", new WordsPosition(0, 0));
+		WordsObject alexObj = environment.createObject("Alex", "thing", new Position(0, 0));
 		
 		INodeReset testNode = new INodeReset();
 		testNode.eval(environment);

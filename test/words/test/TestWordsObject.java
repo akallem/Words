@@ -7,18 +7,18 @@ import words.ast.LNodeNum;
 import words.ast.LNodeString;
 import words.environment.Direction;
 import words.environment.WordsClass;
-import words.environment.WordsMove;
+import words.environment.MoveAction;
 import words.environment.WordsObject;
-import words.environment.WordsPosition;
-import words.environment.WordsProperty;
-import words.environment.WordsSay;
+import words.environment.Position;
+import words.environment.Property;
+import words.environment.SayAction;
 
 import words.exceptions.*;
 
 public class TestWordsObject {
-	WordsPosition startPos = new WordsPosition(4, -9);
+	Position startPos = new Position(4, -9);
 	WordsClass thing = new WordsClass("thing", null);
-	WordsObject obj = new WordsObject("test", thing, new WordsPosition(4, -9));
+	WordsObject obj = new WordsObject("test", thing, new Position(4, -9));
 	
 	@Test
 	public void executeNextActionShouldNotFailWhenEmpty() {
@@ -32,10 +32,10 @@ public class TestWordsObject {
 	
 	@Test
 	public void executeNextActionShouldExecuteNextMoveAction() {
-		obj.enqueueAction(new WordsMove(new Direction(Direction.Type.RIGHT), new LNodeNum(1)));
-		obj.enqueueAction(new WordsMove(new Direction(Direction.Type.RIGHT), new LNodeNum(1)));
-		obj.enqueueAction(new WordsMove(new Direction(Direction.Type.LEFT), new LNodeNum(1)));
-		obj.enqueueAction(new WordsMove(new Direction(Direction.Type.LEFT), new LNodeNum(1)));
+		obj.enqueueAction(new MoveAction(new Direction(Direction.Type.RIGHT), new LNodeNum(1)));
+		obj.enqueueAction(new MoveAction(new Direction(Direction.Type.RIGHT), new LNodeNum(1)));
+		obj.enqueueAction(new MoveAction(new Direction(Direction.Type.LEFT), new LNodeNum(1)));
+		obj.enqueueAction(new MoveAction(new Direction(Direction.Type.LEFT), new LNodeNum(1)));
 		
 		try {
 			obj.executeNextAction(null);
@@ -73,9 +73,9 @@ public class TestWordsObject {
 	@Test
 	public void executeNextActionShouldExecuteNextSayAction() {
 		// This line will need to be changed when WordsSay is updated to take an AST expression
-		obj.enqueueAction(new WordsSay(new LNodeString("first")));
-		obj.enqueueAction(new WordsSay(new LNodeString("second")));
-		obj.enqueueAction(new WordsSay(new LNodeString("third")));
+		obj.enqueueAction(new SayAction(new LNodeString("first")));
+		obj.enqueueAction(new SayAction(new LNodeString("second")));
+		obj.enqueueAction(new SayAction(new LNodeString("third")));
 		
 		try {
 			obj.executeNextAction(null);
@@ -105,12 +105,12 @@ public class TestWordsObject {
 	
 	@Test
 	public void enqeueAtFrontShouldBeNextActionExecuted() {
-		obj.enqueueAction(new WordsMove(new Direction(Direction.Type.RIGHT), new LNodeNum(3)));
-		obj.enqueueAction(new WordsMove(new Direction(Direction.Type.UP), new LNodeNum(5)));
-		obj.enqueueAction(new WordsMove(new Direction(Direction.Type.DOWN), new LNodeNum(5)));
+		obj.enqueueAction(new MoveAction(new Direction(Direction.Type.RIGHT), new LNodeNum(3)));
+		obj.enqueueAction(new MoveAction(new Direction(Direction.Type.UP), new LNodeNum(5)));
+		obj.enqueueAction(new MoveAction(new Direction(Direction.Type.DOWN), new LNodeNum(5)));
 		
 		// This should be first to be executed
-		obj.enqueueActionAtFront(new WordsMove(new Direction(Direction.Type.LEFT), new LNodeNum(1)));
+		obj.enqueueActionAtFront(new MoveAction(new Direction(Direction.Type.LEFT), new LNodeNum(1)));
 		
 		try {
 			obj.executeNextAction(null);
@@ -148,7 +148,7 @@ public class TestWordsObject {
 	@Test
 	public void shouldGetPreviouslySetProperty() {
 		String propertyName = "height";
-		WordsProperty numProperty = new WordsProperty(15.5);
+		Property numProperty = new Property(15.5);
 		
 		try {
 			obj.setProperty(propertyName, numProperty);
@@ -161,18 +161,18 @@ public class TestWordsObject {
 	@Test
 	public void missingPropertyShouldGetNothing() {
 		String propertyName = "garbage";
-		assertEquals("Retrieved property was NOTHING", WordsProperty.PropertyType.NOTHING, obj.getProperty(propertyName).type);
+		assertEquals("Retrieved property was NOTHING", Property.PropertyType.NOTHING, obj.getProperty(propertyName).type);
 	}
 	
 	@Test
 	public void settingMissingPropertyToNothingShouldHaveNoEffect() {
 		String propertyName = "height";
 		try {
-			obj.setProperty(propertyName, new WordsProperty(WordsProperty.PropertyType.NOTHING));
+			obj.setProperty(propertyName, new Property(Property.PropertyType.NOTHING));
 		} catch (Exception e) {
 			fail();
 		}	
-		assertEquals("Retrieved property was NOTHING", WordsProperty.PropertyType.NOTHING, obj.getProperty(propertyName).type);
+		assertEquals("Retrieved property was NOTHING", Property.PropertyType.NOTHING, obj.getProperty(propertyName).type);
 	}
 	
 	@Test
@@ -181,12 +181,12 @@ public class TestWordsObject {
 		
 		// Set it, then remove it by assigning NOTHING
 		try {
-			obj.setProperty(propertyName, new WordsProperty(15.5));		
-			obj.setProperty(propertyName, new WordsProperty(WordsProperty.PropertyType.NOTHING));
+			obj.setProperty(propertyName, new Property(15.5));		
+			obj.setProperty(propertyName, new Property(Property.PropertyType.NOTHING));
 		} catch (Exception e) {
 			fail();
 		}
-		assertEquals("Retrieved property was NOTHING", WordsProperty.PropertyType.NOTHING, obj.getProperty(propertyName).type);
+		assertEquals("Retrieved property was NOTHING", Property.PropertyType.NOTHING, obj.getProperty(propertyName).type);
 	}
 
 	@Test
@@ -199,8 +199,8 @@ public class TestWordsObject {
 	@Test
 	public void settingRowAndColumnPropertiesShouldSetObjectPosition() {
 		try {
-			obj.setProperty("row", new WordsProperty(-4));
-			obj.setProperty("column", new WordsProperty(2));
+			obj.setProperty("row", new Property(-4));
+			obj.setProperty("column", new Property(2));
 		} catch (Exception e) {
 			fail();
 		}
@@ -213,8 +213,8 @@ public class TestWordsObject {
 	@Test
 	public void settingRowAndColumnPropertiesShouldBeRounded() {
 		try {
-			obj.setProperty("row", new WordsProperty(-4.3));
-			obj.setProperty("column", new WordsProperty(2.9));
+			obj.setProperty("row", new Property(-4.3));
+			obj.setProperty("column", new Property(2.9));
 		} catch (Exception e) {
 			fail();
 		}
@@ -223,17 +223,17 @@ public class TestWordsObject {
 		assertEquals("Object's y is -4", obj.getCurrentPosition().y, -4);
 	}
 
-	@Test (expected = WordsInvalidTypeException.class)
+	@Test (expected = InvalidTypeException.class)
 	public void setPropertyCorrectType() throws WordsRuntimeException {
-		obj.setProperty("row", new WordsProperty("String"));
+		obj.setProperty("row", new Property("String"));
 	}
 	
 	@Test
 	public void inheritanceOfClassPropertyShouldWork() {
 		String propertyName = "height";
-		WordsProperty numProperty = new WordsProperty(15.5);
+		Property numProperty = new Property(15.5);
 		
-		assertEquals("Object currently does not have the property", WordsProperty.PropertyType.NOTHING, obj.getProperty(propertyName).type);
+		assertEquals("Object currently does not have the property", Property.PropertyType.NOTHING, obj.getProperty(propertyName).type);
 		thing.setProperty(propertyName, numProperty);
 		assertEquals("Object inherited property from parent", numProperty, obj.getProperty(propertyName));
 	}

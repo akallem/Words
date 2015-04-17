@@ -10,14 +10,14 @@ import words.ast.INodeSaysPredicate;
 import words.ast.INodeSubject;
 import words.ast.LNodeIdentifier;
 import words.ast.LNodeString;
-import words.environment.WordsPosition;
+import words.environment.Position;
 import words.exceptions.WordsRuntimeException;
 
 public class TestINodeSaysPredicate extends TestINode {
 
 	@Test
 	public void knowsIfAnObjectSaidSomething() throws WordsRuntimeException {
-		environment.createObject("Fred", "thing", new WordsPosition(0,0));
+		environment.createObject("Fred", "thing", new Position(0,0));
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up.
 		loop.enqueueAST(moveFredLeft2);
 		loop.enqueueAST(makeFredSayHelloWorld);
@@ -44,8 +44,8 @@ public class TestINodeSaysPredicate extends TestINode {
 	
 	@Test
 	public void worksOnSingleObject() throws WordsRuntimeException {
-		environment.createObject("Fred", "thing", new WordsPosition(0,0));
-		environment.createObject("George", "thing", new WordsPosition(0,0));
+		environment.createObject("Fred", "thing", new Position(0,0));
+		environment.createObject("George", "thing", new Position(0,0));
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up.
 		loop.enqueueAST(moveFredLeft2);
 		loop.enqueueAST(makeFredSayHelloWorld);
@@ -74,7 +74,7 @@ public class TestINodeSaysPredicate extends TestINode {
 	@Test
 	public void usesInheritence() throws WordsRuntimeException {
 		environment.createClass("child", "thing");
-		environment.createObject("Fred", "child", new WordsPosition(0,0));
+		environment.createObject("Fred", "child", new Position(0,0));
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up.
 		loop.enqueueAST(moveFredLeft2);
 		loop.enqueueAST(makeFredSayHelloWorld);

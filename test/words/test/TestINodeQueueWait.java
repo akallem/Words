@@ -10,7 +10,7 @@ import words.exceptions.*;
 public class TestINodeQueueWait extends TestINode {
 	@Test
 	public void testWorkingQueueWait() throws WordsRuntimeException {
-		environment.createObject("Fred", "thing", new WordsPosition(0, 0));
+		environment.createObject("Fred", "thing", new Position(0, 0));
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up.
 
 		AST idLeaf = new LNodeIdentifier("Fred");
@@ -33,15 +33,15 @@ public class TestINodeQueueWait extends TestINode {
 
 	@Test
 	public void testWaitWithReferenceList() throws WordsRuntimeException {
-		WordsObject alexObject = environment.createObject("Alex", "thing", new WordsPosition(0, 0));
+		WordsObject alexObject = environment.createObject("Alex", "thing", new Position(0, 0));
 		LNodeReference alexRef = new LNodeReference("Alex's");
 
-		WordsObject bobObject = environment.createObject("Bob", "thing", new WordsPosition(0, 0));
-		alexObject.setProperty("friend", new WordsProperty(bobObject));
+		WordsObject bobObject = environment.createObject("Bob", "thing", new Position(0, 0));
+		alexObject.setProperty("friend", new Property(bobObject));
 		LNodeReference friendRef = new LNodeReference("friend's");
 
-		WordsObject chrisObject = environment.createObject("Chris", "thing", new WordsPosition(0, 0));
-		bobObject.setProperty("enemy", new WordsProperty(chrisObject));
+		WordsObject chrisObject = environment.createObject("Chris", "thing", new Position(0, 0));
+		bobObject.setProperty("enemy", new Property(chrisObject));
 
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up.
 
@@ -66,7 +66,7 @@ public class TestINodeQueueWait extends TestINode {
 
 	@Test
 	public void testWaitWithNow() throws WordsRuntimeException {
-		environment.createObject("Fred", "thing", new WordsPosition(0, 0));
+		environment.createObject("Fred", "thing", new Position(0, 0));
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up.
 
 		AST idLeaf = new LNodeIdentifier("Fred");
@@ -89,7 +89,7 @@ public class TestINodeQueueWait extends TestINode {
 
 	@Test
 	public void testWaitWithExpression() throws WordsRuntimeException {
-		environment.createObject("Fred", "thing", new WordsPosition(0, 0));
+		environment.createObject("Fred", "thing", new Position(0, 0));
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up.
 
 		AST idLeaf = new LNodeIdentifier("Fred");

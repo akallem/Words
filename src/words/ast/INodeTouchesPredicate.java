@@ -2,10 +2,8 @@ package words.ast;
 
 import java.util.HashSet;
 
-import words.environment.WordsEnvironment;
-import words.environment.WordsObject;
-import words.exceptions.WordsAliasException;
-import words.exceptions.WordsRuntimeException;
+import words.environment.*;
+import words.exceptions.*;
 
 public class INodeTouchesPredicate extends INodeBasicActionPredicate {
 	public INodeTouchesPredicate(Object... children) {
@@ -13,13 +11,13 @@ public class INodeTouchesPredicate extends INodeBasicActionPredicate {
 	}
 	
 	@Override
-	public ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException {
+	public ASTValue eval(Environment environment) throws WordsRuntimeException {
 		assert false : "Cannot eval INodeTouchesPredicate without inherited Statement List";
 		return null;
 	}
 
 	@Override
-	public ASTValue eval(WordsEnvironment environment, Object inheritedStmts) throws WordsRuntimeException {
+	public ASTValue eval(Environment environment, Object inheritedStmts) throws WordsRuntimeException {
 		ASTValue subject1 = children.get(0).eval(environment);
 		ASTValue objectAlias1 = children.get(1).eval(environment);
 		ASTValue subject2 = children.get(2).eval(environment);
@@ -27,25 +25,25 @@ public class INodeTouchesPredicate extends INodeBasicActionPredicate {
 		
 		INodeStatementList stmtList = (INodeStatementList) inheritedStmts;
 		
-		if (objectAlias1.type.equals(ASTValue.ValueType.STRING) 
-				&& objectAlias2.type.equals(ASTValue.ValueType.STRING)
+		if (objectAlias1.type.equals(ASTValue.Type.STRING) 
+				&& objectAlias2.type.equals(ASTValue.Type.STRING)
 				&& objectAlias1.stringValue.equals(objectAlias2.stringValue)) {
-			throw new WordsAliasException("Aliases may not be named the same.");
+			throw new AliasException("Aliases may not be named the same.");
 		}
 		
 		HashSet<WordsObject> objectsToCheck1 = new HashSet<WordsObject>();
 		HashSet<WordsObject> objectsToCheck2 = new HashSet<WordsObject>();
 		ASTValue returnVal = new ASTValue(false);
 		
-		if (subject1.type.equals(ASTValue.ValueType.STRING)) {
+		if (subject1.type.equals(ASTValue.Type.STRING)) {
 			objectsToCheck1 = environment.getObjectsByClass(subject1.stringValue);
-		} else if (subject1.type.equals(ASTValue.ValueType.OBJ)) {
+		} else if (subject1.type.equals(ASTValue.Type.OBJ)) {
 			objectsToCheck1.add(subject1.objValue);
 		}
 		
-		if (subject2.type.equals(ASTValue.ValueType.STRING)) {
+		if (subject2.type.equals(ASTValue.Type.STRING)) {
 			objectsToCheck2 = environment.getObjectsByClass(subject2.stringValue);
-		} else if (subject2.type.equals(ASTValue.ValueType.OBJ)) {
+		} else if (subject2.type.equals(ASTValue.Type.OBJ)) {
 			objectsToCheck2.add(subject2.objValue);
 		}
 		
@@ -54,10 +52,10 @@ public class INodeTouchesPredicate extends INodeBasicActionPredicate {
 				if (object1 != object2 && object1.getCurrentPosition().equals(object2.getCurrentPosition())) {
 					returnVal.booleanValue = true;
 					environment.enterNewLocalScope();
-					if (objectAlias1.type.equals(ASTValue.ValueType.STRING)) {
+					if (objectAlias1.type.equals(ASTValue.Type.STRING)) {
 						environment.addObjectToCurrentNameScope(objectAlias1.stringValue, object1);
 					}
-					if (objectAlias2.type.equals(ASTValue.ValueType.STRING)) {
+					if (objectAlias2.type.equals(ASTValue.Type.STRING)) {
 						environment.addObjectToCurrentNameScope(objectAlias2.stringValue, object2);
 					}
 					stmtList.eval(environment);

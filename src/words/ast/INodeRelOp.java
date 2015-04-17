@@ -1,8 +1,7 @@
 package words.ast;
 
-import words.ast.ASTValue.ValueType;
-import words.exceptions.WordsOperatorTypeMismatchException;
-import words.exceptions.WordsRuntimeException;
+import words.environment.*;
+import words.exceptions.*;
 
 public abstract class INodeRelOp extends INode {
 	public INodeRelOp(Object... children) {
@@ -14,9 +13,9 @@ public abstract class INodeRelOp extends INode {
 	 * exception if not.
 	 */
 	protected void checkRelOpArgTypes(ASTValue lhs, ASTValue rhs) throws WordsRuntimeException {
-		if ((lhs.type != ASTValue.ValueType.NUM && lhs.type != ASTValue.ValueType.STRING) ||
+		if ((lhs.type != ASTValue.Type.NUM && lhs.type != ASTValue.Type.STRING) ||
 			(lhs.type != rhs.type)) {
-			throw new WordsOperatorTypeMismatchException(lhs.type.toString(), rhs.type.toString());
+			throw new OperatorTypeMismatchException(lhs.type.toString(), rhs.type.toString());
 		}
 	}
 }

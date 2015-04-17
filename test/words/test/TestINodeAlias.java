@@ -21,7 +21,7 @@ public class TestINodeAlias extends TestINode {
 	@Test
 	public void handlesNothingValue() throws WordsRuntimeException {
 		AST aliasLeaf = new INodeAlias();
-		assertEquals("Alias with no identifier return nothing", aliasLeaf.eval(environment).type, ASTValue.ValueType.NOTHING);
+		assertEquals("Alias with no identifier return nothing", aliasLeaf.eval(environment).type, ASTValue.Type.NOTHING);
 	}
 
 }

@@ -15,22 +15,22 @@ public class TestINodeOr extends TestINode {
 		
 		testNode = new INodeOr(trueLeaf, trueLeaf);
 		result = testNode.eval(environment);
-		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertEquals("Creates a boolean", result.type, ASTValue.Type.BOOLEAN);
 		assertTrue("Result is true", result.booleanValue);
 		
 		testNode = new INodeOr(falseLeaf, trueLeaf);
 		result = testNode.eval(environment);
-		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertEquals("Creates a boolean", result.type, ASTValue.Type.BOOLEAN);
 		assertTrue("Result is true", result.booleanValue);
 		
 		testNode = new INodeOr(trueLeaf, falseLeaf);
 		result = testNode.eval(environment);
-		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertEquals("Creates a boolean", result.type, ASTValue.Type.BOOLEAN);
 		assertTrue("Result is true", result.booleanValue);
 		
 		testNode = new INodeOr(falseLeaf, falseLeaf);
 		result = testNode.eval(environment);
-		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertEquals("Creates a boolean", result.type, ASTValue.Type.BOOLEAN);
 		assertFalse("Result is false", result.booleanValue);
 	}
 }

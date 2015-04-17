@@ -8,14 +8,14 @@ import words.ast.INodeMovesPredicate;
 import words.ast.INodeReferenceList;
 import words.ast.INodeSubject;
 import words.ast.LNodeIdentifier;
-import words.environment.WordsPosition;
+import words.environment.Position;
 import words.exceptions.WordsRuntimeException;
 
 public class TestINodeMovesPredicate extends TestINode {
 
 	@Test
 	public void knowsIfAnObjectMoved() throws WordsRuntimeException {
-		environment.createObject("Fred", "thing", new WordsPosition(0,0));
+		environment.createObject("Fred", "thing", new Position(0,0));
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up.
 		loop.enqueueAST(moveFredLeft2);
 		loop.enqueueAST(makeFredSayHelloWorld);
@@ -36,7 +36,7 @@ public class TestINodeMovesPredicate extends TestINode {
 	
 	@Test
 	public void knowsIfAnObjectMovedInADirection() throws WordsRuntimeException {
-		environment.createObject("Fred", "thing", new WordsPosition(0,0));
+		environment.createObject("Fred", "thing", new Position(0,0));
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up.
 		loop.enqueueAST(moveFredRight2);
 		loop.enqueueAST(makeFredSayHelloWorld);
@@ -63,7 +63,7 @@ public class TestINodeMovesPredicate extends TestINode {
 	
 	@Test
 	public void worksOnSingleObject() throws WordsRuntimeException {
-		environment.createObject("Fred", "thing", new WordsPosition(0,0));
+		environment.createObject("Fred", "thing", new Position(0,0));
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up.
 		loop.enqueueAST(moveFredRight2);
 		loop.enqueueAST(moveGeorgeRight2);
@@ -87,7 +87,7 @@ public class TestINodeMovesPredicate extends TestINode {
 	@Test
 	public void usesInheritence() throws WordsRuntimeException {
 		environment.createClass("child", "thing");
-		environment.createObject("Fred", "child", new WordsPosition(0,0));
+		environment.createObject("Fred", "child", new Position(0,0));
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up.
 		loop.enqueueAST(moveFredLeft2);
 		loop.enqueueAST(makeFredSayHelloWorld);

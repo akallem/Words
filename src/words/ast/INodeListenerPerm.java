@@ -1,7 +1,7 @@
 package words.ast;
 
-import words.environment.WordsEnvironment;
-import words.exceptions.WordsRuntimeException;
+import words.environment.*;
+import words.exceptions.*;
 
 public class INodeListenerPerm extends INode {
 	public INodeListenerPerm(Object... children) {
@@ -9,7 +9,7 @@ public class INodeListenerPerm extends INode {
 	}
 
 	@Override
-	public ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException {
+	public ASTValue eval(Environment environment) throws WordsRuntimeException {
 		AST predicate = children.get(0);
 		AST statementList = children.get(1);
 		

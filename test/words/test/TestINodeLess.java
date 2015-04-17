@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import words.ast.*;
-import words.exceptions.WordsOperatorTypeMismatchException;
+import words.exceptions.OperatorTypeMismatchException;
 import words.exceptions.WordsRuntimeException;
 
 
@@ -16,7 +16,7 @@ public class TestINodeLess extends TestINode {
 		
 		INode testNode = new INodeLess(numLeaf1, numLeaf2);
 		ASTValue result = testNode.eval(environment);
-		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertEquals("Creates a boolean", result.type, ASTValue.Type.BOOLEAN);
 		assertFalse("Result is false", result.booleanValue);
 	}
 	
@@ -27,7 +27,7 @@ public class TestINodeLess extends TestINode {
 		
 		INode testNode = new INodeLess(numLeaf1, numLeaf2);
 		ASTValue result = testNode.eval(environment);
-		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertEquals("Creates a boolean", result.type, ASTValue.Type.BOOLEAN);
 		assertTrue("Result is true", result.booleanValue);
 	}
 	
@@ -38,7 +38,7 @@ public class TestINodeLess extends TestINode {
 		
 		INode testNode = new INodeLess(stringLeaf1, stringLeaf2);
 		ASTValue result = testNode.eval(environment);
-		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertEquals("Creates a boolean", result.type, ASTValue.Type.BOOLEAN);
 		assertFalse("Result is false", result.booleanValue);
 	}
 	
@@ -49,11 +49,11 @@ public class TestINodeLess extends TestINode {
 		
 		INode testNode = new INodeLess(stringLeaf1, stringLeaf2);
 		ASTValue result = testNode.eval(environment);
-		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertEquals("Creates a boolean", result.type, ASTValue.Type.BOOLEAN);
 		assertTrue("Result is true", result.booleanValue);
 	}
 	
-	@Test (expected = WordsOperatorTypeMismatchException.class)
+	@Test (expected = OperatorTypeMismatchException.class)
 	public void numberAndStringsShouldNotBeLesser() throws WordsRuntimeException {
 		INode testNode = new INodeLess(numLeaf, stringLeaf);
 		ASTValue result = testNode.eval(environment);

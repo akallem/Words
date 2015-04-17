@@ -2,7 +2,7 @@ package words;
 /**
  * Available options for running the Words interpreter.
  */
-public class Option {
+public class Options {
 	public static boolean GUI = true;
 	public static boolean PRINT_TO_CONSOLE = true;
 	public static int TIME_TO_WAIT = 1000;

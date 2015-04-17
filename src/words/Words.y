@@ -355,13 +355,13 @@ public Words(Reader r) {
 }
 
 private static void printLnToConsole() {
-	if (Option.PRINT_TO_CONSOLE) {
+	if (Options.PRINT_TO_CONSOLE) {
 		System.err.println();
 	}
 }
 
 private static void printLnToConsole(String message) {
-	if (Option.PRINT_TO_CONSOLE) {
+	if (Options.PRINT_TO_CONSOLE) {
 		System.err.println(message);
 	}
 }
@@ -376,22 +376,22 @@ public int errorCharNumber;
 
 public static void main(String args[]) throws IOException {
 	
-	WordsUI ui = null;
-	// Handle testmode option
+	GUI ui = null;
+	// Handle testmode Options
 	for (int i = 0; i < args.length; ++i) {
 		if (args[i].equals("-testmode")) {
-			Option.GUI = false;
-			Option.TIME_TO_WAIT = -1;
-			Option.FRAME_LIMIT_ENABLED = true;
-			Option.MAX_FRAMES = 100;
-			Option.PRINT_TO_CONSOLE = false;
+			Options.GUI = false;
+			Options.TIME_TO_WAIT = -1;
+			Options.FRAME_LIMIT_ENABLED = true;
+			Options.MAX_FRAMES = 100;
+			Options.PRINT_TO_CONSOLE = false;
 		}
 	}
 	
 	printLnToConsole("Welcome to Words!");
 	
-	if (Option.GUI)
-		ui = new WordsUI();
+	if (Options.GUI)
+		ui = new GUI();
 
 	frameLoop = new FrameLoop(ui);
 
@@ -421,7 +421,7 @@ public static void main(String args[]) throws IOException {
 	frameLoop.start();
 
 	// If no GUI, then no REPL
-	if (!Option.GUI)
+	if (!Options.GUI)
 		return;
 
 	// Simple REPL interface

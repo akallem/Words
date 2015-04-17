@@ -10,7 +10,7 @@ import words.environment.*;
 
 public class TestINode {
 	// Some generic variables useful for all tests
-	WordsEnvironment environment = new WordsEnvironment();
+	Environment environment = new Environment();
 	FrameLoop loop = new FrameLoop(environment);
 
 	AST nothingLeaf = new LNodeNothing();

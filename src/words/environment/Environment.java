@@ -7,13 +7,13 @@ import java.util.LinkedList;
 
 import words.ast.AST;
 import words.ast.LNodeNum;
-import words.exceptions.WordsClassAlreadyExistsException;
+import words.exceptions.ClassAlreadyExistsException;
 import words.exceptions.WordsClassNotFoundException;
-import words.exceptions.WordsObjectAlreadyExistsException;
-import words.exceptions.WordsObjectNotFoundException;
+import words.exceptions.ObjectAlreadyExistsException;
+import words.exceptions.ObjectNotFoundException;
 import words.exceptions.WordsRuntimeException;
 
-public class WordsEnvironment {
+public class Environment {
 	private HashMap<String, WordsClass> classes;
 	/* objectsByName is a list of locally scoped symbol tables with the most local 
 	 * scope first in the list, and global scope always being last in the list.
@@ -26,7 +26,7 @@ public class WordsEnvironment {
 	private ArrayList<WordsEventListener> eventListeners;
 	private static final String BASE_SUPERCLASS = "thing";
 	
-	public WordsEnvironment() {
+	public Environment() {
 		classes = new HashMap<String, WordsClass>();
 		objectsByName = new LinkedList<HashMap<String, WordsObject>>();
 		eventListeners = new ArrayList<WordsEventListener>();
@@ -57,14 +57,14 @@ public class WordsEnvironment {
 
 	/**
 	 * Creates a new class in the environment and returns it.  Throws an exception if the class could not be created.
-	 * @throws WordsClassAlreadyExistsException 
+	 * @throws ClassAlreadyExistsException 
 	 * @throws WordsClassNotFoundException 
 	 */
 	public WordsClass createClass(String className, String parent) throws WordsRuntimeException {
 		
 		try {
 			getClass(className);
-			throw new WordsClassAlreadyExistsException(className);
+			throw new ClassAlreadyExistsException(className);
 		} catch (WordsClassNotFoundException e){
 			WordsClass parentClass = getClass(parent);
 			WordsClass wordsClass = new WordsClass(className, parentClass);
@@ -115,11 +115,11 @@ public class WordsEnvironment {
 	 * Creates a new object in the environment and returns it.  Throws an exception if the object could not be created.
 	 * A new object is always added to the most local scope in use
 	 */
-	public WordsObject createObject(String objectName, String className, WordsPosition position) throws WordsRuntimeException {
+	public WordsObject createObject(String objectName, String className, Position position) throws WordsRuntimeException {
 		try {
 			getObject(objectName);
-			throw new WordsObjectAlreadyExistsException(objectName);
-		} catch (WordsObjectNotFoundException e){
+			throw new ObjectAlreadyExistsException(objectName);
+		} catch (ObjectNotFoundException e){
 		
 			WordsClass wordsClass = getClass(className);
 			
@@ -134,7 +134,7 @@ public class WordsEnvironment {
 			}
 			
 			// TODO: decide if this is appropriate (given that it could figure listeners)
-			newObject.enqueueAction(new WordsWait(new LNodeNum(1)));
+			newObject.enqueueAction(new WaitAction(new LNodeNum(1)));
 			
 			return newObject;
 		}
@@ -159,7 +159,7 @@ public class WordsEnvironment {
 			wordsObj = objectsByName.get(i).get(objectName);
 		}
 		if (wordsObj == null) {
-			throw new WordsObjectNotFoundException(objectName);
+			throw new ObjectNotFoundException(objectName);
 		}
 		
 		return wordsObj;

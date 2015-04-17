@@ -5,10 +5,10 @@ import words.ast.AST;
 import words.exceptions.WordsProgramException;
 import words.exceptions.WordsRuntimeException;
 
-public class WordsPropertyAssignment extends WordsAction {
+public class PropertyAssignAction extends Action {
 	private AST propertyAssignmentList;
 	
-	public WordsPropertyAssignment(AST propertyAssignmentList) {
+	public PropertyAssignAction(AST propertyAssignmentList) {
 		this.propertyAssignmentList = propertyAssignmentList;
 	}
 	
@@ -18,7 +18,7 @@ public class WordsPropertyAssignment extends WordsAction {
 	}
 
 	@Override
-	protected void doExecute(WordsObject object, WordsEnvironment environment) throws WordsProgramException {
+	protected void doExecute(WordsObject object, Environment environment) throws WordsProgramException {
 		try {
 			propertyAssignmentList.eval(environment, object);
 		} catch (WordsRuntimeException e) {
@@ -27,5 +27,5 @@ public class WordsPropertyAssignment extends WordsAction {
 	}
 
 	@Override
-	protected LinkedList<WordsAction> doExpand(WordsObject object, WordsEnvironment environment) { return null; }
+	protected LinkedList<Action> doExpand(WordsObject object, Environment environment) { return null; }
 }

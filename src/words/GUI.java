@@ -4,14 +4,14 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-import words.environment.WordsPosition;
+import words.environment.Position;
 
 import java.util.*;
 
 /**
  * A display to present a running Words program, along with UI elements to allow the user to customize the display (e.g., pan, zoom).
  */
-public class WordsUI {
+public class GUI {
 	JFrame window;						// The entire window containing the UI
 	JPanel panel;						// The entire content of the window
 	JPanel grid;						// The portion of the content showing the grid of cells
@@ -62,7 +62,7 @@ public class WordsUI {
 	 *
 	 * @return a string representing the coordinate
 	 */
-	private String positionToKey(WordsPosition p) {
+	private String positionToKey(Position p) {
 		return Integer.toString(p.x) + "_" + Integer.toString(p.y);
 	}
 
@@ -98,7 +98,7 @@ public class WordsUI {
 		 * @param yCenter The y pixel position where the cell should be centered
 		 * @param p The position in the grid that should be rendered
 		 */
-		private void renderCell(Graphics2D g2, int xCenter, int yCenter, WordsPosition p) {
+		private void renderCell(Graphics2D g2, int xCenter, int yCenter, Position p) {
 			g2.setPaint(new Color(128, 128, 128));
 			g2.setStroke(new BasicStroke());
 
@@ -147,7 +147,7 @@ public class WordsUI {
 			// Draw each cell
 			for (int i = -extent; i <= extent; i++)
 				for (int j = -extent; j <= extent; j++)
-					renderCell(g2, cx + i*cellSize, cy - j*cellSize, new WordsPosition(xCenterCell + i, yCenterCell + j));
+					renderCell(g2, cx + i*cellSize, cy - j*cellSize, new Position(xCenterCell + i, yCenterCell + j));
 			
 			// Draw the x-axis labels
 			for (int i = -extent; i <= extent; i++)
@@ -214,7 +214,7 @@ public class WordsUI {
 		}
 	}
 
-	public WordsUI() {
+	public GUI() {
 		window = new JFrame();
 		panel = new JPanel();
 		grid = new Grid();
@@ -257,7 +257,7 @@ public class WordsUI {
 	 * @param objName The name of the object
 	 * @param message The message that the object should say.  May be null.
 	 */
-	public void add(WordsPosition p, String className, String objName, String message) {
+	public void add(Position p, String className, String objName, String message) {
 		String key = positionToKey(p);
 		LinkedList<RenderData> list = content.get(key);
 
@@ -281,7 +281,7 @@ public class WordsUI {
 	 *
 	 * @return the position of the cell currently at the center of the grid
 	 */
-	public WordsPosition getCenter() {
-		return new WordsPosition(xCenterCell, yCenterCell);
+	public Position getCenter() {
+		return new Position(xCenterCell, yCenterCell);
 	}
 }

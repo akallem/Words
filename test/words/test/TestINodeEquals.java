@@ -15,7 +15,7 @@ public class TestINodeEquals extends TestINode {
 		
 		INode testNode = new INodeEquals(nothingLeaf1, nothingLeaf2);
 		ASTValue result = testNode.eval(environment);
-		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertEquals("Creates a boolean", result.type, ASTValue.Type.BOOLEAN);
 		assertTrue("Result is true", result.booleanValue);
 	}
 	
@@ -40,7 +40,7 @@ public class TestINodeEquals extends TestINode {
 		
 		INode testNode = new INodeEquals(numLeaf1, numLeaf2);
 		ASTValue result = testNode.eval(environment);
-		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertEquals("Creates a boolean", result.type, ASTValue.Type.BOOLEAN);
 		assertTrue("Result is true", result.booleanValue);
 	}
 
@@ -51,7 +51,7 @@ public class TestINodeEquals extends TestINode {
 		
 		INode testNode = new INodeEquals(numLeaf1, numLeaf2);
 		ASTValue result = testNode.eval(environment);
-		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertEquals("Creates a boolean", result.type, ASTValue.Type.BOOLEAN);
 		assertFalse("Result is false", result.booleanValue);
 	}
 	
@@ -62,7 +62,7 @@ public class TestINodeEquals extends TestINode {
 		
 		INode testNode = new INodeEquals(stringLeaf1, stringLeaf1);
 		ASTValue result = testNode.eval(environment);
-		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertEquals("Creates a boolean", result.type, ASTValue.Type.BOOLEAN);
 		assertTrue("Result is true", result.booleanValue);
 	}
 
@@ -73,7 +73,7 @@ public class TestINodeEquals extends TestINode {
 		
 		INode testNode = new INodeEquals(stringLeaf1, stringLeaf2);
 		ASTValue result = testNode.eval(environment);
-		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertEquals("Creates a boolean", result.type, ASTValue.Type.BOOLEAN);
 		assertFalse("Result is false", result.booleanValue);
 	}
 	
@@ -84,7 +84,7 @@ public class TestINodeEquals extends TestINode {
 		
 		INode testNode = new INodeEquals(numLeaf, stringLeaf);
 		ASTValue result = testNode.eval(environment);
-		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertEquals("Creates a boolean", result.type, ASTValue.Type.BOOLEAN);
 		assertTrue("Result is true", result.booleanValue);
 	}
 	
@@ -95,7 +95,7 @@ public class TestINodeEquals extends TestINode {
 		
 		INode testNode = new INodeEquals(numLeaf, stringLeaf);
 		ASTValue result = testNode.eval(environment);
-		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertEquals("Creates a boolean", result.type, ASTValue.Type.BOOLEAN);
 		assertFalse("Result is false", result.booleanValue);
 	}
 }

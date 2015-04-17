@@ -1,8 +1,7 @@
 package words.ast;
 
-import words.ast.ASTValue.ValueType;
-import words.environment.WordsEnvironment;
-import words.exceptions.WordsRuntimeException;
+import words.environment.*;
+import words.exceptions.*;
 
 public class INodeIf extends INode {
 	public INodeIf(Object... children) {
@@ -10,11 +9,11 @@ public class INodeIf extends INode {
 	}
 
 	@Override
-	public ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException {
+	public ASTValue eval(Environment environment) throws WordsRuntimeException {
 		ASTValue predicate = children.get(0).eval(environment);
 		AST statementList = children.get(1);
 		
-		assert predicate.type == ASTValue.ValueType.BOOLEAN : "Predicate has type " + predicate.type.toString();
+		assert predicate.type == ASTValue.Type.BOOLEAN : "Predicate has type " + predicate.type.toString();
 		
 		if (predicate.booleanValue == true) {
 			statementList.eval(environment);

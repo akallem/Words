@@ -1,6 +1,8 @@
 package words.ast;
-import words.environment.WordsEnvironment;
-import words.exceptions.WordsRuntimeException;
+
+import words.environment.*;
+import words.exceptions.*;
+
 /**
  * An abstract syntax tree node, which may be either an internal node or leaf node.
  */
@@ -23,7 +25,7 @@ public abstract class AST {
 	 * 
 	 * @throws WordsRuntimeException 
 	 */
-	public abstract ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException;
+	public abstract ASTValue eval(Environment environment) throws WordsRuntimeException;
 
 	/**
 	 * Evaluate an AST node using inherited attributes to return an ASTValue and possibly having side effects on the passed environment.
@@ -33,5 +35,5 @@ public abstract class AST {
 	 * 
 	 * @throws WordsRuntimeException
 	 */
-	public ASTValue eval(WordsEnvironment environment, Object inherited) throws WordsRuntimeException { return eval(environment); };
+	public ASTValue eval(Environment environment, Object inherited) throws WordsRuntimeException { return eval(environment); };
 }
