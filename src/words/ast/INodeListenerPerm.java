@@ -10,7 +10,11 @@ public class INodeListenerPerm extends INode {
 
 	@Override
 	public ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException {
-		// TODO
-		throw new AssertionError("Not yet implemented");
+		AST predicate = children.get(0);
+		AST statementList = children.get(1);
+		
+		environment.createListener(predicate, statementList, false);
+		
+		return null;
 	}
 }

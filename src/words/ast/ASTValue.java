@@ -3,6 +3,7 @@ package words.ast;
 import words.environment.Direction;
 import words.environment.WordsObject;
 import words.environment.WordsPosition;
+import words.environment.WordsProperty;
 
 /**
  * A dynamically-typed value that an AST node can return as its result.
@@ -90,5 +91,25 @@ public class ASTValue {
 		}
 		
 		return this;
+	}
+	
+	/**
+	 * Returns a WordsProperty object of type NUM, STRING, OBJ, or NOTHING
+	 * corresponding to this ASTValue.  Calling on an ASTValue with a type
+	 * other than those listed above is prohibited.
+	 */
+	public WordsProperty toWordsProperty() {
+		switch (this.type) {
+			case NUM:
+				return new WordsProperty(this.numValue);
+			case STRING:
+				return new WordsProperty(this.stringValue);
+			case OBJ:
+				return new WordsProperty(this.objValue);
+			case NOTHING:
+				return new WordsProperty(WordsProperty.PropertyType.NOTHING);
+			default:
+				throw new AssertionError("Cannot convert ASTValue of type " + this.type.toString() + "to WordsProperty");
+		}
 	}
 }

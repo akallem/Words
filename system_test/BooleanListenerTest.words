@@ -1,0 +1,9 @@
+Fred is a thing at 0,-5.
+John is a thing at 0,5.
+Kevin is a thing at 1,0.
+
+As long as Fred's row < 5 { Make Fred move up. }
+
+As long as John's row > -5 { Make John move down. }
+
+Whenever Fred's row = John's row { Make Kevin say "Mooooo!!". }

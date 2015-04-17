@@ -9,10 +9,10 @@ frame #: 3
 <thing> Fred
 frame #: 4
 (-2,0):
-<thing> Fred "Hello world!"
+<thing> Fred
 frame #: 5
 (-2,0):
-<thing> Fred "Hello world!"
+<thing> Fred
 frame #: 6
 (-2,0):
 <thing> Fred "Hello world!"

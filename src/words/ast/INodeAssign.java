@@ -22,25 +22,7 @@ public class INodeAssign extends INode {
 		String propertyName = children.get(1).eval(environment).stringValue;
 		ASTValue propertyASTValue = children.get(2).eval(environment);	
 
-		WordsProperty wordsProp = null;
-		switch (propertyASTValue.type) {
-			case NUM:
-				wordsProp = new WordsProperty(propertyASTValue.numValue);
-				break;
-			case STRING:
-				wordsProp = new WordsProperty(propertyASTValue.stringValue);
-				break;
-			case OBJ:
-				wordsProp = new WordsProperty(propertyASTValue.objValue);
-				break;
-			case NOTHING:
-				wordsProp = new WordsProperty(WordsProperty.PropertyType.NOTHING);
-				break;
-			default:
-				throw new AssertionError("Shouldn't get here");
-		}
-
-		obj.setProperty(propertyName, wordsProp);
+		obj.setProperty(propertyName, propertyASTValue.toWordsProperty());
 		
 		return null;
 	}
