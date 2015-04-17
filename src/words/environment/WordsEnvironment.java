@@ -124,7 +124,13 @@ public class WordsEnvironment {
 			
 			WordsObject newObject = new WordsObject(objectName, wordsClass, position);
 			objectsByName.getFirst().put(objectName, newObject);
-			objectsByClass.get(wordsClass).add(newObject);
+			if (objectsByClass.containsKey(wordsClass)) {
+				objectsByClass.get(wordsClass).add(newObject);
+			} else {
+				HashSet<WordsObject> newSet = new HashSet<WordsObject>();
+				newSet.add(newObject);
+				objectsByClass.put(wordsClass, newSet);
+			}
 			
 			// TODO: decide if this is appropriate (given that it could figure listeners)
 			newObject.enqueueAction(new WordsWait(new LNodeNum(1)));
