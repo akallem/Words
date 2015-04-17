@@ -1,6 +1,8 @@
 package words.ast;
 
+import words.ast.ASTValue.ValueType;
 import words.environment.WordsEnvironment;
+import words.exceptions.WordsInvalidTypeException;
 import words.exceptions.WordsRuntimeException;
 
 public class INodeWhile extends INode {
@@ -10,7 +12,18 @@ public class INodeWhile extends INode {
 
 	@Override
 	public ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException {
-		// TODO
-		throw new AssertionError("Not yet implemented");
+		ASTValue conditional = children.get(0).eval(environment);
+		AST statementList = children.get(1);
+		
+		assert conditional.type == ASTValue.ValueType.BOOLEAN;
+
+		while (conditional.booleanValue == true) {
+			environment.enterNewLocalScope();
+			statementList.eval(environment);
+			environment.exitLocalScope();
+			conditional = children.get(0).eval(environment);
+		}
+		
+		return null;
 	}
 }
