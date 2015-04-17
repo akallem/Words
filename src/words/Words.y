@@ -39,7 +39,6 @@
 %token THEN
 %token TIMES
 %token TOUCHES
-%token TURNS
 %token UP
 %token WAIT
 %token WAITS
@@ -201,8 +200,8 @@ queueing_statement:
 	|	MAKE reference_list identifier MOVE direction value_expression now '.'		{ $$ = new INodeQueueMove($2, $3, $5, $6, $7); ((AST) $$).lineNumber = lexer.lineNumber; }
 	|	MAKE reference_list identifier SAY value_expression '.'						{ $$ = new INodeQueueSay($2, $3, $5, null); ((AST) $$).lineNumber = lexer.lineNumber; }
 	|	MAKE reference_list identifier SAY value_expression now '.'					{ $$ = new INodeQueueSay($2, $3, $5, $6); ((AST) $$).lineNumber = lexer.lineNumber; }
-	|	MAKE reference_list identifier WAIT value_expression TURNS '.'				{ $$ = new INodeQueueWait($2, $3, $5, null); ((AST) $$).lineNumber = lexer.lineNumber; }
-	|	MAKE reference_list identifier WAIT value_expression TURNS now '.'			{ $$ = new INodeQueueWait($2, $3, $5, $7); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	MAKE reference_list identifier WAIT value_expression '.'					{ $$ = new INodeQueueWait($2, $3, $5, null); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	MAKE reference_list identifier WAIT value_expression now '.'				{ $$ = new INodeQueueWait($2, $3, $5, $6); ((AST) $$).lineNumber = lexer.lineNumber; }
 	|	STOP reference_list identifier '.'											{ $$ = new INodeQueueStop($2, $3); ((AST) $$).lineNumber = lexer.lineNumber; }
 	|	queueing_custom_action_statement											{ $$ = $1; }
 	;
