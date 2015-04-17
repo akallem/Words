@@ -13,7 +13,7 @@ import words.exceptions.WordsRuntimeException;
 public class WordsWait extends WordsAction {
 	private AST lengthExpression;
 
-	private WordsWait() {
+	public WordsWait() {
 		this.lengthExpression = null;
 	}
 

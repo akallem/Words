@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import words.exceptions.*;
+import words.environment.WordsWait;
 
 public class WordsObject {
 	private String objectName;
@@ -108,6 +109,8 @@ public class WordsObject {
 			WordsAction action = actionQueue.pop();
 			lastAction = action;
 			action.execute(this, environment);
+		} else {
+			lastAction = new WordsWait();
 		}
 	}
 
