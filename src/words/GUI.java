@@ -35,7 +35,8 @@ public class GUI {
 	static final Font fObj = new Font("SansSerif", Font.BOLD, 16);
 	static final Font fClass = new Font("SansSerif", Font.PLAIN, 8);
 	static final Font fMsg = new Font("SansSerif", Font.PLAIN, 10);
-
+	static final double lineSpacing = 0.75;
+	
 	HashMap<String, LinkedList<RenderData>> content;
 
 	/**
@@ -72,7 +73,7 @@ public class GUI {
 		int cellSize;					// Dimensions of a cell in pixels
 
 		/**
-		 * Draws a string centered at given coordinates.
+		 * Draws a string centered at given coordinates.  Splits newlines.
 		 * Adapted from http://www.java2s.com/Tutorial/Java/0261__2D-Graphics/Centertext.htm
 		 *
 		 * @param g2 The Graphics2D context in which to draw
@@ -83,13 +84,21 @@ public class GUI {
 		 * @param color The color the string should be drawn in
 		 */
 		private void drawCenteredString(Graphics2D g2, String string, int x, int y, Font font, Color color) {
+			int numLines = string.split("\n", -1).length;
+			
 			g2.setFont(font);
 			g2.setPaint(color);
 
 			FontMetrics fm = g2.getFontMetrics();
-			int w = fm.stringWidth(string);
-			int h = fm.getAscent() + fm.getDescent();
-			g2.drawString(string, x - w/2, y - h/2 + fm.getAscent());
+		    
+			int num = 1;
+			for (String line : string.split("\n")) {
+				int w = fm.stringWidth(line);
+				int h = fm.getAscent() + fm.getDescent();
+
+				g2.drawString(line, x - w/2, y + (int) (((double) num - ((double) numLines + 1)/2)*h*lineSpacing) - h/2 + fm.getAscent());
+				num++;
+			}
 		}
 
 		/**
