@@ -1,14 +1,14 @@
 package words.environment;
-public class WordsPosition {
+public class Position {
 	public int x;
 	public int y;
 	
-	public WordsPosition(int x, int y) {
+	public Position(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
 	
-	public WordsPosition(double x, double y) {
+	public Position(double x, double y) {
 		this.x = (int) Math.round(x);
 		this.y = (int) Math.round(y);
 	}
@@ -20,10 +20,10 @@ public class WordsPosition {
 	
 	@Override
 	public boolean equals(Object other) {
-		if (!(other instanceof WordsPosition)) {
+		if (!(other instanceof Position)) {
 			return false;
 		}
-		WordsPosition otherPos = (WordsPosition) other;
+		Position otherPos = (Position) other;
 		return this.x == otherPos.x && this.y == otherPos.y;
 	}
 }

@@ -8,24 +8,25 @@ import words.exceptions.*;
 public class WordsObject {
 	private String objectName;
 	private WordsClass wordsClass;
-	private HashMap<String, WordsProperty> properties;
-	private LinkedList<WordsAction> actionQueue;
-	private WordsPosition cell;
+	private HashMap<String, Property> properties;
+	private LinkedList<Action> actionQueue;
+	private Position cell;
 	private String currentMessage;
+	private Action lastAction;
 
-	public WordsObject(String objectName, WordsClass wordsClass, WordsPosition cell) {
+	public WordsObject(String objectName, WordsClass wordsClass, Position cell) {
 		this.wordsClass = wordsClass;
 		this.objectName = objectName;
 		this.cell = cell;
-		this.actionQueue = new LinkedList<WordsAction>();
-		this.properties = new HashMap<String, WordsProperty>();
+		this.actionQueue = new LinkedList<Action>();
+		this.properties = new HashMap<String, Property>();
 	}
 
-	public void enqueueAction(WordsAction action) {
+	public void enqueueAction(Action action) {
 		actionQueue.add(action);
 	}
 
-	public void enqueueActionAtFront(WordsAction action) {
+	public void enqueueActionAtFront(Action action) {
 		actionQueue.addFirst(action);
 	}
 
@@ -33,7 +34,7 @@ public class WordsObject {
 	 * Retrieves a property of an object by looking only at the object itself, ignoring its class chain.
 	 * A missing property returns null.
 	 */
-	private WordsProperty getOwnProperty(String propertyName) {
+	private Property getOwnProperty(String propertyName) {
 		if (properties.containsKey(propertyName))
 			return properties.get(propertyName);
 		else
@@ -44,14 +45,14 @@ public class WordsObject {
 	 * Retrieves a property on an object by looking at the object itself and its class chain.
 	 * A missing property returns a WordsProperty of type NOTHING.
 	 */
-	public WordsProperty getProperty(String propertyName) {
+	public Property getProperty(String propertyName) {
 		// Special handling of "row" and "column" properties
 		if (propertyName.equals("row"))
-			return new WordsProperty(cell.y);
+			return new Property(cell.y);
 		else if (propertyName.equals("column"))
-			return new WordsProperty(cell.x);
+			return new Property(cell.x);
 
-		WordsProperty property = getOwnProperty(propertyName);
+		Property property = getOwnProperty(propertyName);
 
 		if (property != null)
 			return property;
@@ -62,11 +63,11 @@ public class WordsObject {
 	/**
 	 * Assigns a property to an object.  Assigning NOTHING removes the property, if it exists.
 	 */
-	public void setProperty(String propertyName, WordsProperty property) throws WordsRuntimeException {
+	public void setProperty(String propertyName, Property property) throws WordsRuntimeException {
 		// Special handling of "row" and "column" properties
 		if (propertyName.equals("row") || propertyName.equals("column")) {
-			if (property.type != WordsProperty.PropertyType.NUM) {
-				throw new WordsInvalidTypeException("NUM", property.type.toString());
+			if (property.type != Property.PropertyType.NUM) {
+				throw new InvalidTypeException("NUM", property.type.toString());
 			}
 
 			if (propertyName.equals("row"))
@@ -75,7 +76,7 @@ public class WordsObject {
 				cell.x = (int) Math.round(property.numProperty);
 		}
 
-		if (properties.containsKey(propertyName) && property.type == WordsProperty.PropertyType.NOTHING)
+		if (properties.containsKey(propertyName) && property.type == Property.PropertyType.NOTHING)
 			properties.remove(propertyName);
 		else
 			properties.put(propertyName, property);
@@ -97,19 +98,22 @@ public class WordsObject {
 		this.cell.x++;
 	}
 
-	public void executeNextAction(WordsEnvironment environment) throws WordsProgramException {
+	public void executeNextAction(Environment environment) throws WordsProgramException {
 		if (!actionQueue.isEmpty()) {
 			while (actionQueue.peek().isExpandable()) {
-				WordsAction action = actionQueue.pop();
+				Action action = actionQueue.pop();
 				actionQueue.addAll(0, action.expand(this, environment));
 			}
-
-			WordsAction action = actionQueue.pop();
+			
+			Action action = actionQueue.pop();
+			lastAction = action;
 			action.execute(this, environment);
+		} else {
+			lastAction = new WaitAction();
 		}
 	}
 
-	public WordsPosition getCurrentCell() {
+	public Position getCurrentPosition() {
 		return cell;
 	}
 
@@ -127,6 +131,10 @@ public class WordsObject {
 
 	public String getObjectName() {
 		return objectName;
+	}
+	
+	public Action getLastAction() {
+		return lastAction;
 	}
 
 	public void setMessage(String message) {

@@ -1,8 +1,7 @@
 package words.ast;
 
-import words.environment.WordsEnvironment;
-import words.environment.WordsObject;
-import words.exceptions.WordsRuntimeException;
+import words.environment.*;
+import words.exceptions.*;
 
 public class INodeCreateObject extends INode {
 	public INodeCreateObject(Object... children) {
@@ -10,7 +9,7 @@ public class INodeCreateObject extends INode {
 	}
 
 	@Override
-	public ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException {
+	public ASTValue eval(Environment environment) throws WordsRuntimeException {
 		ASTValue objName = children.get(0).eval(environment);
 		ASTValue className = children.get(1).eval(environment);
 		ASTValue properties = children.get(2) != null ? children.get(2).eval(environment) : null;

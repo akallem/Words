@@ -4,8 +4,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import words.ast.*;
-import words.exceptions.WordsOperatorTypeMismatchException;
-import words.exceptions.WordsRuntimeException;
+import words.exceptions.*;
 
 
 public class TestINodeGEQ extends TestINode {
@@ -16,7 +15,7 @@ public class TestINodeGEQ extends TestINode {
 		
 		INode testNode = new INodeGEQ(numLeaf1, numLeaf2);
 		ASTValue result = testNode.eval(environment);
-		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertEquals("Creates a boolean", result.type, ASTValue.Type.BOOLEAN);
 		assertTrue("Result is true", result.booleanValue);
 	}
 	
@@ -27,7 +26,7 @@ public class TestINodeGEQ extends TestINode {
 		
 		INode testNode = new INodeGEQ(numLeaf1, numLeaf2);
 		ASTValue result = testNode.eval(environment);
-		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertEquals("Creates a boolean", result.type, ASTValue.Type.BOOLEAN);
 		assertTrue("Result is true", result.booleanValue);
 	}
 	
@@ -38,7 +37,7 @@ public class TestINodeGEQ extends TestINode {
 		
 		INode testNode = new INodeGEQ(stringLeaf1, stringLeaf2);
 		ASTValue result = testNode.eval(environment);
-		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertEquals("Creates a boolean", result.type, ASTValue.Type.BOOLEAN);
 		assertTrue("Result is true", result.booleanValue);
 	}
 	
@@ -49,13 +48,13 @@ public class TestINodeGEQ extends TestINode {
 		
 		INode testNode = new INodeGEQ(stringLeaf1, stringLeaf2);
 		ASTValue result = testNode.eval(environment);
-		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertEquals("Creates a boolean", result.type, ASTValue.Type.BOOLEAN);
 		assertTrue("Result is true", result.booleanValue);
 	}
 	
-	@Test (expected = WordsOperatorTypeMismatchException.class)
+	@Test (expected = OperatorTypeMismatchException.class)
 	public void numberAndStringsShouldNotBeGEQ() throws WordsRuntimeException {
 		INode testNode = new INodeGEQ(numLeaf, stringLeaf);
-		ASTValue result = testNode.eval(environment);
+		testNode.eval(environment);
 	}
 }

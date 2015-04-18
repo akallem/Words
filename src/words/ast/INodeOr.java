@@ -1,8 +1,7 @@
 package words.ast;
 
-import words.ast.ASTValue.ValueType;
-import words.environment.WordsEnvironment;
-import words.exceptions.WordsRuntimeException;
+import words.environment.*;
+import words.exceptions.*;
 
 public class INodeOr extends INode {
 	public INodeOr(Object... children) {
@@ -10,10 +9,10 @@ public class INodeOr extends INode {
 	}
 
 	@Override
-	public ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException {
+	public ASTValue eval(Environment environment) throws WordsRuntimeException {
 		// First evaluate just the left side to provide for short-circuit evaluation
 		ASTValue lhs = children.get(0).eval(environment);
-		assert lhs.type == ASTValue.ValueType.BOOLEAN : "Left side has type " + lhs.type.toString();
+		assert lhs.type == ASTValue.Type.BOOLEAN : "Left side has type " + lhs.type.toString();
 		
 		// Short circuit
 		if (lhs.booleanValue == true)
@@ -21,7 +20,7 @@ public class INodeOr extends INode {
 		
 		// Now we can evaluate the right side
 		ASTValue rhs = children.get(1).eval(environment);
-		assert rhs.type == ASTValue.ValueType.BOOLEAN : "Right side has type " + rhs.type.toString();
+		assert rhs.type == ASTValue.Type.BOOLEAN : "Right side has type " + rhs.type.toString();
 		
 		return new ASTValue(lhs.booleanValue || rhs.booleanValue);
 	}

@@ -1,10 +1,10 @@
 package words.exceptions;
 @SuppressWarnings("serial")
-public class WordsObjectNotFoundException extends WordsRuntimeException {
+public class ObjectNotFoundException extends WordsRuntimeException {
 	
 	private String objectName;
 	
-	public WordsObjectNotFoundException(String objectName) {
+	public ObjectNotFoundException(String objectName) {
 		this.objectName = objectName;
 	}
 	

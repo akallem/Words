@@ -11,7 +11,7 @@ public class TestINodeAssign extends TestINode {
 	
 	@Test
 	public void assignNumProperty() throws WordsRuntimeException {
-		WordsObject alexObject = environment.createObject("Alex", "thing", new WordsPosition(0,0));
+		WordsObject alexObject = environment.createObject("Alex", "thing", new Position(0,0));
 		LNodeReference alexLNodeRef = new LNodeReference("Alex's");
 		INodeReferenceList alexRefList = new INodeReferenceList(alexLNodeRef);
 		
@@ -23,7 +23,7 @@ public class TestINodeAssign extends TestINode {
 	
 	@Test
 	public void assignStringProperty() throws WordsRuntimeException {
-		WordsObject alexObject = environment.createObject("Alex", "thing", new WordsPosition(0,0));
+		WordsObject alexObject = environment.createObject("Alex", "thing", new Position(0,0));
 		LNodeReference alexLNodeRef = new LNodeReference("Alex's");
 		INodeReferenceList alexRefList = new INodeReferenceList(alexLNodeRef);
 
@@ -35,11 +35,11 @@ public class TestINodeAssign extends TestINode {
 	
 	@Test
 	public void assignObjectProperty() throws WordsRuntimeException {
-		WordsObject alexObject = environment.createObject("Alex", "thing", new WordsPosition(0,0));
+		WordsObject alexObject = environment.createObject("Alex", "thing", new Position(0,0));
 		LNodeReference alexLNodeRef = new LNodeReference("Alex's");
 		INodeReferenceList alexRefList = new INodeReferenceList(alexLNodeRef);
 		
-		WordsObject bobObject = environment.createObject("Bob", "thing", new WordsPosition(0,0));
+		WordsObject bobObject = environment.createObject("Bob", "thing", new Position(0,0));
 		LNodeIdentifier bobIdentifier = new LNodeIdentifier("Bob");
 		
 		INodeAssign objAssign = new INodeAssign(alexRefList, new LNodeIdentifier("friend"), new INodeRetrieveProperty(new INodeReferenceList(), bobIdentifier));
@@ -50,17 +50,17 @@ public class TestINodeAssign extends TestINode {
 	
 	@Test
 	public void assignNothingProperty() throws WordsRuntimeException {
-		WordsObject alexObject = environment.createObject("Alex", "thing", new WordsPosition(0,0));
+		WordsObject alexObject = environment.createObject("Alex", "thing", new Position(0,0));
 		LNodeReference alexLNodeRef = new LNodeReference("Alex's");
 		INodeReferenceList alexRefList = new INodeReferenceList(alexLNodeRef);
 		
 		INodeAssign nothingAssign = new INodeAssign(alexRefList, new LNodeIdentifier("myNothing"), nothingLeaf);
 		nothingAssign.eval(environment);
 		
-		assertEquals("Nothing assignment successful", alexObject.getProperty("myNothing").type, WordsProperty.PropertyType.NOTHING);
+		assertEquals("Nothing assignment successful", alexObject.getProperty("myNothing").type, Property.PropertyType.NOTHING);
 	}
 	
-	@Test (expected = WordsObjectNotFoundException.class)
+	@Test (expected = ObjectNotFoundException.class)
 	public void assignPropertyToNonExistentObject() throws WordsRuntimeException {
 		LNodeReference alexLNodeRef = new LNodeReference("Alex's");
 		INodeReferenceList alexRefList = new INodeReferenceList(alexLNodeRef);

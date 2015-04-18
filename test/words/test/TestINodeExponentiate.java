@@ -14,13 +14,13 @@ public class TestINodeExponentiate extends TestINode {
 		
 		INode testNode = new INodeExponentiate(numLeaf1, numLeaf2);
 		ASTValue result = testNode.eval(environment);
-		assertTrue("Returns NUM value", result.type == ASTValue.ValueType.NUM);
+		assertTrue("Returns NUM value", result.type == ASTValue.Type.NUM);
 		assertEquals("Correct Exponentiation", result.numValue, 64.0, 0.0001);
 	}
 	
 	@Test (expected = WordsArithmeticException.class)
 	public void onlyOperatesOnTwoNumbers() throws WordsRuntimeException {
 		INode testNode = new INodeExponentiate(numLeaf, stringLeaf);
-		ASTValue result = testNode.eval(environment);
+		testNode.eval(environment);
 	}
 }

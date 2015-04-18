@@ -1,13 +1,13 @@
 package words.exceptions;
 
 @SuppressWarnings("serial")
-public class WordsFunctionArgsException extends WordsRuntimeException {
+public class FunctionArgsException extends WordsRuntimeException {
 	
 	private String expectedArgs;
 	private String receivedArgs;
 	private String functionName;
 
-	public WordsFunctionArgsException(String functionName, String receivedArgs, String expectedArgs) {
+	public FunctionArgsException(String functionName, String receivedArgs, String expectedArgs) {
 		this.functionName = functionName;
 		this.receivedArgs = receivedArgs;
 		this.expectedArgs = expectedArgs;

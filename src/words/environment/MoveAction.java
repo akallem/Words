@@ -2,15 +2,10 @@ package words.environment;
 import java.util.LinkedList;
 
 import java.util.Random;
-import words.ast.AST;
-import words.ast.ASTValue;
-import words.ast.ASTValue.ValueType;
-import words.ast.LNodeNum;
-import words.exceptions.WordsInvalidTypeException;
-import words.exceptions.WordsProgramException;
-import words.exceptions.WordsRuntimeException;
+import words.exceptions.*;
+import words.ast.*;
 
-public class WordsMove extends WordsAction {
+public class MoveAction extends Action {
 	private Direction direction;
 	private AST distanceExpression;		// The expression whose value will be the number of moves to make; used only before the move has been expanded
 
@@ -20,7 +15,7 @@ public class WordsMove extends WordsAction {
 	 * 
 	 * distanceExpression may be null, in which case the WordsMove will be treated as a 1-unit move.
 	 */
-	public WordsMove(Direction direction, AST distanceExpression) {
+	public MoveAction(Direction direction, AST distanceExpression) {
 		if (direction.type == Direction.Type.ANYWHERE) {
 			Random randomGenerator = new Random();
 			int randomInt = randomGenerator.nextInt(4);
@@ -30,11 +25,15 @@ public class WordsMove extends WordsAction {
 		}
 		this.distanceExpression = distanceExpression;
 	}
+	
+	public Direction getDirection() {
+		return direction;
+	}
 
 	/**
 	 * Private constructor used to create a 1-unit move action.
 	 */
-	private WordsMove(Direction direction) {
+	private MoveAction(Direction direction) {
 		this.direction = direction;
 		this.distanceExpression = null;
 	}
@@ -48,7 +47,7 @@ public class WordsMove extends WordsAction {
 	}
 
 	@Override
-	public void doExecute(WordsObject object, WordsEnvironment environment) throws WordsProgramException {
+	public void doExecute(WordsObject object, Environment environment) throws WordsProgramException {
 		// We know that the distanceValue is 1
 		// ANYWHERE directions will already have been replaced to be a real direction
 		switch(direction.type) {
@@ -70,16 +69,16 @@ public class WordsMove extends WordsAction {
 	}
 
 	@Override
-	public LinkedList<WordsAction> doExpand(WordsObject object, WordsEnvironment environment) throws WordsProgramException {
+	public LinkedList<Action> doExpand(WordsObject object, Environment environment) throws WordsProgramException {
 		ASTValue value;
 		try {
-			value = distanceExpression.eval(environment).tryCoerceTo(ASTValue.ValueType.NUM);
+			value = distanceExpression.eval(environment).tryCoerceTo(ASTValue.Type.NUM);
 		} catch (WordsRuntimeException e) {
 			throw new WordsProgramException(distanceExpression, e);
 		}
 
-		if (value.type != ASTValue.ValueType.NUM) {
-			throw new WordsProgramException(distanceExpression, new WordsInvalidTypeException(value.type.toString(), ASTValue.ValueType.NUM.toString()));
+		if (value.type != ASTValue.Type.NUM) {
+			throw new WordsProgramException(distanceExpression, new InvalidTypeException(value.type.toString(), ASTValue.Type.NUM.toString()));
 		}
 
 		int distanceValue = (int) Math.round(value.numValue);
@@ -89,16 +88,16 @@ public class WordsMove extends WordsAction {
 			direction.type = Direction.getOpposite(direction.type);
 		}
 
-		LinkedList<WordsAction> list = new LinkedList<WordsAction>();
+		LinkedList<Action> list = new LinkedList<Action>();
 
 		// Decompose into executable 1-unit moves, or a wait action if distanceValue is zero
 		if (distanceValue > 0) {
 			for (int i = 0; i < distanceValue; i++) {
 				// Use the private constructor to create the 1-unit move
-				list.add(new WordsMove(direction));
+				list.add(new MoveAction(direction));
 			}
 		} else {
-			list.add(new WordsWait(new LNodeNum(1)));
+			list.add(new WaitAction(new LNodeNum(1)));
 		}
 
 		return list;

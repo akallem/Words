@@ -1,6 +1,6 @@
 package words.ast;
 
-import words.environment.WordsEnvironment;
+import words.environment.*;
 
 /**
  * A syntax tree leaf node for a string literal.
@@ -33,7 +33,7 @@ public class LNodeString extends LNode {
 	}
 	
 	@Override
-	public ASTValue eval(WordsEnvironment environment) {
+	public ASTValue eval(Environment environment) {
 		return new ASTValue(this.string);
 	}
 }

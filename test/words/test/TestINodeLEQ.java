@@ -4,8 +4,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import words.ast.*;
-import words.exceptions.WordsOperatorTypeMismatchException;
-import words.exceptions.WordsRuntimeException;
+import words.exceptions.*;
 
 
 public class TestINodeLEQ extends TestINode {
@@ -16,7 +15,7 @@ public class TestINodeLEQ extends TestINode {
 		
 		INode testNode = new INodeLEQ(numLeaf1, numLeaf2);
 		ASTValue result = testNode.eval(environment);
-		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertEquals("Creates a boolean", result.type, ASTValue.Type.BOOLEAN);
 		assertTrue("Result is true", result.booleanValue);
 	}
 	
@@ -27,7 +26,7 @@ public class TestINodeLEQ extends TestINode {
 		
 		INode testNode = new INodeLEQ(numLeaf1, numLeaf2);
 		ASTValue result = testNode.eval(environment);
-		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertEquals("Creates a boolean", result.type, ASTValue.Type.BOOLEAN);
 		assertTrue("Result is true", result.booleanValue);
 	}
 	
@@ -38,7 +37,7 @@ public class TestINodeLEQ extends TestINode {
 		
 		INode testNode = new INodeLEQ(stringLeaf1, stringLeaf2);
 		ASTValue result = testNode.eval(environment);
-		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertEquals("Creates a boolean", result.type, ASTValue.Type.BOOLEAN);
 		assertTrue("Result is true", result.booleanValue);
 	}
 	
@@ -49,13 +48,13 @@ public class TestINodeLEQ extends TestINode {
 		
 		INode testNode = new INodeLEQ(stringLeaf1, stringLeaf2);
 		ASTValue result = testNode.eval(environment);
-		assertEquals("Creates a boolean", result.type, ASTValue.ValueType.BOOLEAN);
+		assertEquals("Creates a boolean", result.type, ASTValue.Type.BOOLEAN);
 		assertTrue("Result is true", result.booleanValue);
 	}
 	
-	@Test (expected = WordsOperatorTypeMismatchException.class)
+	@Test (expected = OperatorTypeMismatchException.class)
 	public void numberAndStringsShouldNotBeLEQ() throws WordsRuntimeException {
 		INode testNode = new INodeLEQ(numLeaf, stringLeaf);
-		ASTValue result = testNode.eval(environment);
+		testNode.eval(environment);
 	}
 }

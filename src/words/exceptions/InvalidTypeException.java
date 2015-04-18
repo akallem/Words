@@ -1,11 +1,11 @@
 package words.exceptions;
 @SuppressWarnings("serial")
-public class WordsInvalidTypeException extends WordsRuntimeException {
+public class InvalidTypeException extends WordsRuntimeException {
 	
 	private String expectedType;
 	private String receivedType;
 	
-	public WordsInvalidTypeException(String expected, String received) {
+	public InvalidTypeException(String expected, String received) {
 		this.expectedType = expected;
 		this.receivedType = received;
 	}
