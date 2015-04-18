@@ -11,14 +11,14 @@ public class FrameLoop extends Thread {
 	private static int numFrames = 1;
 
 	private LinkedBlockingDeque<AST> ASTQueue;
-	private WordsEnvironment environment;
-	private WordsUI GUI;
+	private Environment environment;
+	private GUI GUI;
 
 	/**
 	 * Initialize the Frame Loop with a GUI -- generally used for a real run of the program
 	 */
-	public FrameLoop(WordsUI GUI) {
-		this.environment = new WordsEnvironment();
+	public FrameLoop(GUI GUI) {
+		this.environment = new Environment();
 		this.ASTQueue = new LinkedBlockingDeque<AST>();
 		this.GUI = GUI;
 	}
@@ -26,7 +26,7 @@ public class FrameLoop extends Thread {
 	/**
 	 * Initialize the frame loop with a specific environment -- generally used for testing
 	 */
-	public FrameLoop(WordsEnvironment environment) {
+	public FrameLoop(Environment environment) {
 		this.environment = environment;
 		this.ASTQueue = new LinkedBlockingDeque<AST>();
 		this.GUI = null;
@@ -40,8 +40,8 @@ public class FrameLoop extends Thread {
 	public void run() {
 		boolean finished = false;
 		while (!finished) {
-			if (Option.TIME_TO_WAIT > 0) {
-				long timeToSleep = Option.TIME_TO_WAIT;
+			if (Options.TIME_TO_WAIT > 0) {
+				long timeToSleep = Options.TIME_TO_WAIT;
 				long start, end, slept;
 				while (timeToSleep > 0) {
 					start = System.currentTimeMillis();
@@ -104,17 +104,17 @@ public class FrameLoop extends Thread {
 		if (GUI != null) {
 			GUI.clear();
 			for (WordsObject object : environment.getObjects()) {
-				GUI.add(object.getCurrentCell(), object.getClassName(), object.getObjectName(), object.getCurrentMessage());
+				GUI.add(object.getCurrentPosition(), object.getClassName(), object.getObjectName(), object.getCurrentMessage());
 			}
 			GUI.render();
 		} else {
 			System.out.println("frame #: " + numFrames);
-			WordsLog log = new WordsLog();
+			FrameLog log = new FrameLog();
 			for (WordsObject object : environment.getObjects()) {
-				log.add(object.getCurrentCell(), object.getClassName(), object.getObjectName(), object.getCurrentMessage());
+				log.add(object.getCurrentPosition(), object.getClassName(), object.getObjectName(), object.getCurrentMessage());
 			}
 			log.log();
-			if (Option.FRAME_LIMIT_ENABLED && numFrames >= Option.MAX_FRAMES)
+			if (Options.FRAME_LIMIT_ENABLED && numFrames >= Options.MAX_FRAMES)
 				finished = true;
 		}
 

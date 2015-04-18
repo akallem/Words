@@ -1,16 +1,56 @@
 package words.ast;
 
-import words.environment.WordsEnvironment;
-import words.exceptions.WordsRuntimeException;
+import java.util.HashSet;
 
-public class INodeTouchesPredicate extends INode {
+import words.environment.*;
+import words.exceptions.*;
+
+public class INodeTouchesPredicate extends INodeBasicActionPredicate {
 	public INodeTouchesPredicate(Object... children) {
 		super(children);
 	}
+	
+	@Override
+	public ASTValue eval(Environment environment) throws WordsRuntimeException {
+		assert false : "Cannot eval INodeTouchesPredicate without inherited Statement List";
+		return null;
+	}
 
 	@Override
-	public ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException {
-		// TODO
-		throw new AssertionError("Not yet implemented");
+	public ASTValue eval(Environment environment, Object inheritedStmts) throws WordsRuntimeException {
+		ASTValue subject1 = children.get(0).eval(environment);
+		ASTValue objectAlias1 = children.get(1).eval(environment);
+		ASTValue subject2 = children.get(2).eval(environment);
+		ASTValue objectAlias2 = children.get(3).eval(environment);
+		
+		INodeStatementList stmtList = (INodeStatementList) inheritedStmts;
+		
+		if (objectAlias1.type.equals(ASTValue.Type.STRING) 
+				&& objectAlias2.type.equals(ASTValue.Type.STRING)
+				&& objectAlias1.stringValue.equals(objectAlias2.stringValue)) {
+			throw new AliasException("Aliases may not be named the same.");
+		}
+		
+		HashSet<WordsObject> objectsToCheck1 = getObjectsToCheck(subject1, environment);
+		HashSet<WordsObject> objectsToCheck2 = getObjectsToCheck(subject2, environment);
+		ASTValue returnVal = new ASTValue(false);
+		
+		for (WordsObject object1: objectsToCheck1) {
+			for (WordsObject object2: objectsToCheck2) {
+				if (object1 != object2 && object1.getCurrentPosition().equals(object2.getCurrentPosition())) {
+					returnVal.booleanValue = true;
+					environment.enterNewLocalScope();
+					if (objectAlias1.type.equals(ASTValue.Type.STRING)) {
+						environment.addObjectToCurrentNameScope(objectAlias1.stringValue, object1);
+					}
+					if (objectAlias2.type.equals(ASTValue.Type.STRING)) {
+						environment.addObjectToCurrentNameScope(objectAlias2.stringValue, object2);
+					}
+					stmtList.eval(environment);
+					environment.exitLocalScope();
+				}
+			}
+		}
+		return returnVal;
 	}
 }

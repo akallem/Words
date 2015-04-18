@@ -1,8 +1,8 @@
 package words.exceptions;
 @SuppressWarnings("serial")
-public class WordsDivideByZeroException extends WordsRuntimeException {
+public class DivideByZeroException extends WordsRuntimeException {
 	
-	public WordsDivideByZeroException() {}
+	public DivideByZeroException() {}
 
 	@Override
 	public String toString() {

@@ -1,8 +1,7 @@
 package words.ast;
 
-import words.environment.WordsEnvironment;
-import words.environment.WordsObject;
-import words.exceptions.WordsRuntimeException;
+import words.environment.*;
+import words.exceptions.*;
 
 public class INodeQueueAssignProperty extends INode {
 	public INodeQueueAssignProperty(Object... children) {
@@ -10,13 +9,13 @@ public class INodeQueueAssignProperty extends INode {
 	}
 
 	@Override
-	public ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException {
+	public ASTValue eval(Environment environment) throws WordsRuntimeException {
 		assert false : "Cannot eval INodeQueueAssignPropertyList without inherited WordsObject";
 		return null;
 	}
 	
 	@Override
-	public ASTValue eval(WordsEnvironment environment, Object inherited) throws WordsRuntimeException {
+	public ASTValue eval(Environment environment, Object inherited) throws WordsRuntimeException {
 		WordsObject object = (WordsObject) inherited;
 		
 		String propertyName = children.get(0).eval(environment).stringValue;

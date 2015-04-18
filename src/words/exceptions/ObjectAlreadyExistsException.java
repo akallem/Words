@@ -1,10 +1,10 @@
 package words.exceptions;
 @SuppressWarnings("serial")
-public class WordsObjectAlreadyExistsException extends WordsRuntimeException {
+public class ObjectAlreadyExistsException extends WordsRuntimeException {
 
 	private String objectName;
 	
-	public WordsObjectAlreadyExistsException(String objectName) {
+	public ObjectAlreadyExistsException(String objectName) {
 		this.objectName = objectName;
 	}
 	

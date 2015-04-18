@@ -1,6 +1,6 @@
 package words.ast;
 
-import words.environment.WordsEnvironment;
+import words.environment.*;
 
 /**
  * A syntax tree leaf node for an identifier.
@@ -19,7 +19,7 @@ public class LNodeIdentifier extends LNode {
 	}
 	
 	@Override
-	public ASTValue eval(WordsEnvironment environment) {
+	public ASTValue eval(Environment environment) {
 		return new ASTValue(this.identifier);
 	}
 }

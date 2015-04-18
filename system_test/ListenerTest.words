@@ -1,0 +1,23 @@
+A person is a thing.
+A wall is a thing.
+
+Alex is a person at 0,0.
+Jon is a person at 2,1.
+wall1 is a wall at 1,0.
+
+Whenever a person [p] touches a wall [w] {
+	Make p say "ow".
+}
+
+Whenever Alex says "moving right" {
+	Make Alex move right 2.
+}
+
+Whenever a person [p1] touches a person [p2] {
+	Make p1 say "hey".
+	Make p2 say "hey".
+} 
+
+Make Alex move right 2.
+Make Alex move up 1.
+Make Alex say "moving right".

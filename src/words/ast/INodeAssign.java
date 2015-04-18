@@ -1,9 +1,7 @@
 package words.ast;
 
-import words.environment.WordsEnvironment;
-import words.environment.WordsObject;
-import words.environment.WordsProperty;
-import words.exceptions.WordsRuntimeException;
+import words.environment.*;
+import words.exceptions.*;
 
 public class INodeAssign extends INode {
 	public INodeAssign(Object... children) {
@@ -15,7 +13,7 @@ public class INodeAssign extends INode {
 	 * Side effect of assigning a property to an object.
 	 */
 	@Override
-	public ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException {
+	public ASTValue eval(Environment environment) throws WordsRuntimeException {
 		WordsObject obj = children.get(0).eval(environment).objValue;
 		assert obj != null : "Obj was null when it shouldn't have been.";
 		

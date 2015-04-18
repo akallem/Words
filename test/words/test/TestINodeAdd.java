@@ -14,7 +14,7 @@ public class TestINodeAdd extends TestINode {
 		
 		INode testNode = new INodeAdd(numLeaf1, numLeaf2);
 		ASTValue result = testNode.eval(environment);
-		assertTrue("Returns NUM value", result.type == ASTValue.ValueType.NUM);
+		assertTrue("Returns NUM value", result.type == ASTValue.Type.NUM);
 		assertEquals("Correct Addition", result.numValue, 7.0, 0.0001);
 	}
 	
@@ -25,7 +25,7 @@ public class TestINodeAdd extends TestINode {
 		
 		INode testNode = new INodeAdd(numLeaf1, stringLeaf1);
 		ASTValue result = testNode.eval(environment);
-		assertTrue("Returns NUM value", result.type == ASTValue.ValueType.NUM);
+		assertTrue("Returns NUM value", result.type == ASTValue.Type.NUM);
 		assertEquals("Correct Addition", result.numValue, 13.0, 0.0001);
 	}
 
@@ -36,7 +36,7 @@ public class TestINodeAdd extends TestINode {
 		
 		INode testNode = new INodeAdd(stringLeaf1, stringLeaf2);
 		ASTValue result = testNode.eval(environment);
-		assertTrue("Returns STRING value", result.type == ASTValue.ValueType.STRING);
+		assertTrue("Returns STRING value", result.type == ASTValue.Type.STRING);
 		assertEquals("Correct String Concatenation", result.stringValue, "ab");
 	}
 	
@@ -47,7 +47,7 @@ public class TestINodeAdd extends TestINode {
 		
 		INode testNode = new INodeAdd(numLeaf, stringLeaf);
 		ASTValue result = testNode.eval(environment);
-		assertTrue("Returns STRING value", result.type == ASTValue.ValueType.STRING);
+		assertTrue("Returns STRING value", result.type == ASTValue.Type.STRING);
 		assertEquals("Correct string value", result.stringValue, "5.000000");
 	}
 	
@@ -58,7 +58,7 @@ public class TestINodeAdd extends TestINode {
 		
 		INode testNode = new INodeAdd(stringLeaf, numLeaf);
 		ASTValue result = testNode.eval(environment);
-		assertTrue("Returns NUM value", result.type == ASTValue.ValueType.NUM);
+		assertTrue("Returns NUM value", result.type == ASTValue.Type.NUM);
 		assertEquals("Correct number value", result.numValue, 5.0, 0.0001);
 	}
 }

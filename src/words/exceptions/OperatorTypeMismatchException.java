@@ -1,11 +1,11 @@
 package words.exceptions;
 @SuppressWarnings("serial")
-public class WordsOperatorTypeMismatchException extends WordsRuntimeException {
+public class OperatorTypeMismatchException extends WordsRuntimeException {
 	
 	private String lhsType;
 	private String rhsType;
 	
-	public WordsOperatorTypeMismatchException(String lhs, String rhs) {
+	public OperatorTypeMismatchException(String lhs, String rhs) {
 		this.lhsType = lhs;
 		this.rhsType = rhs;
 	}

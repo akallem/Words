@@ -1,9 +1,9 @@
 package words;
 import java.util.*;
 
-import words.environment.WordsPosition;
+import words.environment.Position;
 
-public class WordsLog {
+public class FrameLog {
 	HashMap<String, LinkedList<RenderData>> content;
 
 	/**
@@ -31,7 +31,7 @@ public class WordsLog {
 	 *
 	 * @return a string representing the coordinate
 	 */
-	private String positionToKey(WordsPosition p) {
+	private String positionToKey(Position p) {
 		return Integer.toString(p.x) + "," + Integer.toString(p.y);
 	}
 
@@ -49,7 +49,7 @@ public class WordsLog {
 		}
 	}
 
-	public WordsLog() {
+	public FrameLog() {
 		content = new HashMap<String, LinkedList<RenderData>>();
 	}
 
@@ -61,7 +61,7 @@ public class WordsLog {
 	 * @param objName The name of the object
 	 * @param message The message that the object should say.  May be null.
 	 */
-	public void add(WordsPosition p, String className, String objName, String message) {
+	public void add(Position p, String className, String objName, String message) {
 		String key = positionToKey(p);
 		LinkedList<RenderData> list = content.get(key);
 

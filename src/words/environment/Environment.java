@@ -5,31 +5,27 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 
-import words.exceptions.WordsClassAlreadyExistsException;
-import words.ast.AST;
-import words.ast.LNodeNum;
-import words.exceptions.WordsClassNotFoundException;
-import words.exceptions.WordsObjectAlreadyExistsException;
-import words.exceptions.WordsObjectNotFoundException;
-import words.exceptions.WordsReferenceException;
-import words.exceptions.WordsRuntimeException;
+import words.exceptions.*;
+import words.ast.*;
 
-public class WordsEnvironment {
+public class Environment {
 	private HashMap<String, WordsClass> classes;
-	/* gettableObjects is a list of locally scoped symbol tables with the most local 
+	/* objectsByName is a list of locally scoped symbol tables with the most local 
 	 * scope first in the list, and global scope always being last in the list.
 	 */
-	private LinkedList<HashMap<String, WordsObject>> gettableObjects;
-	/* ungettableObjects contains the objects that have gone out of scope, but should still appear
-	 * on the board, and are still used by action listeners */
-	private HashSet<WordsObject> ungettableObjects;
+	private LinkedList<HashMap<String, WordsObject>> objectsByName;
+	/*
+	 * Objects always persist in the map where they can be gotten by class
+	 */
+	private HashMap<WordsClass, HashSet<WordsObject>> objectsByClass;
 	private ArrayList<WordsEventListener> eventListeners;
+	private static final String BASE_SUPERCLASS = "thing";
 	
-	public WordsEnvironment() {
+	public Environment() {
 		classes = new HashMap<String, WordsClass>();
-		gettableObjects = new LinkedList<HashMap<String, WordsObject>>();
+		objectsByName = new LinkedList<HashMap<String, WordsObject>>();
 		eventListeners = new ArrayList<WordsEventListener>();
-		ungettableObjects = new HashSet<WordsObject>();
+		objectsByClass = new HashMap<WordsClass, HashSet<WordsObject>>();
 		setupEnvironment();
 	}
 	
@@ -37,9 +33,10 @@ public class WordsEnvironment {
 	 * Creates the base class thing.
 	 */
 	private void setupEnvironment() {
-		WordsClass thing = new WordsClass("thing", null);
-		classes.put("thing", thing);
-		gettableObjects.push(new HashMap<String, WordsObject>());
+		WordsClass thing = new WordsClass(BASE_SUPERCLASS, null);
+		classes.put(BASE_SUPERCLASS, thing);
+		objectsByClass.put(thing, new HashSet<WordsObject>());
+		objectsByName.push(new HashMap<String, WordsObject>());
 	}
 	
 	/**
@@ -47,27 +44,27 @@ public class WordsEnvironment {
 	 */
 	public void resetEnvironment() {
 		classes.clear();
-		gettableObjects.clear();
-		ungettableObjects.clear();
+		objectsByName.clear();
+		objectsByClass.clear();
 		eventListeners.clear();
 		setupEnvironment();
 	}
 
 	/**
 	 * Creates a new class in the environment and returns it.  Throws an exception if the class could not be created.
-	 * @throws WordsClassAlreadyExistsException 
+	 * @throws ClassAlreadyExistsException 
 	 * @throws WordsClassNotFoundException 
 	 */
 	public WordsClass createClass(String className, String parent) throws WordsRuntimeException {
 		
 		try {
 			getClass(className);
-			throw new WordsClassAlreadyExistsException(className);
+			throw new ClassAlreadyExistsException(className);
 		} catch (WordsClassNotFoundException e){
-		
 			WordsClass parentClass = getClass(parent);
 			WordsClass wordsClass = new WordsClass(className, parentClass);
 			classes.put(className, wordsClass);
+			objectsByClass.put(wordsClass, new HashSet<WordsObject>());
 			
 			return wordsClass;
 		}
@@ -90,7 +87,7 @@ public class WordsEnvironment {
 	 * Enters a new local scope by pushing a new scope onto the gettable objects stack
 	 */
 	public void enterNewLocalScope() {
-		gettableObjects.push(new HashMap<String, WordsObject>());
+		objectsByName.push(new HashMap<String, WordsObject>());
 	}
 	
 	/**
@@ -98,38 +95,51 @@ public class WordsEnvironment {
 	 * objects collection, where they will continue to live, but will not be callable by name
 	 */
 	public void exitLocalScope() {
-		HashMap<String, WordsObject> localScope = gettableObjects.pop();
-		ungettableObjects.addAll(localScope.values());
-		assert gettableObjects.size() > 0 : "You just popped the global scope off the objects table";
+		objectsByName.pop();
+		assert objectsByName.size() > 0 : "You just popped the global scope off the objects table";
 	}
 	
 	/**
 	 * Get the number of different object scopes at the moment. Includes the global scope.
 	 */
 	public int getNumberOfScopes() {
-		return gettableObjects.size();
+		return objectsByName.size();
 	}
 	
 	/**
 	 * Creates a new object in the environment and returns it.  Throws an exception if the object could not be created.
 	 * A new object is always added to the most local scope in use
 	 */
-	public WordsObject createObject(String objectName, String className, WordsPosition position) throws WordsRuntimeException {
+	public WordsObject createObject(String objectName, String className, Position position) throws WordsRuntimeException {
 		try {
 			getObject(objectName);
-			throw new WordsObjectAlreadyExistsException(objectName);
-		} catch (WordsObjectNotFoundException e){
+			throw new ObjectAlreadyExistsException(objectName);
+		} catch (ObjectNotFoundException e){
 		
 			WordsClass wordsClass = getClass(className);
 			
 			WordsObject newObject = new WordsObject(objectName, wordsClass, position);
-			gettableObjects.getFirst().put(objectName, newObject);
+			objectsByName.getFirst().put(objectName, newObject);
+			if (objectsByClass.containsKey(wordsClass)) {
+				objectsByClass.get(wordsClass).add(newObject);
+			} else {
+				HashSet<WordsObject> newSet = new HashSet<WordsObject>();
+				newSet.add(newObject);
+				objectsByClass.put(wordsClass, newSet);
+			}
 			
 			// TODO: decide if this is appropriate (given that it could figure listeners)
-			newObject.enqueueAction(new WordsWait(new LNodeNum(1)));
+			newObject.enqueueAction(new WaitAction(new LNodeNum(1)));
 			
 			return newObject;
 		}
+	}
+	
+	/**
+	 * Adds a named object to the most local scope in use. 
+	 */
+	public void addObjectToCurrentNameScope(String objectName, WordsObject object) {
+		objectsByName.getFirst().put(objectName, object);
 	}
 	
 	/**
@@ -140,11 +150,11 @@ public class WordsEnvironment {
 	 */
 	public WordsObject getObject(String objectName) throws WordsRuntimeException {
 		WordsObject wordsObj = null;
-		for (int i = 0; i < gettableObjects.size() && wordsObj == null; i++) {
-			wordsObj = gettableObjects.get(i).get(objectName);
+		for (int i = 0; i < objectsByName.size() && wordsObj == null; i++) {
+			wordsObj = objectsByName.get(i).get(objectName);
 		}
 		if (wordsObj == null) {
-			throw new WordsObjectNotFoundException(objectName);
+			throw new ObjectNotFoundException(objectName);
 		}
 		
 		return wordsObj;
@@ -154,12 +164,27 @@ public class WordsEnvironment {
 	 * Returns a collection of all objects.
 	 */
 	public Collection<WordsObject> getObjects() {
-		Collection<WordsObject> allObjects = new HashSet<WordsObject>();
-		for (HashMap<String,WordsObject> scopeObjects : gettableObjects) {
-			allObjects.addAll(scopeObjects.values());
+		try {
+			return getObjectsByClass(BASE_SUPERCLASS);
+		} catch (WordsClassNotFoundException e) {
+			System.exit(1);
 		}
-		allObjects.addAll(ungettableObjects);
-		return allObjects;
+		return null;
+	}
+	
+	/**
+	 * Return a collection of all objects of a certain class, as well as all the objects
+	 * that exist in children classes of the certain class.
+	 * Returns an empty collection if there are no objects of that class in the environment
+	 * @throws a WordsClassNotFoundException if the class does not exist.
+	 */
+	public HashSet<WordsObject> getObjectsByClass(String className) throws WordsClassNotFoundException {
+		WordsClass wc = getClass(className);
+		HashSet<WordsObject> objectsToReturn = objectsByClass.get(wc);
+		for (WordsClass childClass : wc.getChildren()) {
+			objectsToReturn.addAll(getObjectsByClass(childClass.getClassName()));
+		}
+		return objectsToReturn;
 	}
 	
 	/**

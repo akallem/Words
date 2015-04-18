@@ -2,14 +2,15 @@ package words.environment;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import words.ast.AST;
+import words.exceptions.*;
+import words.ast.*;
 
-public class WordsCustomAction extends WordsAction {
+public class CustomAction extends Action {
 	private AST statementList;
 	private String name;
 	private ArrayList<String> parameters;
 	
-	public WordsCustomAction(String name, AST actions) {
+	public CustomAction(String name, AST actions) {
 		this.name = name;
 		this.statementList = actions;
 		this.parameters = parameters;
@@ -21,10 +22,10 @@ public class WordsCustomAction extends WordsAction {
 	}
 
 	@Override
-	protected void doExecute(WordsObject object, WordsEnvironment environment) {}
+	protected void doExecute(WordsObject object, Environment environment) {}
 
 	@Override
-	protected LinkedList<WordsAction> doExpand(WordsObject object, WordsEnvironment environment) {
+	protected LinkedList<Action> doExpand(WordsObject object, Environment environment) {
 		// TODO
 		
 		/**
