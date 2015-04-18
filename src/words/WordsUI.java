@@ -20,6 +20,7 @@ public class WordsUI {
 	int windowWidth, windowHeight;		// Dimensions of the window in pixels
 	int boardSize; 						// Dimensions (square) of the board in pixels
 	int numCells;						// Number of rows (columns) in the board (must be odd)
+	static final int initNumCells = 9;	// Default value of numCells
 	static final int minCells = 5;		// Must be odd so that there is a cell in the center
 	static final int maxCells = 25;		// Must be odd so that there is a cell in the center
 	static final int zoomStep = 2;		// Must be even so that there is a cell in the center
@@ -31,9 +32,9 @@ public class WordsUI {
 	static final int labelPadding = 4;	// Padding from label to grid cell
 	
 	static final Font fLabel = new Font("SansSerif", Font.BOLD, 16);
-	static final Font fObj = new Font("SansSerif", Font.BOLD, 12);
-	static final Font fClass = new Font("SansSerif", Font.PLAIN, 9);
-	static final Font fMsg = new Font("SansSerif", Font.PLAIN, 8);
+	static final Font fObj = new Font("SansSerif", Font.BOLD, 16);
+	static final Font fClass = new Font("SansSerif", Font.PLAIN, 8);
+	static final Font fMsg = new Font("SansSerif", Font.PLAIN, 10);
 
 	HashMap<String, LinkedList<RenderData>> content;
 
@@ -99,6 +100,8 @@ public class WordsUI {
 		 * @param p The position in the grid that should be rendered
 		 */
 		private void renderCell(Graphics2D g2, int xCenter, int yCenter, WordsPosition p) {
+			float fontScale = (float) initNumCells / (float) numCells;
+			
 			g2.setPaint(new Color(128, 128, 128));
 			g2.setStroke(new BasicStroke());
 
@@ -112,12 +115,11 @@ public class WordsUI {
 				for (RenderData r : list) {
 					g2.setPaint(new Color(64, 64, 64));
 					g2.fillRect(xCenter - fillSize/2, yCenter - fillSize/2, fillSize, fillSize);
-
-					drawCenteredString(g2, r.objName, xCenter, yCenter - fillSize/3, fObj, Color.WHITE);
-					drawCenteredString(g2, r.className, xCenter, yCenter, fClass, Color.GRAY);
+					drawCenteredString(g2, r.objName, xCenter, yCenter - fillSize/3, fObj.deriveFont(fontScale * fObj.getSize()), Color.WHITE);
+					drawCenteredString(g2, "(" + r.className + ")", xCenter, yCenter - fillSize/8, fClass.deriveFont(fontScale * fClass.getSize()), Color.GRAY);
 
 					if (r.message != null)
-						drawCenteredString(g2, r.message, xCenter, yCenter + fillSize/4, fMsg, Color.GRAY);
+						drawCenteredString(g2, r.message, xCenter, yCenter + fillSize/6, fMsg.deriveFont(fontScale * fMsg.getSize()), Color.WHITE);
 				}
 			}
 		}
@@ -220,10 +222,10 @@ public class WordsUI {
 		grid = new Grid();
 		buttons = new Buttons();
 
-		windowWidth = 750;		// Default windowWidth
-		windowHeight = 770;		// Default windowHeight
-		boardSize = 650;		// Default boardSize
-		numCells = 9;			// Default numCells
+		windowWidth = 750;			// Default windowWidth
+		windowHeight = 770;			// Default windowHeight
+		boardSize = 650;			// Default boardSize
+		numCells = initNumCells;	// Default numCells
 		xCenterCell = 0;
 		yCenterCell = 0;
 
