@@ -112,11 +112,16 @@ public class WordsUI {
 				// Simple rendering of an object
 				// TODO: More gracefully render situations where multiple objects are on the same cell
 				int fillSize = cellSize - 4;
+				
+				Random random = new Random();
+				
 				for (RenderData r : list) {
-					g2.setPaint(new Color(64, 64, 64));
+					random.setSeed((r.objName + r.className).hashCode());
+
+					g2.setPaint(new Color(random.nextInt(128), random.nextInt(128), random.nextInt(128)));
 					g2.fillRect(xCenter - fillSize/2, yCenter - fillSize/2, fillSize, fillSize);
 					drawCenteredString(g2, r.objName, xCenter, yCenter - fillSize/3, fObj.deriveFont(fontScale * fObj.getSize()), Color.WHITE);
-					drawCenteredString(g2, "(" + r.className + ")", xCenter, yCenter - fillSize/8, fClass.deriveFont(fontScale * fClass.getSize()), Color.GRAY);
+					drawCenteredString(g2, "(" + r.className + ")", xCenter, yCenter - fillSize/8, fClass.deriveFont(fontScale * fClass.getSize()), Color.LIGHT_GRAY);
 
 					if (r.message != null)
 						drawCenteredString(g2, r.message, xCenter, yCenter + fillSize/6, fMsg.deriveFont(fontScale * fMsg.getSize()), Color.WHITE);
