@@ -5,24 +5,19 @@ import java.util.Random;
 /**
  * An orthogonal direction.
  */
-public class Direction {
-	/**
-	 * One of the four orthogonal directions or an indication that any direction is permitted.
-	 */
-	public static enum Type {
+public enum Direction {
 		ANYWHERE,
 		DOWN,
 		LEFT,
 		RIGHT,
-		UP
-	}
+		UP;
 	
-	public static Type[] explicit = {Type.DOWN, Type.LEFT, Type.RIGHT, Type.UP};
+	public static Direction[] explicit = {DOWN, LEFT, RIGHT, UP};
 
 	/**
 	 * Returns a random explicit direction, i.e., not ANYWHERE.
 	 */
-	public static Type getRandom() {
+	public static Direction getRandom() {
 		Random randomGenerator = new Random();
 		int randomInt = randomGenerator.nextInt(explicit.length);
 		return Direction.explicit[randomInt];		
@@ -31,16 +26,16 @@ public class Direction {
 	/**
 	 * Returns the opposite of a given direction.  Returns null if called with ANYWHERE.
 	 */
-	public static Type getOpposite(Type input) {
+	public static Direction getOpposite(Direction input) {
 		switch(input) {
 			case DOWN:
-				return Type.UP;
+				return Direction.UP;
 			case LEFT:
-				return Type.RIGHT;
+				return Direction.RIGHT;
 			case RIGHT:
-				return Type.LEFT;
+				return Direction.LEFT;
 			case UP:
-				return Type.DOWN;
+				return Direction.DOWN;
 			default:
 				break;
 		} 

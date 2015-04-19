@@ -5,7 +5,7 @@ import words.exceptions.*;
 import words.ast.*;
 
 public class MoveAction extends Action {
-	private Direction.Type direction;
+	private Direction direction;
 	private AST distanceExpression;		// The expression whose value will be the number of moves to make; used only before the move has been expanded
 
 	/**
@@ -14,8 +14,8 @@ public class MoveAction extends Action {
 	 * 
 	 * distanceExpression may be null, in which case the WordsMove will be treated as a 1-unit move.
 	 */
-	public MoveAction(Direction.Type direction, AST distanceExpression) {
-		if (direction == Direction.Type.ANYWHERE) {
+	public MoveAction(Direction direction, AST distanceExpression) {
+		if (direction == Direction.ANYWHERE) {
 			this.direction = Direction.getRandom();
 		} else {
 			this.direction = direction;
@@ -23,14 +23,14 @@ public class MoveAction extends Action {
 		this.distanceExpression = distanceExpression;
 	}
 	
-	public Direction.Type getDirection() {
+	public Direction getDirection() {
 		return direction;
 	}
 
 	/**
 	 * Private constructor used to create a 1-unit move action.
 	 */
-	private MoveAction(Direction.Type direction) {
+	private MoveAction(Direction direction) {
 		this.direction = direction;
 		this.distanceExpression = null;
 	}
