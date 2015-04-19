@@ -1,13 +1,15 @@
 package words.environment;
 
+import java.util.Random;
+
 /**
- * An orthogonal direction, possibly random.
+ * An orthogonal direction.
  */
 public class Direction {
 	/**
 	 * One of the four orthogonal directions or an indication that any direction is permitted.
 	 */
-	public enum Type {
+	public static enum Type {
 		ANYWHERE,
 		DOWN,
 		LEFT,
@@ -15,14 +17,20 @@ public class Direction {
 		UP
 	}
 	
-	public Type type;
-
 	public static Type[] explicit = {Type.DOWN, Type.LEFT, Type.RIGHT, Type.UP};
-	
-	public Direction(Type type) {
-		this.type = type;
-	}
 
+	/**
+	 * Returns a random explicit direction, i.e., not ANYWHERE.
+	 */
+	public static Type getRandom() {
+		Random randomGenerator = new Random();
+		int randomInt = randomGenerator.nextInt(explicit.length);
+		return Direction.explicit[randomInt];		
+	}
+	
+	/**
+	 * Returns the opposite of a given direction.  Returns null if called with ANYWHERE.
+	 */
 	public static Type getOpposite(Type input) {
 		switch(input) {
 			case DOWN:
@@ -33,12 +41,10 @@ public class Direction {
 				return Type.LEFT;
 			case UP:
 				return Type.DOWN;
+			default:
+				break;
 		} 
+		
 		return null;
-	}
-	
-	@Override
-	public String toString() {
-		return this.type.toString();
 	}
 }

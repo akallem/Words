@@ -1,12 +1,11 @@
 package words.environment;
 import java.util.LinkedList;
 
-import java.util.Random;
 import words.exceptions.*;
 import words.ast.*;
 
 public class MoveAction extends Action {
-	private Direction direction;
+	private Direction.Type direction;
 	private AST distanceExpression;		// The expression whose value will be the number of moves to make; used only before the move has been expanded
 
 	/**
@@ -15,25 +14,23 @@ public class MoveAction extends Action {
 	 * 
 	 * distanceExpression may be null, in which case the WordsMove will be treated as a 1-unit move.
 	 */
-	public MoveAction(Direction direction, AST distanceExpression) {
-		if (direction.type == Direction.Type.ANYWHERE) {
-			Random randomGenerator = new Random();
-			int randomInt = randomGenerator.nextInt(4);
-			this.direction = new Direction(Direction.explicit[randomInt]);
+	public MoveAction(Direction.Type direction, AST distanceExpression) {
+		if (direction == Direction.Type.ANYWHERE) {
+			this.direction = Direction.getRandom();
 		} else {
 			this.direction = direction;
 		}
 		this.distanceExpression = distanceExpression;
 	}
 	
-	public Direction getDirection() {
+	public Direction.Type getDirection() {
 		return direction;
 	}
 
 	/**
 	 * Private constructor used to create a 1-unit move action.
 	 */
-	private MoveAction(Direction direction) {
+	private MoveAction(Direction.Type direction) {
 		this.direction = direction;
 		this.distanceExpression = null;
 	}
@@ -50,7 +47,7 @@ public class MoveAction extends Action {
 	public void doExecute(WordsObject object, Environment environment) throws WordsProgramException {
 		// We know that the distanceValue is 1
 		// ANYWHERE directions will already have been replaced to be a real direction
-		switch(direction.type) {
+		switch(direction) {
 			case DOWN:
 				object.moveDown();
 				break;
@@ -64,7 +61,7 @@ public class MoveAction extends Action {
 				object.moveUp();
 				break;
 			default:
-				throw new AssertionError("Attempted to execute direction type " + direction.type.toString());
+				throw new AssertionError("Attempted to execute direction type " + direction.toString());
 		}
 	}
 
@@ -85,7 +82,7 @@ public class MoveAction extends Action {
 
 		if (distanceValue < 0) {
 			distanceValue = -distanceValue;
-			direction.type = Direction.getOpposite(direction.type);
+			direction = Direction.getOpposite(direction);
 		}
 
 		LinkedList<Action> list = new LinkedList<Action>();

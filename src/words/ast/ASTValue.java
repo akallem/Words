@@ -22,7 +22,7 @@ public class ASTValue {
 	public double numValue;
 	public String stringValue;
 	public WordsObject objValue;
-	public Direction directionValue;
+	public Direction.Type directionValue;
 	public Position positionValue;
 	
 	public ASTValue(boolean b) {
@@ -45,7 +45,7 @@ public class ASTValue {
 		this.objValue = obj;
 	}
 	
-	public ASTValue(Direction d) {
+	public ASTValue(Direction.Type d) {
 		this.type = Type.DIRECTION;
 		this.directionValue = d;
 	}
