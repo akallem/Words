@@ -22,7 +22,7 @@ public class WordsObject {
 		this.properties = new HashMap<String, Property>();
 	}
 	
-	public void clearQueue() {
+	public void clearActionQueue() {
 		actionQueue.clear();
 	}
 
