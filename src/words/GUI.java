@@ -36,6 +36,8 @@ public class GUI {
 	static final Font fClass = new Font("SansSerif", Font.PLAIN, 8);
 	static final Font fMsg = new Font("SansSerif", Font.PLAIN, 10);
 	static final double lineSpacing = 0.75;
+	static final int cellPadding = 4;
+	static final int objOverlapSpacing = 6;
 	
 	HashMap<String, LinkedList<RenderData>> content;
 
@@ -111,7 +113,7 @@ public class GUI {
 		 */
 
 		private void renderCell(Graphics2D g2, int xCenter, int yCenter, Position p) {
-			float fontScale = (float) initNumCells / (float) numCells;
+			float scale = (float) initNumCells / (float) numCells;
 			
 			g2.setPaint(new Color(128, 128, 128));
 			g2.setStroke(new BasicStroke());
@@ -121,21 +123,26 @@ public class GUI {
 			LinkedList<RenderData> list = content.get(positionToKey(p));
 			if (list != null) {
 				// Simple rendering of an object
-				// TODO: More gracefully render situations where multiple objects are on the same cell
-				int fillSize = cellSize - 4;
+				int fillSize = cellSize - (int) (cellPadding*scale) - objOverlapSpacing*(list.size() - 1);
 				
 				Random random = new Random();
 				
+				int num = 1;
 				for (RenderData r : list) {
+					int x = xCenter + (int) (((double) num - ((double) list.size() + 1) / 2) * objOverlapSpacing * scale);
+					int y = yCenter + (int) (((double) num - ((double) list.size() + 1) / 2) * objOverlapSpacing * scale);
+					
 					random.setSeed((r.objName + r.className).hashCode());
 
 					g2.setPaint(new Color(random.nextInt(128), random.nextInt(128), random.nextInt(128)));
-					g2.fillRect(xCenter - fillSize/2, yCenter - fillSize/2, fillSize, fillSize);
-					drawCenteredString(g2, r.objName, xCenter, yCenter - fillSize/3, fObj.deriveFont(fontScale * fObj.getSize()), Color.WHITE);
-					drawCenteredString(g2, "(" + r.className + ")", xCenter, yCenter - fillSize/8, fClass.deriveFont(fontScale * fClass.getSize()), Color.LIGHT_GRAY);
+					g2.fillRect(x - fillSize/2, y - fillSize/2, fillSize, fillSize);
+					drawCenteredString(g2, r.objName, x, y - fillSize/3, fObj.deriveFont(scale * fObj.getSize()), Color.WHITE);
+					drawCenteredString(g2, "(" + r.className + ")", x, y - fillSize/8, fClass.deriveFont(scale * fClass.getSize()), Color.LIGHT_GRAY);
 
 					if (r.message != null)
-						drawCenteredString(g2, r.message, xCenter, yCenter + fillSize/6, fMsg.deriveFont(fontScale * fMsg.getSize()), Color.WHITE);
+						drawCenteredString(g2, r.message, x, y + fillSize/6, fMsg.deriveFont(scale * fMsg.getSize()), Color.WHITE);
+					
+					num++;
 				}
 			}
 		}
