@@ -37,7 +37,8 @@ public class GUI {
 	static final Font fMsg = new Font("SansSerif", Font.PLAIN, 10);
 	static final double lineSpacing = 0.75;
 	static final int cellPadding = 4;
-	static final int objOverlapSpacing = 6;
+	static final int objOverlapSpacing = 4;
+	static final int maxOverlapObjects = 6;
 	
 	HashMap<String, LinkedList<RenderData>> content;
 
@@ -122,15 +123,18 @@ public class GUI {
 
 			LinkedList<RenderData> list = content.get(positionToKey(p));
 			if (list != null) {
+				int numToDisplay = list.size() < maxOverlapObjects ? list.size() : maxOverlapObjects;
+				
 				// Simple rendering of an object
-				int fillSize = cellSize - (int) (cellPadding*scale) - objOverlapSpacing*(list.size() - 1);
+				int fillSize = cellSize - (int) (cellPadding*scale) - objOverlapSpacing*(numToDisplay - 1);
 				
 				Random random = new Random();
 				
-				int num = 1;
-				for (RenderData r : list) {
-					int x = xCenter + (int) (((double) num - ((double) list.size() + 1) / 2) * objOverlapSpacing * scale);
-					int y = yCenter + (int) (((double) num - ((double) list.size() + 1) / 2) * objOverlapSpacing * scale);
+				for (int num = 1; num <= numToDisplay; num++) {
+					RenderData r = list.get(num - 1);
+					
+					int x = xCenter + (int) (((double) num - ((double) numToDisplay + 1) / 2) * objOverlapSpacing * scale);
+					int y = yCenter + (int) (((double) num - ((double) numToDisplay + 1) / 2) * objOverlapSpacing * scale);
 					
 					random.setSeed((r.objName + r.className).hashCode());
 
@@ -141,8 +145,6 @@ public class GUI {
 
 					if (r.message != null)
 						drawCenteredString(g2, r.message, x, y + fillSize/6, fMsg.deriveFont(scale * fMsg.getSize()), Color.WHITE);
-					
-					num++;
 				}
 			}
 		}
