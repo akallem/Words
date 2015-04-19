@@ -4,10 +4,6 @@ Fred's fibA is 0.
 Fred's fibB is 1.
 
 Repeat 20 times {
-	Fred's temp is Fred's fibA + Fred's fibB.
-	Fred's fibA is Fred's fibB.
-	Fred's fibB is Fred's temp.
-	Fred's temp is nothing.
+	Make Fred say Fred's fibB.
+	Make Fred's temp be Fred's fibA + Fred's fibB, fibA be Fred's fibB, fibB be Fred's temp.
 }
-
-Make Fred say Fred's fibB.

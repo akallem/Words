@@ -3,7 +3,6 @@ Fred is a thing at 0,0.
 Fred's count is 0.
 
 Repeat 10 times {
-	Fred's count is Fred's count + 1.
+	Make Fred's count be Fred's count + 1.
+	Make Fred say Fred's count.
 }
-
-Make Fred say Fred's count.
