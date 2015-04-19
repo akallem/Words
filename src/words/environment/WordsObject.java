@@ -21,6 +21,10 @@ public class WordsObject {
 		this.actionQueue = new LinkedList<Action>();
 		this.properties = new HashMap<String, Property>();
 	}
+	
+	public void clearQueue() {
+		actionQueue.clear();
+	}
 
 	public void enqueueAction(Action action) {
 		actionQueue.add(action);
