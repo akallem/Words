@@ -6,9 +6,9 @@ import words.environment.*;
  * A syntax tree leaf node for a direction.
  */
 public class LNodeDirection extends LNode {
-	public Direction.Type direction;
+	public Direction direction;
 	
-	public LNodeDirection(Direction.Type d) {
+	public LNodeDirection(Direction d) {
 		super();
 		this.direction = d;
 	}

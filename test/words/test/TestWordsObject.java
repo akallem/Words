@@ -24,10 +24,10 @@ public class TestWordsObject {
 	
 	@Test
 	public void executeNextActionShouldExecuteNextMoveAction() {
-		obj.enqueueAction(new MoveAction(Direction.Type.RIGHT, new LNodeNum(1)));
-		obj.enqueueAction(new MoveAction(Direction.Type.RIGHT, new LNodeNum(1)));
-		obj.enqueueAction(new MoveAction(Direction.Type.LEFT, new LNodeNum(1)));
-		obj.enqueueAction(new MoveAction(Direction.Type.LEFT, new LNodeNum(1)));
+		obj.enqueueAction(new MoveAction(Direction.RIGHT, new LNodeNum(1)));
+		obj.enqueueAction(new MoveAction(Direction.RIGHT, new LNodeNum(1)));
+		obj.enqueueAction(new MoveAction(Direction.LEFT, new LNodeNum(1)));
+		obj.enqueueAction(new MoveAction(Direction.LEFT, new LNodeNum(1)));
 		
 		try {
 			obj.executeNextAction(null);
@@ -97,12 +97,12 @@ public class TestWordsObject {
 	
 	@Test
 	public void enqeueAtFrontShouldBeNextActionExecuted() {
-		obj.enqueueAction(new MoveAction(Direction.Type.RIGHT, new LNodeNum(3)));
-		obj.enqueueAction(new MoveAction(Direction.Type.UP, new LNodeNum(5)));
-		obj.enqueueAction(new MoveAction(Direction.Type.DOWN, new LNodeNum(5)));
+		obj.enqueueAction(new MoveAction(Direction.RIGHT, new LNodeNum(3)));
+		obj.enqueueAction(new MoveAction(Direction.UP, new LNodeNum(5)));
+		obj.enqueueAction(new MoveAction(Direction.DOWN, new LNodeNum(5)));
 		
 		// This should be first to be executed
-		obj.enqueueActionAtFront(new MoveAction(Direction.Type.LEFT, new LNodeNum(1)));
+		obj.enqueueActionAtFront(new MoveAction(Direction.LEFT, new LNodeNum(1)));
 		
 		try {
 			obj.executeNextAction(null);
