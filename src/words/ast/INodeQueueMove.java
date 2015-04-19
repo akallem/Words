@@ -1,14 +1,7 @@
 package words.ast;
 
-import words.ast.ASTValue.ValueType;
-import words.environment.WordsEnvironment;
-import words.environment.WordsMove;
-import words.environment.WordsObject;
-import words.environment.WordsProperty;
-import words.environment.WordsProperty.PropertyType;
-import words.exceptions.WordsInvalidTypeException;
-import words.exceptions.WordsObjectNotFoundException;
-import words.exceptions.WordsRuntimeException;
+import words.environment.*;
+import words.exceptions.*;
 
 public class INodeQueueMove extends INode {
 	public INodeQueueMove(Object... children) {
@@ -16,7 +9,7 @@ public class INodeQueueMove extends INode {
 	}
 
 	@Override
-	public ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException {
+	public ASTValue eval(Environment environment) throws WordsRuntimeException {
 		ASTValue referenceObject = children.get(0).eval(environment);
 		ASTValue identifier = children.get(1).eval(environment);
 		ASTValue direction = children.get(2).eval(environment);
@@ -24,23 +17,19 @@ public class INodeQueueMove extends INode {
 		ASTValue doNow = children.get(4) != null ? children.get(4).eval(environment) : null;
 		
 		WordsObject object;
-		if (referenceObject.type.equals(ASTValue.ValueType.OBJ)){
-			WordsProperty property = referenceObject.objValue.getProperty(identifier.stringValue);
-			if (property.type != WordsProperty.PropertyType.OBJECT) {
-				throw new WordsInvalidTypeException(ASTValue.ValueType.OBJ.toString(), property.type.toString());
+		if (referenceObject.type.equals(ASTValue.Type.OBJ)){
+			Property property = referenceObject.objValue.getProperty(identifier.stringValue);
+			if (property.type != Property.PropertyType.OBJECT) {
+				throw new InvalidTypeException(ASTValue.Type.OBJ.toString(), property.type.toString());
 			}
 			object = property.objProperty;
 		} else {
 			object = environment.getObject(identifier.stringValue);
-			if (object == null) {
-				throw new WordsObjectNotFoundException(identifier.stringValue);
-			}
 		}
 		
-		assert(direction.type == ASTValue.ValueType.DIRECTION) : "Expected direction";
+		assert(direction.type == ASTValue.Type.DIRECTION) : "Expected direction";
 		
-		//TODO: Distance = 0 should create a wait method
-		WordsMove action = new WordsMove(direction.directionValue, distance);
+		MoveAction action = new MoveAction(direction.directionValue, distance);
 		
 		if (doNow == null) {
 			object.enqueueAction(action);

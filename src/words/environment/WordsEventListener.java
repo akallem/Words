@@ -1,15 +1,57 @@
 package words.environment;
 
-import words.ast.AST;
+import words.exceptions.*;
+import words.ast.*;
 
 public class WordsEventListener {
-	
 	private AST predicate;
 	private AST statementList;
+	private boolean temporary;
+
+	public WordsEventListener(AST predicate, AST statementList, boolean temporary) {
+		this.predicate = predicate;
+		this.statementList = statementList;
+		this.temporary = temporary;
+	}
 	
-	public void execute() {
-		// TODO Auto-generated method stub
-		
+	/**
+	 * Execute a listener
+	 * @return false if the listener should be deleted by the caller. 
+	 * @throws WordsProgramException
+	 */
+	public boolean execute(Environment environment) throws WordsProgramException {
+		if (predicate instanceof INodeBasicActionPredicate) {
+			boolean predVal = false;
+			try {
+				predVal = predicate.eval(environment, statementList).booleanValue;
+			} catch (WordsRuntimeException e) {
+				throw new WordsProgramException(statementList, e);
+			}
+			return !temporary || predVal;
+		} else {
+			ASTValue predicateValue;
+			try {
+				predicateValue = predicate.eval(environment);
+			} catch (WordsRuntimeException e) {
+				throw new WordsProgramException(predicate, e);
+			}
+			
+			assert predicateValue.type == ASTValue.Type.BOOLEAN : "Predicate has type " + predicateValue.type.toString();
+	
+			if (predicateValue.booleanValue == true) {
+				try {
+					statementList.eval(environment);
+				} catch (WordsRuntimeException e) {
+					throw new WordsProgramException(statementList, e);
+				}
+			} else {
+				if (temporary) {
+					return false;
+				}
+			}
+	
+			return true;
+		}
 	}
 	
 }

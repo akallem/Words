@@ -14,13 +14,13 @@ public class TestINodeMultiply extends TestINode {
 		
 		INode testNode = new INodeMultiply(numLeaf1, numLeaf2);
 		ASTValue result = testNode.eval(environment);
-		assertTrue("Returns NUM value", result.type == ASTValue.ValueType.NUM);
+		assertTrue("Returns NUM value", result.type == ASTValue.Type.NUM);
 		assertEquals("Correct Multiplication", result.numValue, 12.0, 0.0001);
 	}
 	
 	@Test (expected = WordsArithmeticException.class)
 	public void onlyOperatesOnTwoNumbers() throws WordsRuntimeException {
 		INode testNode = new INodeMultiply(numLeaf, stringLeaf);
-		ASTValue result = testNode.eval(environment);
+		testNode.eval(environment);
 	}
 }

@@ -1,10 +1,7 @@
 package words.ast;
 
-import words.ast.ASTValue.ValueType;
-import words.environment.WordsEnvironment;
-import words.environment.WordsPosition;
-import words.exceptions.WordsInvalidTypeException;
-import words.exceptions.WordsRuntimeException;
+import words.environment.*;
+import words.exceptions.*;
 
 public class INodePosition extends INode {
 	public INodePosition(Object... children) {
@@ -12,18 +9,18 @@ public class INodePosition extends INode {
 	}
 
 	@Override
-	public ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException {
-		ASTValue row = children.get(0).eval(environment).tryCoerceTo(ASTValue.ValueType.NUM);
-		ASTValue col = children.get(1).eval(environment).tryCoerceTo(ASTValue.ValueType.NUM);
+	public ASTValue eval(Environment environment) throws WordsRuntimeException {
+		ASTValue row = children.get(0).eval(environment).tryCoerceTo(ASTValue.Type.NUM);
+		ASTValue col = children.get(1).eval(environment).tryCoerceTo(ASTValue.Type.NUM);
 		
-		if (row.type != ASTValue.ValueType.NUM) {
-			throw new WordsInvalidTypeException(ASTValue.ValueType.NUM.toString(), row.type.toString());
+		if (row.type != ASTValue.Type.NUM) {
+			throw new InvalidTypeException(ASTValue.Type.NUM.toString(), row.type.toString());
 		}
 		
-		if (col.type != ASTValue.ValueType.NUM) {
-			throw new WordsInvalidTypeException(ASTValue.ValueType.NUM.toString(), col.type.toString());
+		if (col.type != ASTValue.Type.NUM) {
+			throw new InvalidTypeException(ASTValue.Type.NUM.toString(), col.type.toString());
 		}
 		
-		return new ASTValue(new WordsPosition(row.numValue, col.numValue));
+		return new ASTValue(new Position(row.numValue, col.numValue));
 	}
 }

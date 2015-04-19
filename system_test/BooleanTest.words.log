@@ -1,0 +1,300 @@
+frame #: 1
+(0,0):
+<thing> Fred
+frame #: 2
+(0,0):
+<thing> Fred "1 < 2"
+frame #: 3
+(0,0):
+<thing> Fred "1 <= 1"
+frame #: 4
+(0,0):
+<thing> Fred "1 = "1""
+frame #: 5
+(0,0):
+<thing> Fred "2 = "2""
+frame #: 6
+(0,0):
+<thing> Fred ""this" = "that""
+frame #: 7
+(0,0):
+<thing> Fred "And"
+frame #: 8
+(0,0):
+<thing> Fred "Or"
+frame #: 9
+(0,0):
+<thing> Fred "Not"
+frame #: 10
+(0,0):
+<thing> Fred "Not"
+frame #: 11
+(0,0):
+<thing> Fred "Not"
+frame #: 12
+(0,0):
+<thing> Fred "Not"
+frame #: 13
+(0,0):
+<thing> Fred "Not"
+frame #: 14
+(0,0):
+<thing> Fred "Not"
+frame #: 15
+(0,0):
+<thing> Fred "Not"
+frame #: 16
+(0,0):
+<thing> Fred "Not"
+frame #: 17
+(0,0):
+<thing> Fred "Not"
+frame #: 18
+(0,0):
+<thing> Fred "Not"
+frame #: 19
+(0,0):
+<thing> Fred "Not"
+frame #: 20
+(0,0):
+<thing> Fred "Not"
+frame #: 21
+(0,0):
+<thing> Fred "Not"
+frame #: 22
+(0,0):
+<thing> Fred "Not"
+frame #: 23
+(0,0):
+<thing> Fred "Not"
+frame #: 24
+(0,0):
+<thing> Fred "Not"
+frame #: 25
+(0,0):
+<thing> Fred "Not"
+frame #: 26
+(0,0):
+<thing> Fred "Not"
+frame #: 27
+(0,0):
+<thing> Fred "Not"
+frame #: 28
+(0,0):
+<thing> Fred "Not"
+frame #: 29
+(0,0):
+<thing> Fred "Not"
+frame #: 30
+(0,0):
+<thing> Fred "Not"
+frame #: 31
+(0,0):
+<thing> Fred "Not"
+frame #: 32
+(0,0):
+<thing> Fred "Not"
+frame #: 33
+(0,0):
+<thing> Fred "Not"
+frame #: 34
+(0,0):
+<thing> Fred "Not"
+frame #: 35
+(0,0):
+<thing> Fred "Not"
+frame #: 36
+(0,0):
+<thing> Fred "Not"
+frame #: 37
+(0,0):
+<thing> Fred "Not"
+frame #: 38
+(0,0):
+<thing> Fred "Not"
+frame #: 39
+(0,0):
+<thing> Fred "Not"
+frame #: 40
+(0,0):
+<thing> Fred "Not"
+frame #: 41
+(0,0):
+<thing> Fred "Not"
+frame #: 42
+(0,0):
+<thing> Fred "Not"
+frame #: 43
+(0,0):
+<thing> Fred "Not"
+frame #: 44
+(0,0):
+<thing> Fred "Not"
+frame #: 45
+(0,0):
+<thing> Fred "Not"
+frame #: 46
+(0,0):
+<thing> Fred "Not"
+frame #: 47
+(0,0):
+<thing> Fred "Not"
+frame #: 48
+(0,0):
+<thing> Fred "Not"
+frame #: 49
+(0,0):
+<thing> Fred "Not"
+frame #: 50
+(0,0):
+<thing> Fred "Not"
+frame #: 51
+(0,0):
+<thing> Fred "Not"
+frame #: 52
+(0,0):
+<thing> Fred "Not"
+frame #: 53
+(0,0):
+<thing> Fred "Not"
+frame #: 54
+(0,0):
+<thing> Fred "Not"
+frame #: 55
+(0,0):
+<thing> Fred "Not"
+frame #: 56
+(0,0):
+<thing> Fred "Not"
+frame #: 57
+(0,0):
+<thing> Fred "Not"
+frame #: 58
+(0,0):
+<thing> Fred "Not"
+frame #: 59
+(0,0):
+<thing> Fred "Not"
+frame #: 60
+(0,0):
+<thing> Fred "Not"
+frame #: 61
+(0,0):
+<thing> Fred "Not"
+frame #: 62
+(0,0):
+<thing> Fred "Not"
+frame #: 63
+(0,0):
+<thing> Fred "Not"
+frame #: 64
+(0,0):
+<thing> Fred "Not"
+frame #: 65
+(0,0):
+<thing> Fred "Not"
+frame #: 66
+(0,0):
+<thing> Fred "Not"
+frame #: 67
+(0,0):
+<thing> Fred "Not"
+frame #: 68
+(0,0):
+<thing> Fred "Not"
+frame #: 69
+(0,0):
+<thing> Fred "Not"
+frame #: 70
+(0,0):
+<thing> Fred "Not"
+frame #: 71
+(0,0):
+<thing> Fred "Not"
+frame #: 72
+(0,0):
+<thing> Fred "Not"
+frame #: 73
+(0,0):
+<thing> Fred "Not"
+frame #: 74
+(0,0):
+<thing> Fred "Not"
+frame #: 75
+(0,0):
+<thing> Fred "Not"
+frame #: 76
+(0,0):
+<thing> Fred "Not"
+frame #: 77
+(0,0):
+<thing> Fred "Not"
+frame #: 78
+(0,0):
+<thing> Fred "Not"
+frame #: 79
+(0,0):
+<thing> Fred "Not"
+frame #: 80
+(0,0):
+<thing> Fred "Not"
+frame #: 81
+(0,0):
+<thing> Fred "Not"
+frame #: 82
+(0,0):
+<thing> Fred "Not"
+frame #: 83
+(0,0):
+<thing> Fred "Not"
+frame #: 84
+(0,0):
+<thing> Fred "Not"
+frame #: 85
+(0,0):
+<thing> Fred "Not"
+frame #: 86
+(0,0):
+<thing> Fred "Not"
+frame #: 87
+(0,0):
+<thing> Fred "Not"
+frame #: 88
+(0,0):
+<thing> Fred "Not"
+frame #: 89
+(0,0):
+<thing> Fred "Not"
+frame #: 90
+(0,0):
+<thing> Fred "Not"
+frame #: 91
+(0,0):
+<thing> Fred "Not"
+frame #: 92
+(0,0):
+<thing> Fred "Not"
+frame #: 93
+(0,0):
+<thing> Fred "Not"
+frame #: 94
+(0,0):
+<thing> Fred "Not"
+frame #: 95
+(0,0):
+<thing> Fred "Not"
+frame #: 96
+(0,0):
+<thing> Fred "Not"
+frame #: 97
+(0,0):
+<thing> Fred "Not"
+frame #: 98
+(0,0):
+<thing> Fred "Not"
+frame #: 99
+(0,0):
+<thing> Fred "Not"
+frame #: 100
+(0,0):
+<thing> Fred "Not"

@@ -1,7 +1,7 @@
 package words.ast;
 
-import words.environment.WordsEnvironment;
-import words.exceptions.WordsRuntimeException;
+import words.environment.*;
+import words.exceptions.*;
 
 public class INodeReset extends INode {
 	public INodeReset(Object... children) {
@@ -9,8 +9,9 @@ public class INodeReset extends INode {
 	}
 
 	@Override
-	public ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException {
-		// TODO
-		throw new AssertionError("Not yet implemented");
+	public ASTValue eval(Environment environment) throws WordsRuntimeException {
+		environment.resetEnvironment();
+		
+		return null;
 	}
 }

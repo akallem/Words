@@ -1,8 +1,6 @@
 package words.ast;
 
-import words.environment.Direction;
-import words.environment.WordsEnvironment;
-import words.environment.Direction.Type;
+import words.environment.*;
 
 /**
  * A syntax tree leaf node for a direction.
@@ -21,7 +19,7 @@ public class LNodeDirection extends LNode {
 	}
 	
 	@Override
-	public ASTValue eval(WordsEnvironment environment) {
+	public ASTValue eval(Environment environment) {
 		return new ASTValue(this.direction);
 	}
 }

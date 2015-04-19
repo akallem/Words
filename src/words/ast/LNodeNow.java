@@ -1,7 +1,6 @@
 package words.ast;
 
-import words.ast.ASTValue.ValueType;
-import words.environment.WordsEnvironment;
+import words.environment.*;
 
 /**
  * A syntax tree leaf node for the keyword 'now'.
@@ -17,7 +16,7 @@ public class LNodeNow extends LNode {
 	}
 	
 	@Override
-	public ASTValue eval(WordsEnvironment environment) {
-		return new ASTValue(ASTValue.ValueType.NOW);
+	public ASTValue eval(Environment environment) {
+		return new ASTValue(ASTValue.Type.NOW);
 	}
 }

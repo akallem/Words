@@ -1,7 +1,7 @@
 package words.ast;
 
-import words.environment.WordsEnvironment;
-import words.exceptions.WordsRuntimeException;
+import words.environment.*;
+import words.exceptions.*;
 
 public class INodeLEQ extends INodeRelOp {
 	public INodeLEQ(Object... children) {
@@ -9,7 +9,7 @@ public class INodeLEQ extends INodeRelOp {
 	}
 
 	@Override
-	public ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException {
+	public ASTValue eval(Environment environment) throws WordsRuntimeException {
 		ASTValue lhs = children.get(0).eval(environment);
 		ASTValue rhs = children.get(1).eval(environment);
 		

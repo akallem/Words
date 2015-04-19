@@ -1,7 +1,7 @@
 package words.ast;
 
-import words.environment.WordsEnvironment;
-import words.exceptions.WordsRuntimeException;
+import words.environment.*;
+import words.exceptions.*;
 
 public class INodeAlias extends INode {
 	public INodeAlias(Object... children) {
@@ -9,8 +9,12 @@ public class INodeAlias extends INode {
 	}
 
 	@Override
-	public ASTValue eval(WordsEnvironment environment) throws WordsRuntimeException {
-		// TODO
-		throw new AssertionError("Not yet implemented");
+	public ASTValue eval(Environment environment) throws WordsRuntimeException {
+		ASTValue identifier = children.size() == 0 ? null : children.get(0).eval(environment);
+		if (identifier != null) {
+			return identifier;
+		} else {
+			return new ASTValue(ASTValue.Type.NOTHING);
+		}
 	}
 }

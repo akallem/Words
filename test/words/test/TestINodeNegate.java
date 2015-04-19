@@ -13,13 +13,13 @@ public class TestINodeNegate extends TestINode {
 		
 		INode testNode = new INodeNegate(numLeaf1);
 		ASTValue result = testNode.eval(environment);
-		assertTrue("Returns NUM value", result.type == ASTValue.ValueType.NUM);
+		assertTrue("Returns NUM value", result.type == ASTValue.Type.NUM);
 		assertEquals("Correct Negation", result.numValue, -3.0, 0.0001);
 	}
 	
-	@Test (expected = WordsInvalidTypeException.class)
+	@Test (expected = InvalidTypeException.class)
 	public void onlyOperatesOnNumbers() throws WordsRuntimeException {
 		INode testNode = new INodeNegate(stringLeaf);
-		ASTValue result = testNode.eval(environment);
+		testNode.eval(environment);
 	}
 }

@@ -4,8 +4,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import words.ast.*;
-import words.environment.WordsPosition;
-import words.exceptions.WordsRuntimeException;
+import words.environment.*;
+import words.exceptions.*;
 
 
 public class TestINodeIf extends TestINode {
@@ -15,11 +15,11 @@ public class TestINodeIf extends TestINode {
 		AST relationalExp = new INodeEquals(numLeaf, numLeaf);
 		AST testNode = new INodeIf(relationalExp, statementList);
 		
-		environment.createObject("Fred", "thing", new WordsPosition(0,0));
+		environment.createObject("Fred", "thing", new Position(0,0));
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up. 
 		loop.enqueueAST(testNode);
 		loop.fastForwardEnvironment(2);
-		assertEquals("Fred has moved correctly", environment.getObject("Fred").getCurrentCell(), new WordsPosition(2,0));
+		assertEquals("Fred has moved correctly", environment.getObject("Fred").getCurrentPosition(), new Position(2,0));
 	}
 	
 	@Test
@@ -28,10 +28,10 @@ public class TestINodeIf extends TestINode {
 		AST relationalExp = new INodeEquals(twoLeaf, fiveLeaf);
 		AST testNode = new INodeIf(relationalExp, statementList);
 		
-		environment.createObject("Fred", "thing", new WordsPosition(0,0));
+		environment.createObject("Fred", "thing", new Position(0,0));
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up. 
 		loop.enqueueAST(testNode);
 		loop.fastForwardEnvironment(2);
-		assertEquals("Fred has not moved", environment.getObject("Fred").getCurrentCell(), new WordsPosition(0,0));
+		assertEquals("Fred has not moved", environment.getObject("Fred").getCurrentPosition(), new Position(0,0));
 	}
 }

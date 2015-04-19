@@ -85,9 +85,12 @@
 
     <!-- run JUnit tests and integration tests -->
     <!-- report is plain, could also be xml -->
-    <target name="test-unit" depends="test-compile">
+    <target name="test-unit" depends="clean, test-compile">
         <mkdir dir="${test.report.dir}" />
-        <junit printsummary="on" fork="true" haltonfailure="no">
+        <junit printsummary="on" fork="true" haltonfailure="true">
+            <assertions>
+                <enable />
+            </assertions>
             <classpath refid="junit.classpath" />
             <formatter type="plain" />
             <batchtest todir="${test.report.dir}">
@@ -99,7 +102,7 @@
     </target>
 
     <!-- run system tests -->
-    <target name="test-system" depends="jar, test-system-windows, test-system-other" />
+    <target name="test-system" depends="clean, jar, test-system-windows, test-system-other" />
     <target name="test-system-windows" if="isWindows">
         <apply executable="${system_test.dir}/test.bat" failonerror="true">
             <fileset dir="${system_test.dir}" includes="*.words" />
@@ -111,7 +114,7 @@
         </apply>
     </target>
 
-    <target name="test" depends="test-unit, test-system">
+    <target name="test" depends="clean, test-unit, test-system">
     </target>
 
     <!-- delete existing build -->
