@@ -31,7 +31,7 @@ public class INodeMovesPredicate extends INodeBasicActionPredicate {
 			Action lastAction = object.getLastAction();
 			if (lastAction instanceof MoveAction) {
 				MoveAction lastMove = (MoveAction) lastAction;
-				if (moveDirection == null || moveDirection.directionValue.type == Direction.Type.ANYWHERE 
+				if (moveDirection == null || moveDirection.directionValue == Direction.Type.ANYWHERE 
 						|| moveDirection.directionValue.equals(lastMove.getDirection())) {
 					returnVal.booleanValue = true;
 					environment.enterNewLocalScope();
