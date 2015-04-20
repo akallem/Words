@@ -13,7 +13,7 @@ public class INodeQueueCustomAction extends INode {
 		AST referenceObject = children.get(0);
 		AST identifier = children.get(1);
 		ASTValue actionName = children.get(2).eval(environment);
-		//TODO: Handle parameter list (at all)
+		//TODO: Handle argument list (add all)
 		AST paramList = children.get(3);
 		ASTValue doNow = children.get(4) != null ? children.get(4).eval(environment) : null;
 		
@@ -23,12 +23,12 @@ public class INodeQueueCustomAction extends INode {
 		}
 		WordsObject object = property.objProperty;
 				
-		CustomAction action = object.getWordsClass().getCustomAction(actionName.stringValue);
+		CustomActionDefinition actionDefinition = object.getWordsClass().getCustomActionDefinition(actionName.stringValue);
 		
 		if (doNow == null) {
-			object.enqueueAction(action);
+			object.enqueueAction(new CustomAction(actionDefinition));
 		} else {
-			object.enqueueActionAtFront(action);
+			object.enqueueActionAtFront(new CustomAction(actionDefinition));
 		}
 		
 		return null;

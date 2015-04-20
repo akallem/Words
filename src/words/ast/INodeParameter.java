@@ -16,7 +16,7 @@ public class INodeParameter extends INode {
 
 	@Override
 	public ASTValue eval(Environment environment, Object inherited) throws WordsRuntimeException {
-		CustomAction customAction = (CustomAction) inherited;
+		CustomActionDefinition customAction = (CustomActionDefinition) inherited;
 		ASTValue param = children.get(0).eval(environment);
 		assert param.type == ASTValue.Type.STRING : "Parameter names should always be strings";
 		customAction.addParameter(param.stringValue);

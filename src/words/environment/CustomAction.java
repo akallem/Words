@@ -1,17 +1,17 @@
 package words.environment;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import words.exceptions.*;
 import words.ast.*;
 
 public class CustomAction extends Action {
-	private AST statementList;
-	private HashSet<String> parameters;
+	private CustomActionDefinition actionDefinition;
+	private HashMap<String, AST> arguments;
 	
-	public CustomAction(AST actions) {
-		this.statementList = actions;
-		this.parameters = new HashSet<String>();
+	public CustomAction(CustomActionDefinition actionDefinition) {
+		this.actionDefinition = actionDefinition;
+		this.arguments = new HashMap<String, AST>();
 	}
 
 	@Override
@@ -25,24 +25,7 @@ public class CustomAction extends Action {
 	@Override
 	protected LinkedList<Action> doExpand(WordsObject object, Environment environment) throws WordsProgramException {
 		object.startExpandingCustomAction();
-		environment.enterNewLocalScope();
-		
-		String[] pronouns = {"them", "it", "him", "her", "his", "its", "their"};
-		for (String pronoun : pronouns) {
-			environment.addVariableToCurrentNameScope(pronoun, new Property(object));
-		}
-		
-		try {
-			statementList.eval(environment);
-		} catch (WordsRuntimeException e) {
-			throw new WordsProgramException(statementList, e);
-		}
-		
-		environment.exitLocalScope();
+		actionDefinition.execute(environment, object, arguments);
 		return object.finishExpandingCustomAction();
-	}
-	
-	public void addParameter(String paramName) {
-		parameters.add(paramName);
 	}
 }

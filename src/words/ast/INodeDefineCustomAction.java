@@ -17,11 +17,11 @@ public class INodeDefineCustomAction extends INode {
 		
 		assert actionName.type == ASTValue.Type.STRING : "Custom Action name must be a string";
 		
-		CustomAction newAction = new CustomAction(statementList);
+		CustomActionDefinition newAction = new CustomActionDefinition(statementList);
 		if (parameterList != null) {
 			parameterList.eval(environment, newAction);
 		}
-		wordsClass.addCustomAction(actionName.stringValue, newAction);
+		wordsClass.defineCustomAction(actionName.stringValue, newAction);
 		
 		return null;
 	}
