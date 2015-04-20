@@ -20,6 +20,7 @@ public class GUI {
 	int windowWidth, windowHeight;		// Dimensions of the window in pixels
 	int boardSize; 						// Dimensions (square) of the board in pixels
 	int numCells;						// Number of rows (columns) in the board (must be odd)
+	static final int initNumCells = 9;	// Default value of numCells
 	static final int minCells = 5;		// Must be odd so that there is a cell in the center
 	static final int maxCells = 25;		// Must be odd so that there is a cell in the center
 	static final int zoomStep = 2;		// Must be even so that there is a cell in the center
@@ -31,10 +32,14 @@ public class GUI {
 	static final int labelPadding = 4;	// Padding from label to grid cell
 	
 	static final Font fLabel = new Font("SansSerif", Font.BOLD, 16);
-	static final Font fObj = new Font("SansSerif", Font.BOLD, 12);
-	static final Font fClass = new Font("SansSerif", Font.PLAIN, 9);
-	static final Font fMsg = new Font("SansSerif", Font.PLAIN, 8);
-
+	static final Font fObj = new Font("SansSerif", Font.BOLD, 16);
+	static final Font fClass = new Font("SansSerif", Font.PLAIN, 8);
+	static final Font fMsg = new Font("SansSerif", Font.PLAIN, 10);
+	static final double lineSpacing = 0.75;
+	static final int cellPadding = 4;
+	static final int objOverlapSpacing = 4;
+	static final int maxOverlapObjects = 6;
+	
 	HashMap<String, LinkedList<RenderData>> content;
 
 	/**
@@ -71,7 +76,7 @@ public class GUI {
 		int cellSize;					// Dimensions of a cell in pixels
 
 		/**
-		 * Draws a string centered at given coordinates.
+		 * Draws a string centered at given coordinates.  Splits newlines.
 		 * Adapted from http://www.java2s.com/Tutorial/Java/0261__2D-Graphics/Centertext.htm
 		 *
 		 * @param g2 The Graphics2D context in which to draw
@@ -82,13 +87,21 @@ public class GUI {
 		 * @param color The color the string should be drawn in
 		 */
 		private void drawCenteredString(Graphics2D g2, String string, int x, int y, Font font, Color color) {
+			int numLines = string.split("\n", -1).length;
+			
 			g2.setFont(font);
 			g2.setPaint(color);
 
 			FontMetrics fm = g2.getFontMetrics();
-			int w = fm.stringWidth(string);
-			int h = fm.getAscent() + fm.getDescent();
-			g2.drawString(string, x - w/2, y - h/2 + fm.getAscent());
+		    
+			int num = 1;
+			for (String line : string.split("\n")) {
+				int w = fm.stringWidth(line);
+				int h = fm.getAscent() + fm.getDescent();
+
+				g2.drawString(line, x - w/2, y + (int) (((double) num - ((double) numLines + 1)/2)*h*lineSpacing) - h/2 + fm.getAscent());
+				num++;
+			}
 		}
 
 		/**
@@ -99,7 +112,10 @@ public class GUI {
 		 * @param yCenter The y pixel position where the cell should be centered
 		 * @param p The position in the grid that should be rendered
 		 */
+
 		private void renderCell(Graphics2D g2, int xCenter, int yCenter, Position p) {
+			float scale = (float) initNumCells / (float) numCells;
+			
 			g2.setPaint(new Color(128, 128, 128));
 			g2.setStroke(new BasicStroke());
 
@@ -107,18 +123,28 @@ public class GUI {
 
 			LinkedList<RenderData> list = content.get(positionToKey(p));
 			if (list != null) {
+				int numToDisplay = list.size() < maxOverlapObjects ? list.size() : maxOverlapObjects;
+				
 				// Simple rendering of an object
-				// TODO: More gracefully render situations where multiple objects are on the same cell
-				int fillSize = cellSize - 4;
-				for (RenderData r : list) {
-					g2.setPaint(new Color(64, 64, 64));
-					g2.fillRect(xCenter - fillSize/2, yCenter - fillSize/2, fillSize, fillSize);
+				int fillSize = cellSize - (int) (cellPadding*scale) - objOverlapSpacing*(numToDisplay - 1);
+				
+				Random random = new Random();
+				
+				for (int num = 1; num <= numToDisplay; num++) {
+					RenderData r = list.get(num - 1);
+					
+					int x = xCenter + (int) (((double) num - ((double) numToDisplay + 1) / 2) * objOverlapSpacing * scale);
+					int y = yCenter + (int) (((double) num - ((double) numToDisplay + 1) / 2) * objOverlapSpacing * scale);
+					
+					random.setSeed((r.objName + r.className).hashCode());
 
-					drawCenteredString(g2, r.objName, xCenter, yCenter - fillSize/3, fObj, Color.WHITE);
-					drawCenteredString(g2, r.className, xCenter, yCenter, fClass, Color.GRAY);
+					g2.setPaint(new Color(random.nextInt(128), random.nextInt(128), random.nextInt(128)));
+					g2.fillRect(x - fillSize/2, y - fillSize/2, fillSize, fillSize);
+					drawCenteredString(g2, r.objName, x, y - fillSize/3, fObj.deriveFont(scale * fObj.getSize()), Color.WHITE);
+					drawCenteredString(g2, "(" + r.className + ")", x, y - fillSize/8, fClass.deriveFont(scale * fClass.getSize()), Color.LIGHT_GRAY);
 
 					if (r.message != null)
-						drawCenteredString(g2, r.message, xCenter, yCenter + fillSize/4, fMsg, Color.GRAY);
+						drawCenteredString(g2, r.message, x, y + fillSize/6, fMsg.deriveFont(scale * fMsg.getSize()), Color.WHITE);
 				}
 			}
 		}
@@ -222,10 +248,10 @@ public class GUI {
 		grid = new Grid();
 		buttons = new Buttons();
 
-		windowWidth = 750;		// Default windowWidth
-		windowHeight = 770;		// Default windowHeight
-		boardSize = 650;		// Default boardSize
-		numCells = 9;			// Default numCells
+		windowWidth = 750;			// Default windowWidth
+		windowHeight = 770;			// Default windowHeight
+		boardSize = 650;			// Default boardSize
+		numCells = initNumCells;	// Default numCells
 		xCenterCell = 0;
 		yCenterCell = 0;
 

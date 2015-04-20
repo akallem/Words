@@ -20,7 +20,7 @@ public class LNodeString extends LNode {
 			string = string.substring(0, string.length() - 1);
 		
 		// Replace supported escape sequences
-		string = string.replace("\\\n", "\n");
+		string = string.replace("\\n", "\n");
 		string = string.replace("\\\\", "\\");
 		string = string.replace("\\\"", "\"");
 		
