@@ -30,7 +30,7 @@ public class TestEnvironment {
 			// Objects are created directly with object literals instead of evaluated leaf nodes
 			// If we evaluated leaf nodes, we would be testing multiple things in the same method. 
 			newObject = environment.createObject("Alex", "thing", new Position(0,0));
-			receivedObject = environment.getVariable("Alex");
+			receivedObject = environment.getVariable("Alex").objProperty;
 		} catch (WordsRuntimeException e) {
 			// If we have an exception, immediately fail the run.
 			fail();
@@ -66,7 +66,7 @@ public class TestEnvironment {
 				// Objects are created directly with object literals instead of evaluated leaf nodes
 				// If we evaluated leaf nodes, we would be testing multiple things in the same method. 
 				newObject = environment.createObject("Alex", "thing", new Position(0,0));
-				receivedObject = environment.getVariable("Alex");
+				receivedObject = environment.getVariable("Alex").objProperty;
 			} catch (WordsRuntimeException e) {
 				// If we have an exception, immediately fail the run.
 				fail();
@@ -122,7 +122,7 @@ public class TestEnvironment {
 	public void basicClassWithObject() throws WordsRuntimeException {
 		environment.createClass("Person", "thing");
 		WordsObject newObject = environment.createObject("James", "Person", new Position(0.0, 0.0));
-		WordsObject receivedObject = environment.getVariable("James");
+		WordsObject receivedObject = environment.getVariable("James").objProperty;
 		
 		assertEquals("Object of class created and retrieved", newObject, receivedObject);
 		assertEquals("Object is of correct class", newObject.getClassName(), "Person");

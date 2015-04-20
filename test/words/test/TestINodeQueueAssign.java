@@ -30,42 +30,42 @@ public class TestINodeQueueAssign extends TestINode {
 		environment.createObject("Fred", "thing", new Position(0,0));
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up.
 
-		assertEquals("Property does not currently exist", environment.getVariable("Fred").getProperty(prop1Name).type, Property.PropertyType.NOTHING);
+		assertEquals("Property does not currently exist", environment.getVariable("Fred").objProperty.getProperty(prop1Name).type, Property.PropertyType.NOTHING);
 		
 		INodeQueueAssign testNode = new INodeQueueAssign(refList, onePropList, null);
 		loop.enqueueAST(testNode);
-		assertEquals("Property does not exist after enqueueing", environment.getVariable("Fred").getProperty(prop1Name).type, Property.PropertyType.NOTHING);		
+		assertEquals("Property does not exist after enqueueing", environment.getVariable("Fred").objProperty.getProperty(prop1Name).type, Property.PropertyType.NOTHING);		
 		
 		loop.fastForwardEnvironment(1);
-		assertEquals("Property exists after executing", environment.getVariable("Fred").getProperty(prop1Name).stringProperty, prop1Value);
+		assertEquals("Property exists after executing", environment.getVariable("Fred").objProperty.getProperty(prop1Name).stringProperty, prop1Value);
 	}
 	
 	@Test
 	public void queueAssignShouldSimultaneouslyAssignMultipleProperties() throws WordsRuntimeException {
 		environment.createObject("Fred", "thing", new Position(0,0));
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up.
-		assertEquals("Property 1 does not currently exist", environment.getVariable("Fred").getProperty(prop1Name).type, Property.PropertyType.NOTHING);
-		assertEquals("Property 2 does not currently exist", environment.getVariable("Fred").getProperty(prop2Name).type, Property.PropertyType.NOTHING);
-		assertEquals("Property 3 does not currently exist", environment.getVariable("Fred").getProperty(prop3Name).type, Property.PropertyType.NOTHING);
+		assertEquals("Property 1 does not currently exist", environment.getVariable("Fred").objProperty.getProperty(prop1Name).type, Property.PropertyType.NOTHING);
+		assertEquals("Property 2 does not currently exist", environment.getVariable("Fred").objProperty.getProperty(prop2Name).type, Property.PropertyType.NOTHING);
+		assertEquals("Property 3 does not currently exist", environment.getVariable("Fred").objProperty.getProperty(prop3Name).type, Property.PropertyType.NOTHING);
 		
 		INodeQueueAssign testNode = new INodeQueueAssign(refList, threePropList, null);
 		loop.enqueueAST(testNode);
-		assertEquals("Property 1 does not exist after enqueueing", environment.getVariable("Fred").getProperty(prop1Name).type, Property.PropertyType.NOTHING);
-		assertEquals("Property 2 does not exist after enqueueing", environment.getVariable("Fred").getProperty(prop2Name).type, Property.PropertyType.NOTHING);
-		assertEquals("Property 3 does not exist after enqueueing", environment.getVariable("Fred").getProperty(prop3Name).type, Property.PropertyType.NOTHING);
+		assertEquals("Property 1 does not exist after enqueueing", environment.getVariable("Fred").objProperty.getProperty(prop1Name).type, Property.PropertyType.NOTHING);
+		assertEquals("Property 2 does not exist after enqueueing", environment.getVariable("Fred").objProperty.getProperty(prop2Name).type, Property.PropertyType.NOTHING);
+		assertEquals("Property 3 does not exist after enqueueing", environment.getVariable("Fred").objProperty.getProperty(prop3Name).type, Property.PropertyType.NOTHING);
 		
 		loop.fastForwardEnvironment(1);
-		assertEquals("Property 1 exists after executing", environment.getVariable("Fred").getProperty(prop1Name).stringProperty, prop1Value);
-		assertEquals("Property 2 exists after executing", environment.getVariable("Fred").getProperty(prop2Name).stringProperty, prop2Value);
-		assertEquals("Property 3 exists after executing", environment.getVariable("Fred").getProperty(prop3Name).stringProperty, prop3Value);
+		assertEquals("Property 1 exists after executing", environment.getVariable("Fred").objProperty.getProperty(prop1Name).stringProperty, prop1Value);
+		assertEquals("Property 2 exists after executing", environment.getVariable("Fred").objProperty.getProperty(prop2Name).stringProperty, prop2Value);
+		assertEquals("Property 3 exists after executing", environment.getVariable("Fred").objProperty.getProperty(prop3Name).stringProperty, prop3Value);
 	}
 	
 	@Test
 	public void testQueueAssignWithNow() throws WordsRuntimeException {
 		environment.createObject("Fred", "thing", new Position(0,0));
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up.
-		assertEquals("Property 1 does not currently exist", environment.getVariable("Fred").getProperty(prop1Name).type, Property.PropertyType.NOTHING);
-		assertEquals("Property 2 does not currently exist", environment.getVariable("Fred").getProperty(prop2Name).type, Property.PropertyType.NOTHING);
+		assertEquals("Property 1 does not currently exist", environment.getVariable("Fred").objProperty.getProperty(prop1Name).type, Property.PropertyType.NOTHING);
+		assertEquals("Property 2 does not currently exist", environment.getVariable("Fred").objProperty.getProperty(prop2Name).type, Property.PropertyType.NOTHING);
 		
 		INodeQueueAssignPropertyList propList1 = new INodeQueueAssignPropertyList(new INodeQueueAssignProperty(new LNodeString(prop1Name), new LNodeString(prop1Value)));
 		INodeQueueAssignPropertyList propList2 = new INodeQueueAssignPropertyList(new INodeQueueAssignProperty(new LNodeString(prop2Name), new LNodeString(prop2Value)));
@@ -76,15 +76,15 @@ public class TestINodeQueueAssign extends TestINode {
 		loop.enqueueAST(testNode1);
 		loop.enqueueAST(testNode2);
 		
-		assertEquals("Property 1 does not exist after enqueueing", environment.getVariable("Fred").getProperty(prop1Name).type, Property.PropertyType.NOTHING);
-		assertEquals("Property 2 does not exist after enqueueing", environment.getVariable("Fred").getProperty(prop2Name).type, Property.PropertyType.NOTHING);
+		assertEquals("Property 1 does not exist after enqueueing", environment.getVariable("Fred").objProperty.getProperty(prop1Name).type, Property.PropertyType.NOTHING);
+		assertEquals("Property 2 does not exist after enqueueing", environment.getVariable("Fred").objProperty.getProperty(prop2Name).type, Property.PropertyType.NOTHING);
 		
 		loop.fastForwardEnvironment(1);
-		assertEquals("Property 1 does not exist after one frame", environment.getVariable("Fred").getProperty(prop1Name).type, Property.PropertyType.NOTHING);
-		assertEquals("Property 2 exists after one frame", environment.getVariable("Fred").getProperty(prop2Name).stringProperty, prop2Value);
+		assertEquals("Property 1 does not exist after one frame", environment.getVariable("Fred").objProperty.getProperty(prop1Name).type, Property.PropertyType.NOTHING);
+		assertEquals("Property 2 exists after one frame", environment.getVariable("Fred").objProperty.getProperty(prop2Name).stringProperty, prop2Value);
 		
 		loop.fastForwardEnvironment(1);
-		assertEquals("Property 1 exists after two frames", environment.getVariable("Fred").getProperty(prop1Name).stringProperty, prop1Value);
-		assertEquals("Property 2 exists after two frames", environment.getVariable("Fred").getProperty(prop2Name).stringProperty, prop2Value);
+		assertEquals("Property 1 exists after two frames", environment.getVariable("Fred").objProperty.getProperty(prop1Name).stringProperty, prop1Value);
+		assertEquals("Property 2 exists after two frames", environment.getVariable("Fred").objProperty.getProperty(prop2Name).stringProperty, prop2Value);
 	}
 }

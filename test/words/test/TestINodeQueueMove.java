@@ -13,12 +13,12 @@ public class TestINodeQueueMove extends TestINode {
 	public void testWorkingMove() throws WordsRuntimeException {
 		environment.createObject("Fred", "thing", new Position(0,0));
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up. 
-		assertEquals("Fred in good start position", environment.getVariable("Fred").getCurrentPosition(), new Position(0,0));
+		assertEquals("Fred in good start position", environment.getVariable("Fred").objProperty.getCurrentPosition(), new Position(0,0));
 		loop.enqueueAST(moveFredLeft2);
 		loop.fastForwardEnvironment(1);
-		assertEquals("Fred moved", environment.getVariable("Fred").getCurrentPosition(), new Position(-1,0));
+		assertEquals("Fred moved", environment.getVariable("Fred").objProperty.getCurrentPosition(), new Position(-1,0));
 		loop.fastForwardEnvironment(1);
-		assertEquals("Fred moved", environment.getVariable("Fred").getCurrentPosition(), new Position(-2,0));
+		assertEquals("Fred moved", environment.getVariable("Fred").objProperty.getCurrentPosition(), new Position(-2,0));
 	}
 	
 	@Test
@@ -34,7 +34,7 @@ public class TestINodeQueueMove extends TestINode {
 		bobObject.setProperty("enemy", new Property(chrisObject));
 
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up.
-		assertEquals("Chris at starting position", environment.getVariable("Chris").getCurrentPosition(), new Position(0, 0));
+		assertEquals("Chris at starting position", environment.getVariable("Chris").objProperty.getCurrentPosition(), new Position(0, 0));
 
 		AST refLeaf = new INodeReferenceList(alexRef, friendRef);
 		AST idLeaf = new LNodeIdentifier("enemy");
@@ -42,27 +42,27 @@ public class TestINodeQueueMove extends TestINode {
 		testNode.eval(environment);
 		loop.fastForwardEnvironment(1);
 		loop.fastForwardEnvironment(2);
-		assertEquals("Chris at correct position", environment.getVariable("Chris").getCurrentPosition(), new Position(2, 0));		
+		assertEquals("Chris at correct position", environment.getVariable("Chris").objProperty.getCurrentPosition(), new Position(2, 0));		
 	}
 	
 	@Test
 	public void testMoveWithNow() throws WordsRuntimeException {
 		environment.createObject("Fred", "thing", new Position(0,0));
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up. 
-		assertEquals("Fred in good start position", environment.getVariable("Fred").getCurrentPosition(), new Position(0,0));
+		assertEquals("Fred in good start position", environment.getVariable("Fred").objProperty.getCurrentPosition(), new Position(0,0));
 
 		moveFredLeft2.eval(environment);
 		AST moveFredRight2 = new INodeQueueMove(nothingLeaf, fredStringLeaf, rightDirectionLeaf, twoLeaf, new LNodeNow());
 		moveFredRight2.eval(environment);
 		
 		loop.fastForwardEnvironment(1);
-		assertEquals("Fred moved", environment.getVariable("Fred").getCurrentPosition(), new Position(1,0));
+		assertEquals("Fred moved", environment.getVariable("Fred").objProperty.getCurrentPosition(), new Position(1,0));
 		loop.fastForwardEnvironment(1);
-		assertEquals("Fred moved", environment.getVariable("Fred").getCurrentPosition(), new Position(2,0));
+		assertEquals("Fred moved", environment.getVariable("Fred").objProperty.getCurrentPosition(), new Position(2,0));
 		loop.fastForwardEnvironment(1);
-		assertEquals("Fred moved", environment.getVariable("Fred").getCurrentPosition(), new Position(1,0));
+		assertEquals("Fred moved", environment.getVariable("Fred").objProperty.getCurrentPosition(), new Position(1,0));
 		loop.fastForwardEnvironment(1);
-		assertEquals("Fred moved", environment.getVariable("Fred").getCurrentPosition(), new Position(0,0));
+		assertEquals("Fred moved", environment.getVariable("Fred").objProperty.getCurrentPosition(), new Position(0,0));
 	}
 
 	@Test
@@ -71,9 +71,9 @@ public class TestINodeQueueMove extends TestINode {
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up. 
 		loop.enqueueAST(moveFredLeftNegative2); // Fred should move right.
 		loop.fastForwardEnvironment(1);
-		assertEquals("Fred moved", environment.getVariable("Fred").getCurrentPosition(), new Position(1,0));
+		assertEquals("Fred moved", environment.getVariable("Fred").objProperty.getCurrentPosition(), new Position(1,0));
 		loop.fastForwardEnvironment(1);
-		assertEquals("Fred moved", environment.getVariable("Fred").getCurrentPosition(), new Position(2,0));
+		assertEquals("Fred moved", environment.getVariable("Fred").objProperty.getCurrentPosition(), new Position(2,0));
 	}
 
 	@Test
@@ -82,7 +82,7 @@ public class TestINodeQueueMove extends TestINode {
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up. 
 		loop.enqueueAST(moveFredAnywhere2); 
 		loop.fastForwardEnvironment(2);
-		Position fredCurrent = environment.getVariable("Fred").getCurrentPosition();
+		Position fredCurrent = environment.getVariable("Fred").objProperty.getCurrentPosition();
 		assertTrue(fredCurrent.equals(new Position(0, 2))
 				|| fredCurrent.equals(new Position(2, 0))
 				|| fredCurrent.equals(new Position(0, -2))
