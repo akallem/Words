@@ -26,4 +26,29 @@ public class Position {
 		Position otherPos = (Position) other;
 		return this.x == otherPos.x && this.y == otherPos.y;
 	}
+	
+	/**
+	 * Returns whether this position is adjacent to another position by a given direction.
+	 * The direction indicates which direction this position must be relative to the other position,
+	 * i.e., DOWN would mean this position is below the other position. 
+	 */
+	public boolean isAdjacentOf(Position otherPos, Direction direction) {
+		switch (direction) {
+			case ANYWHERE:
+				return (this.x == otherPos.x && Math.abs(this.y - otherPos.y) == 1) || ((this.y == otherPos.y && Math.abs(this.x - otherPos.x) == 1));
+			case DOWN:
+				return this.x == otherPos.x && this.y == otherPos.y - 1;
+			case LEFT:
+				return this.y == otherPos.y && this.x == otherPos.x - 1;
+			case RIGHT:
+				return this.y == otherPos.y && this.x == otherPos.x + 1;
+			case UP:
+				return this.x == otherPos.x && this.y == otherPos.y + 1;
+			default:
+				break;
+		}
+		
+		return false;
+	}
+
 }

@@ -68,11 +68,13 @@ LEQ = "<="
 
 	/* Keywords */
 "A" | "a" | "An" | "an"			{ onMatch(); return Words.A; }
+"above"							{ onMatch(); return Words.ABOVE; }
 "and"							{ onMatch(); return Words.AND; }
 "anywhere"						{ onMatch(); return Words.ANYWHERE; }
 "As" | "as"						{ onMatch(); return Words.AS; }
 "at"							{ onMatch(); return Words.AT; }
 "be"							{ onMatch(); return Words.BE; }
+"below"							{ onMatch(); return Words.BELOW; }
 "can"							{ onMatch(); return Words.CAN; }
 "down"							{ onMatch(); return Words.DOWN; }
 "Exit"							{ onMatch(); return Words.EXIT; }
@@ -85,6 +87,7 @@ LEQ = "<="
 "move"							{ onMatch(); return Words.MOVE; }
 "moves"							{ onMatch(); return Words.MOVES; }
 "means"							{ onMatch(); return Words.MEANS; }
+"next"							{ onMatch(); return Words.NEXT; }
 "not"							{ onMatch(); return Words.NOT; }
 "nothing"						{ onMatch(); return Words.NOTHING; }
 "now"							{ onMatch(); return Words.NOW; }
@@ -99,6 +102,7 @@ LEQ = "<="
 "Stop"							{ onMatch(); return Words.STOP; }
 "then"							{ onMatch(); return Words.THEN; }
 "times"							{ onMatch(); return Words.TIMES; }
+"to"							{ onMatch(); return Words.TO; }
 "touches"						{ onMatch(); return Words.TOUCHES; }
 "up"							{ onMatch(); return Words.UP; }
 "wait"							{ onMatch(); return Words.WAIT; }
