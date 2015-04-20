@@ -33,12 +33,15 @@ public class ASTValue {
 			case NUM:
 				this.type = Type.NUM;
 				this.numValue = property.numProperty;
+				break;
 			case OBJECT:
 				this.type = Type.OBJ;
 				this.objValue = property.objProperty;
+				break;
 			case STRING:
 				this.type = Type.STRING;
 				this.stringValue = property.stringProperty;
+				break;
 			default:
 				break;
 		}

@@ -93,7 +93,7 @@ public class TestEnvironment {
 		assertEquals("Object out of local scope still exists", 2, environment.getObjects().size());
 	}
 	
-	@Test (expected = ObjectNotFoundException.class)
+	@Test
 	public void localScopeVariableOnlyExistsLocally() throws WordsRuntimeException {
 		environment.enterNewLocalScope();
 		try {
@@ -103,7 +103,8 @@ public class TestEnvironment {
 			fail();
 		}
 		environment.exitLocalScope();
-		environment.getVariable("Alex");
+		Property property = environment.getVariable("Alex");
+		assertEquals("Variable did not exist after popping local scope", property.type, Property.PropertyType.NOTHING);
 	}
 
 	/****************************************
