@@ -1,0 +1,12 @@
+A person is a thing which {
+	can jump which means {
+		Make Fred say "I'm jumping!".
+		Make them move up 2.
+		Make them move down 2.
+	}
+}
+
+Fred is a person at 0,0.
+Make Fred say "I will jump".
+Make Fred jump.
+Make Fred say "I jumped!".

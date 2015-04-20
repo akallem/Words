@@ -26,15 +26,18 @@ public class CustomAction extends Action {
 	protected LinkedList<Action> doExpand(WordsObject object, Environment environment) throws WordsProgramException {
 		object.startExpandingCustomAction();
 		environment.enterNewLocalScope();
+		
 		String[] pronouns = {"them", "it", "him", "her", "his", "its", "their"};
 		for (String pronoun : pronouns) {
 			environment.addVariableToCurrentNameScope(pronoun, new Property(object));
 		}
+		
 		try {
 			statementList.eval(environment);
 		} catch (WordsRuntimeException e) {
 			throw new WordsProgramException(statementList, e);
 		}
+		
 		environment.exitLocalScope();
 		return object.finishExpandingCustomAction();
 	}

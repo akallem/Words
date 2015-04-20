@@ -10,7 +10,16 @@ public class INodeParameterList extends INode {
 
 	@Override
 	public ASTValue eval(Environment environment) throws WordsRuntimeException {
-		// TODO
-		throw new AssertionError("Not yet implemented");
+		assert false : "Requires an inherited object";
+		return null;
+	}
+	
+	@Override
+	public ASTValue eval(Environment environment, Object inherited) throws WordsRuntimeException {
+		for (AST child : children) {
+			child.eval(environment, inherited);
+		}
+		
+		return null;
 	}
 }
