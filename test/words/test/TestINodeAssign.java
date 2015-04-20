@@ -44,7 +44,7 @@ public class TestINodeAssign extends TestINode {
 		
 		INodeAssign objAssign = new INodeAssign(alexRefList, new LNodeIdentifier("friend"), new INodeRetrieveProperty(new INodeReferenceList(), bobIdentifier));
 		objAssign.eval(environment);
-		
+		assertEquals("Object assignment assigned correct type", alexObject.getProperty("friend").type, Property.PropertyType.OBJECT);
 		assertEquals("Object assignment successful", alexObject.getProperty("friend").objProperty, bobObject);
 	}
 	
@@ -60,7 +60,7 @@ public class TestINodeAssign extends TestINode {
 		assertEquals("Nothing assignment successful", alexObject.getProperty("myNothing").type, Property.PropertyType.NOTHING);
 	}
 	
-	@Test (expected = ObjectNotFoundException.class)
+	@Test (expected = ReferenceException.class)
 	public void assignPropertyToNonExistentObject() throws WordsRuntimeException {
 		LNodeReference alexLNodeRef = new LNodeReference("Alex's");
 		INodeReferenceList alexRefList = new INodeReferenceList(alexLNodeRef);

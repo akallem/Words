@@ -85,7 +85,7 @@ public class TestINodeReferenceList extends TestINode {
 		assertEquals(alexFriendValue.objValue, dennisObject);
 	}
 	
-	@Test (expected = ObjectNotFoundException.class)
+	@Test (expected = ReferenceException.class)
 	public void firstNotAnObject() throws WordsRuntimeException {
 		LNodeReference friendRef = new LNodeReference("friend");
 		INodeReferenceList refList = new INodeReferenceList(friendRef);

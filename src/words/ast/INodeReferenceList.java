@@ -36,6 +36,6 @@ public class INodeReferenceList extends INode {
 			currentObject = prop.objProperty;
 		}
 		
-		return new ASTValue(firstProperty);
+		return new ASTValue(currentObject);
 	}
 }
