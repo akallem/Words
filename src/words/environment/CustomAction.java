@@ -1,5 +1,4 @@
 package words.environment;
-import java.util.HashMap;
 import java.util.LinkedList;
 
 import words.exceptions.*;
@@ -7,11 +6,11 @@ import words.ast.*;
 
 public class CustomAction extends Action {
 	private CustomActionDefinition actionDefinition;
-	private HashMap<String, AST> arguments;
+	private AST arguments;
 	
-	public CustomAction(CustomActionDefinition actionDefinition) {
+	public CustomAction(CustomActionDefinition actionDefinition, AST arguments) {
 		this.actionDefinition = actionDefinition;
-		this.arguments = new HashMap<String, AST>();
+		this.arguments = arguments;
 	}
 
 	@Override
