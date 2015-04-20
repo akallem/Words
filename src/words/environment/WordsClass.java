@@ -4,14 +4,14 @@ import java.util.HashMap;
 
 public class WordsClass {
 	private HashMap<String, Property> properties;
-	private HashMap<String, CustomAction> functions;
+	private HashMap<String, CustomAction> customActions;
 	private WordsClass parent;
 	private String className;
 	private ArrayList<WordsClass> children;
 	
 	public WordsClass(String className, WordsClass parent) {
 		properties = new HashMap<String, Property>();
-		functions = new HashMap<String, CustomAction>();
+		customActions = new HashMap<String, CustomAction>();
 		children = new ArrayList<WordsClass>();
 		this.parent = parent;
 		this.className = className;
@@ -82,6 +82,13 @@ public class WordsClass {
 	
 	
 	public void addCustomAction(String customActionName, CustomAction customAction) {
-		// TODO
+		//TODO: ActionAlreadyDefined exception
+		customActions.put(customActionName, customAction);
+	}
+	
+	public CustomAction getCustomAction(String customActionName) {
+		//TODO: throw an exception if the action is not found
+		//TODO: inheritence
+		return customActions.get(customActionName);
 	}
 }

@@ -9,8 +9,19 @@ public class INodeIdentifierList extends INode {
 	}
 
 	@Override
+	public ASTValue eval(Environment environment, Object customActionObj) throws WordsRuntimeException {
+		CustomAction customAction = (CustomAction) customActionObj;
+		for (AST child : this.children) {
+			ASTValue param = child.eval(environment);
+			assert param.type == ASTValue.Type.STRING : "Parameter names should always be strings";
+			customAction.addParameter(param.stringValue);
+		}
+		return null;
+	}
+
+	@Override
 	public ASTValue eval(Environment environment) throws WordsRuntimeException {
-		// TODO
-		throw new AssertionError("Not yet implemented");
+		assert false: "Requires an inherited object";
+		return null;
 	}
 }

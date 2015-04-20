@@ -41,10 +41,10 @@ public class INodeTouchesPredicate extends INodeBasicActionPredicate {
 					returnVal.booleanValue = true;
 					environment.enterNewLocalScope();
 					if (objectAlias1.type.equals(ASTValue.Type.STRING)) {
-						environment.addObjectToCurrentNameScope(objectAlias1.stringValue, object1);
+						environment.addVariableToCurrentNameScope(objectAlias1.stringValue, new Property(object1));
 					}
 					if (objectAlias2.type.equals(ASTValue.Type.STRING)) {
-						environment.addObjectToCurrentNameScope(objectAlias2.stringValue, object2);
+						environment.addVariableToCurrentNameScope(objectAlias2.stringValue, new Property(object2));
 					}
 					stmtList.eval(environment);
 					environment.exitLocalScope();

@@ -9,8 +9,26 @@ public class INodeDefineCustomAction extends INode {
 	}
 
 	@Override
+	public ASTValue eval(Environment environment, Object wordsClassObj) throws WordsRuntimeException {
+		WordsClass wordsClass = (WordsClass) wordsClassObj;
+		ASTValue actionName = children.get(0).eval(environment);
+		AST parameterList = children.get(1);
+		AST statementList = children.get(2);
+		
+		assert actionName.type == ASTValue.Type.STRING : "Custom Action name must be a string";
+		
+		CustomAction newAction = new CustomAction(statementList);
+		if (parameterList != null) {
+			parameterList.eval(environment, newAction);
+		}
+		wordsClass.addCustomAction(actionName.stringValue, newAction);
+		
+		return null;
+	}
+
+	@Override
 	public ASTValue eval(Environment environment) throws WordsRuntimeException {
-		// TODO
-		throw new AssertionError("Not yet implemented");
+		assert false : "Custom Action definitions must inherit a Words Class";
+		return null;
 	}
 }

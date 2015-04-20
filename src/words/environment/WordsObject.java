@@ -13,6 +13,8 @@ public class WordsObject {
 	private Position cell;
 	private String currentMessage;
 	private Action lastAction;
+	private boolean isExpandingCustomAction;
+	private LinkedList<Action> customActionExpansion;
 
 	public WordsObject(String objectName, WordsClass wordsClass, Position cell) {
 		this.wordsClass = wordsClass;
@@ -20,6 +22,8 @@ public class WordsObject {
 		this.cell = cell;
 		this.actionQueue = new LinkedList<Action>();
 		this.properties = new HashMap<String, Property>();
+		this.customActionExpansion = new LinkedList<Action>();
+		this.isExpandingCustomAction = false;
 	}
 	
 	public void clearActionQueue() {
@@ -27,11 +31,32 @@ public class WordsObject {
 	}
 
 	public void enqueueAction(Action action) {
-		actionQueue.add(action);
+		if (this.isExpandingCustomAction) {
+			customActionExpansion.add(action);
+		} else {
+			actionQueue.add(action);
+		}
 	}
 
 	public void enqueueActionAtFront(Action action) {
-		actionQueue.addFirst(action);
+		if (this.isExpandingCustomAction) {
+			customActionExpansion.addFirst(action);
+		} else {
+			actionQueue.addFirst(action);
+		}
+	}
+	
+	public void startExpandingCustomAction() {
+		isExpandingCustomAction = true;
+		customActionExpansion.clear();
+	}
+	
+	/**
+	 * Returns the list of actions that was expanded
+	 */
+	public LinkedList<Action> finishExpandingCustomAction() {
+		isExpandingCustomAction = false;
+		return customActionExpansion;
 	}
 
 	/**

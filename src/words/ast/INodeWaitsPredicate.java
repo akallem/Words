@@ -32,7 +32,7 @@ public class INodeWaitsPredicate extends INodeBasicActionPredicate {
 				returnVal.booleanValue = true;
 				environment.enterNewLocalScope();
 				if (objectAlias.type.equals(ASTValue.Type.STRING)) {
-					environment.addObjectToCurrentNameScope(objectAlias.stringValue, object);
+					environment.addVariableToCurrentNameScope(objectAlias.stringValue, new Property(object));
 				}
 				stmtList.eval(environment);
 				environment.exitLocalScope();

@@ -138,8 +138,8 @@ public class Environment {
 	/**
 	 * Adds a named object to the most local scope in use. 
 	 */
-	public void addObjectToCurrentNameScope(String objectName, WordsObject object) {
-		variables.getFirst().put(objectName, new Property(object));
+	public void addVariableToCurrentNameScope(String objectName, Property variable) {
+		variables.getFirst().put(objectName, variable);
 	}
 	
 	/**

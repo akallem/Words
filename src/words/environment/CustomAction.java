@@ -1,5 +1,5 @@
 package words.environment;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 
 import words.exceptions.*;
@@ -7,13 +7,11 @@ import words.ast.*;
 
 public class CustomAction extends Action {
 	private AST statementList;
-	private String name;
-	private ArrayList<String> parameters;
+	private HashSet<String> parameters;
 	
-	public CustomAction(String name, AST actions) {
-		this.name = name;
+	public CustomAction(AST actions) {
 		this.statementList = actions;
-		this.parameters = parameters;
+		this.parameters = new HashSet<String>();
 	}
 
 	@Override
@@ -25,13 +23,23 @@ public class CustomAction extends Action {
 	protected void doExecute(WordsObject object, Environment environment) {}
 
 	@Override
-	protected LinkedList<Action> doExpand(WordsObject object, Environment environment) {
-		// TODO
-		
-		/**
-		 * Roughly, we need to put the parameters into scope, evaluate each non-queueing statement, make the queueing statements NOW and evaluate them in reverse order
-		 */
-		
-		return null;
+	protected LinkedList<Action> doExpand(WordsObject object, Environment environment) throws WordsProgramException {
+		object.startExpandingCustomAction();
+		environment.enterNewLocalScope();
+		environment.addVariableToCurrentNameScope("them", new Property(object));
+		environment.addVariableToCurrentNameScope("it", new Property(object));
+		environment.addVariableToCurrentNameScope("him", new Property(object));
+		environment.addVariableToCurrentNameScope("her", new Property(object));
+		try {
+			statementList.eval(environment);
+		} catch (WordsRuntimeException e) {
+			throw new WordsProgramException(statementList, e);
+		}
+		environment.exitLocalScope();
+		return object.finishExpandingCustomAction();
+	}
+	
+	public void addParameter(String paramName) {
+		parameters.add(paramName);
 	}
 }
