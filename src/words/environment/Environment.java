@@ -135,6 +135,24 @@ public class Environment {
 		}
 	}
 	
+	public void removeObject(WordsObject object) {
+		object.clearReferers();
+		
+		for (HashMap<String, WordsObject> scope : objectsByName) {
+			if (scope.get(object.getObjectName()) != null) {
+				scope.remove(object.getObjectName());
+				break;
+			}
+		}
+		
+		for (WordsClass wordsClass : objectsByClass.keySet()) {
+			HashSet<WordsObject> objectSet = objectsByClass.get(wordsClass);
+			if (objectSet.contains(object)) {
+				objectSet.remove(object);
+			}
+		}
+	}
+	
 	/**
 	 * Adds a named object to the most local scope in use. 
 	 */

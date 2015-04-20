@@ -10,7 +10,19 @@ public class INodeRemoveObject extends INode {
 
 	@Override
 	public ASTValue eval(Environment environment) throws WordsRuntimeException {
-		// TODO
-		throw new AssertionError("Not yet implemented");
+		WordsObject obj = null;
+		ASTValue refList = children.get(0).eval(environment);
+		
+		if (refList.type == ASTValue.Type.NOTHING) {
+			ASTValue id = children.get(1).eval(environment);
+			obj = environment.getObject(id.stringValue);
+		} else {
+			obj = refList.objValue;
+		}
+		
+		assert obj != null : "Obj was null when it shouldn't have been.";
+		environment.removeObject(obj);
+		
+		return null;
 	}
 }

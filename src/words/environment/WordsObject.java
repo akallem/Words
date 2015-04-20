@@ -1,8 +1,10 @@
 package words.environment;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import words.environment.Property.PropertyType;
 import words.exceptions.*;
 
 public class WordsObject {
@@ -13,13 +15,35 @@ public class WordsObject {
 	private Position cell;
 	private String currentMessage;
 	private Action lastAction;
-
+	private HashMap<WordsObject, ArrayList<Property>> referers;
+	
+	public void updateReferers(WordsObject referringObject, Property referringProperty) {
+		ArrayList<Property> referringProperties;
+		if ((referringProperties = referers.get(referringObject)) == null) {
+			referringProperties = new ArrayList<Property>();
+			referers.put(referringObject, referringProperties);
+		}
+		
+		referringProperties.add(referringProperty);
+	}
+	
+	public void clearReferers() {
+		for (WordsObject referringObject : referers.keySet()) {
+			for (Property property : referers.get(referringObject)) {
+				property.type = PropertyType.NOTHING;
+				property.objProperty = null;
+			}
+			referers.remove(referringObject);
+		}
+	}
+	
 	public WordsObject(String objectName, WordsClass wordsClass, Position cell) {
 		this.wordsClass = wordsClass;
 		this.objectName = objectName;
 		this.cell = cell;
 		this.actionQueue = new LinkedList<Action>();
 		this.properties = new HashMap<String, Property>();
+		this.referers = new HashMap<WordsObject, ArrayList<Property>>();
 	}
 	
 	public void clearActionQueue() {
@@ -84,8 +108,16 @@ public class WordsObject {
 
 		if (properties.containsKey(propertyName) && property.type == Property.PropertyType.NOTHING)
 			properties.remove(propertyName);
-		else
+		else {
+			if (property.type == PropertyType.OBJECT) {
+				property.objProperty.updateReferers(this, property);
+			}
 			properties.put(propertyName, property);
+		}
+	}
+	
+	public void addReferer(WordsObject referer, Property refererProperty) {
+		
 	}
 
 	public void moveUp() {
