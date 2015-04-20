@@ -10,7 +10,22 @@ public class INodeQueueStop extends INode {
 
 	@Override
 	public ASTValue eval(Environment environment) throws WordsRuntimeException {
-		// TODO
-		throw new AssertionError("Not yet implemented");
+		ASTValue referenceObject = children.get(0).eval(environment);
+		ASTValue identifier = children.get(1).eval(environment);
+		
+		WordsObject object;
+		if (referenceObject.type.equals(ASTValue.Type.OBJ)){
+			Property property = referenceObject.objValue.getProperty(identifier.stringValue);
+			if (property.type != Property.PropertyType.OBJECT) {
+				throw new InvalidTypeException(ASTValue.Type.OBJ.toString(), property.type.toString());
+			}
+			object = property.objProperty;
+		} else {
+			object = environment.getObject(identifier.stringValue);
+		}
+		
+		object.clearActionQueue();
+		
+		return null;
 	}
 }
