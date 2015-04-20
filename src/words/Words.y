@@ -302,11 +302,11 @@ queue_assign_property:
 	;
 
 direction:
-		ANYWHERE									{ $$ = new LNodeDirection(Direction.Type.ANYWHERE); ((AST) $$).lineNumber = lexer.lineNumber; }
-	|	DOWN										{ $$ = new LNodeDirection(Direction.Type.DOWN); ((AST) $$).lineNumber = lexer.lineNumber; }
-	|	LEFT										{ $$ = new LNodeDirection(Direction.Type.LEFT); ((AST) $$).lineNumber = lexer.lineNumber; }
-	|	RIGHT										{ $$ = new LNodeDirection(Direction.Type.RIGHT); ((AST) $$).lineNumber = lexer.lineNumber; }
-	|	UP											{ $$ = new LNodeDirection(Direction.Type.UP); ((AST) $$).lineNumber = lexer.lineNumber; }
+		ANYWHERE									{ $$ = new LNodeDirection(Direction.ANYWHERE); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	DOWN										{ $$ = new LNodeDirection(Direction.DOWN); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	LEFT										{ $$ = new LNodeDirection(Direction.LEFT); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	RIGHT										{ $$ = new LNodeDirection(Direction.RIGHT); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	UP											{ $$ = new LNodeDirection(Direction.UP); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 now:

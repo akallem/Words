@@ -15,18 +15,16 @@ public class INodeQueueStop extends INode {
 		
 		WordsObject object;
 		if (referenceObject.type.equals(ASTValue.Type.OBJ)){
-			object = referenceObject.objValue;
-			Property property = object.getProperty(identifier.stringValue);
+			Property property = referenceObject.objValue.getProperty(identifier.stringValue);
 			if (property.type != Property.PropertyType.OBJECT) {
 				throw new InvalidTypeException(ASTValue.Type.OBJ.toString(), property.type.toString());
-			} else {
-				object = property.objProperty;
 			}
+			object = property.objProperty;
 		} else {
-			throw new InvalidTypeException(ASTValue.Type.OBJ.toString(), referenceObject.type.toString());
+			object = environment.getObject(identifier.stringValue);
 		}
 		
-		object.clearQueue();
+		object.clearActionQueue();
 		
 		return null;
 	}
