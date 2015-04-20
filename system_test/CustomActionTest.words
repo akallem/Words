@@ -12,8 +12,8 @@ A person is a thing which {
 }
 
 Fred is a person at 0,0.
-//Make Fred say "I will jump".
-//Make Fred jump.
-//Make Fred say "I jumped!".
-Make Fred sprint with distance 4.
-Make Fred say "I sprinted!".
+Make Fred say "I will jump".
+Make Fred jump.
+Make Fred say "I jumped!".
+//Make Fred sprint with distance 4.
+//Make Fred say "I sprinted!".

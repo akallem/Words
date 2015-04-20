@@ -10,20 +10,15 @@ import words.ast.*;
 
 public class Environment {
 	private HashMap<String, WordsClass> classes;
-	/* objectsByName is a list of locally scoped symbol tables with the most local 
-	 * scope first in the list, and global scope always being last in the list.
-	 */
-	private LinkedList<HashMap<String, Property>> variables;
-	/*
-	 * Objects always persist in the map where they can be gotten by class
-	 */
+	//private LinkedList<HashMap<String, Property>> variables;
+	private Scope currentScope;
 	private HashMap<WordsClass, HashSet<WordsObject>> objectsByClass;
 	private ArrayList<WordsEventListener> eventListeners;
 	private static final String BASE_SUPERCLASS = "thing";
 	
 	public Environment() {
 		classes = new HashMap<String, WordsClass>();
-		variables = new LinkedList<HashMap<String, Property>>();
+		//variables = new LinkedList<HashMap<String, Property>>();
 		eventListeners = new ArrayList<WordsEventListener>();
 		objectsByClass = new HashMap<WordsClass, HashSet<WordsObject>>();
 		setupEnvironment();
@@ -36,7 +31,7 @@ public class Environment {
 		WordsClass thing = new WordsClass(BASE_SUPERCLASS, null);
 		classes.put(BASE_SUPERCLASS, thing);
 		objectsByClass.put(thing, new HashSet<WordsObject>());
-		variables.push(new HashMap<String, Property>());
+		currentScope = new Scope(null);
 	}
 	
 	/**
@@ -44,7 +39,7 @@ public class Environment {
 	 */
 	public void resetEnvironment() {
 		classes.clear();
-		variables.clear();
+		//variables.clear();
 		objectsByClass.clear();
 		eventListeners.clear();
 		setupEnvironment();
@@ -86,24 +81,25 @@ public class Environment {
 	/**
 	 * Enters a new local scope by pushing a new scope onto the gettable objects stack
 	 */
-	public void enterNewLocalScope() {
-		variables.push(new HashMap<String, Property>());
+	public void pushScope() {
+		Scope newScope = new Scope(currentScope);
+		currentScope = newScope;
 	}
 	
 	/**
 	 * Exits the current local scope. Moves all objects in the local scope into the ungettable
 	 * objects collection, where they will continue to live, but will not be callable by name
 	 */
-	public void exitLocalScope() {
-		variables.pop();
-		assert variables.size() > 0 : "You just popped the global scope off the objects table";
+	public void popScope() {
+		assert currentScope.parent != null : "Tried to pop the global scope";
+		currentScope = currentScope.parent;
 	}
 	
 	/**
-	 * Get the number of different object scopes at the moment. Includes the global scope.
+	 * Get the current scope depth.  Includes the global scope.
 	 */
-	public int getNumberOfScopes() {
-		return variables.size();
+	public int getScopeDepth() {
+		return currentScope.getDepth();
 	}
 	
 	/**
@@ -117,7 +113,7 @@ public class Environment {
 			WordsClass wordsClass = getClass(className);
 			
 			WordsObject newObject = new WordsObject(objectName, wordsClass, position);
-			variables.getFirst().put(objectName, new Property(newObject));
+			currentScope.variables.put(objectName, new Property(newObject));
 			if (objectsByClass.containsKey(wordsClass)) {
 				objectsByClass.get(wordsClass).add(newObject);
 			} else {
@@ -139,7 +135,7 @@ public class Environment {
 	 * Adds a named object to the most local scope in use. 
 	 */
 	public void addVariableToCurrentNameScope(String objectName, Property variable) {
-		variables.getFirst().put(objectName, variable);
+		currentScope.variables.put(objectName, variable);
 	}
 	
 	/**
@@ -147,9 +143,13 @@ public class Environment {
 	 */
 	public Property getVariable(String variableName) {
 		Property prop = null;
+		Scope scope = currentScope;
 		
-		for (int i = 0; i < variables.size() && prop == null; i++) {
-			prop = variables.get(i).get(variableName);
+		while (scope != null) {
+			prop = scope.variables.get(variableName);
+			if (prop != null)
+				break;
+			scope = scope.parent;
 		}
 		
 		if (prop == null) {

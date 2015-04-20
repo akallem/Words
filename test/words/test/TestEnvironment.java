@@ -58,7 +58,7 @@ public class TestEnvironment {
 	public void localScopeIteratedObjectCreation() {
 		// Arbitrarily try this 5 times. 
 		for (int i = 0; i < 5; i++) {
-			environment.enterNewLocalScope();
+			environment.pushScope();
 			WordsObject newObject = null;
 			WordsObject receivedObject = null;
 	
@@ -76,33 +76,33 @@ public class TestEnvironment {
 			// Always give a test a descriptive name so, if it fails, we know what went wrong
 			assertEquals("A local object can successfully be created", newObject, receivedObject);
 			assertEquals("Object is placed at correct position", receivedObject.getCurrentPosition(), new Position(0,0));
-			environment.exitLocalScope();
+			environment.popScope();
 		}
 	}
 	
 	@Test
 	public void localScopeVariablePersists() throws WordsRuntimeException {
-		environment.enterNewLocalScope();
+		environment.pushScope();
 		try {
 			environment.createObject("Alex", "thing", new Position(0,0));
 			environment.createObject("James", "thing", new Position(0,0));
 		} catch (WordsRuntimeException e) {
 			fail();
 		}
-		environment.exitLocalScope();
+		environment.popScope();
 		assertEquals("Object out of local scope still exists", 2, environment.getObjects().size());
 	}
 	
 	@Test
 	public void localScopeVariableOnlyExistsLocally() throws WordsRuntimeException {
-		environment.enterNewLocalScope();
+		environment.pushScope();
 		try {
 			environment.createObject("Alex", "thing", new Position(0,0));
 			environment.createObject("James", "thing", new Position(0,0));
 		} catch (WordsRuntimeException e) {
 			fail();
 		}
-		environment.exitLocalScope();
+		environment.popScope();
 		Property property = environment.getVariable("Alex");
 		assertEquals("Variable did not exist after popping local scope", property.type, Property.PropertyType.NOTHING);
 	}

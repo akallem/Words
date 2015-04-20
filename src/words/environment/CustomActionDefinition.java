@@ -19,7 +19,7 @@ public class CustomActionDefinition {
 	}
 	
 	public void execute(Environment environment, WordsObject object, AST arguments) throws WordsProgramException {
-		environment.enterNewLocalScope();
+		environment.pushScope();
 		
 		String[] pronouns = {"them", "it", "him", "her", "his", "its", "their"};
 		for (String pronoun : pronouns) {
@@ -27,12 +27,15 @@ public class CustomActionDefinition {
 		}
 
 		try {
-			arguments.eval(environment, parameters);
+			if (arguments != null) {
+				arguments.eval(environment, parameters);
+			}
+			
 			statementList.eval(environment);
 		} catch (WordsRuntimeException e) {
 			throw new WordsProgramException(statementList, e);
 		}
 		
-		environment.exitLocalScope();
+		environment.popScope();
 	}
 }

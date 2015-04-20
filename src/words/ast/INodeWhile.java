@@ -18,9 +18,9 @@ public class INodeWhile extends INode {
 		assert conditional.type == ASTValue.Type.BOOLEAN;
 
 		while (conditional.booleanValue == true) {
-			environment.enterNewLocalScope();
+			environment.pushScope();
 			statementList.eval(environment);
-			environment.exitLocalScope();
+			environment.popScope();
 			conditional = children.get(0).eval(environment);
 		}
 		
