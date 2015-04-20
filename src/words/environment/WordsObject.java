@@ -74,6 +74,8 @@ public class WordsObject {
 				cell.y = (int) Math.round(property.numProperty);
 			else
 				cell.x = (int) Math.round(property.numProperty);
+			
+			return;
 		}
 
 		if (properties.containsKey(propertyName) && property.type == Property.PropertyType.NOTHING)

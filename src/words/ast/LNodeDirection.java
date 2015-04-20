@@ -8,9 +8,9 @@ import words.environment.*;
 public class LNodeDirection extends LNode {
 	public Direction direction;
 	
-	public LNodeDirection(Direction.Type d) {
+	public LNodeDirection(Direction d) {
 		super();
-		this.direction = new Direction(d);
+		this.direction = d;
 	}
 	
 	@Override

@@ -1,7 +1,6 @@
 package words.environment;
 import java.util.LinkedList;
 
-import java.util.Random;
 import words.exceptions.*;
 import words.ast.*;
 
@@ -16,10 +15,8 @@ public class MoveAction extends Action {
 	 * distanceExpression may be null, in which case the WordsMove will be treated as a 1-unit move.
 	 */
 	public MoveAction(Direction direction, AST distanceExpression) {
-		if (direction.type == Direction.Type.ANYWHERE) {
-			Random randomGenerator = new Random();
-			int randomInt = randomGenerator.nextInt(4);
-			this.direction = new Direction(Direction.explicit[randomInt]);
+		if (direction == Direction.ANYWHERE) {
+			this.direction = Direction.getRandom();
 		} else {
 			this.direction = direction;
 		}
@@ -50,7 +47,7 @@ public class MoveAction extends Action {
 	public void doExecute(WordsObject object, Environment environment) throws WordsProgramException {
 		// We know that the distanceValue is 1
 		// ANYWHERE directions will already have been replaced to be a real direction
-		switch(direction.type) {
+		switch(direction) {
 			case DOWN:
 				object.moveDown();
 				break;
@@ -64,7 +61,7 @@ public class MoveAction extends Action {
 				object.moveUp();
 				break;
 			default:
-				throw new AssertionError("Attempted to execute direction type " + direction.type.toString());
+				throw new AssertionError("Attempted to execute direction type " + direction.toString());
 		}
 	}
 
@@ -85,7 +82,7 @@ public class MoveAction extends Action {
 
 		if (distanceValue < 0) {
 			distanceValue = -distanceValue;
-			direction.type = Direction.getOpposite(direction.type);
+			direction = Direction.getOpposite(direction);
 		}
 
 		LinkedList<Action> list = new LinkedList<Action>();
