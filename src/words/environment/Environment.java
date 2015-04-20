@@ -13,7 +13,7 @@ public class Environment {
 	/* objectsByName is a list of locally scoped symbol tables with the most local 
 	 * scope first in the list, and global scope always being last in the list.
 	 */
-	private LinkedList<HashMap<String, WordsObject>> objectsByName;
+	private LinkedList<HashMap<String, Property>> variables;
 	/*
 	 * Objects always persist in the map where they can be gotten by class
 	 */
@@ -23,7 +23,7 @@ public class Environment {
 	
 	public Environment() {
 		classes = new HashMap<String, WordsClass>();
-		objectsByName = new LinkedList<HashMap<String, WordsObject>>();
+		variables = new LinkedList<HashMap<String, Property>>();
 		eventListeners = new ArrayList<WordsEventListener>();
 		objectsByClass = new HashMap<WordsClass, HashSet<WordsObject>>();
 		setupEnvironment();
@@ -36,7 +36,7 @@ public class Environment {
 		WordsClass thing = new WordsClass(BASE_SUPERCLASS, null);
 		classes.put(BASE_SUPERCLASS, thing);
 		objectsByClass.put(thing, new HashSet<WordsObject>());
-		objectsByName.push(new HashMap<String, WordsObject>());
+		variables.push(new HashMap<String, Property>());
 	}
 	
 	/**
@@ -44,7 +44,7 @@ public class Environment {
 	 */
 	public void resetEnvironment() {
 		classes.clear();
-		objectsByName.clear();
+		variables.clear();
 		objectsByClass.clear();
 		eventListeners.clear();
 		setupEnvironment();
@@ -87,7 +87,7 @@ public class Environment {
 	 * Enters a new local scope by pushing a new scope onto the gettable objects stack
 	 */
 	public void enterNewLocalScope() {
-		objectsByName.push(new HashMap<String, WordsObject>());
+		variables.push(new HashMap<String, Property>());
 	}
 	
 	/**
@@ -95,15 +95,15 @@ public class Environment {
 	 * objects collection, where they will continue to live, but will not be callable by name
 	 */
 	public void exitLocalScope() {
-		objectsByName.pop();
-		assert objectsByName.size() > 0 : "You just popped the global scope off the objects table";
+		variables.pop();
+		assert variables.size() > 0 : "You just popped the global scope off the objects table";
 	}
 	
 	/**
 	 * Get the number of different object scopes at the moment. Includes the global scope.
 	 */
 	public int getNumberOfScopes() {
-		return objectsByName.size();
+		return variables.size();
 	}
 	
 	/**
@@ -119,7 +119,7 @@ public class Environment {
 			WordsClass wordsClass = getClass(className);
 			
 			WordsObject newObject = new WordsObject(objectName, wordsClass, position);
-			objectsByName.getFirst().put(objectName, newObject);
+			variables.getFirst().put(objectName, new Property(newObject));
 			if (objectsByClass.containsKey(wordsClass)) {
 				objectsByClass.get(wordsClass).add(newObject);
 			} else {
@@ -139,7 +139,7 @@ public class Environment {
 	 * Adds a named object to the most local scope in use. 
 	 */
 	public void addObjectToCurrentNameScope(String objectName, WordsObject object) {
-		objectsByName.getFirst().put(objectName, object);
+		variables.getFirst().put(objectName, new Property(object));
 	}
 	
 	/**
@@ -149,15 +149,15 @@ public class Environment {
 	 * @throws WordsRuntimeException if object not found
 	 */
 	public WordsObject getObject(String objectName) throws WordsRuntimeException {
-		WordsObject wordsObj = null;
-		for (int i = 0; i < objectsByName.size() && wordsObj == null; i++) {
-			wordsObj = objectsByName.get(i).get(objectName);
+		Property prop = null;
+		for (int i = 0; i < variables.size() && prop == null; i++) {
+			prop = variables.get(i).get(objectName);
 		}
-		if (wordsObj == null) {
+		if (prop == null) {
 			throw new ObjectNotFoundException(objectName);
 		}
 		
-		return wordsObj;
+		return prop.objProperty;
 	}
 	
 	/**
