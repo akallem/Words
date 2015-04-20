@@ -25,6 +25,25 @@ public class ASTValue {
 	public Direction directionValue;
 	public Position positionValue;
 	
+	public ASTValue(Property property) {
+		switch (property.type) {
+			case NOTHING:
+				this.type = ASTValue.Type.NOTHING;
+				break;
+			case NUM:
+				this.type = Type.NUM;
+				this.numValue = property.numProperty;
+			case OBJECT:
+				this.type = Type.OBJ;
+				this.objValue = property.objProperty;
+			case STRING:
+				this.type = Type.STRING;
+				this.stringValue = property.stringProperty;
+			default:
+				break;
+		}
+	}
+	
 	public ASTValue(boolean b) {
 		this.type = Type.BOOLEAN;
 		this.booleanValue = b;

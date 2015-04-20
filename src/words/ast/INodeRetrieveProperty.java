@@ -21,8 +21,8 @@ public class INodeRetrieveProperty extends INode {
 		if (refList.type == ASTValue.Type.NOTHING) {
 			ASTValue id = children.get(1).eval(environment);
 			
-			WordsObject obj = environment.getObject(id.stringValue);
-			return new ASTValue(obj);
+			Property property = environment.getVariable(id.stringValue);
+			return new ASTValue(property);
 
 		}
 		

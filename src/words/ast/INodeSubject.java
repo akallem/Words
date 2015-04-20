@@ -14,22 +14,17 @@ public class INodeSubject extends INode {
 	 */
 	public ASTValue eval(Environment environment) throws WordsRuntimeException {
 		ASTValue className = children.get(0) == null ? null : children.get(0).eval(environment);
-		ASTValue referenceObject = children.get(1) == null ? null : children.get(1).eval(environment);
-		ASTValue identifier = children.get(2) == null ? null : children.get(2).eval(environment);
+		AST referenceObject = children.get(1);
+		AST identifier = children.get(2);
 		
 		if (className != null) {
 			return new ASTValue(className.stringValue);
 		} else {
-			WordsObject object;
-				if (referenceObject.type.equals(ASTValue.Type.OBJ)){
-					Property property = referenceObject.objValue.getProperty(identifier.stringValue);
-					if (property.type != Property.PropertyType.OBJECT) {
-						throw new InvalidTypeException(ASTValue.Type.OBJ.toString(), property.type.toString());
-					}
-					object = property.objProperty;
-				} else {
-					object = environment.getObject(identifier.stringValue);
-				}
+			Property property = lookupProperty(environment, referenceObject, identifier);
+			if (property.type != Property.PropertyType.OBJECT) {
+				throw new InvalidTypeException(ASTValue.Type.OBJ.toString(), property.type.toString());
+			}
+			WordsObject object = property.objProperty;
 			return new ASTValue(object);
 		}
 	}

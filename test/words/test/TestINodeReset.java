@@ -17,6 +17,6 @@ public class TestINodeReset extends TestINode {
 		INodeReset testNode = new INodeReset();
 		testNode.eval(environment);
 		
-		environment.getObject("Alex");	
+		environment.getVariable("Alex");	
 	}
 }

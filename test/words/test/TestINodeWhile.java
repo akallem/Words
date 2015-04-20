@@ -29,6 +29,6 @@ public class TestINodeWhile extends TestINode {
 		testNode.eval(environment);
 		loop.fastForwardEnvironment(5);
 		//Counter should have been incremented by 4 two times. 
-		assertEquals("Fred's counter was incremented", environment.getObject("Fred").getProperty("counter").numProperty, 8, .0001);
+		assertEquals("Fred's counter was incremented", environment.getVariable("Fred").getProperty("counter").numProperty, 8, .0001);
 	}
 }

@@ -19,17 +19,23 @@ public class INodeReferenceList extends INode {
 		}
 		
 		String firstObjRefName = children.get(0).eval(environment).stringValue;
-		WordsObject currentObj = environment.getObject(firstObjRefName);
+		Property firstProperty = environment.getVariable(firstObjRefName);
+		
+		if (firstProperty.type != Property.PropertyType.OBJECT) {
+			throw new ReferenceException(firstObjRefName, firstProperty.type);
+		}
+		
+		WordsObject currentObject = firstProperty.objProperty;
 		
 		for (int i = 1; i < children.size(); i++) {
 			String propertyRefName = children.get(i).eval(environment).stringValue;
-			Property prop = currentObj.getProperty(propertyRefName);
+			Property prop = currentObject.getProperty(propertyRefName);
 			if (prop.type != Property.PropertyType.OBJECT) {
 				throw new ReferenceException(propertyRefName, prop.type);
 			}
-			currentObj = prop.objProperty;
+			currentObject = prop.objProperty;
 		}
 		
-		return new ASTValue(currentObj);
+		return new ASTValue(firstProperty);
 	}
 }

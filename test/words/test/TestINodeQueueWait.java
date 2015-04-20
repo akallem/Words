@@ -22,13 +22,13 @@ public class TestINodeQueueWait extends TestINode {
 		sayNode.eval(environment);
 
 		loop.fastForwardEnvironment(1);
-		assertEquals("Wait 1 turn", environment.getObject("Fred").getCurrentMessage(), null);
+		assertEquals("Wait 1 turn", environment.getVariable("Fred").getCurrentMessage(), null);
 		loop.fastForwardEnvironment(1);
-		assertEquals("Wait 2 turns", environment.getObject("Fred").getCurrentMessage(), null);
+		assertEquals("Wait 2 turns", environment.getVariable("Fred").getCurrentMessage(), null);
 		loop.fastForwardEnvironment(1);
-		assertEquals("Wait 3 turns", environment.getObject("Fred").getCurrentMessage(), null);
+		assertEquals("Wait 3 turns", environment.getVariable("Fred").getCurrentMessage(), null);
 		loop.fastForwardEnvironment(1);
-		assertEquals("End of wait", environment.getObject("Fred").getCurrentMessage(), "Hello World");
+		assertEquals("End of wait", environment.getVariable("Fred").getCurrentMessage(), "Hello World");
 	}
 
 	@Test
@@ -55,13 +55,13 @@ public class TestINodeQueueWait extends TestINode {
 		sayNode.eval(environment);
 
 		loop.fastForwardEnvironment(1);
-		assertEquals("Wait 1 turn", environment.getObject("Chris").getCurrentMessage(), null);
+		assertEquals("Wait 1 turn", environment.getVariable("Chris").getCurrentMessage(), null);
 		loop.fastForwardEnvironment(1);
-		assertEquals("Wait 2 turns", environment.getObject("Chris").getCurrentMessage(), null);
+		assertEquals("Wait 2 turns", environment.getVariable("Chris").getCurrentMessage(), null);
 		loop.fastForwardEnvironment(1);
-		assertEquals("Wait 3 turns", environment.getObject("Chris").getCurrentMessage(), null);
+		assertEquals("Wait 3 turns", environment.getVariable("Chris").getCurrentMessage(), null);
 		loop.fastForwardEnvironment(1);
-		assertEquals("End of wait", environment.getObject("Chris").getCurrentMessage(), "Hello World");
+		assertEquals("End of wait", environment.getVariable("Chris").getCurrentMessage(), "Hello World");
 	}
 
 	@Test
@@ -78,13 +78,13 @@ public class TestINodeQueueWait extends TestINode {
 		testNode2.eval(environment);
 
 		loop.fastForwardEnvironment(1);
-		assertEquals("Wait 1 turn", environment.getObject("Fred").getCurrentMessage(), null);
+		assertEquals("Wait 1 turn", environment.getVariable("Fred").getCurrentMessage(), null);
 		loop.fastForwardEnvironment(1);
-		assertEquals("Wait 2 turns", environment.getObject("Fred").getCurrentMessage(), null);
+		assertEquals("Wait 2 turns", environment.getVariable("Fred").getCurrentMessage(), null);
 		loop.fastForwardEnvironment(1);
-		assertEquals("Wait 3 turns", environment.getObject("Fred").getCurrentMessage(), null);
+		assertEquals("Wait 3 turns", environment.getVariable("Fred").getCurrentMessage(), null);
 		loop.fastForwardEnvironment(1);
-		assertEquals("Queued message", environment.getObject("Fred").getCurrentMessage(), "Queued message");
+		assertEquals("Queued message", environment.getVariable("Fred").getCurrentMessage(), "Queued message");
 	}
 
 	@Test
@@ -102,13 +102,13 @@ public class TestINodeQueueWait extends TestINode {
 		sayNode.eval(environment);
 
 		loop.fastForwardEnvironment(1);
-		assertEquals("Wait 1 turn", environment.getObject("Fred").getCurrentMessage(), null);
+		assertEquals("Wait 1 turn", environment.getVariable("Fred").getCurrentMessage(), null);
 		loop.fastForwardEnvironment(1);
-		assertEquals("Wait 2 turns", environment.getObject("Fred").getCurrentMessage(), null);
+		assertEquals("Wait 2 turns", environment.getVariable("Fred").getCurrentMessage(), null);
 		loop.fastForwardEnvironment(1);
-		assertEquals("Wait 3 turns", environment.getObject("Fred").getCurrentMessage(), null);
+		assertEquals("Wait 3 turns", environment.getVariable("Fred").getCurrentMessage(), null);
 		loop.fastForwardEnvironment(1);
-		assertEquals("End of wait", environment.getObject("Fred").getCurrentMessage(), "Hello World");
+		assertEquals("End of wait", environment.getVariable("Fred").getCurrentMessage(), "Hello World");
 	}
 
 }

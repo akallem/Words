@@ -11,6 +11,6 @@ public class TestWordsPropertyAssignment extends TestINode {
     public void testWorkingWordsPropertyAssignment() throws WordsRuntimeException, WordsProgramException {
         environment.createObject("Fred", "thing", new Position(0, 0));
         Action action = new PropertyAssignAction(new INodeQueueAssignPropertyList(new INodeQueueAssignProperty(stringLeaf, numLeaf)));
-        action.execute(environment.getObject("Fred"), environment);
+        action.execute(environment.getVariable("Fred"), environment);
     }
 }

@@ -111,11 +111,9 @@ public class Environment {
 	 * A new object is always added to the most local scope in use
 	 */
 	public WordsObject createObject(String objectName, String className, Position position) throws WordsRuntimeException {
-		try {
-			getObject(objectName);
-			throw new ObjectAlreadyExistsException(objectName);
-		} catch (ObjectNotFoundException e){
+		Property property = getVariable(objectName);
 		
+		if (property.type == Property.PropertyType.NOTHING) {
 			WordsClass wordsClass = getClass(className);
 			
 			WordsObject newObject = new WordsObject(objectName, wordsClass, position);
@@ -132,6 +130,8 @@ public class Environment {
 			newObject.enqueueAction(new WaitAction(new LNodeNum(1)));
 			
 			return newObject;
+		} else {
+			throw new ObjectAlreadyExistsException(objectName);
 		}
 	}
 	
@@ -143,21 +143,20 @@ public class Environment {
 	}
 	
 	/**
-	 * 
-	 * @param objectName
-	 * @return the words object
-	 * @throws WordsRuntimeException if object not found
+	 * Looks up a variable and returns it.  If not found, returns NOTHING.
 	 */
-	public WordsObject getObject(String objectName) throws WordsRuntimeException {
+	public Property getVariable(String variableName) {
 		Property prop = null;
+		
 		for (int i = 0; i < variables.size() && prop == null; i++) {
-			prop = variables.get(i).get(objectName);
-		}
-		if (prop == null) {
-			throw new ObjectNotFoundException(objectName);
+			prop = variables.get(i).get(variableName);
 		}
 		
-		return prop.objProperty;
+		if (prop == null) {
+			return new Property(Property.PropertyType.NOTHING);
+		} else {
+			return prop;	
+		}
 	}
 	
 	/**

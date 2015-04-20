@@ -12,14 +12,14 @@ public class TestINodeQueueSay extends TestINode {
 	public void testWorkingSay() throws WordsRuntimeException {
 		environment.createObject("Fred", "thing", new Position(0, 0));
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up.
-		assertEquals("Initially no message", environment.getObject("Fred").getCurrentMessage(), null);
+		assertEquals("Initially no message", environment.getVariable("Fred").getCurrentMessage(), null);
 
 		AST idLeaf = new LNodeIdentifier("Fred");
 		AST strLeaf = new LNodeString("Hello World");
 		INode testNode = new INodeQueueSay(new INodeReferenceList(), idLeaf, strLeaf, null);
 		testNode.eval(environment);
 		loop.fastForwardEnvironment(1);
-		assertEquals("New message assigned", environment.getObject("Fred").getCurrentMessage(), "Hello World");
+		assertEquals("New message assigned", environment.getVariable("Fred").getCurrentMessage(), "Hello World");
 	}
 
 	@Test
@@ -35,7 +35,7 @@ public class TestINodeQueueSay extends TestINode {
 		bobObject.setProperty("enemy", new Property(chrisObject));
 
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up.
-		assertEquals("Initially no message", environment.getObject("Chris").getCurrentMessage(), null);
+		assertEquals("Initially no message", environment.getVariable("Chris").getCurrentMessage(), null);
 
 		AST refLeaf = new INodeReferenceList(alexRef, friendRef);
 		AST idLeaf = new LNodeIdentifier("enemy");
@@ -43,14 +43,14 @@ public class TestINodeQueueSay extends TestINode {
 		INode testNode = new INodeQueueSay(refLeaf, idLeaf, strLeaf, null);
 		testNode.eval(environment);
 		loop.fastForwardEnvironment(1);
-		assertEquals("New message assigned", environment.getObject("Chris").getCurrentMessage(), "Hello World");
+		assertEquals("New message assigned", environment.getVariable("Chris").getCurrentMessage(), "Hello World");
 	}
 
 	@Test
 	public void testSayWithNow() throws WordsRuntimeException {
 		environment.createObject("Fred", "thing", new Position(0, 0));
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up.
-		assertEquals("Initially no message", environment.getObject("Fred").getCurrentMessage(), null);
+		assertEquals("Initially no message", environment.getVariable("Fred").getCurrentMessage(), null);
 
 		AST idLeaf = new LNodeIdentifier("Fred");
 		AST strLeaf1 = new LNodeString("First message");
@@ -63,18 +63,18 @@ public class TestINodeQueueSay extends TestINode {
 		testNode2.eval(environment);
 		testNode3.eval(environment);
 		loop.fastForwardEnvironment(1);
-		assertEquals("Immediate message", environment.getObject("Fred").getCurrentMessage(), "Third message");
+		assertEquals("Immediate message", environment.getVariable("Fred").getCurrentMessage(), "Third message");
 		loop.fastForwardEnvironment(1);
-		assertEquals("Queued message", environment.getObject("Fred").getCurrentMessage(), "First message");
+		assertEquals("Queued message", environment.getVariable("Fred").getCurrentMessage(), "First message");
 		loop.fastForwardEnvironment(1);
-		assertEquals("Second queued message", environment.getObject("Fred").getCurrentMessage(), "Second message");
+		assertEquals("Second queued message", environment.getVariable("Fred").getCurrentMessage(), "Second message");
 	}
 
 	@Test
 	public void testSayWithExpression() throws WordsRuntimeException {
 		environment.createObject("Fred", "thing", new Position(0, 0));
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up.
-		assertEquals("Initially no message", environment.getObject("Fred").getCurrentMessage(), null);
+		assertEquals("Initially no message", environment.getVariable("Fred").getCurrentMessage(), null);
 
 		AST idLeaf = new LNodeIdentifier("Fred");
 		AST numLeaf1 = new LNodeNum(3);
@@ -83,7 +83,7 @@ public class TestINodeQueueSay extends TestINode {
 		INode testNode = new INodeQueueSay(new INodeReferenceList(), idLeaf, expressionNode, null);
 		testNode.eval(environment);
 		loop.fastForwardEnvironment(1);
-		assertEquals("New message assigned", Double.parseDouble(environment.getObject("Fred").getCurrentMessage()), 12.0, 0.0001);
+		assertEquals("New message assigned", Double.parseDouble(environment.getVariable("Fred").getCurrentMessage()), 12.0, 0.0001);
 	}
 
 }
