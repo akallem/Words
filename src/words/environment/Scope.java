@@ -2,6 +2,9 @@ package words.environment;
 
 import java.util.HashMap;
 
+/**
+ * A scope is a collection of variables whose value can be accessed by name. 
+ */
 public class Scope {
 	public Scope parent;		// The access link to enclosing scope
 	public HashMap<String, Property> variables;

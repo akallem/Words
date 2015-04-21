@@ -4,6 +4,9 @@ import java.util.LinkedList;
 import words.exceptions.*;
 import words.ast.*;
 
+/**
+ * A say action (basic action) for a WordsObject's action queue.
+ */
 public class SayAction extends Action {
 	private AST message;
 

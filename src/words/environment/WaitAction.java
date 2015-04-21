@@ -4,6 +4,9 @@ import java.util.LinkedList;
 import words.exceptions.*;
 import words.ast.*;
 
+/**
+ * A wait action (basic action) for a WordsObject's action queue.
+ */
 public class WaitAction extends Action {
 	private AST lengthExpression;
 

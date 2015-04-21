@@ -10,9 +10,8 @@ import words.ast.*;
 
 public class Environment {
 	private HashMap<String, WordsClass> classes;
-	//private LinkedList<HashMap<String, Property>> variables;
 	private Scope globalScope;
-	private LinkedList<Scope> stack;		// Stack of scopes which is the control link
+	private LinkedList<Scope> stack;		// Stack of scopes (essentially, the control link)
 	private HashMap<WordsClass, HashSet<WordsObject>> objectsByClass;
 	private ArrayList<WordsEventListener> eventListeners;
 	private static final String BASE_SUPERCLASS = "thing";
@@ -25,7 +24,7 @@ public class Environment {
 	}
 	
 	/**
-	 * Creates the base class thing.
+	 * Performs necessary setup including creating the base class and initializing the stack.
 	 */
 	private void setupEnvironment() {
 		WordsClass thing = new WordsClass(BASE_SUPERCLASS, null);
@@ -41,7 +40,6 @@ public class Environment {
 	 */
 	public void resetEnvironment() {
 		classes.clear();
-		//variables.clear();
 		objectsByClass.clear();
 		eventListeners.clear();
 		setupEnvironment();
@@ -49,11 +47,9 @@ public class Environment {
 
 	/**
 	 * Creates a new class in the environment and returns it.  Throws an exception if the class could not be created.
-	 * @throws ClassAlreadyExistsException 
-	 * @throws WordsClassNotFoundException 
+	 * @throws WordsRuntimeException
 	 */
 	public WordsClass createClass(String className, String parent) throws WordsRuntimeException {
-		
 		try {
 			getClass(className);
 			throw new ClassAlreadyExistsException(className);
@@ -68,7 +64,7 @@ public class Environment {
 	}
 	
 	/**
-	 * Retrieves a class by name.  Returns null if no such class exists.
+	 * Retrieves a class by name.  Throws an exception if no such class exists.
 	 * @throws WordsClassNotFoundException 
 	 */
 	public WordsClass getClass(String className) throws WordsClassNotFoundException {
@@ -89,21 +85,21 @@ public class Environment {
 	}
 	
 	/**
-	 * Creates and enters a new local scope with the current scope as the parent.
+	 * Creates and enters a new local scope using the current scope as the parent.
 	 */
 	public void pushNewScope() {
 		pushNewScope(getCurrentScope());
 	}
 	
 	/**
-	 * Creates and enters a new local scope with the given scope as the parent.
+	 * Creates and enters a new local scope using the given scope as the parent.
 	 */
 	public void pushNewScope(Scope parent) {
 		stack.push(new Scope(parent));
 	}
 	
 	/**
-	 * Enters an existing scope.
+	 * Enters an existing local scope.
 	 */
 	public void pushExistingScope(Scope scope) {
 		stack.push(scope);
@@ -126,7 +122,8 @@ public class Environment {
 	
 	/**
 	 * Creates a new object in the environment and returns it.  Throws an exception if the object could not be created.
-	 * A new object is always added to the most local scope in use
+	 * A new object is always added to the current scope.
+	 * @throws WordsRuntimeException
 	 */
 	public WordsObject createObject(String objectName, String className, Position position) throws WordsRuntimeException {
 		Property property = getVariable(objectName);
@@ -136,6 +133,7 @@ public class Environment {
 			
 			WordsObject newObject = new WordsObject(objectName, wordsClass, position);
 			getCurrentScope().variables.put(objectName, new Property(newObject));
+			
 			if (objectsByClass.containsKey(wordsClass)) {
 				objectsByClass.get(wordsClass).add(newObject);
 			} else {
@@ -154,14 +152,15 @@ public class Environment {
 	}
 	
 	/**
-	 * Adds a named object to the most local scope in use. 
+	 * Adds a variable to the current scope.
 	 */
-	public void addToCurrentScope(String objectName, Property variable) {
-		getCurrentScope().variables.put(objectName, variable);
+	public void addToCurrentScope(String variableName, Property variable) {
+		getCurrentScope().variables.put(variableName, variable);
 	}
 	
 	/**
-	 * Looks up a variable and returns it.  If not found, returns NOTHING.
+	 * Looks up a variable in the current scope and its parents and returns it if found.  If not found, returns NOTHING.
+	 * Does not iterate through the stack but uses the scope's parents as an access link.
 	 */
 	public Property getVariable(String variableName) {
 		Property prop = null;
@@ -194,10 +193,10 @@ public class Environment {
 	}
 	
 	/**
-	 * Return a collection of all objects of a certain class, as well as all the objects
-	 * that exist in children classes of the certain class.
+	 * Return a collection of all objects of a given class, as well as all the objects
+	 * that exist in subclasses of the given class.
 	 * Returns an empty collection if there are no objects of that class in the environment
-	 * @throws a WordsClassNotFoundException if the class does not exist.
+	 * @throws WordsClassNotFoundException
 	 */
 	public HashSet<WordsObject> getObjectsByClass(String className) throws WordsClassNotFoundException {
 		WordsClass wc = getClass(className);

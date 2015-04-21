@@ -2,6 +2,9 @@ package words.environment;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * A class as specified in the Words language.
+ */
 public class WordsClass {
 	private HashMap<String, Property> properties;
 	private HashMap<String, CustomActionDefinition> customActions;
@@ -53,7 +56,7 @@ public class WordsClass {
 	
 	/**
 	 * Retrieves a property on a class by looking at the class itself and its class chain.
-	 * A missing property returns a WordsProperty of type NOTHING
+	 * A missing property returns a WordsProperty of type NOTHING.
 	 */
 	public Property getProperty(String propertyName) {
 		WordsClass lookupClass = this;
@@ -80,12 +83,19 @@ public class WordsClass {
 		}
 	}
 	
-	
+	/**
+	 * Creates a new custom action in this class.  Throws an exception if a custom action of that
+	 * name has already been defined.
+	 */
 	public void defineCustomAction(String customActionName, CustomActionDefinition customAction) {
 		//TODO: ActionAlreadyDefined exception
 		customActions.put(customActionName, customAction);
 	}
-	
+
+	/**
+	 * Retrieves a custom action definition on a class by looking at the class itself and its class chain.
+	 * A missing custom action definition throws an exception.
+	 */
 	public CustomActionDefinition getCustomActionDefinition(String customActionName) {
 		//TODO: throw an exception if the action is not found
 		//TODO: inheritence

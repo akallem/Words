@@ -4,6 +4,9 @@ import java.util.LinkedList;
 import words.exceptions.*;
 import words.ast.*;
 
+/**
+ * A move action (basic action) for a WordsObject's action queue.
+ */
 public class MoveAction extends Action {
 	private Direction direction;
 	private AST distanceExpression;		// The expression whose value will be the number of moves to make; used only before the move has been expanded
