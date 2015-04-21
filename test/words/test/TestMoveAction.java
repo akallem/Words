@@ -5,7 +5,7 @@ import org.junit.Test;
 import words.environment.*;
 import words.exceptions.*;
 
-public class TestWordsMove extends TestINode {
+public class TestMoveAction extends TestINode {
     @Test
     public void testWorkingWordsMove() throws WordsRuntimeException, WordsProgramException {
         environment.createObject("Fred", "thing", new Position(0, 0));

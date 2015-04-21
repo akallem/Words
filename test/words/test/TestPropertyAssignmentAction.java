@@ -6,7 +6,7 @@ import words.ast.*;
 import words.environment.*;
 import words.exceptions.*;
 
-public class TestWordsPropertyAssignment extends TestINode {
+public class TestPropertyAssignmentAction extends TestINode {
     @Test
     public void testWorkingWordsPropertyAssignment() throws WordsRuntimeException, WordsProgramException {
         environment.createObject("Fred", "thing", new Position(0, 0));
