@@ -17,26 +17,6 @@ public class WordsObject {
 	private Action lastAction;
 	private HashMap<WordsObject, ArrayList<Property>> referers;
 	
-	public void updateReferers(WordsObject referringObject, Property referringProperty) {
-		ArrayList<Property> referringProperties;
-		if ((referringProperties = referers.get(referringObject)) == null) {
-			referringProperties = new ArrayList<Property>();
-			referers.put(referringObject, referringProperties);
-		}
-		
-		referringProperties.add(referringProperty);
-	}
-	
-	public void clearReferers() {
-		for (WordsObject referringObject : referers.keySet()) {
-			for (Property property : referers.get(referringObject)) {
-				property.type = PropertyType.NOTHING;
-				property.objProperty = null;
-			}
-			referers.remove(referringObject);
-		}
-	}
-	
 	public WordsObject(String objectName, WordsClass wordsClass, Position cell) {
 		this.wordsClass = wordsClass;
 		this.objectName = objectName;
@@ -113,6 +93,26 @@ public class WordsObject {
 				property.objProperty.updateReferers(this, property);
 			}
 			properties.put(propertyName, property);
+		}
+	}
+	
+	public void updateReferers(WordsObject referringObject, Property referringProperty) {
+		ArrayList<Property> referringProperties;
+		if ((referringProperties = referers.get(referringObject)) == null) {
+			referringProperties = new ArrayList<Property>();
+			referers.put(referringObject, referringProperties);
+		}
+		
+		referringProperties.add(referringProperty);
+	}
+	
+	public void clearReferers() {
+		for (WordsObject referringObject : referers.keySet()) {
+			for (Property property : referers.get(referringObject)) {
+				property.type = PropertyType.NOTHING;
+				property.objProperty = null;
+			}
+			referers.remove(referringObject);
 		}
 	}
 	
