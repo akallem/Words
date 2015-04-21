@@ -14,8 +14,7 @@ public class TestINodeQueueStop extends TestINode {
 		environment.createObject("Fred", "thing", new Position(0,0));
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up. 
 		assertEquals("Fred in good start position", environment.getVariable("Fred").objProperty.getCurrentPosition(), new Position(0,0));
-		environment.getVariable("Fred").objProperty.enqueueAction(new MoveAction(Direction.RIGHT, new LNodeNum(1)));
-		
+		environment.getVariable("Fred").objProperty.enqueueAction(new MoveAction(environment.getCurrentScope(), Direction.RIGHT, new LNodeNum(1)));
 		
 		AST idLeaf = new LNodeIdentifier("Fred");
 		INode testNode = new INodeQueueStop(new INodeReferenceList(), idLeaf);

@@ -8,6 +8,7 @@ import words.environment.*;
 import words.exceptions.*;
 
 public class TestWordsObject {
+	Environment environment = new Environment();
 	Position startPos = new Position(4, -9);
 	WordsClass thing = new WordsClass("thing", null);
 	WordsObject obj = new WordsObject("test", thing, new Position(4, -9));
@@ -16,7 +17,7 @@ public class TestWordsObject {
 	public void executeNextActionShouldNotFailWhenEmpty() {
 		// Any exception (which would likely be a Java null pointer exception or the like, if it occurred, is a failure
 		try {
-			obj.executeNextAction(null);
+			obj.executeNextAction(environment);
 		} catch (Exception e) {
 			fail();
 		}
@@ -24,13 +25,13 @@ public class TestWordsObject {
 	
 	@Test
 	public void executeNextActionShouldExecuteNextMoveAction() {
-		obj.enqueueAction(new MoveAction(Direction.RIGHT, new LNodeNum(1)));
-		obj.enqueueAction(new MoveAction(Direction.RIGHT, new LNodeNum(1)));
-		obj.enqueueAction(new MoveAction(Direction.LEFT, new LNodeNum(1)));
-		obj.enqueueAction(new MoveAction(Direction.LEFT, new LNodeNum(1)));
+		obj.enqueueAction(new MoveAction(new Scope(null), Direction.RIGHT, new LNodeNum(1)));
+		obj.enqueueAction(new MoveAction(new Scope(null), Direction.RIGHT, new LNodeNum(1)));
+		obj.enqueueAction(new MoveAction(new Scope(null), Direction.LEFT, new LNodeNum(1)));
+		obj.enqueueAction(new MoveAction(new Scope(null), Direction.LEFT, new LNodeNum(1)));
 		
 		try {
-			obj.executeNextAction(null);
+			obj.executeNextAction(environment);
 		} catch (Exception e) {
 			fail();
 		}
@@ -38,7 +39,7 @@ public class TestWordsObject {
 		assertEquals("Object moved 1 to the right in total", obj.getCurrentPosition().x, startPos.x + 1);
 		
 		try {
-			obj.executeNextAction(null);
+			obj.executeNextAction(environment);
 		} catch (Exception e) {
 			fail();
 		}
@@ -46,7 +47,7 @@ public class TestWordsObject {
 		assertEquals("Object moved 2 to the right in total", obj.getCurrentPosition().x, startPos.x + 2);
 		
 		try {
-			obj.executeNextAction(null);
+			obj.executeNextAction(environment);
 		} catch (Exception e) {
 			fail();
 		}
@@ -54,7 +55,7 @@ public class TestWordsObject {
 		assertEquals("Object moved 1 to the right in total again", obj.getCurrentPosition().x, startPos.x + 1);
 		
 		try {
-			obj.executeNextAction(null);
+			obj.executeNextAction(environment);
 		} catch (Exception e) {
 			fail();
 		}
@@ -65,12 +66,12 @@ public class TestWordsObject {
 	@Test
 	public void executeNextActionShouldExecuteNextSayAction() {
 		// This line will need to be changed when WordsSay is updated to take an AST expression
-		obj.enqueueAction(new SayAction(new LNodeString("first")));
-		obj.enqueueAction(new SayAction(new LNodeString("second")));
-		obj.enqueueAction(new SayAction(new LNodeString("third")));
+		obj.enqueueAction(new SayAction(new Scope(null), new LNodeString("first")));
+		obj.enqueueAction(new SayAction(new Scope(null), new LNodeString("second")));
+		obj.enqueueAction(new SayAction(new Scope(null), new LNodeString("third")));
 		
 		try {
-			obj.executeNextAction(null);
+			obj.executeNextAction(environment);
 		} catch (Exception e) {
 			fail();
 		}
@@ -78,7 +79,7 @@ public class TestWordsObject {
 		assertEquals("Object's message is first message", obj.getCurrentMessage(), "first");
 		
 		try {
-			obj.executeNextAction(null);
+			obj.executeNextAction(environment);
 		} catch (Exception e) {
 			fail();
 		}
@@ -86,7 +87,7 @@ public class TestWordsObject {
 		assertEquals("Object's message is second message", obj.getCurrentMessage(), "second");
 		
 		try {
-			obj.executeNextAction(null);
+			obj.executeNextAction(environment);
 		} catch (Exception e) {
 			fail();
 		}
@@ -97,15 +98,15 @@ public class TestWordsObject {
 	
 	@Test
 	public void enqeueAtFrontShouldBeNextActionExecuted() {
-		obj.enqueueAction(new MoveAction(Direction.RIGHT, new LNodeNum(3)));
-		obj.enqueueAction(new MoveAction(Direction.UP, new LNodeNum(5)));
-		obj.enqueueAction(new MoveAction(Direction.DOWN, new LNodeNum(5)));
+		obj.enqueueAction(new MoveAction(new Scope(null), Direction.RIGHT, new LNodeNum(3)));
+		obj.enqueueAction(new MoveAction(new Scope(null), Direction.UP, new LNodeNum(5)));
+		obj.enqueueAction(new MoveAction(new Scope(null), Direction.DOWN, new LNodeNum(5)));
 		
 		// This should be first to be executed
-		obj.enqueueActionAtFront(new MoveAction(Direction.LEFT, new LNodeNum(1)));
+		obj.enqueueActionAtFront(new MoveAction(new Scope(null), Direction.LEFT, new LNodeNum(1)));
 		
 		try {
-			obj.executeNextAction(null);
+			obj.executeNextAction(environment);
 		} catch (Exception e) {
 			fail();
 		}
