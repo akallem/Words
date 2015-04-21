@@ -55,6 +55,25 @@ public class TestEnvironment {
 	}
 	
 	@Test
+	public void basicScopeInvariants() {
+		Scope globalScope = environment.getGlobalScope();
+		assertEquals("Environment starts with global scope as current", environment.getCurrentScope(), globalScope);
+		assertEquals("Scope depth is correct", environment.getScopeDepth(), 1);
+		environment.pushNewScope();
+		assertNotEquals("New scope is not global scope", environment.getCurrentScope(), globalScope);
+		assertEquals("Scope depth is correct", environment.getScopeDepth(), 2);
+		Scope scope = new Scope(globalScope);
+		environment.pushExistingScope(scope);
+		assertEquals("Inserted scope is current", environment.getCurrentScope(), scope);
+		assertEquals("Scope depth is correct", environment.getScopeDepth(), 3);
+		environment.popScope();
+		assertEquals("Scope depth is correct", environment.getScopeDepth(), 2);
+		environment.popScope();
+		assertEquals("Environment ends with global scope as current", environment.getCurrentScope(), globalScope);
+		assertEquals("Scope depth is correct", environment.getScopeDepth(), 1);
+	}
+	
+	@Test
 	public void localScopeIteratedObjectCreation() {
 		// Arbitrarily try this 5 times. 
 		for (int i = 0; i < 5; i++) {
@@ -104,6 +123,58 @@ public class TestEnvironment {
 		}
 		environment.popScope();
 		Property property = environment.getVariable("Alex");
+		assertEquals("Variable did not exist after popping local scope", property.type, Property.PropertyType.NOTHING);
+	}
+	
+	@Test
+	public void localScopeVariableUsesAccessLinks() throws WordsRuntimeException {
+		WordsObject Andrew = null;
+		WordsObject Alex = null;
+		WordsObject James = null;
+		
+		try {
+			Andrew = environment.createObject("Andrew", "thing", new Position(0,0));
+		} catch (WordsRuntimeException e) {
+			fail();
+		}
+		
+		environment.pushNewScope();
+		try {
+			Alex = environment.createObject("Alex", "thing", new Position(0,0));
+		} catch (WordsRuntimeException e) {
+			fail();
+		}
+				
+		Scope scope = new Scope(environment.getGlobalScope());
+		environment.pushExistingScope(scope);
+		try {
+			James = environment.createObject("James", "thing", new Position(0,0));
+		} catch (WordsRuntimeException e) {
+			fail();
+		}
+		
+		// Only James and Andrew should be visible now.  The scope containing Alex should be skipped
+		Property property;
+		
+		property = environment.getVariable("James");
+		assertEquals("Variable existed as expected in local scope", property.objProperty, James);
+		
+		property = environment.getVariable("Andrew");
+		assertEquals("Variable existed as expected by accessing outer scope", property.objProperty, Andrew);
+		
+		property = environment.getVariable("Alex");
+		assertEquals("Variable did not exist after popping local scope", property.type, Property.PropertyType.NOTHING);		
+		
+		environment.popScope();
+		
+		// Now Alex and Andrew should be visible.
+		property = environment.getVariable("Alex");
+		assertEquals("Variable existed as expected in local scope", property.objProperty, Alex);
+		
+		property = environment.getVariable("Andrew");
+		assertEquals("Variable existed as expected by accessing outer scope", property.objProperty, Andrew);
+		
+		property = environment.getVariable("James");
 		assertEquals("Variable did not exist after popping local scope", property.type, Property.PropertyType.NOTHING);
 	}
 
