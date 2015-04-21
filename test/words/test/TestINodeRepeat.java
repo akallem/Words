@@ -39,7 +39,7 @@ public class TestINodeRepeat extends TestINode {
 		loop.enqueueAST(iterativeLoop);
 		loop.fastForwardEnvironment(5);
 		assertEquals("Successfully created multiple Freds", environment.getObjects().size(), 5);
-		assertEquals("Outside of loop, ends in global scope", environment.getNumberOfScopes(), 1);
+		assertEquals("Outside of loop, ends in global scope", environment.getScopeDepth(), 1);
 	}
 	
 	@Test
@@ -51,7 +51,7 @@ public class TestINodeRepeat extends TestINode {
 		// this iterative loop will fail 5 times
 		loop.enqueueAST(iterativeLoop);
 		loop.fastForwardEnvironment(2);
-		assertEquals("Outside of loop, ends in global scope", environment.getNumberOfScopes(), 1);
+		assertEquals("Outside of loop, ends in global scope", environment.getScopeDepth(), 1);
 	}
 	
 	@Test
@@ -61,7 +61,7 @@ public class TestINodeRepeat extends TestINode {
 		loop.fastForwardEnvironment(1);
 		loop.enqueueAST(iterativeLoop);
 		loop.fastForwardEnvironment(2);
-		assertEquals("Outside of loop, ends in global scope", environment.getNumberOfScopes(), 1);
+		assertEquals("Outside of loop, ends in global scope", environment.getScopeDepth(), 1);
 	}
 	
 	@Test

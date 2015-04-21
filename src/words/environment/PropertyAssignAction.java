@@ -4,10 +4,14 @@ import java.util.LinkedList;
 import words.exceptions.*;
 import words.ast.*;
 
+/**
+ * A property assignment action (basic action) for a WordsObject's action queue.
+ */
 public class PropertyAssignAction extends Action {
 	private AST propertyAssignmentList;
 	
-	public PropertyAssignAction(AST propertyAssignmentList) {
+	public PropertyAssignAction(Scope scope, AST propertyAssignmentList) {
+		super(scope);
 		this.propertyAssignmentList = propertyAssignmentList;
 	}
 	

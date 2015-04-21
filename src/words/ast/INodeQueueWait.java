@@ -21,7 +21,7 @@ public class INodeQueueWait extends INode {
 		}
 		WordsObject object = property.objProperty;
 
-		WaitAction action = new WaitAction(lengthExpression);
+		WaitAction action = new WaitAction(environment.getCurrentScope(), lengthExpression);
 
 		if (doNow == null) {
 			object.enqueueAction(action);

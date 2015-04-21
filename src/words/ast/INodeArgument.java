@@ -24,7 +24,7 @@ public class INodeArgument extends INode {
 		
 		if (parameters.contains(argumentName.stringValue)) {
 			ASTValue argumentValue = children.get(1).eval(environment);
-			environment.addVariableToCurrentNameScope(argumentName.stringValue, argumentValue.toWordsProperty());
+			environment.addToCurrentScope(argumentName.stringValue, argumentValue.toWordsProperty());
 		}
 		
 		return null;

@@ -5,6 +5,9 @@ import java.util.LinkedList;
 
 import words.exceptions.*;
 
+/**
+ * An event listener as specified in the Words language.
+ */
 public class WordsObject {
 	private String objectName;
 	private WordsClass wordsClass;
@@ -13,6 +16,8 @@ public class WordsObject {
 	private Position cell;
 	private String currentMessage;
 	private Action lastAction;
+	
+	// While an object is expanding a custom action, actions are enqueued in a separate list
 	private boolean isExpandingCustomAction;
 	private LinkedList<Action> customActionExpansion;
 
@@ -45,14 +50,17 @@ public class WordsObject {
 			actionQueue.addFirst(action);
 		}
 	}
-	
+
+	/**
+	 * Prepares this object to receive queue statements that represent the expansion of a custom action.
+	 */
 	public void startExpandingCustomAction() {
 		isExpandingCustomAction = true;
 		customActionExpansion.clear();
 	}
 	
 	/**
-	 * Returns the list of actions that was expanded
+	 * Returns the list of actions that was expanded and reverts the object to its normal state.
 	 */
 	public LinkedList<Action> finishExpandingCustomAction() {
 		isExpandingCustomAction = false;
@@ -140,7 +148,7 @@ public class WordsObject {
 			lastAction = action;
 			action.execute(this, environment);
 		} else {
-			lastAction = new WaitAction();
+			lastAction = new WaitAction(environment.getCurrentScope());
 		}
 	}
 

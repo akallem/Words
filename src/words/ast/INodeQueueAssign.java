@@ -14,7 +14,7 @@ public class INodeQueueAssign extends INode {
 		AST propertyList = children.get(1);
 		ASTValue doNow = children.get(2) != null ? children.get(2).eval(environment) : null;
 		
-		PropertyAssignAction action = new PropertyAssignAction(propertyList);
+		PropertyAssignAction action = new PropertyAssignAction(environment.getCurrentScope(), propertyList);
 		WordsObject object = referenceObject.objValue;
 		
 		if (doNow == null) {

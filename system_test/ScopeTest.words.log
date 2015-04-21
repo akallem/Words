@@ -1,0 +1,500 @@
+frame #: 1
+(0,0):
+<thing> Fred
+(1,1):
+<thing> X
+frame #: 2
+(-1,0):
+<thing> Fred
+(1,1):
+<thing> X
+frame #: 3
+(-2,0):
+<thing> Fred
+(1,1):
+<thing> X
+frame #: 4
+(-3,0):
+<thing> Fred
+(1,1):
+<thing> X
+frame #: 5
+(-3,0):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 6
+(-3,1):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 7
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 8
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 9
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 10
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 11
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 12
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 13
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 14
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 15
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 16
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 17
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 18
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 19
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 20
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 21
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 22
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 23
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 24
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 25
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 26
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 27
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 28
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 29
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 30
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 31
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 32
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 33
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 34
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 35
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 36
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 37
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 38
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 39
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 40
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 41
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 42
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 43
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 44
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 45
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 46
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 47
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 48
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 49
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 50
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 51
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 52
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 53
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 54
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 55
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 56
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 57
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 58
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 59
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 60
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 61
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 62
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 63
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 64
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 65
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 66
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 67
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 68
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 69
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 70
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 71
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 72
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 73
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 74
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 75
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 76
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 77
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 78
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 79
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 80
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 81
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 82
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 83
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 84
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 85
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 86
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 87
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 88
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 89
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 90
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 91
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 92
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 93
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 94
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 95
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 96
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 97
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 98
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 99
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X
+frame #: 100
+(-3,2):
+<thing> Fred "test"
+(1,1):
+<thing> X

@@ -21,7 +21,7 @@ public class INodeQueueSay extends INode {
 		}
 		WordsObject object = property.objProperty;
 
-		SayAction action = new SayAction(message);
+		SayAction action = new SayAction(environment.getCurrentScope(), message);
 
 		if (doNow == null) {
 			object.enqueueAction(action);

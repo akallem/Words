@@ -24,7 +24,7 @@ public class INodeQueueMove extends INode {
 		
 		assert(direction.type == ASTValue.Type.DIRECTION) : "Expected direction";
 		
-		MoveAction action = new MoveAction(direction.directionValue, distance);
+		MoveAction action = new MoveAction(environment.getCurrentScope(), direction.directionValue, distance);
 		
 		if (doNow == null) {
 			object.enqueueAction(action);
