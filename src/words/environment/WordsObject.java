@@ -116,10 +116,6 @@ public class WordsObject {
 		}
 	}
 	
-	public void addReferer(WordsObject referer, Property refererProperty) {
-		
-	}
-
 	public void moveUp() {
 		this.cell.y++;
 	}

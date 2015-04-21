@@ -139,18 +139,12 @@ public class Environment {
 		object.clearReferers();
 		
 		for (HashMap<String, WordsObject> scope : objectsByName) {
-			if (scope.get(object.getObjectName()) != null) {
-				scope.remove(object.getObjectName());
+			if (scope.remove(object.getObjectName()) != null) {
 				break;
 			}
 		}
 		
-		for (WordsClass wordsClass : objectsByClass.keySet()) {
-			HashSet<WordsObject> objectSet = objectsByClass.get(wordsClass);
-			if (objectSet.contains(object)) {
-				objectSet.remove(object);
-			}
-		}
+		objectsByClass.get(object.getWordsClass()).remove(object);
 	}
 	
 	/**
