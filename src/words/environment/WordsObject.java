@@ -2,7 +2,10 @@ package words.environment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map;
+import java.util.Set;
 
 import words.environment.Property.PropertyType;
 import words.exceptions.*;
@@ -107,12 +110,15 @@ public class WordsObject {
 	}
 	
 	public void clearReferers() {
-		for (WordsObject referringObject : referers.keySet()) {
-			for (Property property : referers.get(referringObject)) {
+		for (Iterator<ArrayList<Property>> it = referers.values().iterator(); it.hasNext();) {
+			ArrayList<Property> properties = it.next();
+			
+			for (Property property : properties) {
 				property.type = PropertyType.NOTHING;
 				property.objProperty = null;
 			}
-			referers.remove(referringObject);
+			
+			it.remove();
 		}
 	}
 	
