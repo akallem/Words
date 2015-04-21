@@ -1,0 +1,16 @@
+Alex is a thing at 0,0.
+Remove Alex.
+
+Scott is a thing at 0,0.
+Dave is a thing at 0,1.
+Mark is a thing at 0,2.
+Dude is a thing at 0,3.
+
+Scott's friend is Dave.
+Dave's brother is Mark.
+Mark's homie is Dude.
+
+Remove Scott's friend's brother's homie.
+Remove Dave's brother.
+Remove Scott's friend.
+Remove Scott.
