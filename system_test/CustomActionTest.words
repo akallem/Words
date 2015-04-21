@@ -5,8 +5,8 @@ A person is a thing which {
 		Make them move down 2.
 	}
 
-	can sprint with distance which means {
-		Make them say "I'm sprinting!".
+	can sprint with distance, message which means {
+		Make them say message.
 		Make them move right distance.
 		Make them move left distance.
 	}
@@ -17,5 +17,5 @@ Make Fred say "I will jump.".
 Make Fred jump.
 Make Fred say "I jumped!".
 Make Fred say "I will sprint.".
-Make Fred sprint with distance 4.
+Make Fred sprint with distance 4, message "I'm sprinting!".
 Make Fred say "I sprinted!".
