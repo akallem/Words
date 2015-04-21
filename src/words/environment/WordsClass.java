@@ -2,6 +2,9 @@ package words.environment;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import words.exceptions.CustomActionAlreadyExistsException;
+import words.exceptions.CustomActionNotFoundException;
+
 /**
  * A class as specified in the Words language.
  */
@@ -86,19 +89,43 @@ public class WordsClass {
 	/**
 	 * Creates a new custom action in this class.  Throws an exception if a custom action of that
 	 * name has already been defined.
+	 * @throws CustomActionAlreadyExistsException 
 	 */
-	public void defineCustomAction(String customActionName, CustomActionDefinition customAction) {
-		//TODO: ActionAlreadyDefined exception
-		customActions.put(customActionName, customAction);
+	public void defineCustomAction(String customActionName, CustomActionDefinition customAction) throws CustomActionAlreadyExistsException {
+		if (customActions.containsKey(customActionName)) {
+			throw new CustomActionAlreadyExistsException(customActionName);
+		} else {		
+			customActions.put(customActionName, customAction);
+		}
 	}
 
+	/**
+	 * Retrieves a custom action definition of a class by looking only at the class itself, ignoring its class chain.
+	 * A missing custom action definition returns null.
+	 */
+	private CustomActionDefinition getOwnCustomActionDefinition(String customActionName) {
+		if (customActions.containsKey(customActionName))
+			return customActions.get(customActionName);
+		else
+			return null;
+	}
+	
 	/**
 	 * Retrieves a custom action definition on a class by looking at the class itself and its class chain.
 	 * A missing custom action definition throws an exception.
 	 */
-	public CustomActionDefinition getCustomActionDefinition(String customActionName) {
-		//TODO: throw an exception if the action is not found
-		//TODO: inheritence
-		return customActions.get(customActionName);
+	public CustomActionDefinition getCustomActionDefinition(String customActionName) throws CustomActionNotFoundException {
+		WordsClass lookupClass = this;
+		
+		while (lookupClass != null) {
+			CustomActionDefinition customActionDefinition = lookupClass.getOwnCustomActionDefinition(customActionName);
+			
+			if (customActionDefinition != null)
+				return customActionDefinition;
+			
+			lookupClass = lookupClass.parent;
+		}
+
+		throw new CustomActionNotFoundException(customActionName);
 	}
 }
