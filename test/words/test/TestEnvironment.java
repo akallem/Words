@@ -58,7 +58,7 @@ public class TestEnvironment {
 	public void localScopeIteratedObjectCreation() {
 		// Arbitrarily try this 5 times. 
 		for (int i = 0; i < 5; i++) {
-			environment.pushScope();
+			environment.pushNewScope();
 			WordsObject newObject = null;
 			WordsObject receivedObject = null;
 	
@@ -82,7 +82,7 @@ public class TestEnvironment {
 	
 	@Test
 	public void localScopeVariablePersists() throws WordsRuntimeException {
-		environment.pushScope();
+		environment.pushNewScope();
 		try {
 			environment.createObject("Alex", "thing", new Position(0,0));
 			environment.createObject("James", "thing", new Position(0,0));
@@ -95,7 +95,7 @@ public class TestEnvironment {
 	
 	@Test
 	public void localScopeVariableOnlyExistsLocally() throws WordsRuntimeException {
-		environment.pushScope();
+		environment.pushNewScope();
 		try {
 			environment.createObject("Alex", "thing", new Position(0,0));
 			environment.createObject("James", "thing", new Position(0,0));

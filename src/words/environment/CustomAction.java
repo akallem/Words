@@ -8,7 +8,8 @@ public class CustomAction extends Action {
 	private CustomActionDefinition actionDefinition;
 	private AST arguments;
 	
-	public CustomAction(CustomActionDefinition actionDefinition, AST arguments) {
+	public CustomAction(Scope scope, CustomActionDefinition actionDefinition, AST arguments) {
+		super(scope);
 		this.actionDefinition = actionDefinition;
 		this.arguments = arguments;
 	}

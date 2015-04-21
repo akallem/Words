@@ -6,14 +6,16 @@ A person is a thing which {
 	}
 
 	can sprint with distance which means {
+		Make them say "I'm sprinting!".
 		Make them move right distance.
 		Make them move left distance.
 	}
 }
 
 Fred is a person at 0,0.
-Make Fred say "I will jump".
+Make Fred say "I will jump.".
 Make Fred jump.
 Make Fred say "I jumped!".
-//Make Fred sprint with distance 4.
-//Make Fred say "I sprinted!".
+Make Fred say "I will sprint.".
+Make Fred sprint with distance 4.
+Make Fred say "I sprinted!".

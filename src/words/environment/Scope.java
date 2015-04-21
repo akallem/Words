@@ -3,7 +3,7 @@ package words.environment;
 import java.util.HashMap;
 
 public class Scope {
-	public Scope parent;
+	public Scope parent;		// The access link to enclosing scope
 	public HashMap<String, Property> variables;
 	
 	public Scope(Scope parent) {

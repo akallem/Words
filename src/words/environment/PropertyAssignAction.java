@@ -7,7 +7,8 @@ import words.ast.*;
 public class PropertyAssignAction extends Action {
 	private AST propertyAssignmentList;
 	
-	public PropertyAssignAction(AST propertyAssignmentList) {
+	public PropertyAssignAction(Scope scope, AST propertyAssignmentList) {
+		super(scope);
 		this.propertyAssignmentList = propertyAssignmentList;
 	}
 	

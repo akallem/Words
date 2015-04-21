@@ -25,9 +25,9 @@ public class INodeQueueCustomAction extends INode {
 		CustomActionDefinition actionDefinition = object.getWordsClass().getCustomActionDefinition(actionName.stringValue);
 		
 		if (doNow == null) {
-			object.enqueueAction(new CustomAction(actionDefinition, argumentList));
+			object.enqueueAction(new CustomAction(environment.getCurrentScope(), actionDefinition, argumentList));
 		} else {
-			object.enqueueActionAtFront(new CustomAction(actionDefinition, argumentList));
+			object.enqueueActionAtFront(new CustomAction(environment.getCurrentScope(), actionDefinition, argumentList));
 		}
 		
 		return null;

@@ -11,14 +11,14 @@ import words.ast.*;
 public class Environment {
 	private HashMap<String, WordsClass> classes;
 	//private LinkedList<HashMap<String, Property>> variables;
-	private Scope currentScope;
+	private Scope globalScope;
+	private LinkedList<Scope> stack;		// Stack of scopes which is the control link
 	private HashMap<WordsClass, HashSet<WordsObject>> objectsByClass;
 	private ArrayList<WordsEventListener> eventListeners;
 	private static final String BASE_SUPERCLASS = "thing";
 	
 	public Environment() {
 		classes = new HashMap<String, WordsClass>();
-		//variables = new LinkedList<HashMap<String, Property>>();
 		eventListeners = new ArrayList<WordsEventListener>();
 		objectsByClass = new HashMap<WordsClass, HashSet<WordsObject>>();
 		setupEnvironment();
@@ -31,7 +31,9 @@ public class Environment {
 		WordsClass thing = new WordsClass(BASE_SUPERCLASS, null);
 		classes.put(BASE_SUPERCLASS, thing);
 		objectsByClass.put(thing, new HashSet<WordsObject>());
-		currentScope = new Scope(null);
+		stack = new LinkedList<Scope>();
+		globalScope = new Scope(null);
+		stack.push(globalScope);
 	}
 	
 	/**
@@ -78,28 +80,48 @@ public class Environment {
 		return wordsClass;
 	}
 	
-	/**
-	 * Enters a new local scope by pushing a new scope onto the gettable objects stack
-	 */
-	public void pushScope() {
-		Scope newScope = new Scope(currentScope);
-		currentScope = newScope;
+	public Scope getCurrentScope() {
+		return stack.getFirst();
+	}
+	
+	public Scope getGlobalScope() {
+		return globalScope;
 	}
 	
 	/**
-	 * Exits the current local scope. Moves all objects in the local scope into the ungettable
-	 * objects collection, where they will continue to live, but will not be callable by name
+	 * Creates and enters a new local scope with the current scope as the parent.
+	 */
+	public void pushNewScope() {
+		pushNewScope(getCurrentScope());
+	}
+	
+	/**
+	 * Creates and enters a new local scope with the given scope as the parent.
+	 */
+	public void pushNewScope(Scope parent) {
+		stack.push(new Scope(parent));
+	}
+	
+	/**
+	 * Enters an existing scope.
+	 */
+	public void pushExistingScope(Scope scope) {
+		stack.push(scope);
+	}
+	
+	/**
+	 * Exits the current local scope.
 	 */
 	public void popScope() {
-		assert currentScope.parent != null : "Tried to pop the global scope";
-		currentScope = currentScope.parent;
+		stack.pop();
+		assert stack.size() > 0 : "Popped the global scope";
 	}
 	
 	/**
 	 * Get the current scope depth.  Includes the global scope.
 	 */
 	public int getScopeDepth() {
-		return currentScope.getDepth();
+		return stack.size();
 	}
 	
 	/**
@@ -113,7 +135,7 @@ public class Environment {
 			WordsClass wordsClass = getClass(className);
 			
 			WordsObject newObject = new WordsObject(objectName, wordsClass, position);
-			currentScope.variables.put(objectName, new Property(newObject));
+			getCurrentScope().variables.put(objectName, new Property(newObject));
 			if (objectsByClass.containsKey(wordsClass)) {
 				objectsByClass.get(wordsClass).add(newObject);
 			} else {
@@ -123,7 +145,7 @@ public class Environment {
 			}
 			
 			// TODO: decide if this is appropriate (given that it could figure listeners)
-			newObject.enqueueAction(new WaitAction(new LNodeNum(1)));
+			newObject.enqueueAction(new WaitAction(getCurrentScope(), new LNodeNum(1)));
 			
 			return newObject;
 		} else {
@@ -134,8 +156,8 @@ public class Environment {
 	/**
 	 * Adds a named object to the most local scope in use. 
 	 */
-	public void addVariableToCurrentNameScope(String objectName, Property variable) {
-		currentScope.variables.put(objectName, variable);
+	public void addToCurrentScope(String objectName, Property variable) {
+		getCurrentScope().variables.put(objectName, variable);
 	}
 	
 	/**
@@ -143,7 +165,7 @@ public class Environment {
 	 */
 	public Property getVariable(String variableName) {
 		Property prop = null;
-		Scope scope = currentScope;
+		Scope scope = getCurrentScope();
 		
 		while (scope != null) {
 			prop = scope.variables.get(variableName);

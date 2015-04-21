@@ -7,7 +7,8 @@ import words.ast.*;
 public class SayAction extends Action {
 	private AST message;
 
-	public SayAction(AST message) {
+	public SayAction(Scope scope, AST message) {
+		super(scope);
 		this.message = message;
 	}
 

@@ -7,6 +7,12 @@ import words.exceptions.*;
  * An abstract action for a WordsObject that can be enqueued on the object's action queue and later executed or expanded.
  */
 public abstract class Action {
+	protected Scope scope;
+	
+	public Action(Scope scope) {
+		this.scope = scope;
+	}
+	
 	public abstract boolean isExecutable();
 	public final boolean isExpandable() { return !isExecutable(); }
 
@@ -15,7 +21,10 @@ public abstract class Action {
 	 */
 	public final void execute(WordsObject object, Environment environment) throws WordsProgramException {
 		assert isExecutable() : "Attempted to execute non-executable action";
+		
+		environment.pushExistingScope(scope);
 		doExecute(object, environment);
+		environment.popScope();
 	};
 
 	/**
@@ -24,7 +33,12 @@ public abstract class Action {
 	 */
 	public final LinkedList<Action> expand(WordsObject object, Environment environment) throws WordsProgramException {
 		assert isExpandable() : "Attempted to expand non-expandable action";
-		return doExpand(object, environment);
+		
+		environment.pushExistingScope(scope);
+		LinkedList<Action> result = doExpand(object, environment);
+		environment.popScope();
+		
+		return result;
 	};
 
 	/**

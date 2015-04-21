@@ -140,7 +140,7 @@ public class WordsObject {
 			lastAction = action;
 			action.execute(this, environment);
 		} else {
-			lastAction = new WaitAction();
+			lastAction = new WaitAction(environment.getCurrentScope());
 		}
 	}
 
