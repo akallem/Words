@@ -1,3 +1,6 @@
+Remover is a thing at -3,-3.
+Make Remover move right 10.
+
 Alex is a thing at 0,0.
 Remove Alex.
 
@@ -10,7 +13,15 @@ Scott's friend is Dave.
 Dave's brother is Mark.
 Mark's homie is Dude.
 
-Remove Scott's friend's brother's homie.
-Remove Dave's brother.
-Remove Scott's friend.
-Remove Scott.
+Whenever Remover's column = -1 {
+	Remove Scott's friend's brother's homie.
+}
+
+Whenever Remover's column = 1 {
+	Remove Dave's brother.
+}
+
+Whenever Remover's column = 3 {
+	Remove Scott's friend.
+	Remove Scott.	
+}
