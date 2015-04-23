@@ -82,6 +82,10 @@ public class ASTValue {
 					this.stringValue = String.format("%f", numValue);
 					this.type = newType;
 				}
+				if (type == Type.OBJ) {
+					this.stringValue = objValue.getObjectName();
+					this.type = newType;
+				}
 				break;
 			default:
 				break;
