@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import words.ast.*;
+import words.environment.Position;
 import words.exceptions.*;
 
 public class TestINodeAdd extends TestINode {
@@ -38,6 +39,19 @@ public class TestINodeAdd extends TestINode {
 		ASTValue result = testNode.eval(environment);
 		assertTrue("Returns STRING value", result.type == ASTValue.Type.STRING);
 		assertEquals("Correct String Concatenation", result.stringValue, "ab");
+	}
+	
+	@Test
+	public void stringConcatenationwithObject() throws WordsRuntimeException {
+		AST stringLeaf1 = new LNodeString("a");
+		environment.createObject("Fred", "thing", new Position(0,0));
+		LNodeReference fredLNodeRef = new LNodeReference("Fred's");
+		INodeReferenceList fredRefList = new INodeReferenceList(fredLNodeRef);
+		
+		INode testNode = new INodeAdd(stringLeaf1, fredRefList);
+		ASTValue result = testNode.eval(environment);
+		assertTrue("Returns STRING value", result.type == ASTValue.Type.STRING);
+		assertEquals("Correct String Concatenation", result.stringValue, "aFred");
 	}
 	
 	@Test
