@@ -19,7 +19,7 @@ public class INodeAssign extends INode {
 		
 		String propertyName = children.get(1).eval(environment).stringValue;
 		ASTValue propertyASTValue = children.get(2).eval(environment);	
-
+		
 		obj.setProperty(propertyName, propertyASTValue.toWordsProperty());
 		
 		return null;

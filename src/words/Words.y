@@ -87,11 +87,12 @@
 %type <obj> relational_expression
 %type <obj> value_expression
 %type <obj> reference_list
-%type <obj> identifier_list
 %type <obj> parameter_list
+%type <obj> argument_list
 %type <obj> queue_assign_property_list
 %type <obj> reference
 %type <obj> identifier
+%type <obj> argument
 %type <obj> parameter
 %type <obj> subject
 %type <obj> alias
@@ -160,7 +161,7 @@ class_definition_statement_list:
 class_definition_statement:
 		HAS A identifier OF literal '.'												{ $$ = new INodeDefineProperty($3, $5); ((AST) $$).lineNumber = lexer.lineNumber; }
 	|	CAN identifier WHICH MEANS '{' non_declarative_statement_list '}'							{ $$ = new INodeDefineCustomAction($2, null, $6); ((AST) $$).lineNumber = lexer.lineNumber; }
-	|	CAN identifier WITH identifier_list WHICH MEANS '{' non_declarative_statement_list '}'		{ $$ = new INodeDefineCustomAction($2, $4, $8); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	CAN identifier WITH parameter_list WHICH MEANS '{' non_declarative_statement_list '}'		{ $$ = new INodeDefineCustomAction($2, $4, $8); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 listener_declare_statement:
@@ -170,7 +171,7 @@ listener_declare_statement:
 
 object_create_statement:
 		identifier IS A identifier AT position '.'									{ $$ = new INodeCreateObject($1, $4, null, $6); ((AST) $$).lineNumber = lexer.lineNumber; }
-	|	identifier IS A identifier WITH parameter_list AT position '.'				{ $$ = new INodeCreateObject($1, $4, $6, $8); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	identifier IS A identifier WITH argument_list AT position '.'				{ $$ = new INodeCreateObject($1, $4, $6, $8); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 object_destroy_statement:
@@ -213,8 +214,8 @@ queueing_statement:
 queueing_custom_action_statement:
 		MAKE reference_list identifier identifier '.'								{ $$ = new INodeQueueCustomAction($2, $3, $4, null, null); ((AST) $$).lineNumber = lexer.lineNumber; }
 	|	MAKE reference_list identifier identifier now '.'							{ $$ = new INodeQueueCustomAction($2, $3, $4, null, $5); ((AST) $$).lineNumber = lexer.lineNumber; }
-	|	MAKE reference_list identifier identifier WITH parameter_list '.'			{ $$ = new INodeQueueCustomAction($2, $3, $4, $6, null); ((AST) $$).lineNumber = lexer.lineNumber; }
-	|	MAKE reference_list identifier identifier WITH parameter_list now '.'		{ $$ = new INodeQueueCustomAction($2, $3, $4, $6, $7); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	MAKE reference_list identifier identifier WITH argument_list '.'			{ $$ = new INodeQueueCustomAction($2, $3, $4, $6, null); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	MAKE reference_list identifier identifier WITH argument_list now '.'		{ $$ = new INodeQueueCustomAction($2, $3, $4, $6, $7); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 predicate:
@@ -265,14 +266,14 @@ reference_list:
 	|	reference reference_list					{ $$ = new INodeReferenceList($1); ((INode) $$).add(((INode) $2).children); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
-identifier_list:
-		identifier									{ $$ = new INodeIdentifierList($1); ((AST) $$).lineNumber = lexer.lineNumber; }
-	|	identifier ',' identifier_list				{ $$ = new INodeIdentifierList($1); ((INode) $$).add(((INode) $3).children); ((AST) $$).lineNumber = lexer.lineNumber; }
-	;
-
 parameter_list:
 		parameter									{ $$ = new INodeParameterList($1); ((AST) $$).lineNumber = lexer.lineNumber; }
 	|	parameter ',' parameter_list				{ $$ = new INodeParameterList($1); ((INode) $$).add(((INode) $3).children); ((AST) $$).lineNumber = lexer.lineNumber; }
+	;
+
+argument_list:
+		argument									{ $$ = new INodeArgumentList($1); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	argument ',' argument_list					{ $$ = new INodeArgumentList($1); ((INode) $$).add(((INode) $3).children); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 queue_assign_property_list:
@@ -289,8 +290,12 @@ identifier:
 		IDENTIFIER									{ $$ = new LNodeIdentifier($1); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
+argument:
+		identifier value_expression					{ $$ = new INodeArgument($1, $2); ((AST) $$).lineNumber = lexer.lineNumber; }
+	;
+
 parameter:
-		identifier value_expression					{ $$ = new INodeParameter($1, $2); ((AST) $$).lineNumber = lexer.lineNumber; }
+		identifier									{ $$ = new INodeParameter($1); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 subject:

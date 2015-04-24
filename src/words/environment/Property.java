@@ -1,6 +1,7 @@
 package words.environment;
+
 /**
- * A property that can be assigned to a WordsObject.
+ * A dynamically typed value which can represent a property assigned to a WordsObject or a variable, such as a parameter inside a custom method.
  */
 public class Property {
 	public enum PropertyType {

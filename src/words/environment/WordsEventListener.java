@@ -3,6 +3,9 @@ package words.environment;
 import words.exceptions.*;
 import words.ast.*;
 
+/**
+ * An event listener as specified in the Words language.
+ */
 public class WordsEventListener {
 	private AST predicate;
 	private AST statementList;
@@ -53,5 +56,4 @@ public class WordsEventListener {
 			return true;
 		}
 	}
-	
 }

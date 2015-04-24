@@ -1,0 +1,10 @@
+Fred is a thing at 0,0.
+Make Fred move left 3.
+
+If 1 = 1 then {
+    X is a thing at 1,1.
+    X's message is "test".
+    X's distance is 2.
+    Make Fred say X's message.
+    Make Fred move up X's distance.
+}

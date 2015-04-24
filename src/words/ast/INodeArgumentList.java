@@ -3,8 +3,8 @@ package words.ast;
 import words.environment.*;
 import words.exceptions.*;
 
-public class INodeQueueAssignProperty extends INode {
-	public INodeQueueAssignProperty(Object... children) {
+public class INodeArgumentList extends INode {
+	public INodeArgumentList(Object... children) {
 		super(children);
 	}
 
@@ -16,11 +16,9 @@ public class INodeQueueAssignProperty extends INode {
 	
 	@Override
 	public ASTValue eval(Environment environment, Object inherited) throws WordsRuntimeException {
-		WordsObject object = (WordsObject) inherited;
-		
-		String propertyName = children.get(0).eval(environment).stringValue;
-		ASTValue propertyASTValue = children.get(1).eval(environment);
-		object.setProperty(propertyName, propertyASTValue.toWordsProperty());
+		for (AST child : children) {
+			child.eval(environment, inherited);
+		}
 		
 		return null;
 	}

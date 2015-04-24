@@ -40,15 +40,15 @@ public class INodeAdjacencyPredicate extends INodeBasicActionPredicate {
 			for (WordsObject object2: objectsToCheck2) {
 				if (object1 != object2 && object1.getCurrentPosition().isAdjacentOf(object2.getCurrentPosition(), direction.directionValue)) {
 					returnVal.booleanValue = true;
-					environment.enterNewLocalScope();
+					environment.pushNewScope();
 					if (objectAlias1.type.equals(ASTValue.Type.STRING)) {
-						environment.addObjectToCurrentNameScope(objectAlias1.stringValue, object1);
+						environment.addToCurrentScope(objectAlias1.stringValue, new Property(object1));
 					}
 					if (objectAlias2.type.equals(ASTValue.Type.STRING)) {
-						environment.addObjectToCurrentNameScope(objectAlias2.stringValue, object2);
+						environment.addToCurrentScope(objectAlias2.stringValue, new Property(object2));
 					}
 					stmtList.eval(environment);
-					environment.exitLocalScope();
+					environment.popScope();
 				}
 			}
 		}

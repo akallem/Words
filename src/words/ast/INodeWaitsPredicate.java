@@ -30,12 +30,12 @@ public class INodeWaitsPredicate extends INodeBasicActionPredicate {
 			Action lastAction = object.getLastAction();
 			if (lastAction instanceof WaitAction) {
 				returnVal.booleanValue = true;
-				environment.enterNewLocalScope();
+				environment.pushNewScope();
 				if (objectAlias.type.equals(ASTValue.Type.STRING)) {
-					environment.addObjectToCurrentNameScope(objectAlias.stringValue, object);
+					environment.addToCurrentScope(objectAlias.stringValue, new Property(object));
 				}
 				stmtList.eval(environment);
-				environment.exitLocalScope();
+				environment.popScope();
 			}
 		}
 		return returnVal;

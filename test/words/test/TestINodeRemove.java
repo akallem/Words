@@ -11,25 +11,20 @@ import words.exceptions.*;
 
 public class TestINodeRemove extends TestINode {
 	@Test
-	(expected = words.exceptions.ObjectNotFoundException.class)
 	public void testBasicRemove() throws WordsRuntimeException {
 		environment.createObject("Fred", "thing", new Position(0.0, 0.0));
-		try {
-			environment.getObject("Fred");
-		} catch (ObjectNotFoundException e) {
-			fail();
-		}
+		assertNotEquals("Variable does exist", environment.getVariable("Fred").type, Property.PropertyType.NOTHING);
+
 		
 		INodeReferenceList refList = new INodeReferenceList();
 		LNodeIdentifier id = new LNodeIdentifier("Fred");
 		
 		INodeRemoveObject removeObj = new INodeRemoveObject(refList, id);
 		removeObj.eval(environment);
-		environment.getObject("Fred");
+		assertEquals("RemovedObject is nothing", environment.getVariable("Fred").type, Property.PropertyType.NOTHING);
 	}
 	
 	@Test
-	(expected = words.exceptions.ObjectNotFoundException.class)
 	public void testRemoveReferersProperty() throws WordsRuntimeException {
 		WordsObject fred = environment.createObject("Fred", "thing", new Position(0.0, 0.0));
 		WordsObject mark = environment.createObject("Mark", "thing", new Position(0.0, 1.0));
@@ -38,11 +33,7 @@ public class TestINodeRemove extends TestINode {
 		WordsObject fredsFriend = fred.getProperty("friend").objProperty;
 		assertEquals(fredsFriend, mark);
 		
-		try {
-			environment.getObject("Mark");
-		} catch (ObjectNotFoundException e) {
-			fail();
-		}
+		assertNotEquals("Variable does exist", environment.getVariable("Mark").type, Property.PropertyType.NOTHING);
 		
 		LNodeReference ref = new LNodeReference("Fred's");
 		INodeReferenceList refList = new INodeReferenceList(ref);
@@ -50,7 +41,8 @@ public class TestINodeRemove extends TestINode {
 		
 		INodeRemoveObject removeObj = new INodeRemoveObject(refList, id);
 		removeObj.eval(environment);
-		environment.getObject("Mark");
+		assertEquals("RemovedObject is nothing", environment.getVariable("Mark").type, Property.PropertyType.NOTHING);
+
 	}
 	
 	@Test
@@ -62,11 +54,8 @@ public class TestINodeRemove extends TestINode {
 		WordsObject fredsFriend = fred.getProperty("friend").objProperty;
 		assertEquals(fredsFriend, mark);
 		
-		try {
-			environment.getObject("Mark");
-		} catch (ObjectNotFoundException e) {
-			fail();
-		}
+		assertNotEquals("Variable does exist", environment.getVariable("Mark").type, Property.PropertyType.NOTHING);
+
 		
 		INodeReferenceList refList = new INodeReferenceList();
 		LNodeIdentifier id = new LNodeIdentifier("Mark");

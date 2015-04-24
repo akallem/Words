@@ -16,7 +16,7 @@ public class INodeRemoveObject extends INode {
 		ASTValue id = children.get(1).eval(environment);
 		
 		if (refList.type == ASTValue.Type.NOTHING) {
-			obj = environment.getObject(id.stringValue);
+			obj = environment.getVariable(id.stringValue).objProperty;
 		} else {
 			Property property = refList.objValue.getProperty(id.stringValue);
 			obj = property.objProperty;

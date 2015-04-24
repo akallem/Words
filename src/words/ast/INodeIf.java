@@ -16,7 +16,9 @@ public class INodeIf extends INode {
 		assert predicate.type == ASTValue.Type.BOOLEAN : "Predicate has type " + predicate.type.toString();
 		
 		if (predicate.booleanValue == true) {
+			environment.pushNewScope();
 			statementList.eval(environment);
+			environment.popScope();
 		}
 		
 		return null;
