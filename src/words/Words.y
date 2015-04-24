@@ -7,11 +7,13 @@
 
 	/* Keyword-related tokens */
 %token A
+%token ABOVE
 %token AND
 %token ANYWHERE
 %token AS
 %token AT
 %token BE
+%token BELOW
 %token CAN
 %token DOWN
 %token EXIT
@@ -24,6 +26,7 @@
 %token MOVE
 %token MOVES
 %token MEANS
+%token NEXT
 %token NOT
 %token NOTHING
 %token NOW
@@ -38,6 +41,7 @@
 %token STOP
 %token THEN
 %token TIMES
+%token TO
 %token TOUCHES
 %token UP
 %token WAIT
@@ -92,6 +96,7 @@
 %type <obj> subject
 %type <obj> alias
 %type <obj> queue_assign_property
+%type <obj> adjacency_expression
 %type <obj> direction
 %type <obj> now
 %type <obj> position
@@ -223,6 +228,7 @@ basic_action_predicate:
 	|	subject alias SAYS value_expression											{ $$ = new INodeSaysPredicate($1, $2, $4); ((AST) $$).lineNumber = lexer.lineNumber; }
 	|	subject alias WAITS															{ $$ = new INodeWaitsPredicate($1, $2); ((AST) $$).lineNumber = lexer.lineNumber; }
 	|	subject alias TOUCHES subject alias											{ $$ = new INodeTouchesPredicate($1, $2, $4, $5); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	subject alias adjacency_expression subject alias							{ $$ = new INodeAdjacencyPredicate($1, $2, $3, $4, $5); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 boolean_predicate:
@@ -299,6 +305,14 @@ alias:
 
 queue_assign_property:
 		identifier BE value_expression				{ $$ = new INodeQueueAssignProperty($1, $3); ((AST) $$).lineNumber = lexer.lineNumber; }
+	;
+
+adjacency_expression:
+		IS NEXT TO									{ $$ = new LNodeDirection(Direction.ANYWHERE); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	IS BELOW									{ $$ = new LNodeDirection(Direction.DOWN); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	IS LEFT OF									{ $$ = new LNodeDirection(Direction.LEFT); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	IS RIGHT OF									{ $$ = new LNodeDirection(Direction.RIGHT); ((AST) $$).lineNumber = lexer.lineNumber; }
+	|	IS ABOVE									{ $$ = new LNodeDirection(Direction.UP); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 direction:
