@@ -151,6 +151,18 @@ public class Environment {
 		}
 	}
 	
+	public void removeObject(WordsObject object) {
+		object.clearReferers();
+		
+		for (Scope scope : stack) {
+			if (scope.variables.remove(object.getObjectName()) != null) {
+				break;
+			}
+		}
+		
+		objectsByClass.get(object.getWordsClass()).remove(object);
+	}
+	
 	/**
 	 * Adds a variable to the current scope.
 	 */

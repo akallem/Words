@@ -1,8 +1,13 @@
 package words.environment;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map;
+import java.util.Set;
 
+import words.environment.Property.PropertyType;
 import words.exceptions.*;
 
 /**
@@ -20,7 +25,8 @@ public class WordsObject {
 	// While an object is expanding a custom action, actions are enqueued in a separate list
 	private boolean isExpandingCustomAction;
 	private LinkedList<Action> customActionExpansion;
-
+	private HashMap<WordsObject, ArrayList<Property>> referers;
+	
 	public WordsObject(String objectName, WordsClass wordsClass, Position cell) {
 		this.wordsClass = wordsClass;
 		this.objectName = objectName;
@@ -29,6 +35,7 @@ public class WordsObject {
 		this.properties = new HashMap<String, Property>();
 		this.customActionExpansion = new LinkedList<Action>();
 		this.isExpandingCustomAction = false;
+		this.referers = new HashMap<WordsObject, ArrayList<Property>>();
 	}
 	
 	public void clearActionQueue() {
@@ -117,10 +124,37 @@ public class WordsObject {
 
 		if (properties.containsKey(propertyName) && property.type == Property.PropertyType.NOTHING)
 			properties.remove(propertyName);
-		else
+		else {
+			if (property.type == PropertyType.OBJECT) {
+				property.objProperty.updateReferers(this, property);
+			}
 			properties.put(propertyName, property);
+		}
 	}
-
+	
+	public void updateReferers(WordsObject referringObject, Property referringProperty) {
+		ArrayList<Property> referringProperties;
+		if ((referringProperties = referers.get(referringObject)) == null) {
+			referringProperties = new ArrayList<Property>();
+			referers.put(referringObject, referringProperties);
+		}
+		
+		referringProperties.add(referringProperty);
+	}
+	
+	public void clearReferers() {
+		for (Iterator<ArrayList<Property>> it = referers.values().iterator(); it.hasNext();) {
+			ArrayList<Property> properties = it.next();
+			
+			for (Property property : properties) {
+				property.type = PropertyType.NOTHING;
+				property.objProperty = null;
+			}
+			
+			it.remove();
+		}
+	}
+	
 	public void moveUp() {
 		this.cell.y++;
 	}

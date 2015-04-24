@@ -1,0 +1,3 @@
+Error: syntax error
+Error: Line 4 near 'Alex'
+Error at line 5: expected OBJ, received NOTHING.
