@@ -384,7 +384,16 @@ public static void main(String args[]) throws IOException {
 			Options.TIME_TO_WAIT = -1;
 			Options.FRAME_LIMIT_ENABLED = true;
 			Options.MAX_FRAMES = 100;
-			Options.PRINT_TO_CONSOLE = false;
+			
+			boolean turnOffErrorMessages = true;
+			for (int j = 0; j < args.length; ++j) {
+				if (args[j].equals("-displayerror")) {
+					turnOffErrorMessages = false;
+				}
+			}
+			if (turnOffErrorMessages) {
+				Options.PRINT_TO_CONSOLE = false;
+			}
 		}
 	}
 	
