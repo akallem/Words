@@ -37,7 +37,8 @@ public class INodeTouchesPredicate extends INodeBasicActionPredicate {
 		
 		for (WordsObject object1: objectsToCheck1) {
 			for (WordsObject object2: objectsToCheck2) {
-				if (object1 != object2 && object1.getCurrentPosition().equals(object2.getCurrentPosition())) {
+				boolean objectsMoved = object1.getLastAction() instanceof MoveAction || object2.getLastAction() instanceof MoveAction;
+				if (object1 != object2 && objectsMoved && object1.getCurrentPosition().equals(object2.getCurrentPosition())) {
 					returnVal.booleanValue = true;
 					environment.pushNewScope();
 					if (objectAlias1.type.equals(ASTValue.Type.STRING)) {
