@@ -29,6 +29,9 @@ public class INodeSaysPredicate extends INodeBasicActionPredicate {
 		
 		for (WordsObject object : objectsToCheck) {
 			Action lastAction = object.getLastAction();
+			if (lastAction == null) {
+				continue;
+			}
 			if (lastAction instanceof SayAction && object.getCurrentMessage().equals(sayStatement.stringValue)) {
 				returnVal.booleanValue = true;
 				environment.pushNewScope();
