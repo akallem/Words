@@ -28,6 +28,9 @@ public class INodeWaitsPredicate extends INodeBasicActionPredicate {
 
 		for (WordsObject object : objectsToCheck) {
 			Action lastAction = object.getLastAction();
+			if (lastAction == null) {
+				continue;
+			}
 			if (lastAction instanceof WaitAction) {
 				returnVal.booleanValue = true;
 				environment.pushNewScope();
