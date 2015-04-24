@@ -23,48 +23,29 @@ public class TestINodeAdjacencyPredicate extends TestINode {
 				leftDirectionLeaf, georgeSubject, new LNodeIdentifier("alias2"));
 		INodeAdjacencyPredicate rightPredicate = new INodeAdjacencyPredicate(fredSubject, new LNodeIdentifier("alias1"), 
 				rightDirectionLeaf, georgeSubject, new LNodeIdentifier("alias2"));
-		INodeAdjacencyPredicate abovePredicate = new INodeAdjacencyPredicate(fredSubject, new LNodeIdentifier("alias1"), 
-				upDirectionLeaf, georgeSubject, new LNodeIdentifier("alias2"));
-		INodeAdjacencyPredicate belowPredicate = new INodeAdjacencyPredicate(fredSubject, new LNodeIdentifier("alias1"), 
-				downDirectionLeaf, georgeSubject, new LNodeIdentifier("alias2"));
 		INodeAdjacencyPredicate nextToPredicate = new INodeAdjacencyPredicate(fredSubject, new LNodeIdentifier("alias1"), 
 				anywhereDirectionLeaf, georgeSubject, new LNodeIdentifier("alias2"));
 	
-		environment.getVariable("Fred").objProperty.moveLeft();
+		loop.enqueueAST(moveFredLeft2);
+		loop.fastForwardEnvironment(1);
 		assertEquals("Fred is left of Bob", leftPredicate.eval(environment, new INodeStatementList()).booleanValue, true);
 		assertEquals("Fred is next to Bob", nextToPredicate.eval(environment, new INodeStatementList()).booleanValue, true);
-		environment.getVariable("Fred").objProperty.moveLeft();
+		loop.fastForwardEnvironment(1);
 		assertEquals("Fred is not left of Bob", leftPredicate.eval(environment, new INodeStatementList()).booleanValue, false);
 		assertEquals("Fred is not next to Bob", nextToPredicate.eval(environment, new INodeStatementList()).booleanValue, false);
-		environment.getVariable("Fred").objProperty.moveRight();
-		environment.getVariable("Fred").objProperty.moveRight();
+		loop.enqueueAST(moveFredRight2);
+		loop.fastForwardEnvironment(2);
 		
-		environment.getVariable("Fred").objProperty.moveRight();
+		loop.enqueueAST(moveFredRight2);
+		loop.fastForwardEnvironment(1);
 		assertEquals("Fred is right of Bob", rightPredicate.eval(environment, new INodeStatementList()).booleanValue, true);
 		assertEquals("Fred is next to Bob", nextToPredicate.eval(environment, new INodeStatementList()).booleanValue, true);
+		loop.fastForwardEnvironment(1);
 		environment.getVariable("Fred").objProperty.moveRight();
 		assertEquals("Fred is not right of Bob", rightPredicate.eval(environment, new INodeStatementList()).booleanValue, false);
 		assertEquals("Fred is not next to Bob", nextToPredicate.eval(environment, new INodeStatementList()).booleanValue, false);
-		environment.getVariable("Fred").objProperty.moveLeft();
-		environment.getVariable("Fred").objProperty.moveLeft();
-		
-		environment.getVariable("Fred").objProperty.moveUp();
-		assertEquals("Fred is above Bob", abovePredicate.eval(environment, new INodeStatementList()).booleanValue, true);
-		assertEquals("Fred is next to Bob", nextToPredicate.eval(environment, new INodeStatementList()).booleanValue, true);
-		environment.getVariable("Fred").objProperty.moveUp();
-		assertEquals("Fred is above Bob", abovePredicate.eval(environment, new INodeStatementList()).booleanValue, false);
-		assertEquals("Fred is not next to Bob", nextToPredicate.eval(environment, new INodeStatementList()).booleanValue, false);
-		environment.getVariable("Fred").objProperty.moveDown();
-		environment.getVariable("Fred").objProperty.moveDown();
-		
-		environment.getVariable("Fred").objProperty.moveDown();
-		assertEquals("Fred is below Bob", belowPredicate.eval(environment, new INodeStatementList()).booleanValue, true);
-		assertEquals("Fred is next to Bob", nextToPredicate.eval(environment, new INodeStatementList()).booleanValue, true);
-		environment.getVariable("Fred").objProperty.moveDown();
-		assertEquals("Fred is not below of Bob", belowPredicate.eval(environment, new INodeStatementList()).booleanValue, false);
-		assertEquals("Fred is not next to Bob", nextToPredicate.eval(environment, new INodeStatementList()).booleanValue, false);
-		environment.getVariable("Fred").objProperty.moveUp();
-		environment.getVariable("Fred").objProperty.moveUp();
+		loop.enqueueAST(moveFredLeft2);
+		loop.fastForwardEnvironment(2);
 	}
 	
 	@Test
@@ -80,14 +61,31 @@ public class TestINodeAdjacencyPredicate extends TestINode {
 		INodeAdjacencyPredicate nextToPredicate = new INodeAdjacencyPredicate(thingStringLeaf, new LNodeIdentifier("alias1"), 
 				anywhereDirectionLeaf, thingStringLeaf, new LNodeIdentifier("alias2"));
 	
-		environment.getVariable("Fred").objProperty.moveLeft();
+		loop.enqueueAST(moveFredRight2);
+		loop.fastForwardEnvironment(1);
 		assertEquals("A thing is left of a thing", leftPredicate.eval(environment, new INodeStatementList()).booleanValue, true);
 		assertEquals("A thing is right of a thing", rightPredicate.eval(environment, new INodeStatementList()).booleanValue, true);
 		assertEquals("A thing is next to a thing", nextToPredicate.eval(environment, new INodeStatementList()).booleanValue, true);
-		environment.getVariable("Fred").objProperty.moveLeft();
+		loop.fastForwardEnvironment(1);
 		assertEquals("A thing is not left of a thing", leftPredicate.eval(environment, new INodeStatementList()).booleanValue, false);
 		assertEquals("A thing is not right of a thing", rightPredicate.eval(environment, new INodeStatementList()).booleanValue, false);
 		assertEquals("A thing is not next to a thing", nextToPredicate.eval(environment, new INodeStatementList()).booleanValue, false);		
+	}
+	
+	@Test
+	public void adjacencyShouldOnlyTriggerFirstTime() throws WordsRuntimeException {
+		environment.createObject("Fred", "thing", new Position(1,0));
+		environment.createObject("George", "thing", new Position(0,0));
+		loop.fastForwardEnvironment(1); //objects are created with a 1 frame wait, so use it up.
+		
+		INodeAdjacencyPredicate nextToPredicate = new INodeAdjacencyPredicate(fredSubject, new LNodeIdentifier("alias1"), 
+				anywhereDirectionLeaf, georgeSubject, new LNodeIdentifier("alias2"));
+	
+		loop.enqueueAST(moveFredLeft2);
+		loop.fastForwardEnvironment(2);
+		assertEquals("Fred is next to Bob", nextToPredicate.eval(environment, new INodeStatementList()).booleanValue, true);
+		loop.fastForwardEnvironment(1);
+		assertEquals("Fred is not next to Bob", nextToPredicate.eval(environment, new INodeStatementList()).booleanValue, false);
 	}
 	
 	@Test
