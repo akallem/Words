@@ -10,33 +10,29 @@ import words.ast.*;
 
 public class Environment {
 	private HashMap<String, WordsClass> classes;
-	/* objectsByName is a list of locally scoped symbol tables with the most local 
-	 * scope first in the list, and global scope always being last in the list.
-	 */
-	private LinkedList<HashMap<String, WordsObject>> objectsByName;
-	/*
-	 * Objects always persist in the map where they can be gotten by class
-	 */
+	private Scope globalScope;
+	private LinkedList<Scope> stack;		// Stack of scopes (essentially, the control link)
 	private HashMap<WordsClass, HashSet<WordsObject>> objectsByClass;
 	private ArrayList<WordsEventListener> eventListeners;
 	private static final String BASE_SUPERCLASS = "thing";
 	
 	public Environment() {
 		classes = new HashMap<String, WordsClass>();
-		objectsByName = new LinkedList<HashMap<String, WordsObject>>();
 		eventListeners = new ArrayList<WordsEventListener>();
 		objectsByClass = new HashMap<WordsClass, HashSet<WordsObject>>();
 		setupEnvironment();
 	}
 	
 	/**
-	 * Creates the base class thing.
+	 * Performs necessary setup including creating the base class and initializing the stack.
 	 */
 	private void setupEnvironment() {
 		WordsClass thing = new WordsClass(BASE_SUPERCLASS, null);
 		classes.put(BASE_SUPERCLASS, thing);
 		objectsByClass.put(thing, new HashSet<WordsObject>());
-		objectsByName.push(new HashMap<String, WordsObject>());
+		stack = new LinkedList<Scope>();
+		globalScope = new Scope(null);
+		stack.push(globalScope);
 	}
 	
 	/**
@@ -44,7 +40,6 @@ public class Environment {
 	 */
 	public void resetEnvironment() {
 		classes.clear();
-		objectsByName.clear();
 		objectsByClass.clear();
 		eventListeners.clear();
 		setupEnvironment();
@@ -52,11 +47,9 @@ public class Environment {
 
 	/**
 	 * Creates a new class in the environment and returns it.  Throws an exception if the class could not be created.
-	 * @throws ClassAlreadyExistsException 
-	 * @throws WordsClassNotFoundException 
+	 * @throws WordsRuntimeException
 	 */
 	public WordsClass createClass(String className, String parent) throws WordsRuntimeException {
-		
 		try {
 			getClass(className);
 			throw new ClassAlreadyExistsException(className);
@@ -71,7 +64,7 @@ public class Environment {
 	}
 	
 	/**
-	 * Retrieves a class by name.  Returns null if no such class exists.
+	 * Retrieves a class by name.  Throws an exception if no such class exists.
 	 * @throws WordsClassNotFoundException 
 	 */
 	public WordsClass getClass(String className) throws WordsClassNotFoundException {
@@ -83,43 +76,64 @@ public class Environment {
 		return wordsClass;
 	}
 	
-	/**
-	 * Enters a new local scope by pushing a new scope onto the gettable objects stack
-	 */
-	public void enterNewLocalScope() {
-		objectsByName.push(new HashMap<String, WordsObject>());
+	public Scope getCurrentScope() {
+		return stack.getFirst();
+	}
+	
+	public Scope getGlobalScope() {
+		return globalScope;
 	}
 	
 	/**
-	 * Exits the current local scope. Moves all objects in the local scope into the ungettable
-	 * objects collection, where they will continue to live, but will not be callable by name
+	 * Creates and enters a new local scope using the current scope as the parent.
 	 */
-	public void exitLocalScope() {
-		objectsByName.pop();
-		assert objectsByName.size() > 0 : "You just popped the global scope off the objects table";
+	public void pushNewScope() {
+		pushNewScope(getCurrentScope());
 	}
 	
 	/**
-	 * Get the number of different object scopes at the moment. Includes the global scope.
+	 * Creates and enters a new local scope using the given scope as the parent.
 	 */
-	public int getNumberOfScopes() {
-		return objectsByName.size();
+	public void pushNewScope(Scope parent) {
+		stack.push(new Scope(parent));
+	}
+	
+	/**
+	 * Enters an existing local scope.
+	 */
+	public void pushExistingScope(Scope scope) {
+		stack.push(scope);
+	}
+	
+	/**
+	 * Exits the current local scope.
+	 */
+	public void popScope() {
+		stack.pop();
+		assert stack.size() > 0 : "Popped the global scope";
+	}
+	
+	/**
+	 * Get the current scope depth.  Includes the global scope.
+	 */
+	public int getScopeDepth() {
+		return stack.size();
 	}
 	
 	/**
 	 * Creates a new object in the environment and returns it.  Throws an exception if the object could not be created.
-	 * A new object is always added to the most local scope in use
+	 * A new object is always added to the current scope.
+	 * @throws WordsRuntimeException
 	 */
 	public WordsObject createObject(String objectName, String className, Position position) throws WordsRuntimeException {
-		try {
-			getObject(objectName);
-			throw new ObjectAlreadyExistsException(objectName);
-		} catch (ObjectNotFoundException e){
+		Property property = getVariable(objectName);
 		
+		if (property.type == Property.PropertyType.NOTHING) {
 			WordsClass wordsClass = getClass(className);
 			
 			WordsObject newObject = new WordsObject(objectName, wordsClass, position);
-			objectsByName.getFirst().put(objectName, newObject);
+			getCurrentScope().variables.put(objectName, new Property(newObject));
+			
 			if (objectsByClass.containsKey(wordsClass)) {
 				objectsByClass.get(wordsClass).add(newObject);
 			} else {
@@ -129,35 +143,53 @@ public class Environment {
 			}
 			
 			// TODO: decide if this is appropriate (given that it could figure listeners)
-			newObject.enqueueAction(new WaitAction(new LNodeNum(1)));
+			newObject.enqueueAction(new WaitAction(getCurrentScope(), new LNodeNum(1)));
 			
 			return newObject;
+		} else {
+			throw new ObjectAlreadyExistsException(objectName);
 		}
 	}
 	
-	/**
-	 * Adds a named object to the most local scope in use. 
-	 */
-	public void addObjectToCurrentNameScope(String objectName, WordsObject object) {
-		objectsByName.getFirst().put(objectName, object);
-	}
-	
-	/**
-	 * 
-	 * @param objectName
-	 * @return the words object
-	 * @throws WordsRuntimeException if object not found
-	 */
-	public WordsObject getObject(String objectName) throws WordsRuntimeException {
-		WordsObject wordsObj = null;
-		for (int i = 0; i < objectsByName.size() && wordsObj == null; i++) {
-			wordsObj = objectsByName.get(i).get(objectName);
-		}
-		if (wordsObj == null) {
-			throw new ObjectNotFoundException(objectName);
+	public void removeObject(WordsObject object) {
+		object.clearReferers();
+		
+		for (Scope scope : stack) {
+			if (scope.variables.remove(object.getObjectName()) != null) {
+				break;
+			}
 		}
 		
-		return wordsObj;
+		objectsByClass.get(object.getWordsClass()).remove(object);
+	}
+	
+	/**
+	 * Adds a variable to the current scope.
+	 */
+	public void addToCurrentScope(String variableName, Property variable) {
+		getCurrentScope().variables.put(variableName, variable);
+	}
+	
+	/**
+	 * Looks up a variable in the current scope and its parents and returns it if found.  If not found, returns NOTHING.
+	 * Does not iterate through the stack but uses the scope's parents as an access link.
+	 */
+	public Property getVariable(String variableName) {
+		Property prop = null;
+		Scope scope = getCurrentScope();
+		
+		while (scope != null) {
+			prop = scope.variables.get(variableName);
+			if (prop != null)
+				break;
+			scope = scope.parent;
+		}
+		
+		if (prop == null) {
+			return new Property(Property.PropertyType.NOTHING);
+		} else {
+			return prop;	
+		}
 	}
 	
 	/**
@@ -173,10 +205,10 @@ public class Environment {
 	}
 	
 	/**
-	 * Return a collection of all objects of a certain class, as well as all the objects
-	 * that exist in children classes of the certain class.
+	 * Return a collection of all objects of a given class, as well as all the objects
+	 * that exist in subclasses of the given class.
 	 * Returns an empty collection if there are no objects of that class in the environment
-	 * @throws a WordsClassNotFoundException if the class does not exist.
+	 * @throws WordsClassNotFoundException
 	 */
 	public HashSet<WordsObject> getObjectsByClass(String className) throws WordsClassNotFoundException {
 		WordsClass wc = getClass(className);

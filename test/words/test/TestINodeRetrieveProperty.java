@@ -76,10 +76,11 @@ public class TestINodeRetrieveProperty extends TestINode {
 		assertEquals(alexHeightValue.type, ASTValue.Type.NOTHING);
 	}
 	
-	@Test (expected = ObjectNotFoundException.class)
+	@Test
 	public void testNoRefListIdNotObject() throws WordsRuntimeException {
 		INodeRetrieveProperty retrieveError = new INodeRetrieveProperty(new INodeReferenceList(), new LNodeIdentifier("bad"));
-		retrieveError.eval(environment);
+		ASTValue result = retrieveError.eval(environment);
+		assertEquals("Variable lookup found NOTHING", result.type, ASTValue.Type.NOTHING);
 	}
 
 

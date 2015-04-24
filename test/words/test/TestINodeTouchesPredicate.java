@@ -20,9 +20,9 @@ public class TestINodeTouchesPredicate extends TestINode {
 				thingStringLeaf, new LNodeIdentifier("alias2"));
 		
 		assertEquals("Two things in same location eval true", touchesPred.eval(environment, statementsAboutFred).booleanValue, true);
-		environment.getObject("Fred").moveDown();
+		environment.getVariable("Fred").objProperty.moveDown();
 		assertEquals("Two things not in same location eval false", touchesPred.eval(environment, statementsAboutFred).booleanValue, false);
-		environment.getObject("George").moveDown();
+		environment.getVariable("George").objProperty.moveDown();
 		assertEquals("Two things in same location eval true", touchesPred.eval(environment, statementsAboutFred).booleanValue, true);
 	}
 	
@@ -52,9 +52,9 @@ public class TestINodeTouchesPredicate extends TestINode {
 				thingStringLeaf, new LNodeIdentifier("alias2"));
 		
 		assertEquals("Two things in same location eval true", touchesPred.eval(environment, statementsAboutFred).booleanValue, true);
-		environment.getObject("Fred").moveDown();
+		environment.getVariable("Fred").objProperty.moveDown();
 		assertEquals("Two things not in same location eval false", touchesPred.eval(environment, statementsAboutFred).booleanValue, false);
-		environment.getObject("George").moveDown();
+		environment.getVariable("George").objProperty.moveDown();
 		assertEquals("Two things in same location eval true", touchesPred.eval(environment, statementsAboutFred).booleanValue, true);
 	}
 

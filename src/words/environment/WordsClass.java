@@ -2,16 +2,22 @@ package words.environment;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import words.exceptions.CustomActionAlreadyExistsException;
+import words.exceptions.CustomActionNotFoundException;
+
+/**
+ * A class as specified in the Words language.
+ */
 public class WordsClass {
 	private HashMap<String, Property> properties;
-	private HashMap<String, CustomAction> functions;
+	private HashMap<String, CustomActionDefinition> customActions;
 	private WordsClass parent;
 	private String className;
 	private ArrayList<WordsClass> children;
 	
 	public WordsClass(String className, WordsClass parent) {
 		properties = new HashMap<String, Property>();
-		functions = new HashMap<String, CustomAction>();
+		customActions = new HashMap<String, CustomActionDefinition>();
 		children = new ArrayList<WordsClass>();
 		this.parent = parent;
 		this.className = className;
@@ -53,7 +59,7 @@ public class WordsClass {
 	
 	/**
 	 * Retrieves a property on a class by looking at the class itself and its class chain.
-	 * A missing property returns a WordsProperty of type NOTHING
+	 * A missing property returns a WordsProperty of type NOTHING.
 	 */
 	public Property getProperty(String propertyName) {
 		WordsClass lookupClass = this;
@@ -80,8 +86,46 @@ public class WordsClass {
 		}
 	}
 	
+	/**
+	 * Creates a new custom action in this class.  Throws an exception if a custom action of that
+	 * name has already been defined.
+	 * @throws CustomActionAlreadyExistsException 
+	 */
+	public void defineCustomAction(String customActionName, CustomActionDefinition customAction) throws CustomActionAlreadyExistsException {
+		if (customActions.containsKey(customActionName)) {
+			throw new CustomActionAlreadyExistsException(customActionName);
+		} else {		
+			customActions.put(customActionName, customAction);
+		}
+	}
+
+	/**
+	 * Retrieves a custom action definition of a class by looking only at the class itself, ignoring its class chain.
+	 * A missing custom action definition returns null.
+	 */
+	private CustomActionDefinition getOwnCustomActionDefinition(String customActionName) {
+		if (customActions.containsKey(customActionName))
+			return customActions.get(customActionName);
+		else
+			return null;
+	}
 	
-	public void addCustomAction(String customActionName, CustomAction customAction) {
-		// TODO
+	/**
+	 * Retrieves a custom action definition on a class by looking at the class itself and its class chain.
+	 * A missing custom action definition throws an exception.
+	 */
+	public CustomActionDefinition getCustomActionDefinition(String customActionName) throws CustomActionNotFoundException {
+		WordsClass lookupClass = this;
+		
+		while (lookupClass != null) {
+			CustomActionDefinition customActionDefinition = lookupClass.getOwnCustomActionDefinition(customActionName);
+			
+			if (customActionDefinition != null)
+				return customActionDefinition;
+			
+			lookupClass = lookupClass.parent;
+		}
+
+		throw new CustomActionNotFoundException(customActionName);
 	}
 }

@@ -1,19 +1,20 @@
 package words.environment;
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 import words.exceptions.*;
 import words.ast.*;
 
+/**
+ * A custom action for a WordsObject's action queue.
+ */
 public class CustomAction extends Action {
-	private AST statementList;
-	private String name;
-	private ArrayList<String> parameters;
+	private CustomActionDefinition actionDefinition;
+	private AST arguments;
 	
-	public CustomAction(String name, AST actions) {
-		this.name = name;
-		this.statementList = actions;
-		this.parameters = parameters;
+	public CustomAction(Scope scope, CustomActionDefinition actionDefinition, AST arguments) {
+		super(scope);
+		this.actionDefinition = actionDefinition;
+		this.arguments = arguments;
 	}
 
 	@Override
@@ -25,13 +26,10 @@ public class CustomAction extends Action {
 	protected void doExecute(WordsObject object, Environment environment) {}
 
 	@Override
-	protected LinkedList<Action> doExpand(WordsObject object, Environment environment) {
-		// TODO
-		
-		/**
-		 * Roughly, we need to put the parameters into scope, evaluate each non-queueing statement, make the queueing statements NOW and evaluate them in reverse order
-		 */
-		
-		return null;
+	protected LinkedList<Action> doExpand(WordsObject object, Environment environment) throws WordsProgramException {
+		// Set up the object so that new actions are enqueued on a temporary list rather than the main action queue
+		object.startExpandingCustomAction();
+		actionDefinition.invoke(environment, object, arguments);
+		return object.finishExpandingCustomAction();
 	}
 }

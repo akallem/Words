@@ -4,6 +4,9 @@ import java.util.LinkedList;
 import words.exceptions.*;
 import words.ast.*;
 
+/**
+ * A move action (basic action) for a WordsObject's action queue.
+ */
 public class MoveAction extends Action {
 	private Direction direction;
 	private AST distanceExpression;		// The expression whose value will be the number of moves to make; used only before the move has been expanded
@@ -14,7 +17,9 @@ public class MoveAction extends Action {
 	 * 
 	 * distanceExpression may be null, in which case the WordsMove will be treated as a 1-unit move.
 	 */
-	public MoveAction(Direction direction, AST distanceExpression) {
+	public MoveAction(Scope scope, Direction direction, AST distanceExpression) {
+		super(scope);
+		
 		if (direction == Direction.ANYWHERE) {
 			this.direction = Direction.getRandom();
 		} else {
@@ -30,7 +35,8 @@ public class MoveAction extends Action {
 	/**
 	 * Private constructor used to create a 1-unit move action.
 	 */
-	private MoveAction(Direction direction) {
+	private MoveAction(Scope scope, Direction direction) {
+		super(scope);
 		this.direction = direction;
 		this.distanceExpression = null;
 	}
@@ -91,10 +97,10 @@ public class MoveAction extends Action {
 		if (distanceValue > 0) {
 			for (int i = 0; i < distanceValue; i++) {
 				// Use the private constructor to create the 1-unit move
-				list.add(new MoveAction(direction));
+				list.add(new MoveAction(scope, direction));
 			}
 		} else {
-			list.add(new WaitAction(new LNodeNum(1)));
+			list.add(new WaitAction(scope, new LNodeNum(1)));
 		}
 
 		return list;

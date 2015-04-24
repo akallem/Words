@@ -4,14 +4,19 @@ import java.util.LinkedList;
 import words.exceptions.*;
 import words.ast.*;
 
+/**
+ * A wait action (basic action) for a WordsObject's action queue.
+ */
 public class WaitAction extends Action {
 	private AST lengthExpression;
 
-	public WaitAction() {
+	public WaitAction(Scope scope) {
+		super(scope);
 		this.lengthExpression = null;
 	}
 
-	public WaitAction(AST lengthExpression) {
+	public WaitAction(Scope scope, AST lengthExpression) {
+		super(scope);
 		this.lengthExpression = lengthExpression;
 	}
 
@@ -50,7 +55,7 @@ public class WaitAction extends Action {
 		// Decompose into executable 1-frame waits
 		LinkedList<Action> list = new LinkedList<Action>();
 		for (int i = 0; i < lengthValue; i++)
-			list.add(new WaitAction());
+			list.add(new WaitAction(scope));
 
 		return list;
 	}

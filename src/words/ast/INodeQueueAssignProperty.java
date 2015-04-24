@@ -10,7 +10,7 @@ public class INodeQueueAssignProperty extends INode {
 
 	@Override
 	public ASTValue eval(Environment environment) throws WordsRuntimeException {
-		assert false : "Cannot eval INodeQueueAssignPropertyList without inherited WordsObject";
+		assert false : "Requires an inherited object";
 		return null;
 	}
 	

@@ -1,10 +1,18 @@
 package words.environment;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map;
+import java.util.Set;
 
+import words.environment.Property.PropertyType;
 import words.exceptions.*;
 
+/**
+ * An event listener as specified in the Words language.
+ */
 public class WordsObject {
 	private String objectName;
 	private WordsClass wordsClass;
@@ -13,13 +21,21 @@ public class WordsObject {
 	private Position cell;
 	private String currentMessage;
 	private Action lastAction;
-
+	
+	// While an object is expanding a custom action, actions are enqueued in a separate list
+	private boolean isExpandingCustomAction;
+	private LinkedList<Action> customActionExpansion;
+	private HashMap<WordsObject, ArrayList<Property>> referers;
+	
 	public WordsObject(String objectName, WordsClass wordsClass, Position cell) {
 		this.wordsClass = wordsClass;
 		this.objectName = objectName;
 		this.cell = cell;
 		this.actionQueue = new LinkedList<Action>();
 		this.properties = new HashMap<String, Property>();
+		this.customActionExpansion = new LinkedList<Action>();
+		this.isExpandingCustomAction = false;
+		this.referers = new HashMap<WordsObject, ArrayList<Property>>();
 	}
 	
 	public void clearActionQueue() {
@@ -27,11 +43,35 @@ public class WordsObject {
 	}
 
 	public void enqueueAction(Action action) {
-		actionQueue.add(action);
+		if (this.isExpandingCustomAction) {
+			customActionExpansion.add(action);
+		} else {
+			actionQueue.add(action);
+		}
 	}
 
 	public void enqueueActionAtFront(Action action) {
-		actionQueue.addFirst(action);
+		if (this.isExpandingCustomAction) {
+			customActionExpansion.addFirst(action);
+		} else {
+			actionQueue.addFirst(action);
+		}
+	}
+
+	/**
+	 * Prepares this object to receive queue statements that represent the expansion of a custom action.
+	 */
+	public void startExpandingCustomAction() {
+		isExpandingCustomAction = true;
+		customActionExpansion.clear();
+	}
+	
+	/**
+	 * Returns the list of actions that was expanded and reverts the object to its normal state.
+	 */
+	public LinkedList<Action> finishExpandingCustomAction() {
+		isExpandingCustomAction = false;
+		return customActionExpansion;
 	}
 
 	/**
@@ -84,10 +124,37 @@ public class WordsObject {
 
 		if (properties.containsKey(propertyName) && property.type == Property.PropertyType.NOTHING)
 			properties.remove(propertyName);
-		else
+		else {
+			if (property.type == PropertyType.OBJECT) {
+				property.objProperty.updateReferers(this, property);
+			}
 			properties.put(propertyName, property);
+		}
 	}
-
+	
+	public void updateReferers(WordsObject referringObject, Property referringProperty) {
+		ArrayList<Property> referringProperties;
+		if ((referringProperties = referers.get(referringObject)) == null) {
+			referringProperties = new ArrayList<Property>();
+			referers.put(referringObject, referringProperties);
+		}
+		
+		referringProperties.add(referringProperty);
+	}
+	
+	public void clearReferers() {
+		for (Iterator<ArrayList<Property>> it = referers.values().iterator(); it.hasNext();) {
+			ArrayList<Property> properties = it.next();
+			
+			for (Property property : properties) {
+				property.type = PropertyType.NOTHING;
+				property.objProperty = null;
+			}
+			
+			it.remove();
+		}
+	}
+	
 	public void moveUp() {
 		this.cell.y++;
 	}
@@ -115,7 +182,7 @@ public class WordsObject {
 			lastAction = action;
 			action.execute(this, environment);
 		} else {
-			lastAction = new WaitAction();
+			lastAction = new WaitAction(environment.getCurrentScope());
 		}
 	}
 
