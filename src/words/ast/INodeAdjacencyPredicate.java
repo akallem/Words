@@ -38,7 +38,8 @@ public class INodeAdjacencyPredicate extends INodeBasicActionPredicate {
 		
 		for (WordsObject object1: objectsToCheck1) {
 			for (WordsObject object2: objectsToCheck2) {
-				if (object1 != object2 && object1.getCurrentPosition().isAdjacentOf(object2.getCurrentPosition(), direction.directionValue)) {
+				boolean objectsMoved = object1.getLastAction() instanceof MoveAction || object2.getLastAction() instanceof MoveAction;
+				if (object1 != object2 && objectsMoved && object1.getCurrentPosition().isAdjacentOf(object2.getCurrentPosition(), direction.directionValue)) {
 					returnVal.booleanValue = true;
 					environment.pushNewScope();
 					if (objectAlias1.type.equals(ASTValue.Type.STRING)) {
