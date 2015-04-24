@@ -69,7 +69,8 @@ public class FrameLoop extends Thread {
 			try {
 				ast.eval(environment);
 			} catch (WordsRuntimeException e) {
-				// Note: this should never actually be caught here; it should be caught earlier at the statement level.
+				// Note: this should only be caught in junit tests; 
+				// otherwise, it should be caught earlier at the statement level.
 				System.err.println();
 				System.err.println(e.toString());
 				System.out.println("> ");
