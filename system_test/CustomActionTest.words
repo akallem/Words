@@ -12,7 +12,8 @@ A person is a thing which {
 	}
 }
 
-Fred is a person at 0,0.
+A man is a person.
+Fred is a man at 0,0.
 Make Fred say "I will jump.".
 Make Fred jump.
 Make Fred say "I jumped!".
