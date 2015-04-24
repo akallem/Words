@@ -26,7 +26,7 @@ public class CustomActionDefinition {
 	 * Invoke this custom action definition on a given object using a given list of arguments.
 	 * Arguments may be null if there are no arguments.
 	 */
-	public void invoke(Environment environment, WordsObject object, AST arguments) throws WordsProgramException {
+	public void invoke(Environment environment, WordsObject object, Scope arguments) throws WordsProgramException {
 		// Custom action definitions can only appear in class definitions, which can only appear in the global scope
 		environment.pushNewScope(environment.getGlobalScope());
 		
@@ -37,8 +37,10 @@ public class CustomActionDefinition {
 		}
 
 		try {
-			if (arguments != null) {
-				arguments.eval(environment, parameters);
+			for (String argumentName : arguments.variables.keySet()) {
+				if (parameters.contains(argumentName)) {
+					environment.addToCurrentScope(argumentName, arguments.variables.get(argumentName));
+				}
 			}
 			
 			statementList.eval(environment);
