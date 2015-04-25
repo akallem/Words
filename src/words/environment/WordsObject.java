@@ -130,8 +130,7 @@ public class WordsObject {
 		
 		// User cannot change "name" and "class"
 		if (propertyName.equals("name") || propertyName.equals("class")) {
-			System.out.println("Not permitted to modify Object " + propertyName);
-			return;
+			throw new ModifyObjectPropertyException(propertyName);
 		}
 
 		if (properties.containsKey(propertyName) && property.type == Property.PropertyType.NOTHING)
