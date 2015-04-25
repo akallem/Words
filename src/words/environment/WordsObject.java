@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Map;
-import java.util.Set;
 
 import words.environment.Property.PropertyType;
 import words.exceptions.*;
@@ -21,6 +19,7 @@ public class WordsObject {
 	private Position cell;
 	private String currentMessage;
 	private Action lastAction;
+	private boolean createdInThisFrame;
 	
 	// While an object is expanding a custom action, actions are enqueued in a separate list
 	private boolean isExpandingCustomAction;
@@ -36,6 +35,7 @@ public class WordsObject {
 		this.customActionExpansion = new LinkedList<Action>();
 		this.isExpandingCustomAction = false;
 		this.referers = new HashMap<WordsObject, ArrayList<Property>>();
+		this.createdInThisFrame = true;
 	}
 	
 	public void clearActionQueue() {
@@ -172,25 +172,30 @@ public class WordsObject {
 	}
 
 	public void executeNextAction(Environment environment) throws WordsProgramException {
-		if (!actionQueue.isEmpty()) {
-			while (actionQueue.peek().isExpandable()) {
-				Action action = actionQueue.pop();
-				actionQueue.addAll(0, action.expand(this, environment));
-				
-				// If the action we just expanded was a custom action, it is possible that its expansion
-				// executed some immediate statements but caused no new actions to be enqueued
-				// In this case, we are done
-				if (actionQueue.isEmpty()) {
-					lastAction = new WaitAction(environment.getCurrentScope());
-					return;
-				}
-			}
-			
-			Action action = actionQueue.pop();
-			lastAction = action;
-			action.execute(this, environment);
+		if (createdInThisFrame) {
+			createdInThisFrame = false;
+			return;
 		} else {
-			lastAction = new WaitAction(environment.getCurrentScope());
+			if (!actionQueue.isEmpty()) {
+				while (actionQueue.peek().isExpandable()) {
+					Action action = actionQueue.pop();
+					actionQueue.addAll(0, action.expand(this, environment));
+					
+					// If the action we just expanded was a custom action, it is possible that its expansion
+					// executed some immediate statements but caused no new actions to be enqueued
+					// In this case, we are done
+					if (actionQueue.isEmpty()) {
+						lastAction = new WaitAction(environment.getCurrentScope());
+						return;
+					}
+				}
+				
+				Action action = actionQueue.pop();
+				lastAction = action;
+				action.execute(this, environment);
+			} else {
+				lastAction = new WaitAction(environment.getCurrentScope());
+			}
 		}
 	}
 

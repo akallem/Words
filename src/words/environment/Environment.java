@@ -142,9 +142,6 @@ public class Environment {
 				objectsByClass.put(wordsClass, newSet);
 			}
 			
-			// TODO: decide if this is appropriate (given that it could figure listeners)
-			newObject.enqueueAction(new WaitAction(getCurrentScope(), new LNodeNum(1)));
-			
 			return newObject;
 		} else {
 			throw new ObjectAlreadyExistsException(objectName);
