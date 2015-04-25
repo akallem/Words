@@ -1,6 +1,7 @@
 package words.environment;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -153,14 +154,11 @@ public class Environment {
 	
 	public void removeObject(WordsObject object) {
 		object.clearReferers();
+		objectsByClass.get(object.getWordsClass()).remove(object);
 		
 		for (Scope scope : stack) {
-			if (scope.variables.remove(object.getObjectName()) != null) {
-				break;
-			}
+			scope.variables.values().removeAll(Collections.singleton(object));
 		}
-		
-		objectsByClass.get(object.getWordsClass()).remove(object);
 	}
 	
 	/**
