@@ -76,6 +76,8 @@ public class FrameLoop extends Thread {
 				System.out.println("> ");
 			}
 		}
+		
+		environment.cleanup();
 
 		// Phase 2: Action Queue Processing
 		for (WordsObject object : environment.getObjects()) {
@@ -87,6 +89,8 @@ public class FrameLoop extends Thread {
 				System.out.println("> ");
 			}
 		}
+		
+		environment.cleanup();
 
 		// Phase 3: Listener Evaluation
 		for (Iterator<WordsEventListener> iterator = environment.getEventListeners().iterator(); iterator.hasNext();) {
@@ -101,6 +105,8 @@ public class FrameLoop extends Thread {
 				System.out.println("> ");
 			}
 		}
+		
+		environment.cleanup();
 
 		if (GUI != null) {
 			GUI.clear();

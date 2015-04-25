@@ -1,7 +1,6 @@
 package words.ast;
 
 import words.environment.*;
-import words.environment.Property.PropertyType;
 import words.exceptions.*;
 
 public class INodeRemoveObject extends INode {
@@ -25,7 +24,7 @@ public class INodeRemoveObject extends INode {
 			}
 		}
 		
-		environment.removeObject(obj);
+		obj.prepareForRemoval();
 		
 		return null;
 	}

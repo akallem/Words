@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Map;
-import java.util.Set;
 
 import words.environment.Property.PropertyType;
 import words.exceptions.*;
@@ -21,6 +19,7 @@ public class WordsObject {
 	private Position cell;
 	private String currentMessage;
 	private Action lastAction;
+	private boolean shouldRemove;
 	
 	// While an object is expanding a custom action, actions are enqueued in a separate list
 	private boolean isExpandingCustomAction;
@@ -36,6 +35,7 @@ public class WordsObject {
 		this.customActionExpansion = new LinkedList<Action>();
 		this.isExpandingCustomAction = false;
 		this.referers = new HashMap<WordsObject, ArrayList<Property>>();
+		this.shouldRemove = false;
 	}
 	
 	public void clearActionQueue() {
@@ -153,6 +153,14 @@ public class WordsObject {
 			
 			it.remove();
 		}
+	}
+	
+	public void prepareForRemoval() {
+		shouldRemove = true;
+	}
+	
+	public boolean shouldRemove() {
+		return shouldRemove;
 	}
 	
 	public void moveUp() {

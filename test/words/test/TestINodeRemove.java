@@ -21,6 +21,7 @@ public class TestINodeRemove extends TestINode {
 		
 		INodeRemoveObject removeObj = new INodeRemoveObject(refList, id);
 		removeObj.eval(environment);
+		loop.fastForwardEnvironment(1);
 		assertEquals("RemovedObject is nothing", environment.getVariable("Fred").type, Property.PropertyType.NOTHING);
 	}
 	
@@ -41,6 +42,7 @@ public class TestINodeRemove extends TestINode {
 		
 		INodeRemoveObject removeObj = new INodeRemoveObject(refList, id);
 		removeObj.eval(environment);
+		loop.fastForwardEnvironment(1);
 		assertEquals("RemovedObject is nothing", environment.getVariable("Mark").type, Property.PropertyType.NOTHING);
 
 	}
@@ -62,6 +64,7 @@ public class TestINodeRemove extends TestINode {
 		
 		INodeRemoveObject removeObj = new INodeRemoveObject(refList, id);
 		removeObj.eval(environment);
+		loop.fastForwardEnvironment(1);
 		
 		Property fredsNewFriend = fred.getProperty("friend");
 		assertEquals(fredsNewFriend.objProperty, null);

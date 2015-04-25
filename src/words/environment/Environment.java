@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import words.exceptions.*;
@@ -161,6 +162,20 @@ public class Environment {
 		}
 		
 		objectsByClass.get(object.getWordsClass()).remove(object);
+	}
+	
+	/**
+	 * Removes objects that have been flagged for removal.
+	 */
+	public void cleanup() {
+		for (Iterator<WordsObject> iterator = getObjects().iterator(); iterator.hasNext();) {
+			WordsObject obj = iterator.next();
+			
+			if (obj.shouldRemove()) {
+				iterator.remove();
+				removeObject(obj);
+			}
+		}
 	}
 	
 	/**
