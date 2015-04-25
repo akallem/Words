@@ -95,6 +95,15 @@ public class WordsObject {
 			return new Property(cell.y);
 		else if (propertyName.equals("column"))
 			return new Property(cell.x);
+		
+		// Special handling for Object name "name" and Class name "class"
+		if (propertyName.equals("name")) {
+			return new Property(objectName);
+		}
+		
+		if (propertyName.equals("class")) {
+			return new Property(wordsClass.getClassName());
+		}
 
 		Property property = getOwnProperty(propertyName);
 
