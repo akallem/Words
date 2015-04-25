@@ -240,4 +240,14 @@ public class TestWordsObject {
 	public void cannotSetClass() throws WordsRuntimeException {
 		obj.setProperty("class", new Property("String"));
 	}
+	
+	@Test
+	public void getNameOfObject() throws WordsRuntimeException {
+		assertEquals("Object name is retrieved and correct", "test", obj.getProperty("name").stringProperty);
+	}
+	
+	@Test 
+	public void getClassOfObject() throws WordsRuntimeException {
+		assertEquals("Class name is retrieved and correct", "thing", obj.getProperty("class").stringProperty);
+	}
 }
