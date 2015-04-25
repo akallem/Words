@@ -230,4 +230,14 @@ public class TestWordsObject {
 		thing.setProperty(propertyName, numProperty);
 		assertEquals("Object inherited property from parent", numProperty, obj.getProperty(propertyName));
 	}
+	
+	@Test (expected = ModifyObjectPropertyException.class)
+	public void cannotSetName() throws WordsRuntimeException {
+		obj.setProperty("name", new Property("String"));
+	}
+	
+	@Test (expected = ModifyObjectPropertyException.class)
+	public void cannotSetClass() throws WordsRuntimeException {
+		obj.setProperty("class", new Property("String"));
+	}
 }
