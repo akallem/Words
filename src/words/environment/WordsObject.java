@@ -97,13 +97,10 @@ public class WordsObject {
 			return new Property(cell.x);
 		
 		// Special handling for Object name "name" and Class name "class"
-		if (propertyName.equals("name")) {
+		if (propertyName.equals("name"))
 			return new Property(objectName);
-		}
-		
-		if (propertyName.equals("class")) {
+		else if (propertyName.equals("class"))
 			return new Property(wordsClass.getClassName());
-		}
 
 		Property property = getOwnProperty(propertyName);
 
@@ -128,6 +125,12 @@ public class WordsObject {
 			else
 				cell.x = (int) Math.round(property.numProperty);
 			
+			return;
+		}
+		
+		// User cannot change "name" and "class"
+		if (propertyName.equals("name") || propertyName.equals("class")) {
+			System.out.println("Not permitted to modify Object " + propertyName);
 			return;
 		}
 
