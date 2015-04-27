@@ -1,0 +1,93 @@
+A head is a thing which {
+	can write_blank which means {
+		Blank is a symbol at Head's column, Head's row - 1.
+	}
+	can write_zero which means {
+		Zero is a symbol at Head's column, Head's row - 1.
+		Zero's value is 0.
+	}
+	can write_one which means {
+		One is a symbol at Head's column, Head's row - 1.
+		One's value is 1.
+	}
+	can process_symbol with symbol, value which means {
+		If not(its state = nothing) then {
+			Remove symbol.
+
+			If its state = 0 then {
+				Its state is nothing.
+				If value = nothing then {
+					Make it write_blank.
+					Make it move left.
+					Make its state be 1.
+				}
+				If value = 0 then {
+					Make it write_zero.
+					Make it move right.
+					Make its state be 0.
+				}
+				If value = 1 then {
+					Make it write_one.
+					Make it move right.
+					Make its state be 0.
+				}
+			}
+
+			If its state = 1 then {
+				Its state is nothing.
+				If value = nothing then {
+					Make it write_one.
+					Make it move right.
+					Make its state be 2.
+				}
+				If value = 0 then {
+					Make it write_one.
+					Make it move left.
+					Make its state be 2.
+				}
+				If value = 1 then {
+					Make it write_zero.
+					Make it move left.
+					Make its state be 1.
+				}
+			}
+
+			If its state = 2 then {
+				Its state is nothing.
+				If value = nothing then {
+					Make it write_blank.
+					Make it move left.
+					Make its state be 0.
+				}
+				If value = 0 then {
+					Make it write_zero.
+					Make it move right.
+					Make its state be 2.
+				}
+				If value = 1 then {
+					Make it write_one.
+					Make it move right.
+					Make its state be 2.
+				}
+			}
+		}
+	}
+}
+
+A symbol is a thing.
+
+SymbolGenerator is a thing at -20,0.
+
+Repeat 40 times {
+	Blank is a symbol at SymbolGenerator's column, SymbolGenerator's row.
+	SymbolGenerator's column is SymbolGenerator's column + 1.
+}
+
+Remove SymbolGenerator.
+
+Head is a head at 2,1.
+Head's state is 0.
+
+Whenever Head is above a symbol [s] {
+	Make Head process_symbol with symbol s, value s's value.
+}

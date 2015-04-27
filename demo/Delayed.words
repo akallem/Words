@@ -1,0 +1,8 @@
+Alex is a thing at 0,0.
+Bob is a thing at -1,4.
+
+Make Bob move down 8.
+
+Repeat 8 times {
+    Make Alex say Bob's row.
+}

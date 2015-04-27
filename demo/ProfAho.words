@@ -1,0 +1,40 @@
+A person is a thing.
+
+A professor is a person which {
+    can lecture which means {
+        Make them say "I <3\nLambda\nCalculus".
+        Make them wait 1.
+        Make them say "Python is\nambiguous".
+        Make them wait 1.
+        Make them say "I like\ndragons".
+    }
+}
+
+A student is a person which {
+    can jump_with_joy which means {
+        Make them move up 1.
+        Make them say their exclamation.
+        Make them move down 1.
+    }
+    has an exclamation of "Yayyyyy". 
+}
+
+Alex is a student at 0,2.
+Andrew is a student at 1, 2.
+James is a student at 2,2.
+Michael is a student at -1,2.
+Wangda is a student at -2,2.
+Aho is a professor at -3,-2.
+
+Alex's exclamation is "whoopee".
+
+Whenever a student [s] is next to a professor [p] {
+    Make p say "Good job" now.
+    Stop s.
+    Make s jump_with_joy.
+}
+
+Whenever Aho says "Words > awk" {
+    Make Aho say "OH NO!".
+    Make Aho say "This is\nawk-ward.".
+}
