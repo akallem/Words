@@ -136,13 +136,7 @@ public class Environment {
 			WordsObject newObject = new WordsObject(objectName, wordsClass, position);
 			getCurrentScope().variables.put(objectName, new Property(newObject));
 			
-			if (objectsByClass.containsKey(wordsClass)) {
-				objectsByClass.get(wordsClass).add(newObject);
-			} else {
-				HashSet<WordsObject> newSet = new HashSet<WordsObject>();
-				newSet.add(newObject);
-				objectsByClass.put(wordsClass, newSet);
-			}
+			objectsByClass.get(wordsClass).add(newObject);
 			
 			return newObject;
 		} else {
@@ -225,9 +219,10 @@ public class Environment {
 	 * Returns an empty collection if there are no objects of that class in the environment
 	 * @throws WordsClassNotFoundException
 	 */
+	@SuppressWarnings("unchecked")
 	public HashSet<WordsObject> getObjectsByClass(String className) throws WordsClassNotFoundException {
 		WordsClass wc = getClass(className);
-		HashSet<WordsObject> objectsToReturn = objectsByClass.get(wc);
+		HashSet<WordsObject> objectsToReturn = (HashSet<WordsObject>) objectsByClass.get(wc).clone();
 		for (WordsClass childClass : wc.getChildren()) {
 			objectsToReturn.addAll(getObjectsByClass(childClass.getClassName()));
 		}
