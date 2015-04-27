@@ -398,7 +398,11 @@ public static void main(String args[]) throws IOException {
 	GUI ui = null;
 	// Handle testmode Options
 	for (int i = 0; i < args.length; ++i) {
-		if (args[i].equals("-testmode")) {
+		if (args[i].equals("-s") && i < args.length - 1) {
+			try {
+				Options.TIME_TO_WAIT = Integer.parseInt(args[i+1]);
+			} catch (Exception e) {}
+		} else if (args[i].equals("-testmode")) {
 			Options.GUI = false;
 			Options.TIME_TO_WAIT = -1;
 			Options.FRAME_LIMIT_ENABLED = true;
