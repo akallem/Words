@@ -1,694 +1,694 @@
 frame #: 1
 (0,0):
 <person> Alex
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon
 frame #: 2
-(1,0):
+(0,1):
 <person> Alex
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon
 frame #: 3
-(1,0):
-<wall> wall1
-(2,0):
+(0,2):
 <person> Alex
-(2,1):
+<wall> wall1
+(2,2):
 <person> Jon
 frame #: 4
-(1,0):
+(0,2):
+<person> Alex "ow"
 <wall> wall1
-(2,1):
-<person> Alex
+(2,2):
 <person> Jon
 frame #: 5
-(1,0):
-<wall> wall1
-(2,1):
+(0,2):
 <person> Alex "moving right"
-<person> Jon "hey"
+<wall> wall1
+(2,2):
+<person> Jon
 frame #: 6
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
-<person> Alex "ow"
-<person> Jon "hey"
+(1,2):
+<person> Alex "moving right"
+(2,2):
+<person> Jon
 frame #: 7
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
-<person> Alex "hey"
-<person> Jon "hey"
+(2,2):
+<person> Alex "moving right"
+<person> Jon
 frame #: 8
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Alex "hey"
 <person> Jon "hey"
 frame #: 9
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
-<person> Jon "hey"
-(3,1):
+(2,2):
 <person> Alex "hey"
-frame #: 10
-(1,0):
-<wall> wall1
-(2,1):
 <person> Jon "hey"
-(4,1):
+frame #: 10
+(0,2):
+<wall> wall1
+(2,2):
+<person> Jon "hey"
+(3,2):
 <person> Alex "hey"
 frame #: 11
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(3,2):
+<person> Alex "sup"
 frame #: 12
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 13
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 14
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 15
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 16
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 17
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 18
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 19
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 20
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 21
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 22
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 23
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 24
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 25
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 26
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 27
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 28
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 29
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 30
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 31
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 32
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 33
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 34
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 35
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 36
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 37
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 38
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 39
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 40
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 41
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 42
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 43
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 44
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 45
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 46
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 47
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 48
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 49
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 50
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 51
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 52
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 53
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 54
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 55
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 56
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 57
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 58
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 59
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 60
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 61
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 62
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 63
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 64
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 65
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 66
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 67
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 68
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 69
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 70
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 71
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 72
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 73
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 74
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 75
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 76
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 77
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 78
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 79
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 80
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 81
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 82
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 83
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 84
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 85
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 86
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 87
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 88
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 89
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 90
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 91
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 92
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 93
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 94
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 95
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 96
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 97
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 98
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 99
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"
 frame #: 100
-(1,0):
+(0,2):
 <wall> wall1
-(2,1):
+(2,2):
 <person> Jon "hey"
-(4,1):
-<person> Alex "hey"
+(4,2):
+<person> Alex "sup"

@@ -26,6 +26,8 @@ public class TestINode {
 	AST georgeStringLeaf = new LNodeString("George");
 	AST leftDirectionLeaf = new LNodeDirection(Direction.LEFT);
 	AST rightDirectionLeaf = new LNodeDirection(Direction.RIGHT);
+	AST upDirectionLeaf = new LNodeDirection(Direction.UP);
+	AST downDirectionLeaf = new LNodeDirection(Direction.DOWN);
 	AST anywhereDirectionLeaf = new LNodeDirection(Direction.ANYWHERE);
 	
 	AST moveFredLeft2 = new INodeQueueMove(nothingLeaf, fredStringLeaf, leftDirectionLeaf, twoLeaf, null);
