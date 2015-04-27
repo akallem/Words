@@ -1,0 +1,58 @@
+A person is a thing.
+
+A player is a person which {
+	can hide which means {
+		Repeat 3 times {
+			Make them move anywhere 2.
+		}
+	}
+	can seek with target which means {
+		Their xMove is target's column - their column.
+		Their yMove is target's row - their row.
+		Make them move right their xMove.
+		Make them move up their yMove.
+		Make them say "Marco".
+		Make them say "".		
+	}
+	can finish which means {
+		Stop them.
+		If their role = "seeker" then { Make them say "Found you!". }
+		If their role = "hider" then { Make them say "You found me!". }	
+	}
+	can start_playing with partner which means {
+		their partner is partner.
+		their partner's partner is them.
+		their role is "seeker".
+		their partner's role is "hider".
+		Make them say "Marco".
+		Make them say "".
+	}
+}
+
+Alice is a player at 2,2.
+Bob is a player at -2,-2.
+
+Carl is a player at 2,-2.
+Dianna is a player at -2,2.
+
+Make Bob start_playing with partner Alice.
+Make Dianna start_playing with partner Carl.
+
+Whenever a player [p] says "Marco" {
+	Stop p's partner.
+	Make p's partner say "Polo".
+	Make p's partner say "".
+	Make p's partner hide.
+}
+
+Whenever a player [p] says "Polo" {
+	Stop p's partner.
+	Make p's partner seek with target p.
+}
+
+Whenever a player [p] touches a player [q] {
+	If q = p's partner and p = q's partner then {
+		Make p finish now.
+		Make q finish now.
+	}
+}
