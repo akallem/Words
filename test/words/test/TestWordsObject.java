@@ -24,93 +24,61 @@ public class TestWordsObject {
 	}
 	
 	@Test
-	public void executeNextActionShouldExecuteNextMoveAction() {
+	public void executeNextActionShouldExecuteNextMoveAction() throws WordsProgramException {
 		obj.enqueueAction(new MoveAction(new Scope(null), Direction.RIGHT, new LNodeNum(1)));
 		obj.enqueueAction(new MoveAction(new Scope(null), Direction.RIGHT, new LNodeNum(1)));
 		obj.enqueueAction(new MoveAction(new Scope(null), Direction.LEFT, new LNodeNum(1)));
 		obj.enqueueAction(new MoveAction(new Scope(null), Direction.LEFT, new LNodeNum(1)));
 		
-		try {
-			obj.executeNextAction(environment);
-		} catch (Exception e) {
-			fail();
-		}
+		// First use up a the fake wait that exists on new objects
+		obj.executeNextAction(environment);
 		
+		obj.executeNextAction(environment);
 		assertEquals("Object moved 1 to the right in total", obj.getCurrentPosition().x, startPos.x + 1);
 		
-		try {
-			obj.executeNextAction(environment);
-		} catch (Exception e) {
-			fail();
-		}
-		
+		obj.executeNextAction(environment);
 		assertEquals("Object moved 2 to the right in total", obj.getCurrentPosition().x, startPos.x + 2);
 		
-		try {
-			obj.executeNextAction(environment);
-		} catch (Exception e) {
-			fail();
-		}
-		
+		obj.executeNextAction(environment);
 		assertEquals("Object moved 1 to the right in total again", obj.getCurrentPosition().x, startPos.x + 1);
 		
-		try {
-			obj.executeNextAction(environment);
-		} catch (Exception e) {
-			fail();
-		}
-		
+		obj.executeNextAction(environment);
 		assertEquals("Object is back at its starting position", obj.getCurrentPosition().x, startPos.x);
 	}
 	
 	@Test
-	public void executeNextActionShouldExecuteNextSayAction() {
+	public void executeNextActionShouldExecuteNextSayAction() throws WordsProgramException {
 		// This line will need to be changed when WordsSay is updated to take an AST expression
 		obj.enqueueAction(new SayAction(new Scope(null), new LNodeString("first")));
 		obj.enqueueAction(new SayAction(new Scope(null), new LNodeString("second")));
 		obj.enqueueAction(new SayAction(new Scope(null), new LNodeString("third")));
 		
-		try {
-			obj.executeNextAction(environment);
-		} catch (Exception e) {
-			fail();
-		}
+		// First use up a the fake wait that exists on new objects
+		obj.executeNextAction(environment);
 		
+		obj.executeNextAction(environment);
 		assertEquals("Object's message is first message", obj.getCurrentMessage(), "first");
 		
-		try {
-			obj.executeNextAction(environment);
-		} catch (Exception e) {
-			fail();
-		}
-		
+		obj.executeNextAction(environment);
 		assertEquals("Object's message is second message", obj.getCurrentMessage(), "second");
 		
-		try {
-			obj.executeNextAction(environment);
-		} catch (Exception e) {
-			fail();
-		}
-		
+		obj.executeNextAction(environment);
 		assertEquals("Object's message is third message", obj.getCurrentMessage(), "third");
 	}
 	
 	
 	@Test
-	public void enqeueAtFrontShouldBeNextActionExecuted() {
+	public void enqeueAtFrontShouldBeNextActionExecuted() throws WordsProgramException {
 		obj.enqueueAction(new MoveAction(new Scope(null), Direction.RIGHT, new LNodeNum(3)));
 		obj.enqueueAction(new MoveAction(new Scope(null), Direction.UP, new LNodeNum(5)));
 		obj.enqueueAction(new MoveAction(new Scope(null), Direction.DOWN, new LNodeNum(5)));
 		
+		// First use up a the fake wait that exists on new objects
+		obj.executeNextAction(environment);
 		// This should be first to be executed
 		obj.enqueueActionAtFront(new MoveAction(new Scope(null), Direction.LEFT, new LNodeNum(1)));
 		
-		try {
-			obj.executeNextAction(environment);
-		} catch (Exception e) {
-			fail();
-		}
-		
+		obj.executeNextAction(environment);
 		assertEquals("Object moved 1 to the left", obj.getCurrentPosition().x, startPos.x - 1);
 	}
 	
