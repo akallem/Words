@@ -19,6 +19,7 @@ public class WordsObject {
 	private Position cell;
 	private String currentMessage;
 	private Action lastAction;
+	private boolean shouldRemove;
 	private boolean createdInThisFrame;
 	
 	// While an object is expanding a custom action, actions are enqueued in a separate list
@@ -35,6 +36,7 @@ public class WordsObject {
 		this.customActionExpansion = new LinkedList<Action>();
 		this.isExpandingCustomAction = false;
 		this.referers = new HashMap<WordsObject, ArrayList<Property>>();
+		this.shouldRemove = false;
 		this.createdInThisFrame = true;
 	}
 	
@@ -162,6 +164,14 @@ public class WordsObject {
 			
 			it.remove();
 		}
+	}
+	
+	public void prepareForRemoval() {
+		shouldRemove = true;
+	}
+	
+	public boolean shouldRemove() {
+		return shouldRemove;
 	}
 	
 	public void moveUp() {

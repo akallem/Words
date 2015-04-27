@@ -1,8 +1,10 @@
 package words.environment;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import words.exceptions.*;
@@ -150,14 +152,30 @@ public class Environment {
 	
 	public void removeObject(WordsObject object) {
 		object.clearReferers();
+		objectsByClass.get(object.getWordsClass()).remove(object);
 		
 		for (Scope scope : stack) {
-			if (scope.variables.remove(object.getObjectName()) != null) {
-				break;
+			for (Iterator<Property> iterator = scope.variables.values().iterator(); iterator.hasNext();) {
+				Property property = iterator.next();
+				if (property.type == Property.PropertyType.OBJECT && property.objProperty == object) {
+					iterator.remove();
+				}
 			}
 		}
-		
-		objectsByClass.get(object.getWordsClass()).remove(object);
+	}
+	
+	/**
+	 * Removes objects that have been flagged for removal.
+	 */
+	public void cleanup() {
+		for (Iterator<WordsObject> iterator = getObjects().iterator(); iterator.hasNext();) {
+			WordsObject obj = iterator.next();
+			
+			if (obj.shouldRemove()) {
+				iterator.remove();
+				removeObject(obj);
+			}
+		}
 	}
 	
 	/**
