@@ -189,6 +189,14 @@ public class WordsObject {
 				while (actionQueue.peek().isExpandable()) {
 					Action action = actionQueue.pop();
 					actionQueue.addAll(0, action.expand(this, environment));
+					
+					// If the action we just expanded was a custom action, it is possible that its expansion
+					// executed some immediate statements but caused no new actions to be enqueued
+					// In this case, we are done
+					if (actionQueue.isEmpty()) {
+						lastAction = new WaitAction(environment.getCurrentScope());
+						return;
+					}
 				}
 				
 				Action action = actionQueue.pop();
