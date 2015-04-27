@@ -34,6 +34,8 @@ public class TestINode {
 	AST moveFredRight2 = new INodeQueueMove(nothingLeaf, fredStringLeaf, rightDirectionLeaf, twoLeaf, null);
 	AST moveFredLeftNegative2 = new INodeQueueMove(nothingLeaf, fredStringLeaf, leftDirectionLeaf, negTwoLeaf, null);
 	AST moveFredAnywhere2 = new INodeQueueMove(nothingLeaf, fredStringLeaf, anywhereDirectionLeaf, twoLeaf, null);
+	AST makeFredWait1 = new INodeQueueWait(new INodeReferenceList(), fredStringLeaf, new LNodeNum(1.0), null);
+	AST makeGeorgeWait1 = new INodeQueueWait(new INodeReferenceList(), georgeStringLeaf, new LNodeNum(1.0), null);
 	
 	AST statementsAboutFred = new INodeStatementList(moveFredLeft2, moveFredRight2, moveFredAnywhere2);
 	
