@@ -24,6 +24,17 @@ public class TestINodeRemove extends TestINode {
 		loop.fastForwardEnvironment(1);
 		assertEquals("RemovedObject is nothing", environment.getVariable("Fred").type, Property.PropertyType.NOTHING);
 	}
+
+	@Test (expected = ObjectNotFoundException.class)
+	public void testRemoveMissingObject() throws WordsRuntimeException {
+		assertEquals("Variable does not exist", environment.getVariable("Garbage").type, Property.PropertyType.NOTHING);
+		
+		INodeReferenceList refList = new INodeReferenceList();
+		LNodeIdentifier id = new LNodeIdentifier("Garbage");
+		
+		INodeRemoveObject removeObj = new INodeRemoveObject(refList, id);
+		removeObj.eval(environment);
+	}
 	
 	@Test
 	public void testRemoveReferersProperty() throws WordsRuntimeException {
