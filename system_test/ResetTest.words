@@ -1,9 +1,9 @@
 Alex is a thing at 0,0.
-Alex's name is "alex".
-Make Alex say Alex's name.
+Alex's new_name is "alex".
+Make Alex say Alex's new_name.
 
 Reset.
 
 Bob is a thing at 0,1.
-Bob's name is "bob".
-Make Bob say Bob's name.
+Bob's new_name is "bob".
+Make Bob say Bob's new_name.
