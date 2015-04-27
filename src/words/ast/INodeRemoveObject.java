@@ -14,16 +14,20 @@ public class INodeRemoveObject extends INode {
 		ASTValue refList = children.get(0).eval(environment);
 		ASTValue id = children.get(1).eval(environment);
 		
+		Property property;
 		if (refList.type == ASTValue.Type.NOTHING) {
-			obj = environment.getVariable(id.stringValue).objProperty;
+			property = environment.getVariable(id.stringValue);
+			if (property.type != Property.PropertyType.OBJECT) {
+				throw new ObjectNotFoundException(id.stringValue);
+			}
 		} else {
-			Property property = refList.objValue.getProperty(id.stringValue);
-			obj = property.objProperty;
-			if (obj == null) {
+			property = refList.objValue.getProperty(id.stringValue);
+			if (property.type != Property.PropertyType.OBJECT) {
 				throw new ReferenceException(id.stringValue, property.type);
 			}
 		}
 		
+		obj = property.objProperty;
 		obj.prepareForRemoval();
 		
 		return null;
