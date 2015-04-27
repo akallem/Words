@@ -1,0 +1,37 @@
+A person is a thing.
+
+A professor is a person which {
+    can lecture which means {
+        Make them say "I <3 Lambda Calculus".
+    }
+}
+
+A student is a person which {
+    can jump_with_joy which means {
+        Make them move up 2.
+        Make them say "Yayyyy!".
+        Make them move down 2.
+    }
+    has an excuse of "I was dumb.". 
+}
+
+Alex is a student at 0,-2.
+
+Whenever a professor [p] says "Words is great!" {
+    Make Alex jump_with_joy.
+}
+
+Whenever a student [s] is next to a professor [p] {
+    Make p say "Don't touch me.".
+    Stop s.
+    Make s say "Sorry.".
+    Make s say s's excuse.
+}
+
+Aho is a professor at 0,3.
+
+Whenever Aho says "Words is better than awk" {
+    Make Aho say "OH NO!".
+    Make Aho say "I'm melting!".
+    Remove Aho. 
+}
