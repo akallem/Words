@@ -1,0 +1,30 @@
+Bob is a thing at -2,-2.
+Alice is a thing at 2,2.
+
+Whenever Bob says "Marco" {
+	Stop Alice.
+	Make Alice say "Polo".
+	Make Alice say "".
+	Repeat 3 times {
+		Make Alice move anywhere 2.
+	}
+}
+
+Whenever Alice says "Polo" {
+	Stop Bob.
+	Bob's xMove is Alice's column - Bob's column.
+	Bob's yMove is Alice's row - Bob's row.
+	Make Bob move right Bob's xMove.
+	Make Bob move up Bob's yMove.
+	Make Bob say "Marco".
+	Make Bob say "".
+}
+
+Whenever Bob touches Alice {
+	Stop Bob.
+	Stop Alice.
+	Make Bob say "Found you!".
+}
+
+Make Bob say "Marco".
+Make Bob say "".

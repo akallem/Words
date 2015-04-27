@@ -92,11 +92,15 @@ public class WordsObject {
 	 * A missing property returns a WordsProperty of type NOTHING.
 	 */
 	public Property getProperty(String propertyName) {
-		// Special handling of "row" and "column" properties
+		// Special handling of "row" "column" "name" and "class" properties
 		if (propertyName.equals("row"))
 			return new Property(cell.y);
 		else if (propertyName.equals("column"))
 			return new Property(cell.x);
+		else if (propertyName.equals("name"))
+			return new Property(objectName);
+		else if (propertyName.equals("class"))
+			return new Property(wordsClass.getClassName());
 
 		Property property = getOwnProperty(propertyName);
 
@@ -122,6 +126,11 @@ public class WordsObject {
 				cell.x = (int) Math.round(property.numProperty);
 			
 			return;
+		}
+		
+		// User cannot change "name" and "class"
+		if (propertyName.equals("name") || propertyName.equals("class")) {
+			throw new ModifyObjectPropertyException(propertyName);
 		}
 
 		if (properties.containsKey(propertyName) && property.type == Property.PropertyType.NOTHING)

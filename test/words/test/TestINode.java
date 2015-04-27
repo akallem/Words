@@ -26,6 +26,8 @@ public class TestINode {
 	AST georgeStringLeaf = new LNodeString("George");
 	AST leftDirectionLeaf = new LNodeDirection(Direction.LEFT);
 	AST rightDirectionLeaf = new LNodeDirection(Direction.RIGHT);
+	AST upDirectionLeaf = new LNodeDirection(Direction.UP);
+	AST downDirectionLeaf = new LNodeDirection(Direction.DOWN);
 	AST anywhereDirectionLeaf = new LNodeDirection(Direction.ANYWHERE);
 	
 	AST moveFredLeft2 = new INodeQueueMove(nothingLeaf, fredStringLeaf, leftDirectionLeaf, twoLeaf, null);
@@ -34,6 +36,8 @@ public class TestINode {
 	AST moveFredRight2 = new INodeQueueMove(nothingLeaf, fredStringLeaf, rightDirectionLeaf, twoLeaf, null);
 	AST moveFredLeftNegative2 = new INodeQueueMove(nothingLeaf, fredStringLeaf, leftDirectionLeaf, negTwoLeaf, null);
 	AST moveFredAnywhere2 = new INodeQueueMove(nothingLeaf, fredStringLeaf, anywhereDirectionLeaf, twoLeaf, null);
+	AST makeFredWait1 = new INodeQueueWait(new INodeReferenceList(), fredStringLeaf, new LNodeNum(1.0), null);
+	AST makeGeorgeWait1 = new INodeQueueWait(new INodeReferenceList(), georgeStringLeaf, new LNodeNum(1.0), null);
 	
 	AST statementsAboutFred = new INodeStatementList(moveFredLeft2, moveFredRight2, moveFredAnywhere2);
 	
