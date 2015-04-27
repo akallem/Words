@@ -1,4 +1,7 @@
+Fred is a thing at 0,0.
+Make Fred wait 4.
 Repeat 3 times {
-    Bob is a thing at 0,1.
-    Make Bob move anywhere.
+    Star is a thing at 0,0.
+    Make Star move anywhere 4.
+    Make Fred say "Star at:\n" + Star's column + "\n" + Star's row.
 }
