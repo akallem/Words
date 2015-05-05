@@ -225,7 +225,7 @@ public class WordsObject {
 	}
 	
 	public boolean movedInLastTurn() {
-		return lastAction instanceof MoveAction || createdInThisFrame || movedByAssignInLastTurn;
+		return lastAction instanceof MoveAction || lastAction == null || movedByAssignInLastTurn;
 	}
 
 	public Position getCurrentPosition() {
