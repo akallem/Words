@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import words.environment.*;
 
-public class TestWordsPosition {
+public class TestPosition {
 	@Test
 	public void testDoubleParams() {
 		Position pos = new Position(3.7, 5.2);
