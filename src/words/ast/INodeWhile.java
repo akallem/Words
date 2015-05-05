@@ -2,8 +2,6 @@ package words.ast;
 
 import words.environment.*;
 import words.exceptions.*;
-import words.ast.*;
-
 
 public class INodeWhile extends INode {
 	public INodeWhile(Object... children) {
