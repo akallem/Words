@@ -190,6 +190,11 @@ public class WordsObject {
 		this.cell.x++;
 	}
 
+	/**
+	 * Executes the next action on this object's action queue, updating its lastAction
+	 * property accordingly.  An object will not execute an action if it was just created
+	 * in this frame.
+	 */
 	public void executeNextAction(Environment environment) throws WordsProgramException {
 		if (createdInThisFrame) {
 			createdInThisFrame = false;
