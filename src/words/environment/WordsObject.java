@@ -166,7 +166,7 @@ public class WordsObject {
 		}
 	}
 	
-	public void prepareForRemoval() {
+	public void flagForRemoval() {
 		shouldRemove = true;
 	}
 	
