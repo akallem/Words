@@ -9,6 +9,6 @@ public class ModifyObjectPropertyException extends WordsRuntimeException {
 
 	@Override
 	public String toString() {
-		return "Not permitted to modify Object " + propertyName;
+		return "Not permitted to modify an object's " + propertyName;
 	}
 }

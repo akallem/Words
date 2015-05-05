@@ -49,7 +49,7 @@ public class WaitAction extends Action {
 
 		// Throw an appropriate WordsException if lengthValue is zero or negative
 		if (lengthValue < 1) {
-			throw new WordsProgramException(lengthExpression, new FunctionArgsException("wait", "a positive number", String.format("%d", lengthValue)));
+			throw new WordsProgramException(lengthExpression, new InvalidTypeException("a positive number", String.format("%d", lengthValue)));
 		}
 
 		// Decompose into executable 1-frame waits

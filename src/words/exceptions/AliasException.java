@@ -2,15 +2,10 @@ package words.exceptions;
 
 @SuppressWarnings("serial")
 public class AliasException extends WordsRuntimeException {
-	
-	private String message;
-	
-	public AliasException(String message) {
-		this.message = message;
-	}
+	public AliasException() { }
 	
 	@Override
 	public String toString() {
-		return message;
+		return "Aliases may not be named the same.";
 	}
 }

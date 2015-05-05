@@ -12,6 +12,6 @@ public class InvalidTypeException extends WordsRuntimeException {
 
 	@Override
 	public String toString() {
-		return String.format("expected %s, received %s.", expectedType, receivedType);
+		return String.format("Expected %s, received %s.", expectedType, receivedType);
 	}
 }

@@ -11,6 +11,6 @@ public class ClassAlreadyExistsException extends WordsRuntimeException {
 	
 	@Override
 	public String toString() {
-		return String.format("class %s already existed. Cannot be created again.", className);
+		return String.format("Class %s already exists and cannot be created again.", className);
 	}
 }

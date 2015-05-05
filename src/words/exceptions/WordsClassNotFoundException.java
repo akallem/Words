@@ -10,6 +10,6 @@ public class WordsClassNotFoundException extends WordsRuntimeException {
 	
 	@Override
 	public String toString() {
-		return String.format("class %s did not exist.", className);
+		return String.format("Class %s does not exist.", className);
 	}
 }
