@@ -21,6 +21,8 @@ public class WordsObject {
 	private Action lastAction;
 	private boolean shouldRemove;
 	private boolean createdInThisFrame;
+	private Position lastCell;
+	private boolean movedByAssignInLastTurn;
 	
 	// While an object is expanding a custom action, actions are enqueued in a separate list
 	private boolean isExpandingCustomAction;
@@ -193,8 +195,10 @@ public class WordsObject {
 	public void executeNextAction(Environment environment) throws WordsProgramException {
 		if (createdInThisFrame) {
 			createdInThisFrame = false;
-			return;
 		} else {
+			if (!lastCell.equals(cell)) {
+				movedByAssignInLastTurn = true;
+			}
 			if (!actionQueue.isEmpty()) {
 				while (actionQueue.peek().isExpandable()) {
 					Action action = actionQueue.pop();
@@ -216,6 +220,12 @@ public class WordsObject {
 				lastAction = new WaitAction(environment.getCurrentScope());
 			}
 		}
+		// Store the last position based on actions
+		lastCell = new Position(cell);
+	}
+	
+	public boolean movedInLastTurn() {
+		return lastAction instanceof MoveAction || createdInThisFrame || movedByAssignInLastTurn;
 	}
 
 	public Position getCurrentPosition() {
