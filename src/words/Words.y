@@ -435,8 +435,6 @@ public static void main(String args[]) throws IOException {
 				Words parser = new Words(br);
 				parser.yyparse();
 
-				printLnToConsole();
-				printLnToConsole();
 				if (parser.root != null)
 					frameLoop.enqueueAST(parser.root);
 
@@ -464,9 +462,9 @@ public static void main(String args[]) throws IOException {
 		while (true) {
 			// Prompt user
 			if (depth > 0)
-				System.err.printf("... ");
+				Console.showPromptMore();
 			else
-				System.err.printf("> ");
+				Console.showPrompt();
 
 			// Read next line and exit on EOF
 			String line = br.readLine();
@@ -491,8 +489,6 @@ public static void main(String args[]) throws IOException {
 		Words parser = new Words(new StringReader(fragment));
 		parser.yyparse();
 
-		// In REPL interface, we might want to evaluate only ASTs that had no syntax errors
-		printLnToConsole();
 		printLnToConsole();
 		if (parser.root != null)
 			frameLoop.enqueueAST(parser.root);
