@@ -170,8 +170,7 @@ listener_declare_statement:
 	;
 
 object_create_statement:
-		identifier IS A identifier AT position '.'									{ $$ = new INodeCreateObject($1, $4, null, $6); ((AST) $$).lineNumber = lexer.lineNumber; }
-	|	identifier IS A identifier WITH argument_list AT position '.'				{ $$ = new INodeCreateObject($1, $4, $6, $8); ((AST) $$).lineNumber = lexer.lineNumber; }
+		identifier IS A identifier AT position '.'									{ $$ = new INodeCreateObject($1, $4, $6); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 object_destroy_statement:
