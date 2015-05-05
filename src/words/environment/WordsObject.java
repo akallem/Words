@@ -117,7 +117,7 @@ public class WordsObject {
 		// Special handling of "row" and "column" properties
 		if (propertyName.equals("row") || propertyName.equals("column")) {
 			if (property.type != Property.PropertyType.NUM) {
-				throw new InvalidTypeException("NUM", property.type.toString());
+				throw new InvalidTypeException(Property.PropertyType.NUM.toString(), property.type.toString());
 			}
 
 			if (propertyName.equals("row"))

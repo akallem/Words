@@ -42,7 +42,7 @@ public class WaitAction extends Action {
 		}
 
 		if (value.type != ASTValue.Type.NUM) {
-			throw new WordsProgramException(lengthExpression, new InvalidTypeException(value.type.toString(), ASTValue.Type.NUM.toString()));
+			throw new WordsProgramException(lengthExpression, new InvalidTypeException(ASTValue.Type.NUM.toString(), value.type.toString()));
 		}
 
 		int lengthValue = (int) Math.round(value.numValue);
