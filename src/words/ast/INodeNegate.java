@@ -13,7 +13,7 @@ public class INodeNegate extends INode {
 		ASTValue value = children.get(0).eval(environment).tryCoerceTo(ASTValue.Type.NUM);
 
 		if (value.type != ASTValue.Type.NUM) {
-			throw new InvalidTypeException("NUM", value.type.toString());
+			throw new InvalidTypeException(ASTValue.Type.NUM.toString(), value.type.toString());
 		}
 
 		return new ASTValue(value.numValue * -1);

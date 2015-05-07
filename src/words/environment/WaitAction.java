@@ -42,14 +42,14 @@ public class WaitAction extends Action {
 		}
 
 		if (value.type != ASTValue.Type.NUM) {
-			throw new WordsProgramException(lengthExpression, new InvalidTypeException(value.type.toString(), ASTValue.Type.NUM.toString()));
+			throw new WordsProgramException(lengthExpression, new InvalidTypeException(ASTValue.Type.NUM.toString(), value.type.toString()));
 		}
 
 		int lengthValue = (int) Math.round(value.numValue);
 
 		// Throw an appropriate WordsException if lengthValue is zero or negative
 		if (lengthValue < 1) {
-			throw new WordsProgramException(lengthExpression, new FunctionArgsException("wait", "a positive number", String.format("%d", lengthValue)));
+			throw new WordsProgramException(lengthExpression, new InvalidTypeException("a positive number", String.format("%d", lengthValue)));
 		}
 
 		// Decompose into executable 1-frame waits

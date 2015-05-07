@@ -81,7 +81,7 @@ public class MoveAction extends Action {
 		}
 
 		if (value.type != ASTValue.Type.NUM) {
-			throw new WordsProgramException(distanceExpression, new InvalidTypeException(value.type.toString(), ASTValue.Type.NUM.toString()));
+			throw new WordsProgramException(distanceExpression, new InvalidTypeException(ASTValue.Type.NUM.toString(), value.type.toString()));
 		}
 
 		int distanceValue = (int) Math.round(value.numValue);

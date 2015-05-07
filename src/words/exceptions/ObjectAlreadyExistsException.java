@@ -10,6 +10,6 @@ public class ObjectAlreadyExistsException extends WordsRuntimeException {
 	
 	@Override
 	public String toString() {
-		return String.format("object %s already existed. Cannot be created again.", objectName);
+		return String.format("Object %s already exists and cannot be created again.", objectName);
 	}
 }

@@ -28,7 +28,7 @@ public class INodeRemoveObject extends INode {
 		}
 		
 		obj = property.objProperty;
-		obj.prepareForRemoval();
+		obj.flagForRemoval();
 		
 		return null;
 	}
