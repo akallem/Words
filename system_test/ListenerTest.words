@@ -24,3 +24,13 @@ Whenever Alex is right of Jon {
 }
 
 Make Alex move up 2.
+
+Bob is a thing at 0,-2.
+Alice is a thing at 2,-2.
+
+Whenever Alice is next to Bob {
+    Make Bob say "hey".
+}
+
+Make Alice wait 1.
+Make Alice's column be 1.
