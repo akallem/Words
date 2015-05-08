@@ -62,6 +62,11 @@ public class FrameLoop extends Thread {
 
 	private boolean executeSingleFrame() {
 		boolean finished = false;
+		
+		// Phase 0: Store each object's position at the beginning of the turn
+		for (WordsObject object : environment.getObjects()) {
+			object.recordLastPosition();
+		}
 
 		// Phase 1: Statement Translation and Execution
 		while (!ASTQueue.isEmpty()) {
