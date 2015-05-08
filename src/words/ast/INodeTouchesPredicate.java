@@ -28,7 +28,7 @@ public class INodeTouchesPredicate extends INodeBasicActionPredicate {
 		if (objectAlias1.type.equals(ASTValue.Type.STRING) 
 				&& objectAlias2.type.equals(ASTValue.Type.STRING)
 				&& objectAlias1.stringValue.equals(objectAlias2.stringValue)) {
-			throw new AliasException("Aliases may not be named the same.");
+			throw new AliasException();
 		}
 		
 		HashSet<WordsObject> objectsToCheck1 = getObjectsToCheck(subject1, environment);

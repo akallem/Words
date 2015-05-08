@@ -12,6 +12,6 @@ public class OperatorTypeMismatchException extends WordsRuntimeException {
 
 	@Override
 	public String toString() {
-		return String.format("cannot compare %s to %s.", lhsType, rhsType);
+		return String.format("Cannot compare %s to %s.", lhsType, rhsType);
 	}
 }

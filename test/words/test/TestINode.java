@@ -50,8 +50,8 @@ public class TestINode {
 	AST trueLeaf = new INodeEquals(nothingLeaf, nothingLeaf);
 	AST falseLeaf = new INodeEquals(nothingLeaf, numLeaf);
 	
-	AST createObjectFred = new INodeCreateObject(fredStringLeaf, thingStringLeaf, null, position00);
-	AST createObjectGeorge = new INodeCreateObject(georgeStringLeaf, thingStringLeaf, null, position00);
+	AST createObjectFred = new INodeCreateObject(fredStringLeaf, thingStringLeaf, position00);
+	AST createObjectGeorge = new INodeCreateObject(georgeStringLeaf, thingStringLeaf, position00);
 	
 	@Test
 	public void canAddNullToINode() {

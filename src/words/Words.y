@@ -170,8 +170,7 @@ listener_declare_statement:
 	;
 
 object_create_statement:
-		identifier IS A identifier AT position '.'									{ $$ = new INodeCreateObject($1, $4, null, $6); ((AST) $$).lineNumber = lexer.lineNumber; }
-	|	identifier IS A identifier WITH argument_list AT position '.'				{ $$ = new INodeCreateObject($1, $4, $6, $8); ((AST) $$).lineNumber = lexer.lineNumber; }
+		identifier IS A identifier AT position '.'									{ $$ = new INodeCreateObject($1, $4, $6); ((AST) $$).lineNumber = lexer.lineNumber; }
 	;
 
 object_destroy_statement:
@@ -436,8 +435,6 @@ public static void main(String args[]) throws IOException {
 				Words parser = new Words(br);
 				parser.yyparse();
 
-				printLnToConsole();
-				printLnToConsole();
 				if (parser.root != null)
 					frameLoop.enqueueAST(parser.root);
 
@@ -465,9 +462,9 @@ public static void main(String args[]) throws IOException {
 		while (true) {
 			// Prompt user
 			if (depth > 0)
-				System.err.printf("... ");
+				Console.showPromptMore();
 			else
-				System.err.printf("> ");
+				Console.showPrompt();
 
 			// Read next line and exit on EOF
 			String line = br.readLine();
@@ -492,8 +489,6 @@ public static void main(String args[]) throws IOException {
 		Words parser = new Words(new StringReader(fragment));
 		parser.yyparse();
 
-		// In REPL interface, we might want to evaluate only ASTs that had no syntax errors
-		printLnToConsole();
 		printLnToConsole();
 		if (parser.root != null)
 			frameLoop.enqueueAST(parser.root);

@@ -71,9 +71,9 @@ public class FrameLoop extends Thread {
 			} catch (WordsRuntimeException e) {
 				// Note: this should only be caught in junit tests; 
 				// otherwise, it should be caught earlier at the statement level.
-				System.err.println();
+				System.err.println("\r");
 				System.err.println(e.toString());
-				System.out.println("> ");
+				Console.showPrompt();
 			}
 		}
 		
@@ -84,9 +84,10 @@ public class FrameLoop extends Thread {
 			try {
 				object.executeNextAction(environment);
 			} catch (WordsProgramException e) {
+				System.err.println("\r");
 				System.err.println("Error executing action on object " + object.getObjectName() + ": \n" + e.toString());
-				System.err.println("Action will not be performed");
-				System.out.println("> ");
+				System.err.println("Action will not be performed.");
+				Console.showPrompt();
 			}
 		}
 		
@@ -101,8 +102,9 @@ public class FrameLoop extends Thread {
 					iterator.remove();
 				}
 			} catch (WordsProgramException e) {
+				System.err.println("\r");
 				System.err.println(e.toString());
-				System.out.println("> ");
+				Console.showPrompt();
 			}
 		}
 		

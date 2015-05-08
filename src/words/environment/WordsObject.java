@@ -119,7 +119,7 @@ public class WordsObject {
 		// Special handling of "row" and "column" properties
 		if (propertyName.equals("row") || propertyName.equals("column")) {
 			if (property.type != Property.PropertyType.NUM) {
-				throw new InvalidTypeException("NUM", property.type.toString());
+				throw new InvalidTypeException(Property.PropertyType.NUM.toString(), property.type.toString());
 			}
 
 			if (propertyName.equals("row"))
@@ -168,7 +168,7 @@ public class WordsObject {
 		}
 	}
 	
-	public void prepareForRemoval() {
+	public void flagForRemoval() {
 		shouldRemove = true;
 	}
 	
@@ -192,6 +192,11 @@ public class WordsObject {
 		this.cell.x++;
 	}
 
+	/**
+	 * Executes the next action on this object's action queue, updating its lastAction
+	 * property accordingly.  An object will not execute an action if it was just created
+	 * in this frame.
+	 */
 	public void executeNextAction(Environment environment) throws WordsProgramException {
 		if (createdInThisFrame) {
 			createdInThisFrame = false;
