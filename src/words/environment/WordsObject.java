@@ -21,7 +21,7 @@ public class WordsObject {
 	private Action lastAction;
 	private boolean shouldRemove;
 	private boolean createdInThisFrame;
-	private Position lastRecordedPosition;
+	private Position startOfFramePosition;
 	
 	// While an object is expanding a custom action, actions are enqueued in a separate list
 	private boolean isExpandingCustomAction;
@@ -223,12 +223,12 @@ public class WordsObject {
 		}
 	}
 	
-	public boolean movedInLastFrame() {
-		return lastAction == null || !lastRecordedPosition.equals(currentPosition);
+	public boolean movedInThisFrame() {
+		return lastAction == null || !startOfFramePosition.equals(currentPosition);
 	}
 	
-	public void recordLastPosition() {
-		lastRecordedPosition = new Position(currentPosition);
+	public void recordStartOfFramePosition() {
+		startOfFramePosition = new Position(currentPosition);
 	}
 
 	public Position getCurrentPosition() {

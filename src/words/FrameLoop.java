@@ -65,7 +65,7 @@ public class FrameLoop extends Thread {
 		
 		// Phase 0: Store each object's position at the beginning of the turn
 		for (WordsObject object : environment.getObjects()) {
-			object.recordLastPosition();
+			object.recordStartOfFramePosition();
 		}
 
 		// Phase 1: Statement Translation and Execution
