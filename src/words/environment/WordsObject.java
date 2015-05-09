@@ -16,11 +16,12 @@ public class WordsObject {
 	private WordsClass wordsClass;
 	private HashMap<String, Property> properties;
 	private LinkedList<Action> actionQueue;
-	private Position cell;
+	private Position currentPosition;
 	private String currentMessage;
 	private Action lastAction;
 	private boolean shouldRemove;
 	private boolean createdInThisFrame;
+	private Position startOfFramePosition;
 	
 	// While an object is expanding a custom action, actions are enqueued in a separate list
 	private boolean isExpandingCustomAction;
@@ -30,7 +31,7 @@ public class WordsObject {
 	public WordsObject(String objectName, WordsClass wordsClass, Position cell) {
 		this.wordsClass = wordsClass;
 		this.objectName = objectName;
-		this.cell = cell;
+		this.currentPosition = cell;
 		this.actionQueue = new LinkedList<Action>();
 		this.properties = new HashMap<String, Property>();
 		this.customActionExpansion = new LinkedList<Action>();
@@ -94,9 +95,9 @@ public class WordsObject {
 	public Property getProperty(String propertyName) {
 		// Special handling of "row" "column" "name" and "class" properties
 		if (propertyName.equals("row"))
-			return new Property(cell.y);
+			return new Property(currentPosition.y);
 		else if (propertyName.equals("column"))
-			return new Property(cell.x);
+			return new Property(currentPosition.x);
 		else if (propertyName.equals("name"))
 			return new Property(objectName);
 		else if (propertyName.equals("class"))
@@ -121,9 +122,9 @@ public class WordsObject {
 			}
 
 			if (propertyName.equals("row"))
-				cell.y = (int) Math.round(property.numProperty);
+				currentPosition.y = (int) Math.round(property.numProperty);
 			else
-				cell.x = (int) Math.round(property.numProperty);
+				currentPosition.x = (int) Math.round(property.numProperty);
 			
 			return;
 		}
@@ -175,19 +176,19 @@ public class WordsObject {
 	}
 	
 	public void moveUp() {
-		this.cell.y++;
+		this.currentPosition.y++;
 	}
 
 	public void moveDown() {
-		this.cell.y--;
+		this.currentPosition.y--;
 	}
 
 	public void moveLeft() {
-		this.cell.x--;
+		this.currentPosition.x--;
 	}
 
 	public void moveRight() {
-		this.cell.x++;
+		this.currentPosition.x++;
 	}
 
 	/**
@@ -198,7 +199,6 @@ public class WordsObject {
 	public void executeNextAction(Environment environment) throws WordsProgramException {
 		if (createdInThisFrame) {
 			createdInThisFrame = false;
-			return;
 		} else {
 			if (!actionQueue.isEmpty()) {
 				while (actionQueue.peek().isExpandable()) {
@@ -222,9 +222,17 @@ public class WordsObject {
 			}
 		}
 	}
+	
+	public boolean movedInThisFrame() {
+		return lastAction == null || !startOfFramePosition.equals(currentPosition);
+	}
+	
+	public void recordStartOfFramePosition() {
+		startOfFramePosition = new Position(currentPosition);
+	}
 
 	public Position getCurrentPosition() {
-		return cell;
+		return currentPosition;
 	}
 
 	public String getClassName() {

@@ -13,6 +13,11 @@ public class Position {
 		this.y = (int) Math.round(y);
 	}
 	
+	public Position(Position p) {
+		this.x = p.x;
+		this.y = p.y;
+	}
+	
 	@Override 
 	public String toString() {
 		return Integer.toString(x) + " , " + Integer.toString(y);
