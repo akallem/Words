@@ -9,7 +9,7 @@ import words.environment.Property.PropertyType;
 import words.exceptions.*;
 
 /**
- * An event listener as specified in the Words language.
+ * An object as specified in the Words language.
  */
 public class WordsObject {
 	private String objectName;
