@@ -3,11 +3,11 @@ Words Programming Language
 A project for COMS 4115, Spring 2015
 [Course Website](http://www.cs.columbia.edu/~aho/cs4115/)
 
-+Andrew Kallem (Aalk4308)		Project Manager
-+Alex Mark (alexthemark)			Language Guru
-+James Young (jtyoung1292)		System Architect
-+Michael Ben-Ami (mzbenami)		System Integrator
-+Wangda Zhang (ZhangWangda)		Tester
+*Andrew Kallem (Aalk4308)		Project Manager
+*Alex Mark (alexthemark)			Language Guru
+*James Young (jtyoung1292)		System Architect
+*Michael Ben-Ami (mzbenami)		System Integrator
+*Wangda Zhang (ZhangWangda)		Tester
 
 # 1. Introductory Whitepaper
 
