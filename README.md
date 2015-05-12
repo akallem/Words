@@ -53,4 +53,4 @@ HyperTalk (NOTE:  http://en.wikipedia.org/wiki/HyperTalk) is a desktop scripting
 
 ## 1.4 More Information
 
-For more information, including a tutorial, the Language Reference Manual and our group's final report, please view the Documentation folder of this repository. 
+For more information, including a tutorial, the Language Reference Manual and our group's final report, please view the documentation folder of this repository. 
