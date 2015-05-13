@@ -1,6 +1,7 @@
 Words Programming Language
 
 A project for COMS 4115, Spring 2015
+
 [Course Website](http://www.cs.columbia.edu/~aho/cs4115/)
 
 * Andrew Kallem (Aalk4308)		Project Manager
@@ -53,4 +54,4 @@ HyperTalk (NOTE:  http://en.wikipedia.org/wiki/HyperTalk) is a desktop scripting
 
 ## 1.4 More Information
 
-For more information, including a tutorial, the Language Reference Manual and our group's final report, please view the documentation folder of this repository. 
+For more information, including a tutorial and the Language Reference Manual, please view the documentation folder of this repository. 
