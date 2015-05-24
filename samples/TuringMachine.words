@@ -1,15 +1,24 @@
+// Common methods of Turing Machine heads
 A head is a thing which {
 	can write_blank which means {
-		Blank is a symbol at Head's column, Head's row - 1.
+		Blank is a symbol at its column, its row - 1.
 	}
 	can write_zero which means {
-		Zero is a symbol at Head's column, Head's row - 1.
+		Zero is a symbol at its column, its row - 1.
 		Zero's value is 0.
 	}
 	can write_one which means {
-		One is a symbol at Head's column, Head's row - 1.
+		One is a symbol at its column, its row - 1.
 		One's value is 1.
 	}
+	can process_symbol with symbol, value which means {
+		// Subclasses should override with that machine's program
+		Make it wait 1.
+	}
+}
+
+// A Turing Machine that sounds in binary
+A counter is a head which {
 	can process_symbol with symbol, value which means {
 		If not(its state = nothing) then {
 			Remove symbol.
@@ -74,6 +83,7 @@ A head is a thing which {
 	}
 }
 
+// Generate a tape
 A symbol is a thing.
 
 SymbolGenerator is a thing at -20,0.
@@ -85,9 +95,10 @@ Repeat 40 times {
 
 Remove SymbolGenerator.
 
-Head is a head at 2,1.
-Head's state is 0.
+// Create a counter machine
+Counter is a counter at 2,1.
+Counter's state is 0.
 
-Whenever Head is above a symbol [s] {
-	Make Head process_symbol with symbol s, value s's value.
+Whenever a head [h] is above a symbol [s] {
+	Make h process_symbol with symbol s, value s's value.
 }
