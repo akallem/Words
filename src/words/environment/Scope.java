@@ -7,11 +7,11 @@ import java.util.HashMap;
  */
 public class Scope {
 	public Scope parent;		// The access link to enclosing scope
-	public HashMap<String, Property> variables;
+	public HashMap<String, Variable> variables;
 	
 	public Scope(Scope parent) {
 		this.parent = parent;
-		variables = new HashMap<String, Property>(); 
+		variables = new HashMap<String, Variable>(); 
 	}
 	
 	public int getDepth() {

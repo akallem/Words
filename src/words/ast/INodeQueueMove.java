@@ -16,8 +16,8 @@ public class INodeQueueMove extends INode {
 		AST distance = children.get(3);
 		ASTValue doNow = children.get(4) != null ? children.get(4).eval(environment) : null;
 		
-		Property property = lookupProperty(environment, referenceObject, identifier);
-		if (property.type != Property.PropertyType.OBJECT) {
+		Variable property = lookupProperty(environment, referenceObject, identifier);
+		if (property.type != Variable.VariableType.OBJECT) {
 			throw new InvalidTypeException(ASTValue.Type.OBJ.toString(), property.type.toString());
 		}
 		WordsObject object = property.objProperty;

@@ -1,14 +1,14 @@
 package words.exceptions;
 
-import words.environment.Property;
+import words.environment.Variable;
 
 @SuppressWarnings("serial")
 public class ReferenceException extends WordsRuntimeException {
 	
-	private Property.PropertyType wordsType;
+	private Variable.VariableType wordsType;
 	private String wordsId;
 	
-	public ReferenceException(String wordsId, Property.PropertyType wordsType) {
+	public ReferenceException(String wordsId, Variable.VariableType wordsType) {
 		this.wordsId = wordsId;
 		this.wordsType = wordsType;
 	}

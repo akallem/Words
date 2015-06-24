@@ -122,8 +122,8 @@ public class TestEnvironment {
 			fail();
 		}
 		environment.popScope();
-		Property property = environment.getVariable("Alex");
-		assertEquals("Variable did not exist after popping local scope", property.type, Property.PropertyType.NOTHING);
+		Variable property = environment.getVariable("Alex");
+		assertEquals("Variable did not exist after popping local scope", property.type, Variable.VariableType.NOTHING);
 	}
 	
 	@Test
@@ -154,7 +154,7 @@ public class TestEnvironment {
 		}
 		
 		// Only James and Andrew should be visible now.  The scope containing Alex should be skipped
-		Property property;
+		Variable property;
 		
 		property = environment.getVariable("James");
 		assertEquals("Variable existed as expected in local scope", property.objProperty, James);
@@ -163,7 +163,7 @@ public class TestEnvironment {
 		assertEquals("Variable existed as expected by accessing outer scope", property.objProperty, Andrew);
 		
 		property = environment.getVariable("Alex");
-		assertEquals("Variable did not exist after popping local scope", property.type, Property.PropertyType.NOTHING);		
+		assertEquals("Variable did not exist after popping local scope", property.type, Variable.VariableType.NOTHING);		
 		
 		environment.popScope();
 		
@@ -175,7 +175,7 @@ public class TestEnvironment {
 		assertEquals("Variable existed as expected by accessing outer scope", property.objProperty, Andrew);
 		
 		property = environment.getVariable("James");
-		assertEquals("Variable did not exist after popping local scope", property.type, Property.PropertyType.NOTHING);
+		assertEquals("Variable did not exist after popping local scope", property.type, Variable.VariableType.NOTHING);
 	}
 
 	/****************************************
@@ -203,7 +203,7 @@ public class TestEnvironment {
 	@Test
 	public void singleInheritance() throws WordsRuntimeException {
 		WordsClass parentClass = environment.createClass("Person", "thing");
-		parentClass.setProperty("height", new Property(5.0));
+		parentClass.setProperty("height", new Variable(5.0));
 		
 		environment.createClass("Man", "Person");
 		WordsObject childObject = environment.createObject("Dude", "Man", new Position(0.0, 0.0));
@@ -214,7 +214,7 @@ public class TestEnvironment {
 	@Test
 	public void skipGenerationInheritance() throws WordsRuntimeException {
 		WordsClass grandParentClass = environment.createClass("Person", "thing");
-		grandParentClass.setProperty("height", new Property(5.0));
+		grandParentClass.setProperty("height", new Variable(5.0));
 		
 		environment.createClass("Man", "Person");
 		environment.createClass("Boy", "Man");
@@ -226,10 +226,10 @@ public class TestEnvironment {
 	@Test
 	public void compoundInheritance() throws WordsRuntimeException {
 		WordsClass grandParentClass = environment.createClass("Person", "thing");
-		grandParentClass.setProperty("height", new Property(5.0));
+		grandParentClass.setProperty("height", new Variable(5.0));
 		
 		WordsClass parentClass = environment.createClass("Man", "Person");
-		parentClass.setProperty("language", new Property("wordz"));
+		parentClass.setProperty("language", new Variable("wordz"));
 		
 		environment.createClass("Boy", "Man");
 		WordsObject grandChildObject = environment.createObject("Sonnie", "Boy", new Position(0.0, 0.0));

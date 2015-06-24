@@ -25,7 +25,7 @@ public class ASTValue {
 	public Direction directionValue;
 	public Position positionValue;
 	
-	public ASTValue(Property property) {
+	public ASTValue(Variable property) {
 		switch (property.type) {
 			case NOTHING:
 				this.type = ASTValue.Type.NOTHING;
@@ -121,16 +121,16 @@ public class ASTValue {
 	 * corresponding to this ASTValue.  Calling on an ASTValue with a type
 	 * other than those listed above is prohibited.
 	 */
-	public Property toWordsProperty() {
+	public Variable toWordsProperty() {
 		switch (this.type) {
 			case NUM:
-				return new Property(this.numValue);
+				return new Variable(this.numValue);
 			case STRING:
-				return new Property(this.stringValue);
+				return new Variable(this.stringValue);
 			case OBJ:
-				return new Property(this.objValue);
+				return new Variable(this.objValue);
 			case NOTHING:
-				return new Property(Property.PropertyType.NOTHING);
+				return new Variable(Variable.VariableType.NOTHING);
 			default:
 				throw new AssertionError("Cannot convert ASTValue of type " + this.type.toString() + "to WordsProperty");
 		}

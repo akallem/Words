@@ -20,8 +20,8 @@ public class INodeSubject extends INode {
 		if (className != null) {
 			return new ASTValue(className.stringValue);
 		} else {
-			Property property = lookupProperty(environment, referenceObject, identifier);
-			if (property.type != Property.PropertyType.OBJECT) {
+			Variable property = lookupProperty(environment, referenceObject, identifier);
+			if (property.type != Variable.VariableType.OBJECT) {
 				throw new InvalidTypeException(ASTValue.Type.OBJ.toString(), property.type.toString());
 			}
 			WordsObject object = property.objProperty;
