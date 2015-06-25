@@ -129,7 +129,7 @@ public class Environment {
 	public WordsObject createObject(String objectName, String className, Position position) throws WordsRuntimeException {
 		WordsClass wordsClass = getClass(className);
 		WordsObject newObject = new WordsObject(objectName, wordsClass, position);
-		createLocalVariable(objectName, new Variable(newObject));
+		createLocalVariable(objectName, new ASTValue(newObject));
 		
 		return newObject;
 	}
@@ -140,20 +140,19 @@ public class Environment {
 	 * When successful, the variable is added to the current scope
 	 * @throws ObjectAlreadyExistsException
 	 */
-	public void createLocalVariable(String varName, Variable value) throws ObjectAlreadyExistsException {
-		Variable existingVariable = getVariable(varName);
-		if (existingVariable.type == Variable.VariableType.OBJECT) {
+	public void createLocalVariable(String varName, ASTValue value) throws ObjectAlreadyExistsException {
+		ASTValue existingVariable = getVariable(varName);
+		if (existingVariable.type == ASTValue.Type.OBJ) {
 			throw new ObjectAlreadyExistsException(varName);
-		} else if (existingVariable.type != Variable.VariableType.NOTHING) {
+		} else if (existingVariable.type != ASTValue.Type.NOTHING) {
 			existingVariable.copyOtherVariable(value);
-			System.out.println("HELLO");
 		} else {
 			getCurrentScope().variables.put(varName, value);
 		}
 		
 		// If this variable is an object, also add it to objects by class
-		if (value.type == Variable.VariableType.OBJECT) {
-			objectsByClass.get(value.objProperty.getWordsClass()).add(value.objProperty);
+		if (value.type == ASTValue.Type.OBJ) {
+			objectsByClass.get(value.objValue.getWordsClass()).add(value.objValue);
 		}
 	}
 	
@@ -162,9 +161,9 @@ public class Environment {
 		objectsByClass.get(object.getWordsClass()).remove(object);
 		
 		for (Scope scope : stack) {
-			for (Iterator<Variable> iterator = scope.variables.values().iterator(); iterator.hasNext();) {
-				Variable property = iterator.next();
-				if (property.type == Variable.VariableType.OBJECT && property.objProperty == object) {
+			for (Iterator<ASTValue> iterator = scope.variables.values().iterator(); iterator.hasNext();) {
+				ASTValue property = iterator.next();
+				if (property.type == ASTValue.Type.OBJ && property.objValue == object) {
 					iterator.remove();
 				}
 			}
@@ -188,7 +187,7 @@ public class Environment {
 	/**
 	 * Adds a variable to the current scope.
 	 */
-	public void addToCurrentScope(String variableName, Variable variable) {
+	public void addToCurrentScope(String variableName, ASTValue variable) {
 		getCurrentScope().variables.put(variableName, variable);
 	}
 	
@@ -196,8 +195,8 @@ public class Environment {
 	 * Looks up a variable in the current scope and its parents and returns it if found.  If not found, returns NOTHING.
 	 * Does not iterate through the stack but uses the scope's parents as an access link.
 	 */
-	public Variable getVariable(String variableName) {
-		Variable prop = null;
+	public ASTValue getVariable(String variableName) {
+		ASTValue prop = null;
 		Scope scope = getCurrentScope();
 		
 		while (scope != null) {
@@ -208,7 +207,7 @@ public class Environment {
 		}
 		
 		if (prop == null) {
-			return new Variable(Variable.VariableType.NOTHING);
+			return new ASTValue(ASTValue.Type.NOTHING);
 		} else {
 			return prop;	
 		}

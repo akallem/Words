@@ -15,11 +15,11 @@ public class INodeQueueWait extends INode {
 		AST lengthExpression = children.get(2);
 		ASTValue doNow = children.get(3) != null ? children.get(3).eval(environment) : null;
 
-		Variable property = lookupProperty(environment, referenceObject, identifier);
-		if (property.type != Variable.VariableType.OBJECT) {
+		ASTValue property = lookupProperty(environment, referenceObject, identifier);
+		if (property.type != ASTValue.Type.OBJ) {
 			throw new InvalidTypeException(ASTValue.Type.OBJ.toString(), property.type.toString());
 		}
-		WordsObject object = property.objProperty;
+		WordsObject object = property.objValue;
 
 		WaitAction action = new WaitAction(environment.getCurrentScope(), lengthExpression);
 

@@ -19,7 +19,7 @@ public class INodeArgument extends INode {
 		Scope evaluatedArguments = (Scope) inherited;
 		ASTValue argumentName = children.get(0).eval(environment);
 		ASTValue argumentValue = children.get(1).eval(environment);
-		evaluatedArguments.variables.put(argumentName.stringValue, argumentValue.toWordsProperty());
+		evaluatedArguments.variables.put(argumentName.stringValue, argumentValue);
 		
 		return null;
 	}

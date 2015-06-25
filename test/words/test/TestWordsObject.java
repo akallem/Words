@@ -109,7 +109,7 @@ public class TestWordsObject {
 	@Test
 	public void shouldGetPreviouslySetProperty() {
 		String propertyName = "height";
-		Variable numProperty = new Variable(15.5);
+		ASTValue numProperty = new ASTValue(15.5);
 		
 		try {
 			obj.setProperty(propertyName, numProperty);
@@ -122,18 +122,18 @@ public class TestWordsObject {
 	@Test
 	public void missingPropertyShouldGetNothing() {
 		String propertyName = "garbage";
-		assertEquals("Retrieved property was NOTHING", Variable.VariableType.NOTHING, obj.getProperty(propertyName).type);
+		assertEquals("Retrieved property was NOTHING", ASTValue.Type.NOTHING, obj.getProperty(propertyName).type);
 	}
 	
 	@Test
 	public void settingMissingPropertyToNothingShouldHaveNoEffect() {
 		String propertyName = "height";
 		try {
-			obj.setProperty(propertyName, new Variable(Variable.VariableType.NOTHING));
+			obj.setProperty(propertyName, new ASTValue(ASTValue.Type.NOTHING));
 		} catch (Exception e) {
 			fail();
 		}	
-		assertEquals("Retrieved property was NOTHING", Variable.VariableType.NOTHING, obj.getProperty(propertyName).type);
+		assertEquals("Retrieved property was NOTHING", ASTValue.Type.NOTHING, obj.getProperty(propertyName).type);
 	}
 	
 	@Test
@@ -142,26 +142,26 @@ public class TestWordsObject {
 		
 		// Set it, then remove it by assigning NOTHING
 		try {
-			obj.setProperty(propertyName, new Variable(15.5));		
-			obj.setProperty(propertyName, new Variable(Variable.VariableType.NOTHING));
+			obj.setProperty(propertyName, new ASTValue(15.5));		
+			obj.setProperty(propertyName, new ASTValue(ASTValue.Type.NOTHING));
 		} catch (Exception e) {
 			fail();
 		}
-		assertEquals("Retrieved property was NOTHING", Variable.VariableType.NOTHING, obj.getProperty(propertyName).type);
+		assertEquals("Retrieved property was NOTHING", ASTValue.Type.NOTHING, obj.getProperty(propertyName).type);
 	}
 
 	@Test
 	public void gettingRowAndColumnPropertiesShouldMatchObjectPosition() {
 		// Note: x is column, y is row
-		assertEquals("Object's row matches y", (double) obj.getCurrentPosition().y, obj.getProperty("row").numProperty, 0.0001);
-		assertEquals("Object's column matches x", (double) obj.getCurrentPosition().x, obj.getProperty("column").numProperty, 0.0001);
+		assertEquals("Object's row matches y", (double) obj.getCurrentPosition().y, obj.getProperty("row").numValue, 0.0001);
+		assertEquals("Object's column matches x", (double) obj.getCurrentPosition().x, obj.getProperty("column").numValue, 0.0001);
 	}
 	
 	@Test
 	public void settingRowAndColumnPropertiesShouldSetObjectPosition() {
 		try {
-			obj.setProperty("row", new Variable(-4));
-			obj.setProperty("column", new Variable(2));
+			obj.setProperty("row", new ASTValue(-4));
+			obj.setProperty("column", new ASTValue(2));
 		} catch (Exception e) {
 			fail();
 		}
@@ -174,8 +174,8 @@ public class TestWordsObject {
 	@Test
 	public void settingRowAndColumnPropertiesShouldBeRounded() {
 		try {
-			obj.setProperty("row", new Variable(-4.3));
-			obj.setProperty("column", new Variable(2.9));
+			obj.setProperty("row", new ASTValue(-4.3));
+			obj.setProperty("column", new ASTValue(2.9));
 		} catch (Exception e) {
 			fail();
 		}
@@ -186,36 +186,36 @@ public class TestWordsObject {
 
 	@Test (expected = InvalidTypeException.class)
 	public void setPropertyCorrectType() throws WordsRuntimeException {
-		obj.setProperty("row", new Variable("String"));
+		obj.setProperty("row", new ASTValue("String"));
 	}
 	
 	@Test
 	public void inheritanceOfClassPropertyShouldWork() {
 		String propertyName = "height";
-		Variable numProperty = new Variable(15.5);
+		ASTValue numProperty = new ASTValue(15.5);
 		
-		assertEquals("Object currently does not have the property", Variable.VariableType.NOTHING, obj.getProperty(propertyName).type);
+		assertEquals("Object currently does not have the property", ASTValue.Type.NOTHING, obj.getProperty(propertyName).type);
 		thing.setProperty(propertyName, numProperty);
 		assertEquals("Object inherited property from parent", numProperty, obj.getProperty(propertyName));
 	}
 	
 	@Test (expected = ModifyObjectPropertyException.class)
 	public void cannotSetName() throws WordsRuntimeException {
-		obj.setProperty("name", new Variable("String"));
+		obj.setProperty("name", new ASTValue("String"));
 	}
 	
 	@Test (expected = ModifyObjectPropertyException.class)
 	public void cannotSetClass() throws WordsRuntimeException {
-		obj.setProperty("class", new Variable("String"));
+		obj.setProperty("class", new ASTValue("String"));
 	}
 	
 	@Test
 	public void getNameOfObject() throws WordsRuntimeException {
-		assertEquals("Object name is retrieved and correct", "test", obj.getProperty("name").stringProperty);
+		assertEquals("Object name is retrieved and correct", "test", obj.getProperty("name").stringValue);
 	}
 	
 	@Test 
 	public void getClassOfObject() throws WordsRuntimeException {
-		assertEquals("Class name is retrieved and correct", "thing", obj.getProperty("class").stringProperty);
+		assertEquals("Class name is retrieved and correct", "thing", obj.getProperty("class").stringValue);
 	}
 }

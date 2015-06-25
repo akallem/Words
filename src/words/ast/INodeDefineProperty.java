@@ -29,7 +29,7 @@ public class INodeDefineProperty extends INode {
 			"Literal wasn't string or number";
 		
 		WordsClass wordsClass = (WordsClass) inherited;
-		wordsClass.setProperty(propertyName.stringValue, propertyValue.toWordsProperty());
+		wordsClass.setProperty(propertyName.stringValue, propertyValue);
 		
 		return null;
 	}

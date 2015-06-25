@@ -20,7 +20,7 @@ public class INodeQueueAssignProperty extends INode {
 		
 		String propertyName = children.get(0).eval(environment).stringValue;
 		ASTValue propertyASTValue = children.get(1).eval(environment);
-		object.setProperty(propertyName, propertyASTValue.toWordsProperty());
+		object.setProperty(propertyName, propertyASTValue);
 		
 		return null;
 	}

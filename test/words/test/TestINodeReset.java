@@ -18,7 +18,7 @@ public class TestINodeReset extends TestINode {
 		INodeReset testNode = new INodeReset();
 		testNode.eval(environment);
 		
-		Variable property = environment.getVariable("Alex");
-		assertEquals("Object has disappeared", property.type, Variable.VariableType.NOTHING);
+		ASTValue property = environment.getVariable("Alex");
+		assertEquals("Object has disappeared", property.type, ASTValue.Type.NOTHING);
 	}
 }

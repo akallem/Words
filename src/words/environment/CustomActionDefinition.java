@@ -33,7 +33,7 @@ public class CustomActionDefinition {
 		// Install the pronouns to point to the given object
 		String[] pronouns = {"them", "it", "him", "her", "his", "its", "their", "Her", "His", "Its", "Their"};
 		for (String pronoun : pronouns) {
-			environment.addToCurrentScope(pronoun, new Variable(object));
+			environment.addToCurrentScope(pronoun, new ASTValue(object));
 		}
 
 		try {

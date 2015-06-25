@@ -1,14 +1,14 @@
 package words.exceptions;
 
-import words.environment.Variable;
+import words.ast.ASTValue;
 
 @SuppressWarnings("serial")
 public class ReferenceException extends WordsRuntimeException {
 	
-	private Variable.VariableType wordsType;
+	private ASTValue.Type wordsType;
 	private String wordsId;
 	
-	public ReferenceException(String wordsId, Variable.VariableType wordsType) {
+	public ReferenceException(String wordsId, ASTValue.Type wordsType) {
 		this.wordsId = wordsId;
 		this.wordsType = wordsType;
 	}

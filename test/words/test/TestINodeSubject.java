@@ -21,7 +21,7 @@ public class TestINodeSubject extends TestINode {
 		WordsObject fredObject = environment.createObject("Fred", "thing", new Position(0, 0));
 		WordsObject georgeObject = environment.createObject("George", "thing", new Position(0, 0));
 		LNodeReference fredRef = new LNodeReference("Fred's");
-		fredObject.setProperty("brother", new Variable(georgeObject));
+		fredObject.setProperty("brother", new ASTValue(georgeObject));
 		INodeReferenceList fredRefList = new INodeReferenceList(fredRef);
 		LNodeIdentifier id = new LNodeIdentifier("brother");
 		AST subject = new INodeSubject(null, fredRefList, id);

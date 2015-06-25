@@ -25,12 +25,6 @@ public class ASTValue {
 	public WordsObject objValue;
 	public Direction directionValue;
 	public Position positionValue;
-	public Variable varValue;
-	
-	public ASTValue(Variable var) {
-		this.type = Type.VARIABLE;
-		this.varValue = var;
-	}
 	
 	public ASTValue(boolean b) {
 		this.type = Type.BOOLEAN;
@@ -83,18 +77,6 @@ public class ASTValue {
 						this.type = newType;
 					} catch (NumberFormatException nfe) {}  
 				}
-				if (type == Type.VARIABLE) {
-					if (this.varValue.type == Variable.VariableType.STRING) {
-						try {  
-							double val = Double.parseDouble(stringValue);
-							this.numValue = val;
-							this.type = newType;
-						} catch (NumberFormatException nfe) {}
-					} else if (this.varValue.type == Variable.VariableType.NUM) {
-						this.numValue = this.varValue.numProperty;
-						this.type = newType;
-					}
-				}
 				break;
 			case STRING:
 				if (type == Type.NUM) {
@@ -105,42 +87,20 @@ public class ASTValue {
 					this.stringValue = objValue.getObjectName();
 					this.type = newType;
 				}
-				if (type == Type.VARIABLE) {
-					if (this.varValue.type == Variable.VariableType.STRING) {
-						this.stringValue = this.varValue.stringProperty;
-						this.type = newType;
-					} else if (this.varValue.type == Variable.VariableType.NUM) {
-						this.stringValue = String.format("%f", this.varValue.numProperty);
-						this.type = newType;
-					}
-				}
 				break;
 			default:
 				break;
 		}
-		
 		return this;
 	}
 	
-	/**
-	 * Returns a WordsProperty object of type NUM, STRING, OBJ, or NOTHING
-	 * corresponding to this ASTValue.  Calling on an ASTValue with a type
-	 * other than those listed above is prohibited.
-	 */
-	public Variable toWordsProperty() {
-		switch (this.type) {
-			case VARIABLE:
-				return this.varValue;
-			case NUM:
-				return new Variable(this.numValue);
-			case STRING:
-				return new Variable(this.stringValue);
-			case OBJ:
-				return new Variable(this.objValue);
-			case NOTHING:
-				return new Variable(Variable.VariableType.NOTHING);
-			default:
-				throw new AssertionError("Cannot convert ASTValue of type " + this.type.toString() + "to WordsProperty");
-		}
+	public void copyOtherVariable(ASTValue other) {
+		this.type = other.type;
+		this.booleanValue = other.booleanValue;
+		this.directionValue = other.directionValue;
+		this.numValue = other.numValue;
+		this.objValue = other.objValue;
+		this.positionValue = other.positionValue;
+		this.stringValue = other.stringValue;
 	}
 }

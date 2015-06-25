@@ -20,11 +20,11 @@ public class INodeSubject extends INode {
 		if (className != null) {
 			return new ASTValue(className.stringValue);
 		} else {
-			Variable property = lookupProperty(environment, referenceObject, identifier);
-			if (property.type != Variable.VariableType.OBJECT) {
+			ASTValue property = lookupProperty(environment, referenceObject, identifier);
+			if (property.type != ASTValue.Type.OBJ) {
 				throw new InvalidTypeException(ASTValue.Type.OBJ.toString(), property.type.toString());
 			}
-			WordsObject object = property.objProperty;
+			WordsObject object = property.objValue;
 			return new ASTValue(object);
 		}
 	}

@@ -43,10 +43,10 @@ public class INodeAdjacencyPredicate extends INodeBasicActionPredicate {
 					returnVal.booleanValue = true;
 					environment.pushNewScope();
 					if (objectAlias1.type.equals(ASTValue.Type.STRING)) {
-						environment.addToCurrentScope(objectAlias1.stringValue, new Variable(object1));
+						environment.addToCurrentScope(objectAlias1.stringValue, new ASTValue(object1));
 					}
 					if (objectAlias2.type.equals(ASTValue.Type.STRING)) {
-						environment.addToCurrentScope(objectAlias2.stringValue, new Variable(object2));
+						environment.addToCurrentScope(objectAlias2.stringValue, new ASTValue(object2));
 					}
 					stmtList.eval(environment);
 					environment.popScope();
