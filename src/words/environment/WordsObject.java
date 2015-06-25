@@ -134,14 +134,13 @@ public class WordsObject {
 			throw new ModifyObjectPropertyException(propertyName);
 		}
 
-		if (properties.containsKey(propertyName) && property.type == Variable.VariableType.NOTHING)
+		if (properties.containsKey(propertyName) && property.type == Variable.VariableType.NOTHING) {
 			properties.remove(propertyName);
-		else {
-			if (property.type == VariableType.OBJECT) {
-				property.objProperty.updateReferers(this, property);
-			}
-			properties.put(propertyName, property);
 		}
+		if (property.type == VariableType.OBJECT) {
+			property.objProperty.updateReferers(this, property);
+		}
+		properties.put(propertyName, property);
 	}
 	
 	public void updateReferers(WordsObject referringObject, Variable referringProperty) {

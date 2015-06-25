@@ -14,6 +14,7 @@ public class ASTValue {
 		DIRECTION,
 		POSITION,
 		NOW,
+		VARIABLE,
 		NOTHING
 	}
 	public Type type;
@@ -24,27 +25,11 @@ public class ASTValue {
 	public WordsObject objValue;
 	public Direction directionValue;
 	public Position positionValue;
+	public Variable varValue;
 	
-	public ASTValue(Variable property) {
-		switch (property.type) {
-			case NOTHING:
-				this.type = ASTValue.Type.NOTHING;
-				break;
-			case NUM:
-				this.type = Type.NUM;
-				this.numValue = property.numProperty;
-				break;
-			case OBJECT:
-				this.type = Type.OBJ;
-				this.objValue = property.objProperty;
-				break;
-			case STRING:
-				this.type = Type.STRING;
-				this.stringValue = property.stringProperty;
-				break;
-			default:
-				break;
-		}
+	public ASTValue(Variable var) {
+		this.type = Type.VARIABLE;
+		this.varValue = var;
 	}
 	
 	public ASTValue(boolean b) {
@@ -98,6 +83,18 @@ public class ASTValue {
 						this.type = newType;
 					} catch (NumberFormatException nfe) {}  
 				}
+				if (type == Type.VARIABLE) {
+					if (this.varValue.type == Variable.VariableType.STRING) {
+						try {  
+							double val = Double.parseDouble(stringValue);
+							this.numValue = val;
+							this.type = newType;
+						} catch (NumberFormatException nfe) {}
+					} else if (this.varValue.type == Variable.VariableType.NUM) {
+						this.numValue = this.varValue.numProperty;
+						this.type = newType;
+					}
+				}
 				break;
 			case STRING:
 				if (type == Type.NUM) {
@@ -107,6 +104,15 @@ public class ASTValue {
 				if (type == Type.OBJ) {
 					this.stringValue = objValue.getObjectName();
 					this.type = newType;
+				}
+				if (type == Type.VARIABLE) {
+					if (this.varValue.type == Variable.VariableType.STRING) {
+						this.stringValue = this.varValue.stringProperty;
+						this.type = newType;
+					} else if (this.varValue.type == Variable.VariableType.NUM) {
+						this.stringValue = String.format("%f", this.varValue.numProperty);
+						this.type = newType;
+					}
 				}
 				break;
 			default:
@@ -123,6 +129,8 @@ public class ASTValue {
 	 */
 	public Variable toWordsProperty() {
 		switch (this.type) {
+			case VARIABLE:
+				return this.varValue;
 			case NUM:
 				return new Variable(this.numValue);
 			case STRING:

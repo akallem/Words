@@ -33,23 +33,7 @@ public class INodeRetrieveProperty extends INode {
 		String propName = id.stringValue;
 		
 		Variable wordsProp = obj.getProperty(propName);
-		ASTValue astValue = null;
-		switch (wordsProp.type) {
-			case STRING:
-				astValue = new ASTValue(wordsProp.stringProperty);
-				break;
-			case NUM:
-				astValue = new ASTValue(wordsProp.numProperty);
-				break;
-			case OBJECT:
-				astValue = new ASTValue(wordsProp.objProperty);
-				break;
-			case NOTHING:
-				astValue = new ASTValue(ASTValue.Type.NOTHING);
-				break;
-			default:
-				throw new AssertionError("Shouldn't get here in INodeRetrieveProperty");
-		}
+		ASTValue astValue = new ASTValue(wordsProp);
 		
 		return astValue;
 	}
