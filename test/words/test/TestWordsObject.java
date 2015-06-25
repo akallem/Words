@@ -3,6 +3,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import words.Variable;
 import words.ast.*;
 import words.environment.*;
 import words.exceptions.*;
@@ -109,7 +110,7 @@ public class TestWordsObject {
 	@Test
 	public void shouldGetPreviouslySetProperty() {
 		String propertyName = "height";
-		ASTValue numProperty = new ASTValue(15.5);
+		Variable numProperty = new Variable(15.5);
 		
 		try {
 			obj.setProperty(propertyName, numProperty);
@@ -122,18 +123,18 @@ public class TestWordsObject {
 	@Test
 	public void missingPropertyShouldGetNothing() {
 		String propertyName = "garbage";
-		assertEquals("Retrieved property was NOTHING", ASTValue.Type.NOTHING, obj.getProperty(propertyName).type);
+		assertEquals("Retrieved property was NOTHING", Variable.Type.NOTHING, obj.getProperty(propertyName).type);
 	}
 	
 	@Test
 	public void settingMissingPropertyToNothingShouldHaveNoEffect() {
 		String propertyName = "height";
 		try {
-			obj.setProperty(propertyName, new ASTValue(ASTValue.Type.NOTHING));
+			obj.setProperty(propertyName, new Variable(Variable.Type.NOTHING));
 		} catch (Exception e) {
 			fail();
 		}	
-		assertEquals("Retrieved property was NOTHING", ASTValue.Type.NOTHING, obj.getProperty(propertyName).type);
+		assertEquals("Retrieved property was NOTHING", Variable.Type.NOTHING, obj.getProperty(propertyName).type);
 	}
 	
 	@Test
@@ -142,12 +143,12 @@ public class TestWordsObject {
 		
 		// Set it, then remove it by assigning NOTHING
 		try {
-			obj.setProperty(propertyName, new ASTValue(15.5));		
-			obj.setProperty(propertyName, new ASTValue(ASTValue.Type.NOTHING));
+			obj.setProperty(propertyName, new Variable(15.5));		
+			obj.setProperty(propertyName, new Variable(Variable.Type.NOTHING));
 		} catch (Exception e) {
 			fail();
 		}
-		assertEquals("Retrieved property was NOTHING", ASTValue.Type.NOTHING, obj.getProperty(propertyName).type);
+		assertEquals("Retrieved property was NOTHING", Variable.Type.NOTHING, obj.getProperty(propertyName).type);
 	}
 
 	@Test
@@ -160,8 +161,8 @@ public class TestWordsObject {
 	@Test
 	public void settingRowAndColumnPropertiesShouldSetObjectPosition() {
 		try {
-			obj.setProperty("row", new ASTValue(-4));
-			obj.setProperty("column", new ASTValue(2));
+			obj.setProperty("row", new Variable(-4));
+			obj.setProperty("column", new Variable(2));
 		} catch (Exception e) {
 			fail();
 		}
@@ -174,8 +175,8 @@ public class TestWordsObject {
 	@Test
 	public void settingRowAndColumnPropertiesShouldBeRounded() {
 		try {
-			obj.setProperty("row", new ASTValue(-4.3));
-			obj.setProperty("column", new ASTValue(2.9));
+			obj.setProperty("row", new Variable(-4.3));
+			obj.setProperty("column", new Variable(2.9));
 		} catch (Exception e) {
 			fail();
 		}
@@ -186,27 +187,27 @@ public class TestWordsObject {
 
 	@Test (expected = InvalidTypeException.class)
 	public void setPropertyCorrectType() throws WordsRuntimeException {
-		obj.setProperty("row", new ASTValue("String"));
+		obj.setProperty("row", new Variable("String"));
 	}
 	
 	@Test
 	public void inheritanceOfClassPropertyShouldWork() {
 		String propertyName = "height";
-		ASTValue numProperty = new ASTValue(15.5);
+		Variable numProperty = new Variable(15.5);
 		
-		assertEquals("Object currently does not have the property", ASTValue.Type.NOTHING, obj.getProperty(propertyName).type);
+		assertEquals("Object currently does not have the property", Variable.Type.NOTHING, obj.getProperty(propertyName).type);
 		thing.setProperty(propertyName, numProperty);
 		assertEquals("Object inherited property from parent", numProperty, obj.getProperty(propertyName));
 	}
 	
 	@Test (expected = ModifyObjectPropertyException.class)
 	public void cannotSetName() throws WordsRuntimeException {
-		obj.setProperty("name", new ASTValue("String"));
+		obj.setProperty("name", new Variable("String"));
 	}
 	
 	@Test (expected = ModifyObjectPropertyException.class)
 	public void cannotSetClass() throws WordsRuntimeException {
-		obj.setProperty("class", new ASTValue("String"));
+		obj.setProperty("class", new Variable("String"));
 	}
 	
 	@Test

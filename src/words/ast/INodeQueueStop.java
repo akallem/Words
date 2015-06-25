@@ -1,5 +1,6 @@
 package words.ast;
 
+import words.Variable;
 import words.environment.*;
 import words.exceptions.*;
 
@@ -9,13 +10,13 @@ public class INodeQueueStop extends INode {
 	}
 
 	@Override
-	public ASTValue eval(Environment environment) throws WordsRuntimeException {
+	public Variable eval(Environment environment) throws WordsRuntimeException {
 		AST referenceObject = children.get(0);
 		AST identifier = children.get(1);
 		
-		ASTValue property = lookupProperty(environment, referenceObject, identifier);
-		if (property.type != ASTValue.Type.OBJ) {
-			throw new InvalidTypeException(ASTValue.Type.OBJ.toString(), property.type.toString());
+		Variable property = lookupProperty(environment, referenceObject, identifier);
+		if (property.type != Variable.Type.OBJ) {
+			throw new InvalidTypeException(Variable.Type.OBJ.toString(), property.type.toString());
 		}
 		WordsObject object = property.objValue;
 		

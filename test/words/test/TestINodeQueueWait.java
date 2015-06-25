@@ -3,6 +3,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import words.Variable;
 import words.ast.*;
 import words.environment.*;
 import words.exceptions.*;
@@ -37,11 +38,11 @@ public class TestINodeQueueWait extends TestINode {
 		LNodeReference alexRef = new LNodeReference("Alex's");
 
 		WordsObject bobObject = environment.createObject("Bob", "thing", new Position(0, 0));
-		alexObject.setProperty("friend", new ASTValue(bobObject));
+		alexObject.setProperty("friend", new Variable(bobObject));
 		LNodeReference friendRef = new LNodeReference("friend's");
 
 		WordsObject chrisObject = environment.createObject("Chris", "thing", new Position(0, 0));
-		bobObject.setProperty("enemy", new ASTValue(chrisObject));
+		bobObject.setProperty("enemy", new Variable(chrisObject));
 
 		loop.fastForwardEnvironment(1); //object is created with a 1 frame wait, so use it up.
 

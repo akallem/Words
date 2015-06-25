@@ -3,6 +3,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import words.Variable;
 import words.ast.*;
 import words.environment.*;
 import words.exceptions.*;
@@ -44,7 +45,7 @@ public class TestINodeAssign extends TestINode {
 		
 		INodeAssign objAssign = new INodeAssign(alexRefList, new LNodeIdentifier("friend"), new INodeRetrieveProperty(new INodeReferenceList(), bobIdentifier));
 		objAssign.eval(environment);
-		assertEquals("Object assignment assigned correct type", alexObject.getProperty("friend").type, ASTValue.Type.OBJ);
+		assertEquals("Object assignment assigned correct type", alexObject.getProperty("friend").type, Variable.Type.OBJ);
 		assertEquals("Object assignment successful", alexObject.getProperty("friend").objValue, bobObject);
 	}
 	
@@ -57,7 +58,7 @@ public class TestINodeAssign extends TestINode {
 		INodeAssign nothingAssign = new INodeAssign(alexRefList, new LNodeIdentifier("myNothing"), nothingLeaf);
 		nothingAssign.eval(environment);
 		
-		assertEquals("Nothing assignment successful", alexObject.getProperty("myNothing").type, ASTValue.Type.NOTHING);
+		assertEquals("Nothing assignment successful", alexObject.getProperty("myNothing").type, Variable.Type.NOTHING);
 	}
 	
 	@Test (expected = ReferenceException.class)

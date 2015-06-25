@@ -1,5 +1,6 @@
 package words.ast;
 
+import words.Variable;
 import words.environment.*;
 import words.exceptions.*;
 
@@ -9,20 +10,20 @@ public class INodeRemoveObject extends INode {
 	}	
 
 	@Override
-	public ASTValue eval(Environment environment) throws WordsRuntimeException {
+	public Variable eval(Environment environment) throws WordsRuntimeException {
 		WordsObject obj = null;
-		ASTValue refList = children.get(0).eval(environment);
-		ASTValue id = children.get(1).eval(environment);
+		Variable refList = children.get(0).eval(environment);
+		Variable id = children.get(1).eval(environment);
 		
-		ASTValue property;
-		if (refList.type == ASTValue.Type.NOTHING) {
+		Variable property;
+		if (refList.type == Variable.Type.NOTHING) {
 			property = environment.getVariable(id.stringValue);
-			if (property.type != ASTValue.Type.OBJ) {
+			if (property.type != Variable.Type.OBJ) {
 				throw new ObjectNotFoundException(id.stringValue);
 			}
 		} else {
 			property = refList.objValue.getProperty(id.stringValue);
-			if (property.type != ASTValue.Type.OBJ) {
+			if (property.type != Variable.Type.OBJ) {
 				throw new ReferenceException(id.stringValue, property.type);
 			}
 		}

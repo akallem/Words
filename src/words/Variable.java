@@ -1,11 +1,13 @@
-package words.ast;
+package words;
 
-import words.environment.*;
+import words.environment.Direction;
+import words.environment.Position;
+import words.environment.WordsObject;
 
 /**
  * A dynamically-typed value that an AST node can return as its result.
  */
-public class ASTValue {
+public class Variable {
 	public enum Type {
 		BOOLEAN,
 		NUM,
@@ -26,37 +28,37 @@ public class ASTValue {
 	public Direction directionValue;
 	public Position positionValue;
 	
-	public ASTValue(boolean b) {
+	public Variable(boolean b) {
 		this.type = Type.BOOLEAN;
 		this.booleanValue = b;
 	}
 	
-	public ASTValue(double num) {
+	public Variable(double num) {
 		this.type = Type.NUM;
 		this.numValue = num;
 	}	
 
-	public ASTValue(String s) {
+	public Variable(String s) {
 		this.type = Type.STRING;
 		this.stringValue = s;
 	}
 	
-	public ASTValue(WordsObject obj) {
+	public Variable(WordsObject obj) {
 		this.type = Type.OBJ;
 		this.objValue = obj;
 	}
 	
-	public ASTValue(Direction d) {
+	public Variable(Direction d) {
 		this.type = Type.DIRECTION;
 		this.directionValue = d;
 	}
 
-	public ASTValue(Position p) {
+	public Variable(Position p) {
 		this.type = Type.POSITION;
 		this.positionValue = p;
 	}
 	
-	public ASTValue(Type type) {
+	public Variable(Type type) {
 		this.type = type;
 	}
 	
@@ -67,7 +69,7 @@ public class ASTValue {
 	 * 
 	 * @return self
 	 */
-	public ASTValue tryCoerceTo(Type newType) {
+	public Variable tryCoerceTo(Type newType) {
 		switch(newType) {
 			case NUM:
 				if (type == Type.STRING) {
@@ -94,7 +96,7 @@ public class ASTValue {
 		return this;
 	}
 	
-	public void copyOtherVariable(ASTValue other) {
+	public void copyOtherVariable(Variable other) {
 		this.type = other.type;
 		this.booleanValue = other.booleanValue;
 		this.directionValue = other.directionValue;

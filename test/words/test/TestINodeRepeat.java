@@ -3,6 +3,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import words.Variable;
 import words.ast.*;
 import words.environment.*;
 import words.exceptions.*;
@@ -71,7 +72,7 @@ public class TestINodeRepeat extends TestINode {
 		loop.fastForwardEnvironment(1);
 		loop.enqueueAST(iterativeLoop);
 		loop.fastForwardEnvironment(2);
-		ASTValue property = environment.getVariable("Fred");
-		assertEquals("Object is out of scope", property.type, ASTValue.Type.NOTHING);
+		Variable property = environment.getVariable("Fred");
+		assertEquals("Object is out of scope", property.type, Variable.Type.NOTHING);
 	}
 }

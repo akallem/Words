@@ -1,5 +1,6 @@
 package words.ast;
 
+import words.Variable;
 import words.environment.*;
 import words.exceptions.*;
 
@@ -16,12 +17,12 @@ public class INodeRetrieveProperty extends INode {
 	 * Returns NOTHING if the property isn't found.
 	 * Throws a WordsReferenceException if the reference_list or identifier doesn't refer to an object when it's expected to.
 	 */
-	public ASTValue eval(Environment environment) throws WordsRuntimeException {
-		ASTValue refList = children.get(0).eval(environment);
-		if (refList.type == ASTValue.Type.NOTHING) {
-			ASTValue id = children.get(1).eval(environment);
+	public Variable eval(Environment environment) throws WordsRuntimeException {
+		Variable refList = children.get(0).eval(environment);
+		if (refList.type == Variable.Type.NOTHING) {
+			Variable id = children.get(1).eval(environment);
 			
-			ASTValue property = environment.getVariable(id.stringValue);
+			Variable property = environment.getVariable(id.stringValue);
 			return property;
 
 		}
@@ -29,10 +30,10 @@ public class INodeRetrieveProperty extends INode {
 		WordsObject obj = refList.objValue;
 		assert obj != null : "Obj was null when it shouldn't have been.";
 
-		ASTValue id = children.get(1).eval(environment);
+		Variable id = children.get(1).eval(environment);
 		String propName = id.stringValue;
 		
-		ASTValue wordsProp = obj.getProperty(propName);
+		Variable wordsProp = obj.getProperty(propName);
 		
 		return wordsProp;
 	}
