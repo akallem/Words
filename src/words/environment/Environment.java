@@ -146,7 +146,6 @@ public class Environment {
 			throw new ObjectAlreadyExistsException(varName);
 		} else if (existingVariable.type != Variable.VariableType.NOTHING) {
 			existingVariable.copyOtherVariable(value);
-			System.out.println("HELLO");
 		} else {
 			getCurrentScope().variables.put(varName, value);
 		}
