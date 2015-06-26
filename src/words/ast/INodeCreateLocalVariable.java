@@ -1,6 +1,5 @@
 package words.ast;
 
-import words.environment.Variable;
 import words.environment.*;
 import words.exceptions.*;
 
@@ -19,6 +18,8 @@ public class INodeCreateLocalVariable extends INode {
 			value = new Variable(rawValue.numValue);
 		} else if (rawValue.type == ASTValue.Type.STRING) {
 			value = new Variable(rawValue.stringValue);
+		} else {
+			throw new InvalidLocalVariableException();
 		}
 		
 		environment.createLocalVariable(varName.stringValue, value);
