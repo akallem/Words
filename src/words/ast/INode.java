@@ -79,7 +79,7 @@ public abstract class INode extends AST {
 	 * If the reference list is not empty, it is evaluated and the corresponding Property is that on the final object in the reference list.
 	 * If the reference list is empty, the corresponding Property is a variable directly from the environment.
 	 */
-	public static Property lookupProperty(Environment environment, AST referenceObjectAST, AST identifierAST) throws WordsRuntimeException {
+	public static Variable lookupProperty(Environment environment, AST referenceObjectAST, AST identifierAST) throws WordsRuntimeException {
 		ASTValue referenceObject = referenceObjectAST.eval(environment);
 		ASTValue identifier = identifierAST.eval(environment);
 		

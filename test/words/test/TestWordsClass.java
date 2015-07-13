@@ -18,7 +18,7 @@ public class TestWordsClass {
 		WordsClass testClass = new WordsClass("testClass", null);
 		
 		String propertyName = "height";
-		Property numProperty = new Property(15.5);		
+		Variable numProperty = new Variable(15.5);		
 		testClass.setProperty(propertyName, numProperty);
 		
 		assertEquals("Retrieved property should match set property", numProperty, testClass.getProperty(propertyName));
@@ -29,7 +29,7 @@ public class TestWordsClass {
 		WordsClass testClass = new WordsClass("testClass", null);
 		
 		String propertyName = "garbage";
-		assertEquals("Retrieved property was NOTHING", Property.PropertyType.NOTHING, testClass.getProperty(propertyName).type);
+		assertEquals("Retrieved property was NOTHING", Variable.VariableType.NOTHING, testClass.getProperty(propertyName).type);
 	}
 	
 	@Test
@@ -39,7 +39,7 @@ public class TestWordsClass {
 		WordsClass grandchildClass = new WordsClass("grandchild", childClass);
 		
 		String propertyName = "height";
-		Property numProperty = new Property(15.5);
+		Variable numProperty = new Variable(15.5);
 		parentClass.setProperty(propertyName, numProperty);
 		
 		assertEquals("Parent class retrieved its own property", numProperty, parentClass.getProperty(propertyName));
@@ -54,9 +54,9 @@ public class TestWordsClass {
 		WordsClass grandchildClass = new WordsClass("grandchild", childClass);
 		
 		String propertyName = "garbage";
-		assertEquals("Parent class retrieved NOTHING", Property.PropertyType.NOTHING, parentClass.getProperty(propertyName).type);
-		assertEquals("Child class retrieved NOTHING", Property.PropertyType.NOTHING, childClass.getProperty(propertyName).type);
-		assertEquals("Grandchild class retrieved NOTHING", Property.PropertyType.NOTHING, grandchildClass.getProperty(propertyName).type);
+		assertEquals("Parent class retrieved NOTHING", Variable.VariableType.NOTHING, parentClass.getProperty(propertyName).type);
+		assertEquals("Child class retrieved NOTHING", Variable.VariableType.NOTHING, childClass.getProperty(propertyName).type);
+		assertEquals("Grandchild class retrieved NOTHING", Variable.VariableType.NOTHING, grandchildClass.getProperty(propertyName).type);
 	}
 	
 	@Test
@@ -68,10 +68,10 @@ public class TestWordsClass {
 		// Use the same propertyName in all cases to test that overriding does work
 		String propertyName = "height";
 		
-		Property parentProperty = new Property(15.5);
+		Variable parentProperty = new Variable(15.5);
 		parentClass.setProperty(propertyName, parentProperty);
 		
-		Property grandchildProperty = new Property("something");
+		Variable grandchildProperty = new Variable("something");
 		grandchildClass.setProperty(propertyName, grandchildProperty);
 		
 		assertEquals("Parent class retrieved its own property", parentProperty, parentClass.getProperty(propertyName));

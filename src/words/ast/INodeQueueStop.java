@@ -13,8 +13,8 @@ public class INodeQueueStop extends INode {
 		AST referenceObject = children.get(0);
 		AST identifier = children.get(1);
 		
-		Property property = lookupProperty(environment, referenceObject, identifier);
-		if (property.type != Property.PropertyType.OBJECT) {
+		Variable property = lookupProperty(environment, referenceObject, identifier);
+		if (property.type != Variable.VariableType.OBJECT) {
 			throw new InvalidTypeException(ASTValue.Type.OBJ.toString(), property.type.toString());
 		}
 		WordsObject object = property.objProperty;

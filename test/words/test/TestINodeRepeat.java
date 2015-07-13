@@ -71,7 +71,7 @@ public class TestINodeRepeat extends TestINode {
 		loop.fastForwardEnvironment(1);
 		loop.enqueueAST(iterativeLoop);
 		loop.fastForwardEnvironment(2);
-		Property property = environment.getVariable("Fred");
-		assertEquals("Object is out of scope", property.type, Property.PropertyType.NOTHING);
+		Variable property = environment.getVariable("Fred");
+		assertEquals("Object is out of scope", property.type, Variable.VariableType.NOTHING);
 	}
 }

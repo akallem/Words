@@ -21,7 +21,7 @@ public class INodeRetrieveProperty extends INode {
 		if (refList.type == ASTValue.Type.NOTHING) {
 			ASTValue id = children.get(1).eval(environment);
 			
-			Property property = environment.getVariable(id.stringValue);
+			Variable property = environment.getVariable(id.stringValue);
 			return new ASTValue(property);
 
 		}
@@ -32,7 +32,7 @@ public class INodeRetrieveProperty extends INode {
 		ASTValue id = children.get(1).eval(environment);
 		String propName = id.stringValue;
 		
-		Property wordsProp = obj.getProperty(propName);
+		Variable wordsProp = obj.getProperty(propName);
 		ASTValue astValue = null;
 		switch (wordsProp.type) {
 			case STRING:
