@@ -44,7 +44,7 @@ public class TestINodeAssign extends TestINode {
 		
 		INodeAssign objAssign = new INodeAssign(alexRefList, new LNodeIdentifier("friend"), new INodeRetrieveProperty(new INodeReferenceList(), bobIdentifier));
 		objAssign.eval(environment);
-		assertEquals("Object assignment assigned correct type", alexObject.getProperty("friend").type, Property.PropertyType.OBJECT);
+		assertEquals("Object assignment assigned correct type", alexObject.getProperty("friend").type, Variable.VariableType.OBJECT);
 		assertEquals("Object assignment successful", alexObject.getProperty("friend").objProperty, bobObject);
 	}
 	
@@ -57,7 +57,7 @@ public class TestINodeAssign extends TestINode {
 		INodeAssign nothingAssign = new INodeAssign(alexRefList, new LNodeIdentifier("myNothing"), nothingLeaf);
 		nothingAssign.eval(environment);
 		
-		assertEquals("Nothing assignment successful", alexObject.getProperty("myNothing").type, Property.PropertyType.NOTHING);
+		assertEquals("Nothing assignment successful", alexObject.getProperty("myNothing").type, Variable.VariableType.NOTHING);
 	}
 	
 	@Test (expected = ReferenceException.class)

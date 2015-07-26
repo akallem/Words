@@ -34,7 +34,7 @@ public class TestINodeReferenceList extends TestINode {
 		LNodeReference alexRef = new LNodeReference("Alex's");
 		
 		WordsObject bobObject = environment.createObject("Bob", "thing", new Position(0, 0));
-		alexObject.setProperty("friend", new Property(bobObject));
+		alexObject.setProperty("friend", new Variable(bobObject));
 		
 		LNodeReference friendRef = new LNodeReference("friend");
 		INodeReferenceList refList = new INodeReferenceList(alexRef, friendRef);
@@ -49,11 +49,11 @@ public class TestINodeReferenceList extends TestINode {
 		LNodeReference alexRef = new LNodeReference("Alex's");
 		
 		WordsObject bobObject = environment.createObject("Bob", "thing", new Position(0, 0));
-		alexObject.setProperty("friend", new Property(bobObject));
+		alexObject.setProperty("friend", new Variable(bobObject));
 		LNodeReference friendRef = new LNodeReference("friend's");
 		
 		WordsObject chrisObject = environment.createObject("Chris", "thing", new Position(0, 0));
-		bobObject.setProperty("enemy", new Property(chrisObject));
+		bobObject.setProperty("enemy", new Variable(chrisObject));
 		LNodeReference enemyRef = new LNodeReference("enemy");
 		
 		INodeReferenceList refList = new INodeReferenceList(alexRef, friendRef, enemyRef);
@@ -68,15 +68,15 @@ public class TestINodeReferenceList extends TestINode {
 		LNodeReference alexRef = new LNodeReference("Alex's");
 		
 		WordsObject bobObject = environment.createObject("Bob", "thing", new Position(0, 0));
-		alexObject.setProperty("friend", new Property(bobObject));
+		alexObject.setProperty("friend", new Variable(bobObject));
 		LNodeReference friendRef = new LNodeReference("friend's");
 		
 		WordsObject chrisObject = environment.createObject("Chris", "thing", new Position(0, 0));
-		bobObject.setProperty("enemy", new Property(chrisObject));
+		bobObject.setProperty("enemy", new Variable(chrisObject));
 		LNodeReference enemyRef = new LNodeReference("enemy's");
 		
 		WordsObject dennisObject = environment.createObject("Dennis", "thing", new Position(0, 0));
-		chrisObject.setProperty("dad", new Property(dennisObject));
+		chrisObject.setProperty("dad", new Variable(dennisObject));
 		LNodeReference dadRef = new LNodeReference("dad");
 
 		INodeReferenceList refList = new INodeReferenceList(alexRef, friendRef, enemyRef, dadRef);
@@ -98,7 +98,7 @@ public class TestINodeReferenceList extends TestINode {
 		WordsObject alexObject = environment.createObject("Alex", "thing", new Position(0, 0));
 		LNodeReference alexRef = new LNodeReference("Alex's");
 		
-		alexObject.setProperty("friend", new Property(6.1));
+		alexObject.setProperty("friend", new Variable(6.1));
 		
 		LNodeReference friendRef = new LNodeReference("friend");
 		INodeReferenceList refList = new INodeReferenceList(alexRef, friendRef);
