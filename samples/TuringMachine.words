@@ -34,7 +34,7 @@ A head is a thing which {
 	}
 }
 
-// A Turing Machine that sounds in binary
+// A Turing Machine that counts in binary
 // See https://www.cl.cam.ac.uk/projects/raspberrypi/tutorials/turing-machine/four.html#counter
 A counter is a head which {
 	can process_symbol with symbol, value which means {
