@@ -33,73 +33,77 @@ A head is a thing which {
 	}
 
 	can process_symbol with symbol, value which means {
-		// Subclasses should override with that machine's program
-		Make it wait 1.
+		If not(its state = nothing) then {
+			last_state is its state.
+			Make it run_program with last_state last_state, value symbol's value.
+
+			Its state is nothing.
+			Remove symbol.
+		}
+	}
+
+	can run_program with last_state, value which means {
+		// Subclasses should override with a program that bases a decision off of last_state and value
+		Make it write_blank.
+		Make its state be 0.
 	}
 }
 
 // A Turing Machine that counts in binary
 // See https://www.cl.cam.ac.uk/projects/raspberrypi/tutorials/turing-machine/four.html#counter
 A counter is a head which {
-	can process_symbol with symbol, value which means {
-		If not(its state = nothing) then {
-			Remove symbol.
-
-			If its state = 0 then {
-				Its state is nothing.
-				If value = nothing then {
-					Make it write_blank.
-					Make it move left.
-					Make its state be 1.
-				}
-				If value = 0 then {
-					Make it write_zero.
-					Make it move right.
-					Make its state be 0.
-				}
-				If value = 1 then {
-					Make it write_one.
-					Make it move right.
-					Make its state be 0.
-				}
+	can run_program with last_state, value which means {
+		If last_state = 0 then {
+			If value = nothing then {
+				Make it write_blank.
+				Make it move left.
+				Make its state be 1.
 			}
-
-			If its state = 1 then {
-				Its state is nothing.
-				If value = nothing then {
-					Make it write_one.
-					Make it move right.
-					Make its state be 2.
-				}
-				If value = 0 then {
-					Make it write_one.
-					Make it move left.
-					Make its state be 2.
-				}
-				If value = 1 then {
-					Make it write_zero.
-					Make it move left.
-					Make its state be 1.
-				}
+			If value = 0 then {
+				Make it write_zero.
+				Make it move right.
+				Make its state be 0.
 			}
+			If value = 1 then {
+				Make it write_one.
+				Make it move right.
+				Make its state be 0.
+			}
+		}
 
-			If its state = 2 then {
-				Its state is nothing.
-				If value = nothing then {
-					Make it write_blank.
-					Make it move left.
-					Make its state be 0.
-				}
-				If value = 0 then {
-					Make it write_zero.
-					Make it move right.
-					Make its state be 2.
-				}
-				If value = 1 then {
-					Make it write_one.
-					Make it move right.
-					Make its state be 2.
-				}
+		If last_state = 1 then {
+			If value = nothing then {
+				Make it write_one.
+				Make it move right.
+				Make its state be 2.
+			}
+			If value = 0 then {
+				Make it write_one.
+				Make it move left.
+				Make its state be 2.
+			}
+			If value = 1 then {
+				Make it write_zero.
+				Make it move left.
+				Make its state be 1.
+			}
+		}
+
+		If last_state = 2 then {
+			If value = nothing then {
+				Make it write_blank.
+				Make it move left.
+				Make its state be 0.
+			}
+			If value = 0 then {
+				Make it write_zero.
+				Make it move right.
+				Make its state be 2.
+			}
+			If value = 1 then {
+				Make it write_one.
+				Make it move right.
+				Make its state be 2.
 			}
 		}
 	}
@@ -108,46 +112,40 @@ A counter is a head which {
 // A simple Turing Machine that is universal
 // See http://en.wikipedia.org/wiki/Wolfram's_2-state_3-symbol_Turing_machine
 A tm23 is a head which {
-	can process_symbol with symbol, value which means {
-		If not(its state = nothing) then {
-			Remove symbol.
-
-			If its state = 0 then {
-				Its state is nothing.
-				If value = nothing then {
-					Make it write_zero.
-					Make it move right.
-					Make its state be 1.
-				}
-				If value = 0 then {
-					Make it write_one.
-					Make it move left.
-					Make its state be 0.
-				}
-				If value = 1 then {
-					Make it write_zero.
-					Make it move left.
-					Make its state be 0.
-				}
+	can run_program with last_state, value which means {
+		If last_state = 0 then {
+			If value = nothing then {
+				Make it write_zero.
+				Make it move right.
+				Make its state be 1.
 			}
+			If value = 0 then {
+				Make it write_one.
+				Make it move left.
+				Make its state be 0.
+			}
+			If value = 1 then {
+				Make it write_zero.
+				Make it move left.
+				Make its state be 0.
+			}
+		}
 
-			If its state = 1 then {
-				Its state is nothing.
-				If value = nothing then {
-					Make it write_one.
-					Make it move left.
-					Make its state be 0.
-				}
-				If value = 0 then {
-					Make it write_one.
-					Make it move right.
-					Make its state be 1.
-				}
-				If value = 1 then {
-					Make it write_blank.
-					Make it move right.
-					Make its state be 0.
-				}
+		If last_state = 1 then {
+			If value = nothing then {
+				Make it write_one.
+				Make it move left.
+				Make its state be 0.
+			}
+			If value = 0 then {
+				Make it write_one.
+				Make it move right.
+				Make its state be 1.
+			}
+			If value = 1 then {
+				Make it write_blank.
+				Make it move right.
+				Make its state be 0.
 			}
 		}
 	}
